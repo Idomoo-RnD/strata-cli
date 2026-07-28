@@ -40,13 +40,38 @@ offset by the frame's canvas position.
 ## 3. Node → layer mapping
 | Figma node | strata layer |
 |---|---|
-| `FRAME` / `GROUP` / `COMPONENT` used as a container | a **sub-comp** in `comps` + a `comp` instance layer (box = the frame's box). Flatten it instead if it's only grouping. |
+| `FRAME` / `GROUP` / `COMPONENT` used as a container | a **sub-comp** in `comps` + a `comp` instance layer (box = the group's box) — **a comp IS strata's group** (§3½). Flatten only trivial wrappers. |
 | `RECTANGLE` / `ELLIPSE` with a solid fill | `solid` (ellipse/rounded → add a `mask`) |
 | `TEXT` | `text` |
 | `RECTANGLE` with an **image** fill | `image` — export the fill (§6) |
 | `VECTOR` / `BOOLEAN_OPERATION` / `STAR` / `LINE` / icons | **export to PNG** → `image` (no vector primitive in strata) |
 | `INSTANCE` (repeated component) | like a frame — and **rename uniquely** (§8) |
 | any node with `visible: false` | **skip it** |
+
+### 3½. Groups ARE comps — the structural mapping
+A Figma **group (or frame/component used as a container) maps to a strata comp; a comp
+is strata's "group".** Don't flatten the tree by default — mirror it:
+
+```json
+"comps": { "stat_card": { "width": 320, "height": 180, "layers": [
+    { "type": "solid", "name": "card_bg",    "color": "#1c2030", "box": [0, 0, 320, 180] },
+    { "type": "text",  "name": "card_value", "text": "2.4M", "font": "./bold.ttf",
+      "size": 48, "box": [24, 40, 272, 60] } ] } },
+"layers": [
+  { "type": "comp", "comp": "stat_card", "name": "card1", "box": [120, 470, 320, 180] } ]
+```
+
+- **Children's boxes are relative to the GROUP's origin,** not the root frame's: subtract
+  the *group's* x/y from each child (then scale). The comp instance's own `box` carries the
+  group's position in the frame. Subtracting only the root origin — so children double-count
+  the group offset — is the classic mistake.
+- **Why it matters:** the comp instance animates as ONE layer — move/scale/fade the whole
+  group exactly like dragging a Figma group; effects and masks apply to the whole unit.
+- **Repeated `INSTANCE`s → one comp, many instance layers** (each with a unique name and
+  its own box) — mirroring Figma's component/instance model.
+- **Flatten only** trivial organizational groups (a group holding one element, or pure
+  layer-panel tidying with no shared motion/effect) — needless nesting hides layers from
+  personalization keys.
 
 ## 4. Text — the most error-prone mapping
 | Figma | strata |
@@ -132,6 +157,7 @@ on stills, masks for wipes, a held CTA. See SKILL.md Part 1 and `recipes.md`.
 ### Import checklist
 - [ ] Canvas decided: scale-to-fit (same aspect) or re-composed (different aspect)
 - [ ] One uniform `S`; origin subtracted from every box
+- [ ] Groups mirrored as comps; children's boxes relative to their GROUP's origin
 - [ ] Fonts mapped to real `.ttf`/`.otf` paths; glyphs covered
 - [ ] Images/vectors exported to local PNG at ≥ final size
 - [ ] Every layer renamed **unique** and meaningful
