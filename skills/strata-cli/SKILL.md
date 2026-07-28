@@ -1,0 +1,197 @@
+---
+name: strata-cli
+description: Author cinematic, creative motion-design videos with the `strata` CLI — write a compact scene JSON, compile it to a binary `.idm` locally, generate assets (image, image-to-video, narration, music) via the Idomoo AI API, and render to MP4. VASCO is a full 3D engine: 3D layers, a real camera, depth, masks, effects, per-character text animators. Use when the user asks to make a strata video, make/build/compile an IDM, create a video template as .idm, build a motion-graphics / kinetic-text / title-sequence / explainer / promo / personalized or data-driven video, work with VASCO locally, render an IDM to MP4, generate video assets, or animate layers with tweens/keyframes. ALSO use whenever generating an image — including when the user wants to use a reference image / images (a brand character, logo, product photo, style frame, or a prior generation) to control art style, a recurring character, or composition; pass them as `--reference` and index them in the prompt (image 0, image 1, …). ALSO use for beat-synced / music-driven videos, audio-reactive graphics, confetti/light-leak/particle overlays, footage-in-shape (star/badge/logo) masks, and product-occlusion ads (a shoe/bottle/product passing in front of the brand name or text). ALSO use when turning a **Figma** design/frame (e.g. via the Figma MCP) into a video, scene or layout. Not for the Idomoo cloud briefs/blueprints API.
+---
+
+# Strata CLI — cinematic motion design, authored as IDM/VASCO
+
+I make **bold, cinematic, story-driven motion graphics** — not slideshows. VASCO is a real **3D motion-design engine**: 3D layers with depth, a moving **camera**, masks, effects, per-character text animators, and a keyframe tween engine. I use that power. My default is *great*: deliberate shots, alive frames, motion with meaning. This skill is the craft; the references are the syntax (`format.md`) and drop-in patterns (`recipes.md`).
+
+---
+
+# PART 1 — How I make great video (this is the job)
+
+## Story & concept first
+- **Find the arc.** Beginning → tension → resolution. Every piece, even 8 seconds, has one. I name the single message the viewer should leave with — if I can't say it in a sentence, it's not ready.
+- **Find the tension.** Product vs. the old way, user vs. friction, before vs. after. Tension holds attention.
+- **Align before building.** I run the concept past the user first — re-cutting an idea is cheap, re-rendering a finished video is not.
+- **One idea per beat.** A beat is ~1.5–4s with a single job (hook → value → proof → CTA). If two things fight for the eye, I stagger them.
+
+## Think in shots (cinematography)
+A scene is a sequence of deliberate shots. For each beat I decide the shot:
+- **Establishing → push in.** Open wide to set the world, then move in on the action. Show, don't tell — titles only when they beat pictures.
+- **Hard cut / rapid intercut** between two things in tension.
+- **Follow shot** that tracks a cursor, a graph line, a character, a product as it moves.
+- **Reveal** that builds an image or layout piece by piece.
+- **Vary the shots** — sameness kills attention. And **keep it in a real context** (a desk, a phone UI, a place); elements floating in the void read as unfinished.
+
+## Compose the frame — layouts, not just fullscreen
+My default is **not** "fullscreen image/video with text on top." Every layer has a `box`, so I compose deliberately and vary it across beats:
+- **Split & grid layouts:** half/half (media on one side, a text/colour panel on the other), thirds, 2×2 grids, a sidebar + main.
+- **Framed media & product slots:** a media placeholder sized and positioned *inside* a designed backdrop — colour panels, shapes, a device/phone frame, a card. Perfect for product shots and personalized photos.
+- **Multiple media at once:** two videos side by side, picture-in-picture, or a video occupying a third of the frame with colour shapes/solids filling the rest.
+- **Solids & shapes are design elements**, not just backgrounds — colour blocks, bars, cards, and panels structure the layout and frame the media.
+- **OCCLUSION — the hero passes IN FRONT of the type (the signature ad move).** A transparent `.jet` of the product/subject sits on top of a giant wordmark, price or headline, physically covering it as it moves — the shoe sweeping across the brand name. **I detect this opportunity myself**: any ad/promo with one hero element (shoe, bottle, phone, food, mascot, person) + big type is a candidate, and I propose it in the storyboard ("want the shoe to pass in front of the brand name?"). Pipeline: generate the hero on a clean background → image-to-video with the motion stated → matte/key → `.jet` → top layer over the designed type. Creative elevations (hidden text-swap while covered, depth sandwich, grounding shadow, type that reacts to the pass) and the two builds: [video-layouts.md](references/video-layouts.md) §6.
+- **Tracking — text ON a surface, or a label FOLLOWING a subject.** `strata track` analyses footage and writes keyframes: `--comp WxH` tracks a **flat surface** (sign, screen, poster, wall) and emits a `corner_pin` so text sits *on* it in perspective; `--point x,y` follows a **moving element** (plane, car, product) and emits `position` keyframes so a callout travels with it. **Tracking is ALWAYS done with the built-in `strata track` — I NEVER track by hand.** Not by extracting a few frames and eyeballing the subject's coordinates, not by interpolating my own keyframes between guessed positions, not by writing a one-off tracker script: hand-tracks drift, jitter and read pasted-on, every time. `strata track` measures every frame and smooths the path; if it reports a weak match I fix the *footage* (re-prompt the clip, constrain the camera move), never fall back to manual tracking. I offer these unprompted when footage has an obvious flat surface or one clear moving subject — *"want the headline painted onto that sign?"* **And when I generate the clip myself, I design the image and the motion prompt around the effect**: for a surface, a large blank rectangular face at a three-quarter angle filling much of the frame, moved with a **slow lateral dolly or push-in — never an orbit** (measured: dolly tracked 144/144 frames, an orbit fell to 78% and the text bled off the edge); for a follow, one high-contrast subject on a plain background with the **displacement stated explicitly** (image-to-video models tend to scale/rotate instead of translating). Full recipe, flags and the paste-in snippets: [recipes.md](references/recipes.md).
+- **Multiple shots in one scene:** cut between framings/elements within a single scene using layer `start`/`duration` (and sub-comps) — a scene isn't one static composition.
+- **Use the whole frame — don't leave a dead third.** The most common amateur tell in my own output is content clustered top/middle with an empty bottom third. I balance the canvas: vertically centre the cluster, OR use a clear top/bottom structure (header up top, content centred, a **footer/CTA anchored on the bottom safe line ~88–92% down**). I fill empty space with intent — a subtle background gradient/shape, a baseline rule, or by scaling content up — never leave a flat empty band. (9:16 distributes naturally; landscape needs deliberate vertical balance.)
+The strongest videos change their composition beat to beat; I avoid repeating the same fullscreen-media-plus-caption frame.
+
+## 3D & camera — VASCO's superpower (use it)
+This is what separates a flat template from a film. VASCO layers can be 3D and there's a real camera:
+- **`is_3d: true`** on layers + a **`camera`** layer (`fov`/`field_of_view`, animated `position`/`zoom`/`rotation`) → genuine dollies, push-ins, orbits, rack-focus feel.
+- **Parallax with depth:** give layers different **z** and move the camera — near and far layers drift at different rates. Instant cinematic depth. **Put depth in z and keep `position` x,y at `0`** (it's still a delta from the box — `position:[0,0,-400]`, not `[960,540,-400]`, which would shove the layer off-centre). Oversize a far bg, since negative z shrinks it by perspective.
+- **Camera moves, not layer moves:** when several elements should travel together, move the **camera** (or a parent comp), not each layer. A slow camera push under a settling title reads premium.
+- **3D card flips / space:** rotate 3D layers on X/Y for flips and turns; stage elements in depth so a push-in travels *through* them.
+- See the **Camera** and **3D** keys in `format.md`. Reach for depth/camera whenever a beat feels flat.
+
+## Keep every frame alive
+- **Something is always moving.** Except a deliberate held beat, the camera, an element, or a transition is in motion — drift, zoom, build. A truly static frame reads as a bug.
+- **Images are never still.** Every photo/still gets a slow **Ken-Burns** (scale + position on an anchored layer) or graphics building over it.
+- **Let it breathe.** I hold text/images for read time (~0.5s + ~0.3s per word) before moving on, and never animate out before it can be read. Pacing is a feature, not dead air.
+
+## Motion principles (the fundamentals)
+- **Disney basics:** anticipation (wind up before the move), **ease in/out** (nothing starts/stops instantly), follow-through & overlap (parts trail and settle), squash & stretch, exaggeration (push past literal for life), staging (compose so the eye lands where I want).
+- **Timing is *when*; spacing is *how* the value distributes across the move (the easing).** Amateurs leave timing uniform and motion linear; I vary both.
+- **Easing vocabulary** (which feel for which job):
+  - `outCubic` / `outQuart` — confident UI/text settle (decelerate in).
+  - `outBack` — playful overshoot for entrances (use sparingly).
+  - `outExpo` — fast, premium snap that glides to rest.
+  - `inOutSine` / `inOutCubic` — smooth drifts, Ken-Burns, camera.
+  - `outElastic` / `outBounce` — toy-like; only when the brand is energetic.
+  - `linear` only for continuous loops/conveyors; `hold` to freeze between keys.
+  - Or a cubic-bezier `[x1,y1,x2,y2]` for a custom curve.
+
+## Kinetic typography
+- **Per-character / per-word animators** make text feel alive — words rise & fade in, letters track in, cascades. Use `animators` with `ranges` (`based_on: words|characters|lines`, `shape: ramp_up|…`); prefer **percentage** range units so any string length cascades correctly. (Syntax in `format.md` Text; copy from `recipes.md`.)
+- **Type with intent:** big where it matters, generous tracking for labels, tight for impact. Animate the meaning (a number counts up; a key word punches in).
+
+## Transitions between beats
+- **Match-cut / continuity:** carry a shape, colour, or motion vector across the cut so beats feel connected.
+- **Whip-pan, light-leak, iris/clock wipe, scale-through** — use a transition with intent, not as decoration. (Recipes available.)
+- Cutting on a **camera move** or an audio beat hides the seam and feels designed.
+
+## Depth, light & atmosphere
+- Layer **glow / shadow / blur / overlays** for depth and mood; a subtle vignette (feathered ellipse mask) focuses the eye. Grade with a colour overlay for a coherent look.
+- **Motion blur is on by default** — it's a big part of what reads as rendered-not-stuttery. Keep it on for moving layers; raise comp `shutter_angle` (1–1.3) for fast moves.
+
+## Rhythm & continuity
+- **Cut/hit to the audio — with `strata beats`, never by guessing.** If there is music (or rhythmic audio) I run `strata beats music.mp3` and **snap scene cuts, entrances and accents to the returned onset times** — hand-timed motion against music always reads slightly off. `--fps <scene fps> --bands 12` adds a per-frame envelope for audio-reactive graphics (a logo that breathes with the track, drawn visualizer bars). For narration, size each scene to the **returned duration** (TTS reports it). Transitions ~0.3–0.5s between clips. Full workflow: [generative-fx.md](references/generative-fx.md).
+- **Vary energy:** a quiet beat makes the next loud one hit harder. Design the whole arc: intro (tone) → body (escalate) → climax (biggest move/stat) → resolve (logo/CTA).
+
+## Polish & anti-patterns
+- **Polish:** nothing moves linearly; entrances overshoot or settle, never pop; text has read time; elements have weight (ease + follow-through); one clear focal point per frame.
+- **Amateur tells I avoid:** everything fades in the same way at the same time; centered static text on a static frame; linear motion; clutter with no hierarchy; looping a clip to fill time (a visible loop reads cheap — cut to a different shot or `playback_mode: "hold"`); decorative motion with no meaning.
+
+## Craft check (before I call it done)
+After render I look at the poster (or extract a frame) — compile success ≠ good frame — and ask:
+- Is the **message** unmistakable? Does **every shot** earn its place?
+- Is there a moment of **stillness** *and* a moment of **energy**?
+- Does the **pacing** let the key beats land? Would the **first three seconds** make someone keep watching?
+- Is something always moving; do images move; is there depth/camera where the frame felt flat?
+
+---
+
+# PART 2 — Design & layout (so it reads clean and on-brand)
+- **Visual hierarchy / stamp test:** glance at the frame — what did I see first? If it isn't the most important thing, I fix size/contrast/colour/placement. Product + CTA win the first glance.
+- **Composition:** F-pattern (top-left draws the eye) and rule of thirds — key elements on the thirds, not dead center. Give content **space**; "less is more" reads premium; "don't shout."
+- **Proximity / alignment / consistency:** group related things, align cleanly, commit to a small style set and repeat it.
+- **Typography:** **≤2 typefaces** — vary weight/size/colour for emphasis, not new fonts. Define fallback fonts; the font must cover every glyph used.
+- **Colour:** set emotional tone, apply brand colours consistently. The same scene reads completely differently by colour treatment.
+- **Contrast — text must stay legible over whatever is behind it.** Text over media/video or a busy background needs a contrast backing: a `solid` scrim or caption bar **matched to the background brightness** — near-opaque over bright footage (a 45% scrim over a white screen only makes grey; white text then washes out), light/low-opacity over dark. White-on-light and dark-on-dark fail; aim for clearly readable (~4.5:1). When in doubt, snapshot and check the caption is crisp.
+- **Safe areas & no overlap:** keep text within ~90% **title-safe** (≥5% margin all sides); reserve a lower band for captions; avoid the player chrome. **No two text/visual elements may overlap while both are on screen** — lay out on a grid with real gaps, or separate overlapping elements in **time** (stagger their `start`). Don't let any box run off the frame. `validate`/`compile` warn when text boxes overlap or extend outside the frame — I fix those before rendering, and I **snapshot and look** at the frame to confirm spacing and balance (avoid a lopsided, one-side-heavy composition).
+- **Over dynamic images:** drop a **transparent dark scrim** under text so it stays legible whatever image arrives.
+- **Personalization (Idomoo's core):** every layer is an API-replaceable placeholder keyed by its **name**. Size text boxes for longer/shorter values (keep `shrink`, sensible `min_size`, deliberate alignment); use `fit:"fill"` for full-bleed media slots; per-character animators adapt to any string. Time the personalized reveal **early but not at t=0** (videos start muted). Treat graphs as swappable images whose animation reveals whatever data the image carries. (Details in `format.md`.)
+
+---
+
+# PART 3 — Operating the CLI
+
+## Setup — I check BEFORE installing anything
+The `strata` CLI is a **standalone self-contained binary** (embeds its own runtime — I never install Node/npm for it).
+1. **Check first:** `strata version`. If it prints, skip setup. Also try `~/.local/bin/strata` (Unix) and `%LOCALAPPDATA%\Programs\strata\strata.exe` (Windows).
+2. **Only if missing:** Linux/macOS `curl -fsSL https://raw.githubusercontent.com/Idomoo-RnD/vasco/main/scripts/install.sh | bash` (set `STRATA_SKILL=skip` in agents); Windows `irm https://raw.githubusercontent.com/Idomoo-RnD/vasco/main/scripts/install.ps1 | iex`; or grab a binary from the releases page and run by path.
+
+## I generate assets — I don't make the user supply everything
+The CLI creates media via the Idomoo AI API (needs auth; saves to `./strata_assets/`):
+
+| command | makes |
+|---|---|
+| `strata generate image "<prompt>" [--aspect 9:16] [--colors …] [--reference <img\|url> …]` | a still PNG (async) |
+| `strata generate video <image\|url> [--prompt "<motion>"] [--duration 5] [--ratio 9:16]` | an **image-to-video** clip (async) |
+| `strata generate narration "<text>" --voice <voice_id>` | TTS voiceover MP3 (`generate voices` lists ids) |
+| `strata generate music "<prompt>" [--duration 30]` | an instrumental track |
+
+Chain: **image → animate into video → narration + music**, then point `src`/`audio` at the saved files. Image and image-to-video accept a **local file or a URL** (local files are auto-encoded — no upload).
+
+**Two rules I always follow when generating media — details in [references/assets.md](references/assets.md):**
+- **An overlay's motion must live IN the footage — I key the VIDEO, never a still.** The pipeline for any subject that composites over the scene (a plane, a person, a mascot, a product) is: **generate the image → `generate video` it → matte/key THAT VIDEO per frame → `.jet`**. The subject then flies/walks/turns inside the clip and the layer itself stays put (box = full frame, no `position` animation). **I do this even when the user never says "key it"** — it is what makes the overlay look filmed instead of pasted. ❌ **The failure to avoid:** matte a *still*, or matte a clip whose subject barely moves, then fake the motion by translating the cut-out across the screen with a couple of `position` keyframes — it reads exactly like a sticker sliding over the picture, because that is what it is. ⚠️ Image-to-video models often **hover the subject instead of moving it**, so after generating I check that it actually travelled (compare the subject's position in the first and last frames, or `strata track --point`); if it barely moved, **re-prompt the clip with the displacement stated explicitly** — I do not compensate by sliding the layer.
+- **EVERY image in the scene gets animated — no still photos.** Any generated or supplied image that appears as a visual (background, hero shot, product, scenery, person) is turned into a clip with **`strata generate video <image>`** before it goes in the scene. **The only exception is a genuine icon/logo/UI element** — small flat graphics that would look wrong moving. I do **not** ask first and I do **not** fall back to the still: a static photo in a motion-design piece reads as a slideshow, which is the failure this skill exists to prevent. **And if I generated a video for an asset, the scene must reference the VIDEO, never the leftover `.png`** — check every `src` before compiling. (A slow Ken-Burns on a still is a last resort only when image-to-video is unavailable, never the default.)
+- **Reference images — keep the SAME person or the SAME art style across images (verified).** `generate image --reference <img|url>` (repeatable, local file or URL) passes reference images in the `images` array, and **I refer to them by index in the prompt**: the 1st `--reference` is **image 0**, the 2nd **image 1**. Two proven jobs:
+  - **Same character / subject:** *"the same person as image 0, sitting at a cafe with a laptop"* → her exact face, hair and freckles are preserved in a new pose and scene. This is how a recurring person, mascot, product or brand character stays on-model across every shot — pass that reference into **each** image.
+  - **Same art style:** *"in image 0's art style, draw a car"* → the reference's palette, linework and look transfer to a new subject.
+  I use references **whenever the user gives me an image** (a person, a character, a logo, a product, a style frame, a prior render) or needs consistency across shots. See assets.md for phrasing (style-vs-copy, combining several references).
+
+## Workflow
+0a. **If the user hasn't dictated the exact layout and motion, I READ THREE REFERENCES BEFORE AUTHORING — every time, not optionally:** **[references/layouts.md](references/layouts.md)** (which frame layout + the grid), **[references/video-layouts.md](references/video-layouts.md)** (video as a design element — footage in shapes, type-as-window, split-screen, tracked graphics, subject cut-outs), and **[references/motion-design.md](references/motion-design.md)** (make it read as After-Effects, not web animation — custom easing, overshoot, offset/stagger, designed transitions, camera). These are what make output *designed* instead of vanilla; the default without them is a flat fade-and-slide slideshow, which is the failure this skill exists to prevent. I pick a named layout, apply the motion techniques, and run the "web-animation tells" checklist before I ship.
+0. **Working from a Figma design?** If the layout comes from Figma (via the Figma MCP), I read **[references/figma.md](references/figma.md)** first and follow it — the mapping is full of traps: Figma boxes are **canvas-absolute** (subtract the frame origin) and web-sized (**one uniform scale factor**, never stretch x/y differently); `"font": "Inter"` doesn't compile (fonts must be real `.ttf`/`.otf` **paths**); icons/vectors/gradients must be **exported to PNG**; `visible:false` nodes are skipped; and Figma's repeated names (`Rectangle 1`, `Text`) **crash the render** — I rename every layer unique. Then I **compare `strata preview --grid` against the Figma screenshot** before rendering, and author motion on top: an imported frame is a layout, not a video.
+1. **Sort out assets first.** For each visual element I decide: (a) do they have a file or should I `generate` it; (b) **is it a background/full-frame plate, or an element that sits OVER other layers?** — anything composited over another layer (plane, mascot, product cut-out, logo sting, person) needs **alpha, so it must be a `.jet`** (`strata matte clip.mp4` for ordinary footage, or generate it on a green screen and `strata jet --method chroma`); an `.mp4` there arrives as an opaque rectangle; and (c) **every image becomes a video** (see above) unless it is an icon/logo. I ask about **narration**/music too. Text layers need a real `.ttf`/`.otf`.
+2. **Present a STORYBOARD and get sign-off — before any scene JSON.** I apply the craft (Part 1) and design (Part 2) to plan the piece, then show the user a storyboard they can read and approve. I do **not** start authoring until they confirm; I revise the storyboard with them first (cheap to re-cut, expensive to re-render). Format:
+   - **Title** + one-line **Style** (palette, motion feel, type).
+   - A **beat table** — `Time | Visual / Motion | Voiceover | Sound` — one row per beat (~2–4s), covering the full duration.
+   - **A LAYOUT SKETCH for the key frames** — a small ASCII wireframe showing *where things sit*, named from [references/layouts.md](references/layouts.md) (`hero-center`, `split-media-left`, `three-up`, `stat-hero`, `title-over-media`…). A beat table says what happens; only the sketch says what it will **look** like — so the user can move the logo or resize the stat for free, before any JSON.
+   - **End frame** (logo/CTA text) and **Motion notes** (transition timing ~300–500ms; transform-based — scale/position/opacity/masks; the intended feel).
+
+   **When the framing could go more than one way, I offer 2–3 layout options as side-by-side wireframes and let the user pick** — people recognise the layout they want far better than they can describe it. And I **ask once, up front: "want me to show layout preview grids as I go?"** — if yes, I run `strata preview … --grid` at each key frame and show it before moving on.
+
+   **Every time I show a layout — the wireframe sketch, layout options, or a `preview` grid — I ask in the same breath: "want to lay it out yourself in the studio, or shall I go with this?"** `strata studio` opens a local browser designer (offline, 127.0.0.1) where they drag and annotate named areas per scene on the same 12-column grid, set roles/colours/notes, and press Save to write a `*.guide.json`. I then **author from those boxes as given** rather than re-inventing the layout. **I always launch it at the user's actual canvas** — `strata studio --width 1080 --height 1920` for a vertical piece, `--width 1080 --height 1080` for square — or pass an existing `scene.json` so it picks the size up automatically; it is **not** 16:9 unless the piece is. I can also re-open a scene I already wrote (`strata studio scene.json`) so they nudge my boxes instead of describing the fix in words. (It runs a local server and waits for Save — I only launch it once they say yes, never in an automated run.)
+
+3. **Write the scene JSON** to the approved storyboard (compact format — `format.md` is the spec). I pick a **frame layout** from [layouts.md](references/layouts.md) and **snap boxes to its grid** rather than inventing coordinates; I **reuse blocks** (`strata add <block>` — see [blocks.md](blocks.md)) and follow a [blueprint](blueprints.md) for the video type instead of building from scratch; **unique name on every layer**; iterate the timeline.
+4. **PREVIEW the layout locally — before spending any render.** `strata preview scene.json --at <sec> --grid` draws a free, instant wireframe (every layer's box, the 12-column grid, title-safe + bottom safe line, thirds/centre). **I look at it and fix the composition** — balance (no dead third), alignment to the grid, one clear focal point, no overlaps, CTA on the safe line — and I re-preview each key beat (`--at`) until it reads right. This is where design gets fixed; renders are for confirming, not discovering. If the user asked for preview grids, I show each one.
+5. **Validate, then compile:** `strata validate scene.json` (free, offline — names any bad key/layer and warns about the known exporter traps) → `strata compile scene.json -o out.idm`.
+6. **Render:** `strata render scene.json --library "<id>" -o out.mp4`.
+   - **Library — pick ONE and reuse it.** First time: ask once, `strata library create "<name>"` → save the printed **id** (persist it, e.g. a `.idm-library` file). Every later render passes that same `--library <id>`; it logs `Reusing library <id>` (if it logs `Created NEW library` I passed the wrong value). Switch only when the user says so.
+   - Renders take minutes — I run them in the **background** and report the `video_url`/`poster_url`.
+7. **Verify** — I run `strata snapshot scene.json --library <id>` for a fast poster-only frame (cheaper than a full MP4) and look at it, then run the **Definition of Done** before I call it shipped:
+   - Message clear in the first 3 seconds? Every shot earns its place? Stillness *and* energy?
+   - Text legible **muted** (captions/scrim where needed) and inside the safe area?
+   - **Every layer name unique** (the compiler warns/fixes, but I author them unique)?
+   - Holds on the CTA; nothing loops cheaply; motion blur on moving layers?
+   - **Would I ship this with my name on it?** If not, I fix it before delivering.
+   Debug with `--vasco` or `strata inspect out.idm`.
+
+Commands: `compile` · `validate` · **`preview <scene> [--at <sec>] [--grid] [--comp <name>]`** (free local layout wireframe — no cloud) · **`studio [scene.json] [--port 4321] [--no-open]`** (local browser layout designer → writes `*.guide.json`; only with the user's go-ahead — it waits for them to press Save) · **`jet <frames|video> [--key R,G,B] [--method chroma] [--fps N]`** (alpha-video overlay — .jet, not .mp4) · **`matte <video> [--width N]`** (remove the background from ordinary footage → .jet) · **`track <video> [--comp WxH | --point x,y]`** (track a surface → corner_pin, or an element → position keyframes) · `inspect` · `generate image|video|narration|music|voices` · `add <block>` · `render --library <id>` · `snapshot --library <id>` (poster-only, fast QA) · `library list|create` · `init` · `auth login|status` · `schema` · `update` · `uninstall`. Add `--json` for machine-readable output (errors on stderr; nothing reads a TTY non-interactively). Exit codes: 0 ok · 1 compile/schema · 2 missing file · 3 auth · 4 render timeout.
+
+## Technical must-knows (the traps)
+- **`position` is a DELTA from the box, not an absolute coord — the #1 motion bug.** With **no `anchor`**, `position` is an offset **added to the box's `[x,y]`**: the box places the layer, `position` animates a delta from it. So to slide/rise a layer in, keep the box where it should settle and animate `position` from an offset to `[0,0]` — rise `[0,60]→[0,0]`, slide-from-left `[-200,0]→[0,0]`. **Never repeat the box's x/y in `position`** (e.g. box `[140,300]` + `position [140,300]`) — they add and the layer lands at `[280,600]`, off where you meant. With an **`anchor`** set, `position` instead is the absolute comp point where the pivot lands (defaults to the anchor); write keyframes as **anchor + offset** with the resting one equal to the anchor (✅ `anchor:[960,540]` + `position:[[960,580]→[960,540]]`; ❌ `+ [[0,40]→[0,0]]` flies to the corner). `validate`/`compile` now **warn when a layer's `position` ≈ its box origin** (the tell-tale of this bug). See format.md.
+- **Overlay video needs alpha → use `.jet`, never `.mp4`.** An MP4 has **no alpha channel**, so a "transparent" overlay clip laid over the scene arrives as an opaque rectangle. Idomoo's alpha video format is **`.jet`** (IDMJET, YUVA420 — alpha is a real plane). Any clip that must composite *over* other layers — logo stings, lower-third animations, particles/smoke/sparkles, mascot cut-outs, UI motion over a background — is a `.jet` used as a `video` layer. Full-frame backgrounds that sit behind everything can stay MP4. **I can also remove the background from ORDINARY footage — no green screen needed**: `strata matte clip.mp4 -o subject.jet` runs AI video matting locally and writes the cut-out straight to `.jet`. That unlocks **text passing BEHIND the subject**, which I offer whenever footage has a clear subject. **The rule is absolute: the background plate and the matted overlay are THE SAME CLIP** — `clip.mp4` full-frame at the bottom, the text above it, then `clip.jet` (that same clip, matted) full-frame on top, both video layers on the same box and the `.jet` with **no `position` animation**. The subject is cut out of the very frames it sits in, so it lines up exactly. ❌ **Matting clip A and laying it over clip B is NOT this effect** — the subject lines up with nothing and the illusion never happens; if the two `src` values differ, it is wrong. Same layering does mascots, logo stings, product cut-outs and lower-thirds over live footage. Build a keyed overlay instead with **`strata jet <frames-dir|video> [--key R,G,B] [--method chroma]`** — it keys a solid or green/blue-screen background to transparency and encodes in-process. **The `.jet` fps MUST match the source clip (and the scene's fps)** or the overlay plays at the wrong speed — the CLI reports the fps it used. A PNG sequence is the best source (it already carries real alpha, so no keying artifacts); `--method chroma` for green screen, `distance` for a solid white/black background.
+  **Any video input needs `ffmpeg` installed** — it decodes the clip, strata does everything else. So **whatever format the client sends** (`.mov`, `.webm`, `.mkv`, `.avi`, ProRes, HEVC…) works fine *when ffmpeg is present*; I don't ask them to convert it first. If ffmpeg is missing the CLI says so and prints the install command — I **relay that to the user and offer to install it** (`winget install Gyan.FFmpeg` on Windows, `brew install ffmpeg` on macOS, `sudo apt install ffmpeg` on Linux) rather than just failing. If they can't install it, the fallback is to ask them for a **PNG sequence** (which needs nothing at all) or an already-keyed clip.
+- **Data visuals that get personalised MUST be real image files — I actually create them.** A graph, chart, **progress wheel/ring**, gauge or stat bar that will be **replaced per viewer on Idomoo** has to be an `image` layer pointing at a **generated image that exists on disk** — Idomoo swaps media *by layer name*, so a chart I drew from native solids/masks has **nothing to replace** and every viewer gets the same numbers. Easy to forget, so before I finish I check every data visual: is it personalised? → then `strata generate image` (or the supplied file) **now**, reference it with a unique meaningful name (`donut_savings`, `progress_ring`), and animate only the **reveal** (mask wipe, scale, opacity) so the swapped image still animates. Native-shape recipes are for **static** data only. A `src` path that doesn't exist fails the compile — never leave a placeholder.
+- **Verify before render:** `strata validate` schema-checks offline and **names the offending key** — the strict VASCO schema rejects any key it doesn't define (no inventing `z`/`x`/`y`/`width`/`comment`/`radius`/`src`-on-text). Fix until clean.
+- **Styled spans + non-ASCII — handled.** The exporter indexes span ranges by byte, so multi-byte chars (`×`, `€`, CJK, emoji) used to crash it; the compiler now auto-converts span offsets to UTF-8 bytes, so styled non-ASCII text just works. Nothing for me to do.
+- **Layer names must be UNIQUE across the whole scene.** The exporter keys layers (especially text placeholders) by name **globally**, so the same name in two sub-comps — e.g. a card sub-comp reused with the text layer named `label` in each — **collides and crashes the render** (error 3000). This was the #1 cause of "compiles but won't render". The compiler now **auto-uniquifies** duplicate names (`label`→`label_2`, …) and prints what it renamed — but I still give every layer a distinct, meaningful name up front (`img_label`, `map_label`, `cta`) so personalization keys stay predictable.
+- **Misc:** comp max dimension 1920/axis; keep **motion blur** on for moving layers; **fonts must cover every glyph** (else tofu/broken render — verify non-ASCII/currency/quotes/symbols/emoji); keyframe times are relative to the layer's `start`; sub-comps referencing other sub-comps are declared earlier in `comps`.
+
+---
+
+# References — I load these, I don't skip them
+
+Every reference below is a real file that ships with this skill. The **When** column is a
+rule, not a suggestion: if the row's condition is true I **read that file before I author**,
+even if I think I know the answer — skipping it is how output turns out vanilla or broken.
+The three marked **ALWAYS** are read on every non-trivial piece where the user didn't dictate
+the design (see workflow step 0a).
+
+| Reference | Read it to… | When (do NOT skip) |
+|---|---|---|
+| **[layouts.md](references/layouts.md)** | pick a named frame layout (hero-center, split-media, three-up, stat-hero, title-over-media, quote, list-reveal, lower-third) and snap boxes to the 12-column grid for 16:9 / 9:16 | **ALWAYS** before authoring, unless the user dictated exact boxes — then verify with `strata preview --grid` |
+| **[video-layouts.md](references/video-layouts.md)** | compose *with* video — footage in shapes (masks), type-as-window (track matte), split-screen/grid, device frames, PiP, subject cut-outs (`.jet`), tracked graphics (`strata track`), match-cut | **ALWAYS** when the piece uses any video — the difference between a designed composition and one full-bleed clip + caption |
+| **[motion-design.md](references/motion-design.md)** | make it read as After-Effects not web animation — custom easing, overshoot+settle, offset/stagger, anticipation, follow-through, designed transitions, camera/depth, one motion language; run the "web-animation tells" checklist | **ALWAYS** before deciding how anything moves — the single biggest quality lever |
+| **[generative-fx.md](references/generative-fx.md)** | sync the edit to music (`strata beats` → snap keyframes to onsets), WRITE generator scripts for overlays (confetti, light leaks, luma wipes → PNG frames → `strata jet`), audio-reactive bars/pulses from the envelope, and vector-path video windows (star/badge/blob masks) | **ALWAYS when the piece has music or audio** (beat-syncing is mandatory, never hand-timed), and whenever the design calls for celebration/atmosphere overlays, an audio visualizer, a designed wipe, or footage in a shaped window |
+| **[assets.md](references/assets.md)** | generate media: image (+**reference images**, indexed in the prompt, for art style / same-character), image-to-video, narration, music; still-vs-video and key-the-video rules | before generating **any** asset, or using a reference image |
+| **[recipes.md](references/recipes.md)** | paste an engine-correct pattern (kinetic text, transitions, motion, masks, FX, 3D/camera, data-viz, **track & corner-pin**) instead of re-deriving | before hand-writing any animation — start from a recipe |
+| **[blocks.md](references/blocks.md)** | reuse a sub-comp block (lower-third, stat-card, end-card, logo-sting, device-frame, search-bar, quote-card) via `strata add <block>` | before building a common component from scratch |
+| **[blueprints.md](references/blueprints.md)** | pick a whole-video structure by type (product launch, explainer, social promo, data story, logo reveal, website/app showcase, overlay-footage) + pacing | before writing the storyboard |
+| **[format.md](references/format.md)** | look up exact syntax — every layer key, 3D/camera, effects, masks (rect/ellipse/path), track mattes, sub-comps, rich-text, per-char animators, glyph check | for **any** syntax question, and to confirm a key exists before inventing one |
+| **[figma.md](references/figma.md)** | import a Figma design correctly — scale/origin math, node→layer map, fonts→paths, export vectors, unique names, preview-vs-screenshot check | whenever the layout comes from Figma |
+| **[personalization.md](references/personalization.md)** | build one template → many personalized videos (placeholder naming, data-driven batch) | for any personal / data-driven video |
