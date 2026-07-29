@@ -1,11 +1,12 @@
-# Strata CLI installer (Windows) — downloads the standalone binary from GitHub
+﻿# Strata CLI installer (Windows) — downloads the standalone binary from GitHub
 # releases, verifies its checksum, installs to %LOCALAPPDATA%\Programs\strata,
 # adds it to the user PATH, and installs the strata-cli agent skill.
 #
 #   irm https://raw.githubusercontent.com/Idomoo-RnD/strata-cli/main/install.ps1 | iex
 #
 # Options (env vars): STRATA_VERSION (tag, default latest), STRATA_INSTALL_DIR,
-#   STRATA_SKILL = claude | codex | both | skip | auto (default: ask when interactive)
+#   STRATA_SKILL = claude | codex | both | skip | auto (default: ask when interactive),
+#   STRATA_AUTH = skip (default: offer `strata auth login` when interactive and not yet authenticated)
 
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
@@ -89,6 +90,26 @@ try {
         if ($choice -match 'both') { $skillArgs = @('--claude','--codex') }
         if ($skillArgs.Count -eq 0) { $skillArgs = @('--claude') }
         & $exe skill install @skillArgs
+    }
+
+    # --- Idomoo credentials --------------------------------------------------
+    # Offer to authenticate right here (account id + API secret key), so the
+    # first render doesn't stop on auth. Interactive only; STRATA_AUTH=skip to disable.
+    if ($env:STRATA_AUTH -ne 'skip' -and [Environment]::UserInteractive) {
+        # via cmd so the "not authenticated" stderr line can't become a
+        # terminating NativeCommandError under ErrorActionPreference=Stop
+        cmd /c "`"$exe`" auth status >nul 2>&1"
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host ''
+            Write-Host 'Connect your Idomoo account? (needed to generate assets and render MP4s)'
+            try { $doAuth = Read-Host 'Enter account id + API secret key now? [Y/n]' } catch { $doAuth = 'n' }
+            if ($doAuth -match '^[nN]') {
+                Write-Host 'Skipped (connect anytime with: strata auth login)'
+            } else {
+                & $exe auth login
+                if ($LASTEXITCODE -ne 0) { Write-Host '(authentication failed - retry anytime with: strata auth login)' }
+            }
+        }
     }
 
     Write-Host ''

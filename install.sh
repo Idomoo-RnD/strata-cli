@@ -9,6 +9,7 @@
 #   INSTALL_DIR   target directory (default ~/.local/bin)
 #   STRATA_VERSION   tag to install, e.g. v1.0.0 (default: latest)
 #   STRATA_SKILL     claude | codex | both | skip | auto  (default: ask when on a TTY, else auto)
+#   STRATA_AUTH      skip  (default: offer `strata auth login` on a TTY when not yet authenticated)
 
 set -euo pipefail
 
@@ -114,6 +115,23 @@ elif [ -n "$FLAGS" ]; then
   "$INSTALL_DIR/strata" skill install $FLAGS || log "(skill install skipped — rerun with: strata skill install$FLAGS)"
 else
   "$INSTALL_DIR/strata" skill install || log "(skill install skipped — rerun with: strata skill install)"
+fi
+
+# --- Idomoo credentials ------------------------------------------------------
+# Offer to authenticate right here (account id + API secret key), so the first
+# render doesn't stop on auth. Interactive TTY only; STRATA_AUTH=skip to disable.
+if [ "${STRATA_AUTH:-}" != "skip" ] && [ -r /dev/tty ] && [ -w /dev/tty ]; then
+  if ! "$INSTALL_DIR/strata" auth status >/dev/null 2>&1; then
+    log ""
+    log "Connect your Idomoo account? (needed to generate assets and render MP4s)"
+    printf 'Enter account id + API secret key now? [Y/n]: ' > /dev/tty
+    read -r AUTH_CHOICE < /dev/tty || AUTH_CHOICE="n"
+    case "$AUTH_CHOICE" in
+      [nN]*) log "Skipped (connect anytime with: strata auth login)" ;;
+      *) "$INSTALL_DIR/strata" auth login < /dev/tty > /dev/tty 2>&1 \
+           || log "(authentication failed — retry anytime with: strata auth login)" ;;
+    esac
+  fi
 fi
 
 case ":$PATH:" in

@@ -111,7 +111,7 @@ After render I look at the poster (or extract a frame) — compile success ≠ g
 ## Setup — I check BEFORE installing anything
 The `strata` CLI is a **standalone self-contained binary** (embeds its own runtime — I never install Node/npm for it).
 1. **Check first:** `strata version`. If it prints, skip setup. Also try `~/.local/bin/strata` (Unix) and `%LOCALAPPDATA%\Programs\strata\strata.exe` (Windows).
-2. **Only if missing:** Linux/macOS `curl -fsSL https://raw.githubusercontent.com/Idomoo-RnD/strata-cli/main/install.sh | bash` (set `STRATA_SKILL=skip` in agents); Windows `irm https://raw.githubusercontent.com/Idomoo-RnD/strata-cli/main/install.ps1 | iex`; or grab a binary from the [releases page](https://github.com/Idomoo-RnD/strata-cli/releases) and run by path.
+2. **Only if missing:** Linux/macOS `curl -fsSL https://raw.githubusercontent.com/Idomoo-RnD/strata-cli/main/install.sh | bash` (set `STRATA_SKILL=skip STRATA_AUTH=skip` in agents — the installer otherwise prompts for skills and Idomoo credentials); Windows `irm https://raw.githubusercontent.com/Idomoo-RnD/strata-cli/main/install.ps1 | iex` (same env vars apply); or grab a binary from the [releases page](https://github.com/Idomoo-RnD/strata-cli/releases) and run by path.
 
 ## I generate assets — I don't make the user supply everything
 The CLI creates media via the Idomoo AI API (needs auth; saves to `./strata_assets/`):
