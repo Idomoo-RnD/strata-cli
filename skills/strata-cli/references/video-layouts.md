@@ -51,7 +51,10 @@ The classic "big word filled with footage" title.
   "matte":{ "type":"alpha", "source":"titleMatte" } }
 ```
 The word must be heavy/bold (thin type shows almost no video). Pair with a slow push on the
-video so the fill drifts. Same trick fills shapes/logos with footage.
+video so the fill drifts. Same trick fills shapes/logos with footage. **The same matte also
+carries TEXTURES instead of footage** — gradient fills, scrolling stripes, gold-shine sweeps
+(generate organic textures with `strata generate image`, geometric ones with code):
+verified recipes in [recipes.md](recipes.md) §1 "Textured text".
 
 ### 4. Device / phone / browser frame
 Product UI or a clip sitting inside a device. A frame PNG (transparent screen area) on top of a

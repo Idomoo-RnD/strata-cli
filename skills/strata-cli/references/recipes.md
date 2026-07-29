@@ -129,6 +129,49 @@ Three additive copies in pure R/G/B, jittered on hold steps.
                "scale":   [{"t":0.6,"v":[0,1],"ease":"outExpo"},{"t":1.3,"v":[1,1]}] } }
 ```
 
+### Textured text — gradient / stripes / gold shine (VERIFIED)
+Fill type with ANY texture via a track matte: an invisible `text` layer is the alpha
+matte, a texture layer shows only through the glyphs. **Oversize the texture past the
+frame** so drifting/scrolling never exposes an edge, and **animate the texture, not the
+word** — motion inside still letters is the designed look. Animating the *matte*
+(entrance scale/position) animates the visible glyph shapes.
+
+**Where textures come from — two sources, pick by kind:**
+- **Organic / photographic** (gold foil, marble, brushed metal, fire, watercolor, silk,
+  bokeh): **`strata generate image`** — prompt for a full-frame texture with no subject,
+  e.g. `strata generate image "seamless crumpled gold foil texture, full-frame, no
+  objects, even lighting" --aspect 16:9`. Brand palettes via `--colors`.
+- **Geometric / exact** (linear gradients, stripes, checker, halftone dots): a tiny
+  generator script (computed pixels — see generative-fx.md for the PNG pattern).
+
+```json
+// 1) gradient fill, drifting
+{ "type": "text",  "name": "grad_matte", "text": "GRADIENT", "font": "./bold.ttf", "size": 210,
+  "box": [0,210,1280,280], "align": "center middle", "visible": false,
+  "animate": { "scale": [{"t":0,"v":0.82,"ease":"outBack"},{"t":0.6,"v":1}] } },
+{ "type": "image", "name": "grad_fill", "src": "./tex_gradient.png",
+  "box": [-160,-90,1600,900], "fit": "fill", "matte": { "type": "alpha", "source": "grad_matte" },
+  "animate": { "position": [{"t":0,"v":[0,0],"ease":"inOutSine"},{"t":4,"v":[-120,-70]}] } }
+```
+```json
+// 2) stripes scrolling INSIDE the letters (oversized tileable stripe texture)
+{ "type": "image", "name": "zebra_fill", "src": "./tex_stripes.png",
+  "box": [-640,-360,2560,1440], "fit": "fill", "matte": { "type": "alpha", "source": "zebra_matte" },
+  "animate": { "position": [{"t":0,"v":[0,0]},{"t":4,"v":[320,320]}] } }
+```
+```json
+// 3) gold shine sweep — TWO mattes of the same word (unique names): one for the
+// static gold fill, one for a rotated blurred white band sweeping through
+{ "type": "solid", "name": "shine_band", "color": "#ffffff",
+  "box": [0,-150,150,1020], "rotation": 14, "opacity": 0.9,
+  "effects": [ { "type": "blur", "amount": 14, "dimensions": "both" } ],
+  "matte": { "type": "alpha", "source": "shine_matte" },
+  "animate": { "position": [{"t":0.8,"v":[-350,0],"ease":"inOutCubic"},{"t":1.7,"v":[1500,0]}] } }
+```
+Multi-pass is the general trick: **one invisible text copy per fill pass** (base texture +
+moving highlight + scan-lines + …) — blur/rotation/blend all compose with a matte. A
+`video` layer through the same matte = footage-in-letters (video-layouts.md §3).
+
 ---
 
 ## 2. Transitions
