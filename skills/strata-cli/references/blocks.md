@@ -68,7 +68,7 @@ A phone/screen frame to hold a product shot (image or video) — colour panels +
 (Swap `df_shot` to a `video` layer for a live screen recording; `loop:false` and size the scene to the clip — don't loop.)
 
 ### search-bar
-A rounded input bar with a caret (good for "type a query" beats).
+A rounded input bar with a caret (good for "type a query" shots).
 ```json
 "comps": { "search_bar": { "width": 900, "height": 96, "duration": 6, "layers": [
   { "type": "solid", "name": "sb_pill", "color": "#ffffff", "box": [0, 0, 900, 96], "effects": [ {"type":"shadow","color":"#00000028","distance":6,"size":20} ] },

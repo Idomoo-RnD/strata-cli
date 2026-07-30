@@ -1,30 +1,30 @@
 # Blueprints — whole-video recipes by type
 
-Structure-level recipes for the common video kinds. Each gives a beat skeleton, pacing, which [blocks](blocks.md) to use, and the narration shape — feed it into the storyboard stage (SKILL.md step 2), get sign-off, then author. All assume an audio-anchored timeline: I size each scene to the **narration's returned duration** and put **0.3–0.5s transitions** between clips. Default 1920×1080 (or 1080×1920 for social).
+Structure-level recipes for the common video kinds. Each gives a shot list, pacing, which [blocks](blocks.md) to use, and the narration shape — feed it into the storyboard stage (SKILL.md step 2), get sign-off, then author. All assume an audio-anchored timeline: I size each scene to the **narration's returned duration** and put **0.3–0.5s transitions** between clips. Default 1920×1080 (or 1080×1920 for social).
 
-Pick one, adapt the beats, keep every layer name unique.
+Pick one, adapt the shots, keep every layer name unique.
 
 ## Product launch / promo
-**Arc:** hook → problem → product → proof → CTA. 6–8 beats, 20–40s.
+**Arc:** hook → problem → product → proof → CTA. 6–8 shots, 20–40s.
 1. **Hook** (0–3s) — bold title + a moving background (animated still or video). One sentence.
 2. **Problem** (3–7s) — the old way / friction; kinetic text.
 3. **Product reveal** (7–13s) — `device-frame` block with the product shot pushing in; a `lower-third` naming the feature.
 4. **Benefits** (13–20s) — 2–3 `stat-card`s or feature cards, staggered.
 5. **Proof** (20–25s) — `quote-card` (testimonial) or a logo wall.
 6. **CTA** (25–30s) — `end-card` block; **hold** on it.
-Narration ≤~20 words/beat; brand colours throughout; ≤2 typefaces.
+Narration ≤~20 words/shot; brand colours throughout; ≤2 typefaces.
 
 ## Explainer (faceless)
-**Archetype:** concept · how-to · listicle · story. 4–8 beats, 30–90s.
+**Archetype:** concept · how-to · listicle · story. 4–8 shots, 30–90s.
 - Open with an **establishing shot** that frames the topic; show, don't tell.
-- One idea per beat; build diagrams/graphics over a calm background.
+- One idea per shot; build diagrams/graphics over a calm background.
 - Use `stat-card`/charts (see [recipes.md](recipes.md) data-viz) for any numbers.
 - Close on a one-line takeaway + soft CTA.
-Generate narration first, then pace beats to its word timings.
+Generate narration first, then pace shots to its word timings.
 
 ## Social promo (9:16, 5–15s)
 - Frame **1080×1920**; reserve the bottom ~17% for captions/safe area; keep text in the title-safe ~90%.
-- 2–4 punchy beats, fast 300–400ms transitions, big type, one message.
+- 2–4 punchy shots, fast 300–400ms transitions, big type, one message.
 - Assume **muted autoplay**: lead with a strong visual + on-screen text; personalized value appears early but not at t=0.
 
 ## Data story / KPI

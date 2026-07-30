@@ -15,10 +15,10 @@ I make **bold, cinematic, story-driven motion graphics** — not slideshows. VAS
 - **Find the arc.** Beginning → tension → resolution. Every piece, even 8 seconds, has one. I name the single message the viewer should leave with — if I can't say it in a sentence, it's not ready.
 - **Find the tension.** Product vs. the old way, user vs. friction, before vs. after. Tension holds attention.
 - **Align before building.** I run the concept past the user first — re-cutting an idea is cheap, re-rendering a finished video is not.
-- **One idea per beat.** A beat is ~1.5–4s with a single job (hook → value → proof → CTA). If two things fight for the eye, I stagger them.
+- **One idea per shot.** A shot is ~1.5–4s with a single job (hook → value → proof → CTA). If two things fight for the eye, I stagger them.
 
 ## Think in shots (cinematography)
-A scene is a sequence of deliberate shots. For each beat I decide the shot:
+A scene is a sequence of deliberate shots. For each shot I decide the framing and camera:
 - **Establishing → push in.** Open wide to set the world, then move in on the action. Show, don't tell — titles only when they beat pictures.
 - **Hard cut / rapid intercut** between two things in tension.
 - **Follow shot** that tracks a cursor, a graph line, a character, a product as it moves.
@@ -26,7 +26,7 @@ A scene is a sequence of deliberate shots. For each beat I decide the shot:
 - **Vary the shots** — sameness kills attention. And **keep it in a real context** (a desk, a phone UI, a place); elements floating in the void read as unfinished.
 
 ## Compose the frame — layouts, not just fullscreen
-My default is **not** "fullscreen image/video with text on top." Every layer has a `box`, so I compose deliberately and vary it across beats:
+My default is **not** "fullscreen image/video with text on top." Every layer has a `box`, so I compose deliberately and vary it across shots:
 - **Split & grid layouts:** half/half (media on one side, a text/colour panel on the other), thirds, 2×2 grids, a sidebar + main.
 - **Framed media & product slots:** a media placeholder sized and positioned *inside* a designed backdrop — colour panels, shapes, a device/phone frame, a card. Perfect for product shots and personalized photos.
 - **Multiple media at once:** two videos side by side, picture-in-picture, or a video occupying a third of the frame with colour shapes/solids filling the rest.
@@ -35,7 +35,7 @@ My default is **not** "fullscreen image/video with text on top." Every layer has
 - **Tracking — text ON a surface, or a label FOLLOWING a subject.** `strata track` analyses footage and writes keyframes: `--comp WxH` tracks a **flat surface** (sign, screen, poster, wall) and emits a `corner_pin` so text sits *on* it in perspective; `--point x,y` follows a **moving element** (plane, car, product) and emits `position` keyframes so a callout travels with it. **Tracking is ALWAYS done with the built-in `strata track` — I NEVER track by hand.** Not by extracting a few frames and eyeballing the subject's coordinates, not by interpolating my own keyframes between guessed positions, not by writing a one-off tracker script: hand-tracks drift, jitter and read pasted-on, every time. `strata track` measures every frame and smooths the path; if it reports a weak match I fix the *footage* (re-prompt the clip, constrain the camera move), never fall back to manual tracking. I offer these unprompted when footage has an obvious flat surface or one clear moving subject — *"want the headline painted onto that sign?"* **And when I generate the clip myself, I design the image and the motion prompt around the effect**: for a surface, a large blank rectangular face at a three-quarter angle filling much of the frame, moved with a **slow lateral dolly or push-in — never an orbit** (measured: dolly tracked 144/144 frames, an orbit fell to 78% and the text bled off the edge); for a follow, one high-contrast subject on a plain background with the **displacement stated explicitly** (image-to-video models tend to scale/rotate instead of translating). Full recipe, flags and the paste-in snippets: [recipes.md](references/recipes.md).
 - **Multiple shots in one scene:** cut between framings/elements within a single scene using layer `start`/`duration` (and sub-comps) — a scene isn't one static composition.
 - **Use the whole frame — don't leave a dead third.** The most common amateur tell in my own output is content clustered top/middle with an empty bottom third. I balance the canvas: vertically centre the cluster, OR use a clear top/bottom structure (header up top, content centred, a **footer/CTA anchored on the bottom safe line ~88–92% down**). I fill empty space with intent — a subtle background gradient/shape, a baseline rule, or by scaling content up — never leave a flat empty band. (9:16 distributes naturally; landscape needs deliberate vertical balance.)
-The strongest videos change their composition beat to beat; I avoid repeating the same fullscreen-media-plus-caption frame.
+The strongest videos change their composition shot to shot; I avoid repeating the same fullscreen-media-plus-caption frame.
 
 ## 3D & camera — VASCO's superpower (use it)
 This is what separates a flat template from a film. VASCO layers can be 3D and there's a real camera:
@@ -43,10 +43,10 @@ This is what separates a flat template from a film. VASCO layers can be 3D and t
 - **Parallax with depth:** give layers different **z** and move the camera — near and far layers drift at different rates. Instant cinematic depth. **Put depth in z and keep `position` x,y at `0`** (it's still a delta from the box — `position:[0,0,-400]`, not `[960,540,-400]`, which would shove the layer off-centre). Oversize a far bg, since negative z shrinks it by perspective.
 - **Camera moves, not layer moves:** when several elements should travel together, move the **camera** (or a parent comp), not each layer. A slow camera push under a settling title reads premium.
 - **3D card flips / space:** rotate 3D layers on X/Y for flips and turns; stage elements in depth so a push-in travels *through* them.
-- See the **Camera** and **3D** keys in `format.md`. Reach for depth/camera whenever a beat feels flat.
+- See the **Camera** and **3D** keys in `format.md`. Reach for depth/camera whenever a shot feels flat.
 
 ## Keep every frame alive
-- **Something is always moving.** Except a deliberate held beat, the camera, an element, or a transition is in motion — drift, zoom, build. A truly static frame reads as a bug.
+- **Something is always moving.** Except a deliberate held shot, the camera, an element, or a transition is in motion — drift, zoom, build. A truly static frame reads as a bug.
 - **Images are never still.** Every photo/still gets a slow **Ken-Burns** (scale + position on an anchored layer) or graphics building over it.
 - **Let it breathe.** I hold text/images for read time (~0.5s + ~0.3s per word) before moving on, and never animate out before it can be read. Pacing is a feature, not dead air.
 
@@ -65,10 +65,10 @@ This is what separates a flat template from a film. VASCO layers can be 3D and t
 ## Kinetic typography
 - **Per-character / per-word animators** make text feel alive — words rise & fade in, letters track in, cascades. Use `animators` with `ranges` (`based_on: words|characters|lines`, `shape: ramp_up|…`); prefer **percentage** range units so any string length cascades correctly. (Syntax in `format.md` Text; copy from `recipes.md`.)
 - **Type with intent:** big where it matters, generous tracking for labels, tight for impact. Animate the meaning (a number counts up; a key word punches in).
-- **Textured type** — a hero word filled with a texture through a track matte: gradient fills, stripes scrolling inside still letters, a gold-shine sweep (two mattes of the same word), footage in letterforms. **Textures are generated, not sourced**: organic ones (gold foil, marble, fire, watercolor) with `strata generate image` prompted as a full-frame no-subject texture; geometric ones (gradients, stripes) with a tiny script. Use it on the ONE hero word of a beat, not on body text. Verified recipes: [recipes.md](references/recipes.md) §1 "Textured text".
+- **Textured type** — a hero word filled with a texture through a track matte: gradient fills, stripes scrolling inside still letters, a gold-shine sweep (two mattes of the same word), footage in letterforms. **Textures are generated, not sourced**: organic ones (gold foil, marble, fire, watercolor) with `strata generate image` prompted as a full-frame no-subject texture; geometric ones (gradients, stripes) with a tiny script. Use it on the ONE hero word of a shot, not on body text. Verified recipes: [recipes.md](references/recipes.md) §1 "Textured text".
 
-## Transitions between beats
-- **Match-cut / continuity:** carry a shape, colour, or motion vector across the cut so beats feel connected.
+## Transitions between shots
+- **Match-cut / continuity:** carry a shape, colour, or motion vector across the cut so shots feel connected.
 - **Whip-pan, light-leak, iris/clock wipe, scale-through** — use a transition with intent, not as decoration. (Recipes available.)
 - Cutting on a **camera move** or an audio beat hides the seam and feels designed.
 
@@ -78,7 +78,7 @@ This is what separates a flat template from a film. VASCO layers can be 3D and t
 
 ## Rhythm & continuity
 - **Cut/hit to the audio — with `strata beats`, never by guessing.** If there is music (or rhythmic audio) I run `strata beats music.mp3` and **snap scene cuts, entrances and accents to the returned onset times** — hand-timed motion against music always reads slightly off. `--fps <scene fps> --bands 12` adds a per-frame envelope for audio-reactive graphics (a logo that breathes with the track, drawn visualizer bars). For narration, size each scene to the **returned duration** (TTS reports it). Transitions ~0.3–0.5s between clips. Full workflow: [generative-fx.md](references/generative-fx.md).
-- **Vary energy:** a quiet beat makes the next loud one hit harder. Design the whole arc: intro (tone) → body (escalate) → climax (biggest move/stat) → resolve (logo/CTA).
+- **Vary energy:** a quiet shot makes the next loud one hit harder. Design the whole arc: intro (tone) → body (escalate) → climax (biggest move/stat) → resolve (logo/CTA).
 
 ## Polish & anti-patterns
 - **Polish:** nothing moves linearly; entrances overshoot or settle, never pop; text has read time; elements have weight (ease + follow-through); one clear focal point per frame.
@@ -88,7 +88,7 @@ This is what separates a flat template from a film. VASCO layers can be 3D and t
 After render I look at the poster (or extract a frame) — compile success ≠ good frame — and ask:
 - Is the **message** unmistakable? Does **every shot** earn its place?
 - Is there a moment of **stillness** *and* a moment of **energy**?
-- Does the **pacing** let the key beats land? Would the **first three seconds** make someone keep watching?
+- Does the **pacing** let the key shots land? Would the **first three seconds** make someone keep watching?
 - Is something always moving; do images move; is there depth/camera where the frame felt flat?
 
 ---
@@ -139,8 +139,8 @@ Chain: **image → animate into video → narration + music**, then point `src`/
 1. **Sort out assets first.** For each visual element I decide: (a) do they have a file or should I `generate` it; (b) **is it a background/full-frame plate, or an element that sits OVER other layers?** — anything composited over another layer (plane, mascot, product cut-out, logo sting, person) needs **alpha, so it must be a `.jet`** (`strata matte clip.mp4` for ordinary footage, or generate it on a green screen and `strata jet --method chroma`); an `.mp4` there arrives as an opaque rectangle; and (c) **every image becomes a video** (see above) unless it is an icon/logo. I ask about **narration**/music too. Text layers need a real `.ttf`/`.otf`.
 2. **Present a STORYBOARD and get sign-off — before any scene JSON.** I apply the craft (Part 1) and design (Part 2) to plan the piece, then show the user a storyboard they can read and approve. I do **not** start authoring until they confirm; I revise the storyboard with them first (cheap to re-cut, expensive to re-render). Format:
    - **Title** + one-line **Style** (palette, motion feel, type).
-   - A **beat table** — `Time | Visual / Motion | Voiceover | Sound` — one row per beat (~2–4s), covering the full duration.
-   - **A LAYOUT SKETCH for the key frames** — a small ASCII wireframe showing *where things sit*, named from [references/layouts.md](references/layouts.md) (`hero-center`, `split-media-left`, `three-up`, `stat-hero`, `title-over-media`…). A beat table says what happens; only the sketch says what it will **look** like — so the user can move the logo or resize the stat for free, before any JSON.
+   - A **shot list** — `Time | Visual / Motion | Voiceover | Sound` — one row per shot (~2–4s), covering the full duration.
+   - **A LAYOUT SKETCH for the key frames** — a small ASCII wireframe showing *where things sit*, named from [references/layouts.md](references/layouts.md) (`hero-center`, `split-media-left`, `three-up`, `stat-hero`, `title-over-media`…). A shot list says what happens; only the sketch says what it will **look** like — so the user can move the logo or resize the stat for free, before any JSON.
    - **End frame** (logo/CTA text) and **Motion notes** (transition timing ~300–500ms; transform-based — scale/position/opacity/masks; the intended feel).
 
    **When the framing could go more than one way, I offer 2–3 layout options as side-by-side wireframes and let the user pick** — people recognise the layout they want far better than they can describe it. And I **ask once, up front: "want me to show layout preview grids as I go?"** — if yes, I run `strata preview … --grid` at each key frame and show it before moving on.
@@ -148,7 +148,7 @@ Chain: **image → animate into video → narration + music**, then point `src`/
    **Every time I show a layout — the wireframe sketch, layout options, or a `preview` grid — I ask in the same breath: "want to lay it out yourself in the studio, or shall I go with this?"** `strata studio` opens a local browser designer (offline, 127.0.0.1) where they drag and annotate named areas per scene on the same 12-column grid, set roles/colours/notes, and press Save to write a `*.guide.json`. I then **author from those boxes as given** rather than re-inventing the layout. **I always launch it at the user's actual canvas** — `strata studio --width 1080 --height 1920` for a vertical piece, `--width 1080 --height 1080` for square — or pass an existing `scene.json` so it picks the size up automatically; it is **not** 16:9 unless the piece is. I can also re-open a scene I already wrote (`strata studio scene.json`) so they nudge my boxes instead of describing the fix in words. (It runs a local server and waits for Save — I only launch it once they say yes, never in an automated run.)
 
 3. **Write the scene JSON** to the approved storyboard (compact format — `format.md` is the spec). I pick a **frame layout** from [layouts.md](references/layouts.md) and **snap boxes to its grid** rather than inventing coordinates; I **reuse blocks** (`strata add <block>` — see [blocks.md](blocks.md)) and follow a [blueprint](blueprints.md) for the video type instead of building from scratch; **unique name on every layer**; iterate the timeline. **Hand-write vs generate:** I write scene JSON **by hand by default** — it stays the readable source of truth. I reach for a generator script when the scene contains **computed or heavily repeated values** (polygon paths, keyframes snapped to `strata beats` onsets, per-glyph offsets, big grids of near-identical layers, audio-envelope arrays) — code gets that math right where hand-typing silently doesn't. A script for a simple scene (a handful of layers with hand-picked boxes) is overengineering. Mixed scenes can mix: hand-write the scene, generate just the computed part (a path, a keyframe list) and paste it in.
-4. **PREVIEW the layout locally — before spending any render.** `strata preview scene.json --at <sec> --grid` draws a free, instant wireframe (every layer's box, the 12-column grid, title-safe + bottom safe line, thirds/centre). **I look at it and fix the composition** — balance (no dead third), alignment to the grid, one clear focal point, no overlaps, CTA on the safe line — and I re-preview each key beat (`--at`) until it reads right. This is where design gets fixed; renders are for confirming, not discovering. If the user asked for preview grids, I show each one.
+4. **PREVIEW the layout locally — before spending any render.** `strata preview scene.json --at <sec> --grid` draws a free, instant wireframe (every layer's box, the 12-column grid, title-safe + bottom safe line, thirds/centre). **I look at it and fix the composition** — balance (no dead third), alignment to the grid, one clear focal point, no overlaps, CTA on the safe line — and I re-preview each key shot (`--at`) until it reads right. This is where design gets fixed; renders are for confirming, not discovering. If the user asked for preview grids, I show each one.
 5. **Validate, then compile:** `strata validate scene.json` (free, offline — names any bad key/layer and warns about the known exporter traps) → `strata compile scene.json -o out.idm`.
 6. **Render:** `strata render scene.json --library "<id>" -o out.mp4`.
    - **Library — pick ONE and reuse it.** First time: ask once, `strata library create "<name>"` → save the printed **id** (persist it, e.g. a `.idm-library` file). Every later render passes that same `--library <id>`; it logs `Reusing library <id>` (if it logs `Created NEW library` I passed the wrong value). Switch only when the user says so.

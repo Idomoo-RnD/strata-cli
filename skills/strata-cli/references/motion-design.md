@@ -55,9 +55,9 @@ On by default for visual layers (`motion_blur`), and it is exactly what HTML ani
 is the difference between "filmed" and "stepped". Only disable for a deliberate hard-cut look.
 
 ### 7. Continuous life — no dead frames
-Except a deliberate held beat, **something is always in gentle motion**: a slow camera drift,
+Except a deliberate held shot, **something is always in gentle motion**: a slow camera drift,
 a Ken-Burns on a still, a subtle scale-breathe on the hero, background parallax. A truly frozen
-frame reads as a bug. (Hold beats are still allowed — but they're a choice, not the default.)
+frame reads as a bug. (Held shots are still allowed — but they're a choice, not the default.)
 
 ### 8. Designed transitions — not crossfades
 Opacity crossfades between scenes are the biggest slideshow tell. Instead:
@@ -75,7 +75,7 @@ settling title reads premium and cannot be faked in a 2D web timeline. Give laye
 
 ### 10. A consistent motion language — a "motion brand"
 Every entrance in a piece shares the **same curve and timing family**; exits share another.
-Random transitions per beat read as a template grab-bag. Pick one entrance ease (e.g. `outExpo`
+Random transitions per shot read as a template grab-bag. Pick one entrance ease (e.g. `outExpo`
 ~450ms), one exit, one transition type, and repeat them — consistency *is* the design.
 
 ---
