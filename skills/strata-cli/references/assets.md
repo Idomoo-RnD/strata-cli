@@ -131,22 +131,30 @@ the scene**, or the overlay drifts out of time — the CLI prints the fps it use
 resolution, and it cuts the `.jet` size a lot. Any **video** input needs `ffmpeg` on PATH
 (it decodes the clip); a PNG sequence needs nothing.
 
-### Quality — `.jet` is lossy, and it now defaults to the best it can do
-`--quality max|high|good|draft` (default **max**). Measured on real frames:
+### Quality — `.jet` is lossy; the default is Idomoo's own reference setting
+`--quality draft|good|high|max` (default **draft**). Despite the name, `draft` is
+**not** a compromise: `[8,8,4,4]` is exactly what Idomoo's reference encoders hardcode,
+so it is what every `.jet` from the AE plugin has always used.
 
-| preset | PSNR | size |
+| preset | quant factors | size (144f 720p matte) |
 |---|---|---|
-| **max** (default) | **42.3 dB** | 1637 KB |
-| high | 41.3 dB | 1325 KB |
-| good | 39.6 dB | 963 KB |
-| draft | 37.3 dB | 677 KB |
+| **draft** (default) | 8,8,4,4 | **34.5 MB** |
+| good | 4,4,2,2 | ~50 MB |
+| high | 2,2,1,1 | ~65 MB |
+| max | 1,1,1,1 | 81.0 MB |
 
-Below ~40 dB artefacts show, and an overlay sits *on top of* real footage where they are
-easy to see — so full quality is the default. **If a `.jet` is too big, reduce `--width`
-before reducing `--quality`**: halving the resolution quarters the data, while dropping to
-`draft` saves less and visibly degrades it. (`max` is the ceiling: the format caps
-coefficients at ±1022 and a flat DCT's DC term reaches ~4080, so the base quant matrix's
-÷4 is what makes them fit — going finer corrupts the file.)
+**Verified side by side in a jet viewer:** `draft` vs `max` is indistinguishable —
+RGB PSNR 37.5 dB, **alpha PSNR 53.0 dB**, mean edge-alpha error 3.96/255. Crucially the
+residual alpha in "empty" regions is **7/255 at both settings**, so finer quantisation
+never buys cleaner transparency — only RGB precision inside the subject. `max` costs
+**2.4× the bytes** for that.
+
+So: **leave the default alone.** Step up to `high`/`max` only when a specific clip
+actually shows artefacts (fine hard-edged alpha — confetti, thin type, vector shapes — is
+the plausible case; soft/photographic subjects are not). If a `.jet` is too big, reduce
+`--width` first: halving resolution quarters the data. (`max` is the ceiling regardless:
+the format caps coefficients at ±1022 and a flat DCT's DC term reaches ~4080, so the base
+matrix's ÷4 is what makes them fit — going finer corrupts the file.)
 
 ### ⚠️ Key the VIDEO, not a still — the motion belongs in the clip
 Always matte/key the **moving clip**, so the subject's motion is carried by the `.jet`

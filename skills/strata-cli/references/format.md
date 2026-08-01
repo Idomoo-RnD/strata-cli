@@ -19,6 +19,14 @@ Contents: [Scene](#scene) · [Layers](#layers-common) · [Text](#text) · [Image
 
 Passthrough at comp level: `shutter_angle`, `shutter_phase`, `transition`.
 
+**File naming — the scene's FILENAME is its identity in the cloud.** `render`/`snapshot`
+upload under `basename(<scene file>)` and derive the output MP4/JPG name from it, so the
+filename is what the user browses in their Idomoo library. Give every new cut its own
+versioned file (`promo_v1.json`, `promo_v2.json`, `promo_final.json`) instead of
+overwriting — otherwise the library fills with indistinguishable entries and each render
+clobbers the last MP4. (`name` above is the *comp* name, internal — it does not label the
+upload.)
+
 ## Layers (common)
 
 | key | meaning |
