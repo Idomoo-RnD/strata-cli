@@ -9,6 +9,24 @@ Idomoo's superpower: a single IDM is a **template** whose layers are **placehold
 - **Animations are content-agnostic** — per-character text animators adapt to any string; prefer `percentage` range units over `index` so 6- and 14-character names both cascade.
 - **Graphs, charts, progress wheels/rings, gauges — they must be real IMAGE files.** Idomoo replaces media **by layer name**, so a personalised data visual has to be an `image` layer whose file **actually exists** (generate it with `strata generate image`, or use the supplied asset) — a ring or bar drawn from native solids/masks has nothing to swap, so every viewer would see the same numbers. Author it at the canonical/full state, give it a unique meaningful name (`donut_savings`, `progress_ring`), and animate only the **reveal** (mask wipe, scale, opacity) so the replacement image still animates. Native-shape data-viz recipes are for **static** data only. Don't leave a `src` path that doesn't exist — it fails the compile.
 
+## Get the real placeholder contract — `--emit-timeline`
+Before wiring any integration, have the CLI hand you the **exact request body it POSTs to
+`/scenes/generate`** — no guessing at the shape:
+
+```bash
+strata render scene_v1.json --library <id> --emit-timeline timeline.json
+```
+
+Writes the payload the API **accepted** (post-retry, so nothing the schema rejects is in
+it). Shape: `{ timeline: { scene_order, scenes: [ { scene_id, media, text, audio } ] }, output: {…} }`,
+where each entry is `{ "key": "<layer name>", "val": <value>, … }` — `val` is a string for
+media (a `pal://…` asset ref or a colour) and `[{ "text": "…" }]` for text. That is the
+substitution contract: **replace `val` per viewer, keep `key`**. Also in `--json` output as
+`timeline_path` + the payload inline as `timeline`.
+Use it to: confirm which layers are actually replaceable, hand a backend team a real
+example, or drive `/scenes/generate` directly. Note it needs one real render (the
+`scene_id` comes from the cloud), and `snapshot` does not emit it.
+
 ## The batch flow (concept)
 1. Build and approve **one** scene; confirm it renders (`strata render … --library <id>`).
 2. Prepare a **data set** — a JSON/CSV with one row per viewer, columns = layer names → values (text or a media URL/path):
