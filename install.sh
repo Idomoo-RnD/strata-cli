@@ -85,9 +85,10 @@ if [ -z "$SKILL_CHOICE" ]; then
     log "  2) OpenAI Codex   (~/.codex/skills)"
     log "  3) Cursor         (~/.cursor/skills + project .cursor/skills)"
     log "  4) Antigravity    (IDE ~/.agents/skills + CLI ~/.gemini/antigravity-cli/skills)"
-    log "  5) Claude Cowork  (packages strata-cli-skill.zip to upload in the app)"
-    log "  6) All of the above"
-    log "  7) Skip"
+    log "  5) Grok Build     (~/.grok/skills)"
+    log "  6) Claude Cowork  (packages strata-cli-skill.zip to upload in the app)"
+    log "  7) All of the above"
+    log "  8) Skip"
     printf 'Choice [1]: ' > /dev/tty
     read -r SKILL_CHOICE < /dev/tty || SKILL_CHOICE=""
     [ -n "$SKILL_CHOICE" ] || SKILL_CHOICE="1"
@@ -97,14 +98,15 @@ if [ -z "$SKILL_CHOICE" ]; then
 fi
 
 FLAGS=""
-case ",$SKILL_CHOICE," in *,7,*|*skip*) FLAGS="skip" ;; esac
+case ",$SKILL_CHOICE," in *,8,*|*skip*) FLAGS="skip" ;; esac
 if [ "$FLAGS" != "skip" ]; then
   case ",$SKILL_CHOICE," in *,1,*|*claude*)      FLAGS="$FLAGS --claude" ;; esac
   case ",$SKILL_CHOICE," in *,2,*|*codex*)       FLAGS="$FLAGS --codex"  ;; esac
   case ",$SKILL_CHOICE," in *,3,*|*cursor*)      FLAGS="$FLAGS --cursor" ;; esac
   case ",$SKILL_CHOICE," in *,4,*|*antigravity*) FLAGS="$FLAGS --antigravity" ;; esac
-  case ",$SKILL_CHOICE," in *,5,*|*cowork*)      FLAGS="$FLAGS --cowork" ;; esac
-  case ",$SKILL_CHOICE," in *,6,*|*all*)         FLAGS=" --claude --codex --cursor --antigravity --cowork" ;; esac
+  case ",$SKILL_CHOICE," in *,5,*|*grok*)        FLAGS="$FLAGS --grok" ;; esac
+  case ",$SKILL_CHOICE," in *,6,*|*cowork*)      FLAGS="$FLAGS --cowork" ;; esac
+  case ",$SKILL_CHOICE," in *,7,*|*all*)         FLAGS=" --claude --codex --cursor --antigravity --grok --cowork" ;; esac
   case ",$SKILL_CHOICE," in *both*)              FLAGS=" --claude --codex" ;; esac
 fi
 
