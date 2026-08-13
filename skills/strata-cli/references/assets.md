@@ -131,6 +131,27 @@ the scene**, or the overlay drifts out of time — the CLI prints the fps it use
 resolution, and it cuts the `.jet` size a lot. Any **video** input needs `ffmpeg` on PATH
 (it decodes the clip); a PNG sequence needs nothing.
 
+### `matte` is slow — halve the width first (MEASURED)
+AI matting is the slowest thing in the toolchain: it runs a neural net on **every frame**
+on the CPU. On a 144-frame 1280×720 clip:
+
+| run | time | `.jet` size |
+|---|---|---|
+| full 1280 wide | **2m42s** | 34.5 MB |
+| `--width 640` | **24.7s** | 10.6 MB |
+
+**6.6× faster and 3× smaller** — so unless the subject fills the frame at full res, pass
+`--width 640` (or 720). An overlay is composited over a busy scene and usually scaled
+down anyway, so the resolution is rarely doing any work. This is the reliable lever: it
+shrinks every stage (decode → net → jet encode) and behaves the same on any machine.
+
+`--threads N|auto` also exists (default **1**). Measured on a 32-core box it burns ~8× the
+CPU for an erratic wall-clock win — sometimes a loss — so it is opt-in, not default;
+`auto` scales to the CPU count, and anything unusable falls back to 1 thread rather than
+failing. Reach for `--width` before `--threads`.
+**Tell the user roughly how long a matte will take** before starting a long one, and run
+it in the background rather than blocking.
+
 ### Quality — `.jet` is lossy; the default is Idomoo's own reference setting
 `--quality draft|good|high|max` (default **draft**). Despite the name, `draft` is
 **not** a compromise: `[8,8,4,4]` is exactly what Idomoo's reference encoders hardcode,
