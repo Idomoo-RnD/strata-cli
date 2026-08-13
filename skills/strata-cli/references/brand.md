@@ -35,7 +35,42 @@ not see in an asset or hear from the user.
 | **Docs** (brand book PDF, style guide, deck, markdown) | Read them. Lift exact hexes, font names, spacing rules, tone-of-voice and any legal/usage rules |
 | **Fonts** (`.ttf`/`.otf` files) | Record the **absolute file path** — a family name alone is useless (see the trap below) |
 | **A website / Figma** | Figma → [figma.md](figma.md) (variables/tokens are the palette + type ramp). A site → its CSS variables and screenshots |
+| **After Effects projects** (`.aep`/`.aepx`/Lottie JSON) | The **richest** source — see §A½. Read the type ramp, palette, spacing AND the real motion curves out of it |
+| **An edited video / raw footage** | Frames for palette + type; [video-editing.md](video-editing.md) if it needs trimming before use |
 | **Nothing but a logo** | Build the palette and type from the logo, then **flag every gap** rather than inventing |
+
+## Step 1½ — After Effects files: the richest brand source
+An AE template is a brand's motion identity written down. Unlike a logo or a PDF it
+carries **the easing curves, durations and stagger** — the things that make two videos
+feel like one brand and that I would otherwise have to guess. Routes, best first:
+
+| Route | How | Gets you |
+|---|---|---|
+| **`.aepx`** (AE: *File → Save a Copy As → XML*) | plain XML — parse it directly | comps, layer names + transforms, keyframes, text, precomp tree, colours. No AE needed to read it |
+| **`.jsx` ExtendScript** *(if the user has AE)* | ask them to run a dump script; walk `app.project` → JSON | highest fidelity: every property, keyframe, ease, effect, marker, font name/size |
+| **Lottie / bodymovin JSON** | ask for a bodymovin export | cleanest structured data (shapes, transforms, bezier easing, text) — but only AE's supported subset, no video layers |
+| **`.aep`** (binary) | RIFX container; undocumented, values are packed binary | last resort. Prefer asking for `.aepx` — it is one menu item away |
+| **A render of the comp** | frames via ffmpeg | if all else fails: palette + type + timing by observation |
+
+**What I pull out of it, into the token block:**
+- **colors** — layer fill/solid colours and shape fills (exact values, not sampled).
+- **typography** — font family + size + tracking + leading per text layer, and the *ramp*
+  they form. ⚠️ AE stores a family **name**; I still need the actual `.ttf`/`.otf` **file**
+  (ask for it — see the fonts trap in step 2).
+- **spacing / canvas** — comp size + fps, layer positions → margins and the grid.
+- **motion (the prize)** — keyframe **timing** and **ease** per property. Convert AE
+  influence/speed handles to the nearest strata ease (`outExpo`, `outBack`, a raw
+  cubic-bezier), record entrance duration, stagger between siblings, and the transition
+  style. That becomes the `motion:` block.
+- **components** — precomps map 1:1 to strata sub-comps (a comp IS a group).
+- **effects** — AE drop shadow/glow/stroke → the `shadow`/`glow`/`stroke` tokens.
+
+⚠️ **Expressions do not translate** — they're code, not values. If a property is driven by
+an expression I record the *observed* behaviour and note it in Known Gaps.
+
+💡 **Idomoo ships an AE exporter** (`IDMVideoEncoder.aex`). If the user's goal is "render
+this exact AE comp", that plugin is the right path — the brand document is for
+*reusing the identity* on new videos, not reproducing one comp.
 
 **Extract the palette with code — never eyeball hexes.** Sampling pixels is computed work,
 so a throwaway script is the right tool (see [generative-fx.md](generative-fx.md) for the
