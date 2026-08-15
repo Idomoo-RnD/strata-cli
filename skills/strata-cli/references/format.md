@@ -101,6 +101,30 @@ Position/scale/rotation compose to the VASCO 4×4 `transform` as `T(position)·R
   ```
   Empty/`all glyphs present` → safe to compile. Any `MISSING` → fix the font or the text first.
 - `align`: words from `left center right` + `top middle baseline bottom`, e.g. `"center middle"`, or `{"h": "center", "v": "top"}`.
+
+> ### ⚠️ Vertical text sits at the BOTTOM of its box — `"top"` does nothing (VERIFIED)
+> Rendered test, box `y 80 → 340` (260px tall), `size: 60`:
+>
+> | `align` | where the glyphs landed |
+> |---|---|
+> | `left top` | **y 298–339** — 1px off the box bottom |
+> | `left bottom` | y 298–339 — **identical to `top`** |
+> | `left middle` | y 190–231 — correctly centred (110/109px gaps) |
+>
+> **`middle` is the only vertical value that repositions anything.** A tall box with
+> `"… top"` silently drops the text to the bottom, so:
+> - **Anchor vertical maths on `box_y + box_h`, never `box_y + size`.** Stacking rows by
+>   adding the font size to the box top puts every row in the wrong place — the classic
+>   symptom is rows that look right in one layout and collapse in another.
+> - **Size the box to the copy** (~`size × 1.3` per line) and position it by its **bottom**
+>   edge; or use `"middle"` with the box centred on where the text should be.
+> - A box exactly as tall as the font size **overflows ~22% below** (descenders): `size: 80`
+>   in an 80px box drew to 18px past the bottom edge. Give a single line ~`1.3 × size`.
+> - **`strata preview` cannot show this** — it draws layer *boxes*, not glyphs. Confirm text
+>   placement with `strata snapshot` (poster only, cheap) before a full render.
+>
+> `validate` now warns when a text layer combines a `top` alignment with a box much taller
+> than its type.
 - **Rich spans (typography)** — `"styles"` is a list of per-character-range overrides, each `{ "start": <char index>, "length": <chars>, ... }`. **Confirmed to render:** `color` (hex), `size`, `tracking`, `leading`, `shift`, and a per-span `font` (`font` optional — defaults to the layer font). Example:
   ```json
   "text": "Rich VASCO Text",

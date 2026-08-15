@@ -111,8 +111,14 @@ See `blocks.md` for the block.
   for hero/end frames.
 - **Never overlap two text blocks** while both are visible (`validate` warns) — separate in
   space or stagger in time.
+- **Vertical text position is anchored at the box BOTTOM.** `align: "… top"` is not honoured —
+  the glyphs render where `bottom` would (verified). So when you place a row at a y-coordinate,
+  that coordinate is `box_y + box_h`, not the top of the type. Size text boxes to the copy
+  (~`1.3 × size` per line) and place them by their bottom edge, or use `"… middle"` with the box
+  centred on the target. Details + the measured numbers: [format.md](format.md).
 - **Verify visually:** `strata preview --grid` → check balance/alignment → fix → only then
-  `snapshot`/`render`.
+  `snapshot`/`render`. ⚠ **`preview` draws BOXES, not glyphs** — so it cannot reveal where text
+  actually sits inside its box. Use `snapshot` for that.
 
 ---
 
