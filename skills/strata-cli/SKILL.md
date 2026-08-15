@@ -122,7 +122,7 @@ The CLI creates media via the Idomoo AI API (needs auth; saves to `./strata_asse
 | `strata generate video <image\|url> [--prompt "<motion>"] [--duration 5] [--ratio 9:16]` | an **image-to-video** clip (async) |
 | `strata generate avatar <image URL> --audio <url> [--aspect 9:16] [--motion "..."]` | a **talking presenter** from one still + audio (lip-synced). The image must NOT be a flat front-facing headshot — angle it, free the hands, light it: [avatar.md](references/avatar.md) |
 | `strata generate narration "<text>" --voice <voice_id>` | TTS voiceover MP3 (`generate voices` lists ids) |
-| `strata generate music "<prompt>" [--duration 30]` | an instrumental track |
+| `strata generate music "<prompt>" [--duration 30]` | an instrumental track (**Stable Audio 3**, 44.1kHz stereo **WAV**). Prompt it properly — tags, arc, BPM: [music.md](references/music.md) |
 
 Chain: **image → animate into video → narration + music**, then point `src`/`audio` at the saved files. Image and image-to-video accept a **local file or a URL** (local files are auto-encoded — no upload).
 
@@ -189,6 +189,7 @@ the design (see workflow step 0a).
 
 | Reference | Read it to… | When (do NOT skip) |
 |---|---|---|
+| **[music.md](references/music.md)** | prompt `generate music` (Stable Audio 3) so the track fits: the tag+genre+mood+instruments+BPM formula, writing the ARC, ducking under a voiceover, and the `strata beats` handoff | **ALWAYS before generating music** — a vibe-only prompt returns generic stock-sounding audio |
 | **[avatar.md](references/avatar.md)** | build a **talking presenter** from a still + audio (`generate avatar`): the image prompt that makes it look filmed rather than flat (angle, framing, free hands, cinematic light), the same-presenter-across-a-series trick, and the URL/fps/duration mechanics | **ALWAYS when the piece needs a presenter, spokesperson or talking head** — the source image decides whether it reads real |
 | **[video-editing.md](references/video-editing.md)** | **edit an existing video** with ffmpeg — trim/cut, concat, reframe to 9:16, speed, audio strip/replace, fades, loops, thumbnails, plus the output rules (yuv420p, even dimensions, match fps) | **ALWAYS when the user hands over footage to cut/join/crop/retime** rather than a video to design. Also before using any supplied clip as a layer |
 | **[brand.md](references/brand.md)** | capture a reusable visual identity as **`.brand/brand.md`** (palette from code-extracted hexes, type ramp with real font paths, components, motion language) and author every later video from it | **ALWAYS check for `.brand/brand.md` first** — read it if present. Read this file whenever the user supplies brand material (logo/brand book/style guide/existing videos/site/Figma), says "on brand"/"like the last one", or wants a series |
