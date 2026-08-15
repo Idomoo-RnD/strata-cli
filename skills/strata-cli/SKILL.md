@@ -1,6 +1,6 @@
 ---
 name: strata-cli
-description: Author cinematic motion-design videos with the `strata` CLI — compact scene JSON compiled to a binary `.idm` locally, assets (image, image-to-video, narration, music) via the Idomoo AI API, rendered to MP4. VASCO is a 3D engine (camera, depth, masks, effects, per-character text animators). Use when the user asks to make a strata video, build/compile an IDM, build a motion-graphics / kinetic-text / explainer / promo / personalized or data-driven video, or animate layers with keyframes. ALSO when generating an image, including reference images (character, logo, product) via `--reference`. ALSO for beat-synced/audio-reactive video, textured text fills, confetti overlays, footage-in-shape masks and product-occlusion ads. ALSO to build or apply a BRAND DOCUMENT / brand kit / style guide (`.brand/brand.md`) so a series stays on-brand, to turn a Figma design into a video, and to EDIT existing footage with ffmpeg (trim/cut, join, reframe to 9:16, retime, audio). Not for the Idomoo cloud briefs API.
+description: Author cinematic motion-design videos with the `strata` CLI — compact scene JSON compiled to a binary `.idm` locally, assets (image, image-to-video, AVATAR presenter, narration, music) via the Idomoo AI API, rendered to MP4. VASCO is a 3D engine (camera, depth, masks, effects, per-character text animators). Use when the user asks to make a strata video, build/compile an IDM, build a motion-graphics / kinetic-text / explainer / promo / personalized or data-driven video, or animate layers with keyframes. ALSO when generating an image, including reference images (character, logo, product) via `--reference`. ALSO for beat-synced/audio-reactive video, textured text fills, confetti overlays, footage-in-shape masks and occlusion ads. ALSO to build or apply a BRAND DOCUMENT / brand kit / style guide (`.brand/brand.md`) so a series stays on-brand, to turn a Figma design into a video, and to EDIT existing footage with ffmpeg (trim/cut, join, reframe to 9:16, retime, audio). Not for the Idomoo cloud briefs API.
 ---
 
 # Strata CLI — cinematic motion design, authored as IDM/VASCO
@@ -120,6 +120,7 @@ The CLI creates media via the Idomoo AI API (needs auth; saves to `./strata_asse
 |---|---|
 | `strata generate image "<prompt>" [--aspect 9:16] [--colors …] [--reference <img\|url> …]` | a still PNG (async) |
 | `strata generate video <image\|url> [--prompt "<motion>"] [--duration 5] [--ratio 9:16]` | an **image-to-video** clip (async) |
+| `strata generate avatar <image URL> --audio <url> [--aspect 9:16] [--motion "..."]` | a **talking presenter** from one still + audio (lip-synced). The image must NOT be a flat front-facing headshot — angle it, free the hands, light it: [avatar.md](references/avatar.md) |
 | `strata generate narration "<text>" --voice <voice_id>` | TTS voiceover MP3 (`generate voices` lists ids) |
 | `strata generate music "<prompt>" [--duration 30]` | an instrumental track |
 
@@ -188,6 +189,7 @@ the design (see workflow step 0a).
 
 | Reference | Read it to… | When (do NOT skip) |
 |---|---|---|
+| **[avatar.md](references/avatar.md)** | build a **talking presenter** from a still + audio (`generate avatar`): the image prompt that makes it look filmed rather than flat (angle, framing, free hands, cinematic light), the same-presenter-across-a-series trick, and the URL/fps/duration mechanics | **ALWAYS when the piece needs a presenter, spokesperson or talking head** — the source image decides whether it reads real |
 | **[video-editing.md](references/video-editing.md)** | **edit an existing video** with ffmpeg — trim/cut, concat, reframe to 9:16, speed, audio strip/replace, fades, loops, thumbnails, plus the output rules (yuv420p, even dimensions, match fps) | **ALWAYS when the user hands over footage to cut/join/crop/retime** rather than a video to design. Also before using any supplied clip as a layer |
 | **[brand.md](references/brand.md)** | capture a reusable visual identity as **`.brand/brand.md`** (palette from code-extracted hexes, type ramp with real font paths, components, motion language) and author every later video from it | **ALWAYS check for `.brand/brand.md` first** — read it if present. Read this file whenever the user supplies brand material (logo/brand book/style guide/existing videos/site/Figma), says "on brand"/"like the last one", or wants a series |
 | **[layouts.md](references/layouts.md)** | pick a named frame layout (hero-center, split-media, three-up, stat-hero, title-over-media, quote, list-reveal, lower-third) and snap boxes to the 12-column grid for 16:9 / 9:16 | **ALWAYS** before authoring, unless the user dictated exact boxes — then verify with `strata preview --grid` |
