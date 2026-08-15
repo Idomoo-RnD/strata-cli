@@ -29,10 +29,28 @@ upload.)
 
 ## Layers (common)
 
+> ### ⚠️ Layer names must be unique across the WHOLE scene
+> The exporter keys every layer by name, and the name is also the **personalization key**
+> the API replaces content by. Two rules follow, and the second is the one that bites:
+>
+> 1. **Uniqueness is global, not per-comp.** `card_a` and `card_b` each containing a layer
+>    called `label` **is a collision** — the check spans every composition.
+> 2. **Duplicates don't crash — they get RENAMED.** The compiler auto-uniquifies
+>    (`label` → `label_2`) and prints `⚠ renamed N duplicate layer name(s)`. The render then
+>    succeeds, so nothing looks wrong — but the placeholder key an integration must send is
+>    now `label_2`, not `label`. A personalization backend built against the name you *meant*
+>    breaks, and the reason is invisible in the finished video.
+>
+> **So: never ignore that ⚠ rename warning** — fix the names in the scene instead. Prefix by
+> owner (`card1_label`, `card2_label`, `hero_title`, `cta_label`) rather than reusing a generic
+> word in two places. To see the keys the API actually receives, render once with
+> `--emit-timeline out.json` ([personalization.md](personalization.md)) and read the `key`
+> fields — if a `_2` shows up there, you had a collision.
+
 | key | meaning |
 |---|---|
 | `type` | `text` `image` `video` `solid` `audio` `comp` `camera` (`media` also accepted, type sniffed from extension) |
-| `name` | layer name — **must be unique** (matte references + personalization key by name; duplicate names are a bug → matte binds the wrong layer, personalization keys collide, render can break). `validate` warns on duplicates. |
+| `name` | layer name — **must be unique GLOBALLY, across every comp**, not just within one (matte references and personalization keys are both by name). See the box below: duplicates do not fail loudly, they get **renamed**, which silently changes your API keys. |
 | `start` / `duration` | seconds → `first_frame` / `num_of_frames` (frame-exact keys also accepted). Default: starts at 0, runs to comp end |
 | `box` | `[x, y, w, h]` → bounds. Default: full comp. (visual layers only) |
 | `position` | `[x,y]` or `[x,y,z]` — where the anchor lands (comp coords); defaults to `anchor`, so it's a plain offset when no anchor is set |

@@ -160,7 +160,7 @@ Chain: **image → animate into video → narration + music**, then point `src`/
 7. **Verify** — I run `strata snapshot scene.json --library <id>` for a fast poster-only frame (cheaper than a full MP4) and look at it, then run the **Definition of Done** before I call it shipped:
    - Message clear in the first 3 seconds? Every shot earns its place? Stillness *and* energy?
    - Text legible **muted** (captions/scrim where needed) and inside the safe area?
-   - **Every layer name unique** (the compiler warns/fixes, but I author them unique)?
+   - **Every layer name unique ACROSS EVERY COMP** — and did I read any `⚠ renamed … duplicate layer name(s)` line? The compiler fixes duplicates silently-ish by renaming (`label`→`label_2`), which **changes the personalization key**, so I fix the scene rather than accept the rename.
    - Holds on the CTA; nothing loops cheaply; motion blur on moving layers?
    - **Would I ship this with my name on it?** If not, I fix it before delivering.
    Debug with `--vasco` or `strata inspect out.idm`.

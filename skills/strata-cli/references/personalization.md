@@ -2,6 +2,14 @@
 
 Idomoo's superpower: a single IDM is a **template** whose layers are **placeholders** replaced per-viewer at generate time, keyed by **layer name**. The animation, layout, effects, and timing stay exactly as authored; only the *content* (a text value or a media asset) swaps. This is how you render thousands of personalized variants from one scene — something pure motion-graphics tools can't do.
 
+## ⚠️ The keys are LAYER NAMES — so duplicates silently break personalization
+Every `media`/`text`/`audio` entry the API replaces is keyed by its layer name. Names must be
+unique **across the whole scene, every comp included**; when they aren't, the compiler
+auto-renames (`label` → `label_2`) and warns. The video still renders correctly, so the damage
+is invisible: the key your integration must send has changed. **Fix the names, never ship past
+that warning** — and confirm the real keys with `strata render … --emit-timeline t.json`
+(below), which prints exactly what the API sees.
+
 ## Author the template for replacement
 - **Name every layer meaningfully and uniquely** — names are the replacement keys (`first_name`, `hero_photo`, `monthly_amount`, `cta_label`). Duplicate names are both a render bug (auto-uniquified) and a personalization hazard — keep them distinct.
 - **Text** — assume values longer *and* shorter than your sample. **Text auto-fits its box** (the compiler defaults `shrink:true`), so a long value scales down to fit rather than overflowing — verified: a long name in a fixed box shrinks while a short one stays large. Still give generous box width and set a `min_size` if you don't want it shrinking below a floor; opt out with `"shrink": false`. Choose alignment deliberately (left-aligned grows right; centred grows both ways). Never split one personal value across hand-positioned layers. Put a realistic **long** sample in the scene so the layout is proven against the hard case.

@@ -11,6 +11,13 @@ strata add --list                      # list available blocks
 
 > Personalization: rename a block's text/media layers to meaningful, unique keys (`hero_title`, `cta_label`) so they're API-replaceable. See [personalization.md](personalization.md).
 
+> ⚠️ **Adding the same block twice by hand is the #1 source of duplicate layer names.** Layer
+> names must be unique **across every comp**, so two pasted cards both containing `label`
+> collide — and the compiler silently renames one to `label_2`, changing its personalization
+> key. Prefix the inner layers per instance (`card1_label`, `card2_label`) as you paste, or use
+> `strata add`, which uniquifies for you. Never ignore a `⚠ renamed … duplicate layer name(s)`
+> warning (format.md, Layers).
+
 ## Available blocks
 
 ### lower-third
