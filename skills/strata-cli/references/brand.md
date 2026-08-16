@@ -105,9 +105,11 @@ that make the difference between a document that works and one that fails at com
 2. **Sizes are px at a stated canvas.** VASCO has no `cqw`/container queries. I declare
    the **primary canvas** (usually 1920×1080) and give every size in px at it, plus the
    conversion for other ratios: `size_other = size_1920 × (width_other / 1920)`.
-3. **No corner radius on a `rect` mask.** If the brand has rounded corners, the document
-   must say how they're produced: a generated **`path` mask** polygon, or a pre-rendered
-   PNG. Otherwise a future session will write `radius` and get square corners.
+3. **Corner radius is a mask `rect` + `radius`.** Record the brand's radii in px at the
+   primary canvas (`card: 24`, `button: pill`) and apply them as
+   `"mask": { "rect": [x,y,w,h], "radius": 24 }` — a big number clamps to half the shorter
+   side, giving a pill. `radius` also takes `[tl,tr,br,bl]` for one-sided rounding. It is a
+   MASK key, never a layer key.
 4. **CSS shadows become VASCO `shadow` effects.** A hard offset shadow `8px 8px 0 black`
    is `{ "type": "shadow", "color": "#000000", "angle": 135, "distance": 11, "size": 0, "spread": 100 }`
    — convert: `distance = hypot(x, y)`, `angle = atan2` in degrees, blur `0` → `size: 0`.
@@ -218,8 +220,8 @@ effects:
   # glow-hero:      { type: glow, color: "#ffd166", size: 6, opacity: 0.7 }
 
 shapes:
-  # corner treatment and HOW it is produced (rect mask = square; rounded = path mask or PNG)
-  # radius: 0 / "24px via generated path mask"
+  # corner treatment, in px at the primary canvas
+  # radius: { card: 24, button: pill, media: 16 }   -> "mask": { "rect": [...], "radius": 24 }
 
 components:
   # reusable atoms -> authored as sub-comps (a comp IS a group). reference tokens as
@@ -274,8 +276,8 @@ ramp, and explicit "no ___" violations. Restate the font FILE paths. -->
 camera), the exceptions and where they are allowed. **Ceiling:** forbidden treatments. -->
 
 ## Shapes
-<!-- Corner and geometry law in 1-2 bullets, including named exceptions, and HOW rounded
-corners are produced in strata (path mask / PNG - never `radius` on a rect). -->
+<!-- Corner and geometry law in 1-2 bullets, including named exceptions, and the radius
+tokens in px at the primary canvas (applied as `radius` on a mask `rect`). -->
 
 ## Components
 <!-- Bullet digest of the token components grouped by role (content cards, chrome/eyebrow,

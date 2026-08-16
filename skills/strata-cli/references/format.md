@@ -258,6 +258,9 @@ Channels on layers:
 
 ```json
 "mask": { "rect": [0, 500, 1280, 140], "feather": 12 }                  // single shape
+"mask": { "rect": [88, 516, 322, 74], "radius": 37 }                    // rounded rect
+"mask": { "rect": [88, 516, 322, 74], "radius": 999 }                   // pill (radius clamps to h/2)
+"mask": { "rect": [0, 0, 400, 300], "radius": [24, 24, 0, 0] }          // per-corner [tl,tr,br,bl]
 "mask": { "shapes": [                                                    // multi-shape
   { "ellipse": [640, 360, 200, 120], "feather": [10, 10], "inverted": false,
     "opacity": 1, "expansion": 0, "blend": "add",
@@ -268,7 +271,7 @@ Channels on layers:
 ] }
 ```
 
-Shapes: `rect [x,y,w,h]` · `ellipse [cx,cy,rx,ry]` · `path [[x,y],...]` (`closed` defaults true) · `shape` = raw VASCO commands (`move_to`/`line_to` 2 values, `quadratic_to` 4, `cubic_to` 6). Mask blend modes: `none add subtract intersect lighten darken difference`. Shape keyframes interpolate (morph) when both ends have the same structure.
+Shapes: `rect [x,y,w,h]` (+ optional `radius`: a number, or `[tl,tr,br,bl]`; each clamps to half the shorter side, so a big number gives a pill — this is how rounded cards, pills and CTA buttons are made) · `ellipse [cx,cy,rx,ry]` · `path [[x,y],...]` (`closed` defaults true) · `shape` = raw VASCO commands (`move_to`/`line_to` 2 values, `quadratic_to` 4, `cubic_to` 6). Mask blend modes: `none add subtract intersect lighten darken difference`. Shape keyframes interpolate (morph) when both ends have the same structure.
 
 ## Track mattes
 
@@ -325,7 +328,7 @@ Graphs are **images, not drawn primitives**. The data-dynamism comes from swappi
 
 Any layer/comp key not consumed by the sugar above is copied **verbatim** into the compiled VASCO — useful for real VASCO properties the sugar doesn't cover, e.g. `is_3d`, `motion_blur`, `placeholder`, `offset_frame`, `track_matte`, `playback_mode`, `baseline`, `field_of_view`, `shutter_angle`.
 
-⚠️ **This is the #1 source of compile errors.** The VASCO schema is **strict (`additionalProperties: false`)**, so passthrough only works for keys that are *genuinely* VASCO properties. An invented or mistyped key — `z`/`zIndex`, `x`/`y`, `width`/`height` on a layer, `comment`, `id`, `label`, `radius`, `src` on a non-media layer, `font`/`size`/`text` on a non-text layer — is passed through and then **rejected**, failing the compile with `unknown key "…"`. Stick to documented sugar or real VASCO properties.
+⚠️ **This is the #1 source of compile errors.** The VASCO schema is **strict (`additionalProperties: false`)**, so passthrough only works for keys that are *genuinely* VASCO properties. An invented or mistyped key — `z`/`zIndex`, `x`/`y`, `width`/`height` on a layer, `comment`, `id`, `label`, `radius` **on a layer** (it is valid only inside a mask `rect`), `src` on a non-media layer, `font`/`size`/`text` on a non-text layer — is passed through and then **rejected**, failing the compile with `unknown key "…"`. This holds inside masks too, so a typo like `feathr` is named rather than silently ignored. Stick to documented sugar or real VASCO properties.
 
 Each layer type allows only a fixed set of properties (run `strata schema` for the authoritative list). The common ones:
 - **all visual layers:** `bounds`/`box`, `anchor_point`, `transform` (via position/scale/rotation/anchor), `opacity`, `color`, `blend_mode`, `mask_id`, `effect_ids`, `animations`, `motion_blur`, `is_3d`, `first_frame`, `num_of_frames`, `offset_frame`, `placeholder`, `track_matte`, `name`, `type`, `visible`

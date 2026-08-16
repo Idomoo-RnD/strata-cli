@@ -34,9 +34,10 @@ coordinate systems: **`ellipse` is `[cx, cy, rx, ry]`** (centre + radii), **`rec
 { "type":"video","name":"clip2","src":"./b.mp4","box":[600,160,560,340],"fit":"fill",
   "mask":{ "rect":[600,160,560,340] } }
 ```
-There is **no `radius` on a `rect`** — for rounded corners or any custom silhouette use a
-**`path`** mask (`[[x,y],...]`) or raw `shape` commands (see format.md Masks). **Generate the
-polygon with code** — stars, badges, blobs, gears (recipes in [generative-fx.md](generative-fx.md) §4)
+Rounded corners are `radius` on the `rect` (`"mask":{"rect":[600,160,560,340],"radius":24}` —
+a number, or `[tl,tr,br,bl]`; it clamps to half the shorter side, so a big value gives a pill).
+For any *other* silhouette use a **`path`** mask (`[[x,y],...]`) or raw `shape` commands (see
+format.md Masks). **Generate the polygon with code** — stars, badges, blobs, gears (recipes in [generative-fx.md](generative-fx.md) §4)
 — and pop the window in by scaling from ~0 with the anchor at the shape's centre. Put a `solid`
 ring/border behind the video and a `shadow` on it so the framed clip reads as an object.
 Great for testimonials, product loops, avatars.
