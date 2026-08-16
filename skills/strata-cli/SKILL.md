@@ -157,6 +157,7 @@ Chain: **image → animate into video → narration + music**, then point `src`/
 6. **Render:** `strata render scene.json --library "<id>" -o out.mp4`.
    - **Library — pick ONE and reuse it.** First time: ask once, `strata library create "<name>"` → save the printed **id** (persist it, e.g. a `.idm-library` file). Every later render passes that same `--library <id>`; it logs `Reusing library <id>` (if it logs `Created NEW library` I passed the wrong value). Switch only when the user says so.
    - Renders take minutes — I run them in the **background** and report the `video_url`/`poster_url`.
+   - **Only if the user asks for the scene to be TAGGED** (a reusable template / catalog entry, not a one-off): add `--tags manifest.json` here and on `compile`, after reading **[tagging.md](references/tagging.md)**. The manifest rides inside the `.idm`, so the library copy is self-describing. I never invent tags — both vocabularies are closed.
 7. **Verify** — I run `strata snapshot scene.json --library <id>` for a fast poster-only frame (cheaper than a full MP4) and look at it, then run the **Definition of Done** before I call it shipped:
    - Message clear in the first 3 seconds? Every shot earns its place? Stillness *and* energy?
    - Text legible **muted** (captions/scrim where needed) and inside the safe area?
@@ -204,3 +205,4 @@ the design (see workflow step 0a).
 | **[format.md](references/format.md)** | look up exact syntax — every layer key, 3D/camera, effects, masks (rect/ellipse/path), track mattes, sub-comps, rich-text, per-char animators, glyph check | for **any** syntax question, and to confirm a key exists before inventing one |
 | **[figma.md](references/figma.md)** | import a Figma design correctly — scale/origin math, node→layer map, fonts→paths, export vectors, unique names, preview-vs-screenshot check | whenever the layout comes from Figma |
 | **[personalization.md](references/personalization.md)** | build one template → many personalized videos (placeholder naming, data-driven batch) | for any personal / data-driven video |
+| **[tagging.md](references/tagging.md)** | make a scene **reusable**: write the manifest (`--tags`) that says what the scene is for and which layers are swappable — the two CLOSED tag vocabularies, the same-index-means-same-content rule, and why baked decor must stay undocumented | whenever the user asks to **tag** a scene, make a **template**, or add it to a **catalog** for mix-and-match — never otherwise |
