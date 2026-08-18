@@ -194,6 +194,17 @@ Define under scene `comps`, instantiate with a comp layer; reuse freely:
 
 If a sub-comp contains a comp layer referencing another sub-comp, declare the referenced one **earlier** in `comps`.
 
+⚠️ **Set `duration` on EVERY sub-comp.** A comp with no `duration` defaults to **100 frames
+(~4.2s at 24fps)** regardless of how long the scene is — so in a 10s scene its content simply
+**stops part-way through and the comp goes blank**, with no warning and no compile error.
+Verified by render. Give each comp the duration it must cover (usually the scene's).
+
+💡 **A comp canvas CLIPS its content — that is the only true window.** A `mask` travels with
+its layer, so a mask can never act as a fixed window over a moving layer. To reveal part of
+something that moves (a rolling odometer strip, a sliding strip of thumbnails), put the moving
+layer **inside a comp the size of the window** and place that comp — the comp edge does the
+clipping. (A static track-matte layer also works.)
+
 ⚠️ **Unique layer names — duplicate names across sub-comps crash the render (error 3000).** The exporter keys layers (especially text placeholders) by name **globally**. Two layers sharing a name in different sub-comps — e.g. a `card` sub-comp reused with its text layer named `label` each time — collide and the render fails 3000 (it compiles/validates fine locally). The compiler **auto-uniquifies** duplicates at compile time (`label`→`label_2`, …) and prints what it renamed, so scenes render; still, author distinct, meaningful names so personalization keys stay predictable.
 
 ## Camera
@@ -204,6 +215,19 @@ If a sub-comp contains a comp layer referencing another sub-comp, declare the re
 ```
 
 Only affects layers with `"is_3d": true` (passthrough key). `zoom` is an animatable channel.
+
+⚠️ **`position` on the camera is an ABSOLUTE comp coordinate, and z is NEGATIVE.** For a
+1920×1080 comp the camera lives at `[960, 540, -z]` — the comp **centre**, pulled back. A
+common wrong guess is `[0,0,z]` (treating it as an offset like a layer's), which parks the
+camera at the **top-left corner** and renders the scene black or wildly off-centre. Increasing
+z toward 0 moves the camera *forward* into the scene; layers sit at `z = 0` (screen plane) and
+further away at negative z.
+
+⚠️ **3D layer + `anchor` + animated `position`.** Setting an `anchor` makes **every** position
+keyframe the absolute point where that anchor lands — including in 3D. So keep x,y equal to the
+anchor and vary only z (`[anchorX, anchorY, z]`). Writing `[0,0,z]` while an anchor is set drags
+the layer's anchor to comp coordinate (0,0) — the top-left corner. Need a plain z-offset instead?
+**Omit the anchor**, and then `position: [0,0,z]` is the correct depth offset.
 
 ## Tween engine (`animate`)
 
