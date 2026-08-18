@@ -99,6 +99,22 @@ An instrumental track (default 30s). Reference as an `audio` layer at low `volum
 
 ## `strata upload <file>` — ONLY for generation inputs with no URL
 
+### 🔴 CRITICAL — the whole rule in one line
+
+> **Upload only an asset we created ourselves that has no URL, and use the resulting URL
+> only as a reference for `generate` (image/video) — nothing else.**
+
+Both halves are binding:
+
+- **What may be uploaded:** a file **we produced locally** (or one the user supplied) that
+  **has no URL**. Never a generated asset — those already have one.
+- **What the URL may be used for:** **a generation reference input only.** It goes into
+  `--reference`, `first_frame`/`last_frame`, or `reference_images`/`reference_videos`/
+  `reference_audio`. It does **not** go into a scene, a `src`, a deliverable, a brand file,
+  or anything shown to the user as a link.
+
+If you cannot name the `generate` call the URL is for, do not upload.
+
 ### 🛑 The two-condition test
 
 Upload only when **both** are true:
