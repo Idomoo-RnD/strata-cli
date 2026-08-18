@@ -74,6 +74,12 @@ turning in front of the price, a person walking through the headline. This is th
 highest-recognition composition in modern product advertising, and it is cheap here:
 **video → extract the element (matte/key) → `.jet` → top layer.**
 
+⚠ **Only when the shot earns it** — one hero element, large type for it to cross, a piece
+where the hero should dominate, and motion that genuinely carries it **across** the words.
+If the hero never overlaps the type, skip it: `matte` is the slowest step in the pipeline
+and `.jet` is lossy, so a cut-out with nothing to composite against costs time and quality
+for no visible effect.
+
 **I DETECT this opportunity myself — I don't wait to be asked.** Triggers, any of:
 - the piece is an **ad/promo with one hero product or subject** (shoe, bottle, phone, car,
   food, mascot, presenter) — this is the default premium treatment, propose it;
