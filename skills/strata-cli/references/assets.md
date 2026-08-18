@@ -97,6 +97,48 @@ An instrumental track (default 30s). Reference as an `audio` layer at low `volum
 
 ---
 
+## `strata upload <file>` — a public URL for a local file
+
+Some endpoints take **only a URL** and reject base64 data-URIs — `generate avatar`'s image
+is the one in this CLI today. `strata upload` hosts a local file and prints a URL:
+
+```bash
+strata upload presenter.png
+# ✅ https://t.idomoo.com/9e289b70-…-7a1ed49e102f.png
+#    1.30 MB · sniffed as image/png · serving image/png
+```
+
+`generate image` and `generate video` do **not** need this — they accept a local path and
+encode it themselves. Reach for `upload` only when an endpoint refuses anything but a URL.
+
+### ⚠ Public and permanent
+
+The endpoint is unauthenticated, the object is `public-read`, and there is **no expiry and
+no delete**. Anything uploaded is world-readable forever. **Never upload anything private,
+personal or client-confidential** — and never a viewer's personalized data. Say so when
+offering it; do not upload a user's file without asking.
+
+### The extension must match the bytes
+
+The host sniffs the real type from the file's first 261 bytes and **rejects a request whose
+extension disagrees — with a bare `404` and an empty body** (measured: `.png` holding JPEG
+bytes → 404; `.mov` holding MP4 bytes → 404; `.jpg` and `.jpeg` are interchangeable).
+
+The CLI handles this: it sniffs the magic number locally and uploads under the type the
+bytes actually are, telling you when it does:
+
+```
+⚠ named .png but the bytes are jpg — uploaded as .jpg
+```
+
+This matters because `generate image` sometimes returns JPEG bytes for a `-o …png` — so a
+"png" on disk may not be one. The served `Content-Type` always follows the bytes.
+
+The command also **verifies the URL serves** before handing it back (`serving image/png`),
+because the documented failure mode is a successful upload whose URL then 404s.
+
+---
+
 ## Every image becomes a video — no still photos
 **Any image used as a visual in the scene gets animated with `generate video` before it goes
 in.** Backgrounds, hero shots, scenery, products, people — all of them. Do not ask first and
