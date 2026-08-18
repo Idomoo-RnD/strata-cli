@@ -97,9 +97,23 @@ An instrumental track (default 30s). Reference as an `audio` layer at low `volum
 
 ---
 
-## `strata upload <file>` — ONLY for assets that have no URL yet
+## `strata upload <file>` — ONLY for generation inputs with no URL
 
-### 🛑 Check for an existing URL first — most assets already have one
+### 🛑 The two-condition test
+
+Upload only when **both** are true:
+
+1. the file is a **generation INPUT** — something handed to the AI API, which takes URLs:
+   `generate avatar`'s image, and the video API's `first_frame`, `last_frame`,
+   `reference_images`, `reference_videos`, `reference_audio`; **and**
+2. it **has no URL** already.
+
+If it is not a generation input, it does not need a URL at all. **Scene assets are local
+paths** — images, MP4s, **`.jet` overlays**, fonts. The encoder reads their bytes at encode
+time and embeds them in the `.idm`, so a `.jet` from `matte`/`jet` is never uploaded; it is
+just a `src`.
+
+### Most generation inputs already have a URL
 
 **Everything `strata generate` produces is already hosted and prints its URL.** Read it off
 the command's output and pass that string on. Uploading a generated file is always a
@@ -118,8 +132,9 @@ something that was already served.
 | `generate narration` / `generate music` | ✅ prints `url:` | **no** |
 | `generate avatar` | ✅ prints `url:` | **no** |
 | A rendered MP4 from `strata render` | ✅ prints `video:` / `poster:` | **no** |
-| A file **the user gave us** on disk | ❌ | **yes** |
-| Something **we built locally** — an ffmpeg frame grab or cut, a `.jet`, a matte, a generated texture, a rendered animatic | ❌ | **yes** |
+| A file **the user gave us**, used as a reference or a first/last frame | ❌ | **yes** |
+| Something **we built locally** and are using as a generation reference — a rendered animatic, an ffmpeg frame grab, a texture drawn by a script | ❌ | **yes** |
+| A `.jet`, or any other **scene asset** (`src`) | n/a — embedded in the `.idm` | **never** |
 
 The split is by **command**, not by luck — it is not "upload if the URL was missing":
 
@@ -127,6 +142,11 @@ The split is by **command**, not by luck — it is not "upload if the URL was mi
 |---|---|
 | `generate image` · `video` · `avatar` · `narration` · `music` | `jet` · `matte` · `preview` · `compile` · `track` |
 | `render` (`video:` + `poster:`) | anything from ffmpeg or a throwaway script |
+
+Most of the right-hand column needs **no** URL, because its output is a scene asset that
+gets embedded (`jet`, `matte`, `compile`) or is local-only by nature (`preview`, `track`).
+They appear here only because *if* one of their outputs is later used as a generation
+reference, it will need uploading first.
 
 So the rule is: **capture the `url:` line when an asset is generated.** If a `generate`
 command did not print one, something failed — investigate, do not paper over it with an
@@ -143,9 +163,10 @@ project's files live.
 
 **Never upload:**
 
-- **Scene assets.** A scene's `src` points at a **local file on disk** — the encoder reads
-  the bytes at encode time and embeds them in the `.idm`. Uploading them and pointing `src`
-  at a URL is wrong and gains nothing.
+- **Scene assets — including every `.jet`.** A scene's `src` points at a **local file on
+  disk**; the encoder reads the bytes at encode time and embeds them in the `.idm`. A `.jet`
+  alpha overlay, an MP4 background, a PNG, a font: all local, all embedded. Uploading them
+  and pointing `src` at a URL is wrong and gains nothing.
 - **Deliverables** — finished MP4s, posters, anything the user is meant to keep. Those live
   in the project folder (and rendered videos are already hosted by `render`).
 - **Brand assets** — a logo, a `.brand/` file, a font. Those belong in the repo.
