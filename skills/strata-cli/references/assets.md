@@ -97,24 +97,72 @@ An instrumental track (default 30s). Reference as an `audio` layer at low `volum
 
 ---
 
-## `strata upload <file>` — a public URL for a local file
+## `strata upload <file>` — ONLY for assets that have no URL yet
 
-Some endpoints take **only a URL** and reject base64 data-URIs — `generate avatar`'s image
-is the one in this CLI today. `strata upload` hosts a local file and prints a URL:
+### 🛑 Check for an existing URL first — most assets already have one
 
-```bash
-strata upload presenter.png
-# ✅ https://t.idomoo.com/9e289b70-…-7a1ed49e102f.png
-#    1.30 MB · sniffed as image/png · serving image/png
+**Everything `strata generate` produces is already hosted and prints its URL.** Read it off
+the command's output and pass that string on. Uploading a generated file is always a
+mistake: it costs an extra request, and it creates a second, permanent, public copy of
+something that was already served.
+
+```
+✅ saved C:\…\presenter.png
+   url: https://s3.us-east-1.amazonaws.com/assets-temp.idomoo.ai/images/…png   <-- USE THIS
 ```
 
-`generate image` and `generate video` do **not** need this — they accept a local path and
-encode it themselves. Reach for `upload` only when an endpoint refuses anything but a URL.
+| Asset | Already has a URL? | `upload`? |
+|---|---|---|
+| `generate image` (incl. `--reference` output) | ✅ prints `url:` | **no** |
+| `generate video` | ✅ prints `url:` | **no** |
+| `generate narration` / `generate music` | ✅ prints `url:` | **no** |
+| `generate avatar` | ✅ prints `url:` | **no** |
+| A rendered MP4 from `strata render` | ✅ prints `video:` / `poster:` | **no** |
+| A file **the user gave us** on disk | ❌ | **yes** |
+| Something **we built locally** — an ffmpeg frame grab or cut, a `.jet`, a matte, a generated texture, a rendered animatic | ❌ | **yes** |
 
-### ⚠ Public and permanent
+So the rule is: **capture the `url:` line when an asset is generated.** Only reach for
+`upload` when the file genuinely has no URL — and then upload it once and reuse that URL.
+
+### 🛑 TEMPORARY assets only — never persistent ones
+
+`upload` is a **transient handoff**: the one job is getting a local file into an API call
+that will only accept a URL. It is **not** asset storage, not a CDN, and not where a
+project's files live.
+
+**Never upload:**
+
+- **Scene assets.** A scene's `src` points at a **local file on disk** — the encoder reads
+  the bytes at encode time and embeds them in the `.idm`. Uploading them and pointing `src`
+  at a URL is wrong and gains nothing.
+- **Deliverables** — finished MP4s, posters, anything the user is meant to keep. Those live
+  in the project folder (and rendered videos are already hosted by `render`).
+- **Brand assets** — a logo, a `.brand/` file, a font. Those belong in the repo.
+- **Anything long-lived or referenced later.** Treat every uploaded URL as throwaway: good
+  for this API call, not something to build on.
+
+The irony is the point: the store itself is permanent and undeletable (below), so the
+discipline has to be yours. **Temporary use, permanent consequence** — upload the minimum,
+once, and only to feed a call that demands a URL.
+
+### When a URL is actually required
+
+Some endpoints take **only** a URL and reject base64 data-URIs — `generate avatar`'s image
+is the one in this CLI today. `generate image` and `generate video` do **not** need a URL at
+all: they accept a local path and encode it themselves, so never upload for their sake.
+
+```bash
+strata upload footage_the_client_sent.mp4
+# ✅ https://t.idomoo.com/9e289b70-…-7a1ed49e102f.mp4
+#    1.30 MB · sniffed as video/mp4 · serving video/mp4
+```
+
+### ⚠ Public and permanent — which is why it is for temp use only
 
 The endpoint is unauthenticated, the object is `public-read`, and there is **no expiry and
-no delete**. Anything uploaded is world-readable forever. **Never upload anything private,
+no delete**. Anything uploaded is world-readable forever — there is no way to take it back.
+Every needless upload is a permanent public artefact, so the bar is: *this call will not
+work without it.* **Never upload anything private,
 personal or client-confidential** — and never a viewer's personalized data. Say so when
 offering it; do not upload a user's file without asking.
 
