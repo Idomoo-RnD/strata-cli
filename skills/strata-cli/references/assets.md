@@ -121,8 +121,19 @@ something that was already served.
 | A file **the user gave us** on disk | ❌ | **yes** |
 | Something **we built locally** — an ffmpeg frame grab or cut, a `.jet`, a matte, a generated texture, a rendered animatic | ❌ | **yes** |
 
-So the rule is: **capture the `url:` line when an asset is generated.** Only reach for
-`upload` when the file genuinely has no URL — and then upload it once and reuse that URL.
+The split is by **command**, not by luck — it is not "upload if the URL was missing":
+
+| Returns a URL | Writes local files ONLY — never a URL |
+|---|---|
+| `generate image` · `video` · `avatar` · `narration` · `music` | `jet` · `matte` · `preview` · `compile` · `track` |
+| `render` (`video:` + `poster:`) | anything from ffmpeg or a throwaway script |
+
+So the rule is: **capture the `url:` line when an asset is generated.** If a `generate`
+command did not print one, something failed — investigate, do not paper over it with an
+upload. Reach for `upload` only in the two cases that legitimately have no URL: **a file the
+user supplied**, or **something produced by a local-only command** (a `.jet` from `matte`, an
+ffmpeg frame grab or cut, a generated texture, a rendered animatic). Upload it once and reuse
+that URL.
 
 ### 🛑 TEMPORARY assets only — never persistent ones
 
