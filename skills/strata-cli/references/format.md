@@ -157,6 +157,37 @@ Animator offsets (`opacity`, `position`, `scale`, `rotation`, `color`, `tracking
 
 ⚠️ **`shape` and the string edges:** `square` has hard edges; the others (`ramp_up`/`ramp_down`/`triangle`/`round`/`smooth`) **taper** the selection. A tapered shape whose window edge lands at `0` or `1` leaves the first/last unit **partially** selected — so a "hidden at t=0, reveal in order" reveal (opacity 0, `start` 0→1, `end` pinned at 1) breaks with `smooth`/`round`/`triangle`: the last unit does visible→gone→visible and the first never animates in (widening the window doesn't fix it; the taper scales with width). **Use `square` for ordered reveals; keep tapered shapes for continuous effects with the window kept off the string ends** (see recipes.md §1).
 
+### Right-to-left scripts (Hebrew, Arabic) — they already work; the flag does not
+
+**Hebrew and Arabic render correctly with NO special setting.** *Measured by render:* `אבג`
+came back with alef **rightmost**; `מחיר 250 שח` put `מחיר` rightmost with `250` still reading
+left-to-right inside it — correct bidirectional layout, done by the engine automatically.
+
+⚠️ **`rtl: true` is a no-op in every case tested.** Same string with the flag on and off gave
+**pixel-identical** output (identical ink spans, 0.4–0.5% column-profile delta = JPEG noise)
+for a single Hebrew line, a mixed Hebrew+Latin line, and a long auto-fitted string. It is in
+the schema and it compiles, so it is harmless — but **it fixes nothing.** If RTL copy looks
+wrong, the cause is one of the things below, never a missing flag.
+
+What actually matters for an RTL scene:
+
+- **Glyph coverage first.** The usual failure is tofu boxes or a cloud-render crash because the
+  font has no Hebrew/Arabic glyphs — not direction. `strata glyphs ./font.ttf "<the copy>"`
+  before rendering; a Noto family covers what Arial may not (Arial does carry Hebrew).
+- **Alignment is yours to set.** The engine lays the script out correctly but does not move the
+  text block — RTL copy normally wants `align: "right …"`, and a right-aligned column of copy
+  wants its box's **right** edge on the layout grid line, not its left.
+- **Numbers, prices and Latin brand names stay LTR inside RTL copy** — that is correct, not a
+  bug. Do not "fix" it by reversing the string in the source; a reversed source renders
+  reversed.
+- **Never pre-reverse text to make it look right.** If something is backwards, the string
+  itself is backwards. Store logical order and let the engine lay it out.
+- **Punctuation at a line's end** (`!`, `?`, `.`) sits on the **left** in RTL. Expected.
+
+**For personalized RTL templates**, see [personalization.md](personalization.md): a Hebrew name
+substituted into a template built with English samples changes the visual weight and the side
+the line grows from, so prove the layout against a long RTL value, not just the English one.
+
 ## Image / Video (media)
 
 ```json

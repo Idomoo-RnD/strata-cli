@@ -17,6 +17,22 @@ that warning** — and confirm the real keys with `strata render … --emit-time
 - **Animations are content-agnostic** — per-character text animators adapt to any string; prefer `percentage` range units over `index` so 6- and 14-character names both cascade.
 - **Graphs, charts, progress wheels/rings, gauges — they must be real IMAGE files.** Idomoo replaces media **by layer name**, so a personalised data visual has to be an `image` layer whose file **actually exists** (generate it with `strata generate image`, or use the supplied asset) — a ring or bar drawn from native solids/masks has nothing to swap, so every viewer would see the same numbers. Author it at the canonical/full state, give it a unique meaningful name (`donut_savings`, `progress_ring`), and animate only the **reveal** (mask wipe, scale, opacity) so the replacement image still animates. Native-shape data-viz recipes are for **static** data only. Don't leave a `src` path that doesn't exist — it fails the compile.
 
+## Right-to-left values (Hebrew, Arabic) in an LTR-built template
+
+The engine lays RTL out correctly on its own ([format.md](format.md)) — the risk is the
+**layout**, not the direction. A template proved against `"Jonathan"` and then fed `"יונתן"`:
+
+- the line now grows from the **right**, so a left-anchored box leaves a hole on one side and
+  overflows on the other — right-align the slot, and put its **right** edge on the grid line;
+- the font must carry the script, or the render **crashes** (error 3000) rather than looking
+  wrong — run `strata glyphs` against a real sample value, not the English one;
+- prices, dates and Latin brand names stay LTR inside the RTL line, which is correct;
+- mixed audiences mean the SAME template may receive both — so test both extremes, and prefer
+  centred or symmetric slots when a template must serve both directions.
+
+⚠ There is no `rtl` switch to set — the property exists in the schema but is a **no-op**
+(measured). Do not treat it as the fix.
+
 ## Get the real placeholder contract — `--emit-timeline`
 Before wiring any integration, have the CLI hand you the **exact request body it POSTs to
 `/scenes/generate`** — no guessing at the shape:

@@ -41,12 +41,13 @@ frame feel *composed* rather than switched-on.
 **Tell to avoid:** a whole text block fading in as one flat object.
 
 ### 4. Anticipation — a tiny wind-up before the move
-A 2–3 frame counter-move before the main action: a card dips down 6px before rising, a title
+A 2–3 frame counter-move before the main action, at **10–20% of the main action's magnitude**: a card dips down 6px before rising, a title
 nudges left before flying right. Small, but it signals intent and weight.
 
 ### 5. Follow-through / secondary motion — parts trail and settle
-When a card moves, its **shadow, label and icon lag a few frames** behind and settle after.
-Author each as its own layer with slightly later timing / a softer curve.
+When a card moves, its **shadow, label and icon lag a few frames** behind and settle after —
+**1–4 frames** behind the parent, at **30–50% of the primary's amplitude**, on a softer curve.
+Author each as its own layer.
 **Tell to avoid:** every element of a component locked rigidly together.
 
 ### 6. Motion blur — the film vs. stutter difference
@@ -79,6 +80,71 @@ Random transitions per shot read as a template grab-bag. Pick one entrance ease 
 ~450ms), one exit, one transition type, and repeat them — consistency *is* the design.
 
 ---
+
+## Choosing the values — briefs are adjectives, scenes need numbers
+
+The techniques above say *what* to do. These tables say *which value*, so "make it feel
+premium" resolves to a curve and a frame count instead of a guess.
+
+> Adapted from LottieFiles' `motion-design` skill (MIT). The relationships and ratios are
+> medium-agnostic and carry over; the **durations do not** — that skill is UI animation
+> (80-400ms, sized to interaction latency). Everything below is converted to **frames at
+> 25fps** and runs FAST for video. Treat them as a floor for on-screen elements and lengthen
+> for full-frame moves. Where our own measured values exist, ours win.
+
+### Emotion → motion
+
+| Emotion | Character | Path | Ease | Duration |
+|---|---|---|---|---|
+| Joy / delight | bouncy, arcs, overshoot | curved, upward | `outBack` | 5–10f |
+| Calm / serenity | smooth, flowing | gentle curves | `inOutSine` | 12–25f |
+| Urgency / alert | sharp, fast, direct | straight | `outExpo` | 3–5f |
+| Weight / sadness | slow, downward | drooping curves | `inOutCubic` | 15–30f |
+| Surprise / impact | sudden, expanding | radial outward | `outExpo` | 4–8f |
+| Elegance / grace | slow, controlled | long smooth arcs | `[0.4,0,0.2,1]` | 10–18f |
+| Confidence | direct, decisive | straight, horizontal | `outExpo` | 5–10f |
+| Tenderness | soft, gentle | very subtle curves | soft `inOutSine` | 15–25f |
+
+**Path carries meaning on its own:** angular = tense/mechanical · curved = relaxed/organic ·
+vertical up = growth · vertical down = settling · horizontal = journey · radial out =
+release · radial in = focus. Pick the path to match the message, not just the easing.
+
+### Material → easing
+Ask what the thing would be made of, then scale the base duration and overshoot:
+
+| Material | Duration | Overshoot |
+|---|---|---|
+| Rigid (metal, glass panel) | ×1.2 | 0% |
+| Elastic (rubber) | ×0.8 | 15–25% |
+| Fluid (water, ink) | ×1.5 | 5% |
+| Paper / card | ×1.0 | 3–5% |
+| Gas (smoke, haze) | ×2.0 | 0% |
+
+### Two ratios worth memorising
+- **Exit = 65–75% of the entrance.** Things leave faster than they arrive.
+- **Distance scales duration**, it does not scale linearly: ⅒ frame ×0.8 · ⅕ ×1.0 ·
+  ⅓ ×1.3 · ½ ×1.5 · full frame ×1.8–2.0.
+
+### The 1/3 rules
+- **Distance** — no move crosses more than ⅓ of frame without an intermediate keyframe.
+  Break it with a direction change, a speed change or an arc.
+- **Elements** — with 3+ things animating, no more than ⅓ are active at once. Stagger so the
+  first settles as the last starts. Total stagger stays under ~12f.
+
+### Counter-motion — what makes a move feel weighted
+The hero moves; something else moves *against* it at a fraction of the speed:
+
+| Hero | Counter | Ratio |
+|---|---|---|
+| enters from left | background drifts right | 20–30% |
+| scales up | shadow scales down | 10–20% |
+| rotates CW | ambient layer drifts CCW | 15–25% |
+| lifts (y up) | shadow spreads + softens | 20–30% |
+
+### Shot structure
+Setup **20–30%** (elements enter) → action **30–40%** (the hero moment) → resolution
+**30–40%** (settle, secondary reactions). Then leave **3–5f of stillness** before the next
+move. That pause is what makes the next beat land.
 
 ## Rhythm & timing
 - The **same move at 6 frames is snappy; at 30 it's languid.** Vary tempo across the piece —

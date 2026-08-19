@@ -289,6 +289,26 @@ sub-comp in `comps`. -->
 the ONE transition, text animator style, camera stance, logo timing, motion blur.
 State the tells to avoid (everything fading in together, linear easing, dead frames). -->
 
+<!-- HOW TO DERIVE THESE when the brand does not state them. Pick the archetype the brand's
+own words imply, then take its row as the starting point and write concrete values in.
+Adapted from LottieFiles' motion-design skill (MIT) — the archetypes and relationships are
+theirs; the frame values are UI-scale converted at 25fps and run FAST for full-frame video
+work, so treat them as a floor for on-screen elements and lengthen for full-frame moves.
+
+| Archetype | Brand words that imply it | Signature ease | Quick / Standard / Slow | Overshoot | Entrance pattern |
+|---|---|---|---|---|---|
+| **Playful** | fun, whimsical, bouncy, cute, friendly | `outBack` | 4f / 6f / 10f | 10-20% | bounce up from below |
+| **Premium** | elegant, minimal, luxury, sophisticated | `[0.4,0,0.2,1]` | 9f / 12f / 20f | **0%** | slow fade + scale 98%->100% |
+| **Corporate** | clean, professional, business, dashboard | `[0.2,0,0,1]` | 5f / 8f / 11f | 0-3% | slide + opacity |
+| **Energetic** | dynamic, energetic, bold, exciting | `outExpo` | 3f / 5f / 8f | 15-30% | snap from edge + overshoot |
+
+Then fix three constants and repeat them everywhere - consistency IS the brand motion:
+1. ONE signature ease used on ~80% of moves; 2. the three-tier duration palette above;
+3. ONE entrance pattern. Exits run at 65-75% of the entrance duration.
+
+Mixing: keep ~90% to the primary archetype. A single moment may borrow another (a corporate
+piece borrowing Playful for one success beat), but ease INTO the shift, never snap. -->
+
 ## Shot Treatments
 > <!-- Legend: the fixed field order every treatment follows -
 > "ground - composes - focal - chrome - accent - silence - motion - Fixed/Free - density".
