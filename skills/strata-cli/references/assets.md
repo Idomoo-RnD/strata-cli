@@ -1,4 +1,4 @@
-# Asset generation — image, image-to-video, narration, music
+# Asset generation — image, video, narration, music
 
 The CLI generates media via the Idomoo AI API (Lucas). Needs auth (`strata auth login`).
 Each command saves the file locally (default `./strata_assets/`, or `-o <file>` /
@@ -8,9 +8,11 @@ machine-readable output. Image/video are **async** (polled to completion); narra
 **The chain:** image → animate it into a video → narration + music for the audio bed →
 point the scene's `src`/`audio` at the saved files.
 
-**Local files vs URLs — both work everywhere.** Every endpoint that takes an image accepts
-either a hosted URL or a **local file path** (the CLI base64-encodes it into a data-URI; no
-upload step). So `--reference ./mascot.png` and `generate video ./hero.png` just work.
+**Local files vs URLs.** `generate image --reference` and `generate fastvideo` accept either
+a hosted URL or a **local file path** (the CLI base64-encodes it into a data-URI; no upload
+step). **`generate video` is the exception: its `--first-frame` / `--last-frame` / `--ref-*`
+inputs are URLs only** — every `generate` command prints one, so chain off that; a genuinely
+local input needs `strata upload` first (the CLI says so rather than publishing it silently).
 
 ---
 
@@ -64,26 +66,51 @@ strata generate image "hero banner, brand palette" --aspect 16:9 --colors "#2563
 
 ---
 
-## `strata generate video <image> [flags]`  — image-to-video
-An MP4 clip animated from a still (async, ~1–3 min). The positional `<image>` is a hosted
-URL **or a local file path** (auto-base64).
+## `strata generate video "<prompt>" [flags]`
+An MP4 clip (async, **3–9 min**). **One command, five modes**, chosen by which inputs you
+give it: prompt only = text-to-video · `--first-frame` = image-to-video · `+ --last-frame` =
+keyframe interpolation · `--ref-*` = reference-driven · a source clip in `--ref-video` =
+editing/extension.
+
+🚫 **`--first-frame`/`--last-frame` and `--ref-image`/`--ref-video`/`--ref-audio` are MUTUALLY
+EXCLUSIVE** — the CLI rejects the combination before spending anything.
 
 | flag | meaning |
 |---|---|
-| `--prompt "<motion>"` | describes the camera/movement (e.g. "slow push-in, gentle parallax") |
-| `--duration <sec>` | clip length (default 5) |
-| `--ratio <e.g. 9:16>` | output aspect |
+| `--first-frame <url>` `--last-frame <url>` | exact opening / closing frame |
+| `--ref-image <url>` (repeatable) | character, product, world or style to keep consistent |
+| `--ref-video <url>` | copy a camera plan or cut rhythm (see `strata sketch`) |
+| `--ref-audio <url>` | a voice / audio bed to sync to |
+| `--duration <4..15>` | clip length (default 5); longer needs chaining |
+| `--ratio <16:9\|9:16\|1:1\|4:3\|3:4\|21:9\|adaptive>` | output aspect |
+| `--seed <N>` · `--camera-fixed` | reproducibility · lock the camera |
+| `--audio` | native synced audio (real AAC 44.1 kHz stereo) |
+| `--last-frame-out <file>` | save the last frame for chaining — its URL expires in 24 h |
+| `--realistic-human` | required for real faces, logos and real products; **applied automatically** on a content rejection |
+| `--fast` · `--model <id>` | the fast model (quicker, drops shots) · an explicit model |
+| `--resolution` | **clamped to 720p** — 720p is always the max |
 
 Reference the result as a `video` layer; set `loop: true` to hold it for the comp's duration.
-Typical flow: `generate image` → feed its printed url (or the saved file) straight into
+
+```bash
+strata generate image "hero shot" -o hero.png          # prints url:
+strata generate video "slow cinematic push-in, dust in the light"   --first-frame <that url> --duration 8 --audio -o hero.mp4
+```
+
+**Prompting is the whole game here** — a one-line prompt wastes a 3–9 minute render. The
+shot-list structure, the identity lock, the `.jet` no-cuts rule, keyframes and chaining are in
+[video-generation.md](video-generation.md); references, dialogue, animatics and editing in
+[video-generation-advanced.md](video-generation-advanced.md).
+
+## `strata generate fastvideo <image> [flags]`  — the OLD image-to-video path
+Quick and cheap (~1–3 min), and **only for when fast mode is explicitly asked for**. Takes a
+hosted URL **or a local file path** (auto-base64), `--prompt "<motion>"`, `--duration`,
+`--ratio`. No text-to-video, keyframes, references or audio — everything else belongs in
 `generate video`.
 
 ```bash
-strata generate video ./hero.png --prompt "slow cinematic push-in" --duration 5 --ratio 16:9
-strata generate video https://…/image.png --prompt "subtle idle bob"
+strata generate fastvideo ./hero.png --prompt "slow cinematic push-in" --duration 5
 ```
-
----
 
 ## `strata generate narration "<text>" --voice <voice_id>`
 TTS voiceover MP3 (sync). Returns the spoken **duration** in seconds — size the scene around it.
@@ -196,8 +223,11 @@ once, and only to feed a call that demands a URL.
 ### When a URL is actually required
 
 Some endpoints take **only** a URL and reject base64 data-URIs — `generate avatar`'s image
-is the one in this CLI today. `generate image` and `generate video` do **not** need a URL at
-all: they accept a local path and encode it themselves, so never upload for their sake.
+is the one in this CLI today, and **`generate video`'s media inputs** (`--first-frame`,
+`--last-frame`, `--ref-*`) are the other. `generate image --reference` and `generate
+fastvideo` do **not** need a URL at all — they accept a local path and encode it themselves,
+so never upload for their sake. And never upload for `generate video` either when the input
+came from a `generate`/`render` command: that already printed a `url:` — use it.
 
 ```bash
 strata upload footage_the_client_sent.mp4
@@ -236,8 +266,8 @@ because the documented failure mode is a successful upload whose URL then 404s.
 ---
 
 ## Every image becomes a video — no still photos
-**Any image used as a visual in the scene gets animated with `generate video` before it goes
-in.** Backgrounds, hero shots, scenery, products, people — all of them. Do not ask first and
+**Any image used as a visual in the scene gets animated with `generate video "<motion>"
+--first-frame <its url>` before it goes in.** Backgrounds, hero shots, scenery, products, people — all of them. Do not ask first and
 do not leave the still in: a static photo in a motion-design piece reads as a slideshow.
 
 **The only exception is a genuine icon / logo / flat UI graphic**, where motion would look
@@ -263,7 +293,7 @@ the scene**, or the overlay drifts out of time — the CLI prints the fps it use
 | **Green/blue screen footage** | `strata jet clip.mp4 --key 0,177,64 --method chroma -o o.jet` | add `--choke 1 --feather 1` to trim a colour fringe |
 | **A solid white/black background** | `strata jet clip.mp4 --key 255,255,255 -o o.jet` | `distance` method is the default |
 | **A PNG sequence that already has alpha** (AE/Blender/Nuke/Resolve export, or roto) | `strata jet ./frames --fps 24 -o o.jet` | **best quality — no keying at all.** The frames' own alpha is used automatically; only pass `--key` if you actually want a colour keyed |
-| **A still image I generated** | `strata generate image …` → `strata generate video <img>` → then one of the rows above | a generated still becomes a clip first; ask for a **solid green background** in the prompt if you intend to key it |
+| **A still image I generated** | `strata generate image …` → `strata generate video "<motion>" --first-frame <its url>` (**ONE continuous shot, no cuts** — see [video-generation.md](video-generation.md)) → then one of the rows above | a generated still becomes a clip first; ask for a **solid green background** in the prompt if you intend to key it |
 
 `--width N` downscales an oversized overlay — a 960×960 source rarely needs full
 resolution, and it cuts the `.jet` size a lot. Any **video** input needs `ffmpeg` on PATH
