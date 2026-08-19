@@ -94,7 +94,8 @@ Reference the result as a `video` layer; set `loop: true` to hold it for the com
 
 ```bash
 strata generate image "hero shot" -o hero.png          # prints url:
-strata generate video "slow cinematic push-in, dust in the light"   --first-frame <that url> --duration 8 --audio -o hero.mp4
+strata generate video "slow cinematic push-in, dust in the light" \
+  --first-frame <that url> --duration 8 --audio -o hero.mp4
 ```
 
 **Prompting is the whole game here** — a one-line prompt wastes a 3–9 minute render. The
@@ -266,9 +267,19 @@ because the documented failure mode is a successful upload whose URL then 404s.
 ---
 
 ## Every image becomes a video — no still photos
-**Any image used as a visual in the scene gets animated with `generate video "<motion>"
---first-frame <its url>` before it goes in.** Backgrounds, hero shots, scenery, products, people — all of them. Do not ask first and
-do not leave the still in: a static photo in a motion-design piece reads as a slideshow.
+**Any image used as a visual in the scene becomes a clip before it goes in.** Backgrounds,
+hero shots, scenery, products, people — all of them. Do not ask first and do not leave the
+still in: a static photo in a motion-design piece reads as a slideshow.
+
+**The rule is "no stills" — it does not prescribe HOW.** Pick the mode per asset:
+
+| | use it when |
+|---|---|
+| `generate video "<motion>" --first-frame <url>` | the **composition** is the point — an approved hero shot, a frame that must match the layout. Frame 0 *is* that image |
+| `generate video "<the shot>" --ref-image <url>` | the **subject** is the point and framing is free — a character across several shots, a product, a world. Composes new angles instead of pushing into one still; **this is what makes a series of clips of the same person look right**. Costs one shot of budget (≤4 per 12 s) |
+| plain text-to-video | no image exists yet and nothing downstream needs that exact still — don't manufacture a PNG just to animate it |
+
+⚠ Never both: `--first-frame` and `--ref-*` are mutually exclusive.
 
 **The only exception is a genuine icon / logo / flat UI graphic**, where motion would look
 wrong. (A slow Ken-Burns on a still is a fallback only when image-to-video is unavailable.)

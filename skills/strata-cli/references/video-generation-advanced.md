@@ -47,21 +47,99 @@ prompt. Say what to copy: *"match the camera movement and cut rhythm of the refe
 photoreal people, including a face close-up, was accepted with no flag at all. (Passing
 `--realistic-human` with only `--ref-video` is a hard error.)
 
-## `--ref-audio` — voice and dialogue
+## `--ref-audio` — characters that speak YOUR audio
 
-Supplies a voice or an audio bed to sync to. Needs `--audio` for the result to carry sound.
+Attach up to **3** tracks and address them as `[Audio 1]`, `[Audio 2]`, … The model
+**lip-syncs a character to a recording you supply**, so you control the voice instead of
+accepting whatever it invents. This is what makes branded spokes-characters and real dialogue
+possible. Reference media, so the hard rule applies — no `--first-frame`/`--last-frame`.
 
-For **dialogue**, write the spoken line in the prompt inside the `Audio:` section, attributed
-and quoted:
-
+```bash
+strata generate voices                                     # pick a voice_id
+strata generate narration "<the line>" --voice <voice_id>  # prints a hosted URL
+strata generate video "<prompt below>" --ref-image <char.png> \
+  --ref-audio <that url> --duration 8 --audio -o line.mp4
 ```
-Audio: she says, in a low even voice, "we open at six." Room tone, no music.
+
+*Measured:* `generate narration` returns an `assets-temp.idomoo.ai/voiceover/….mp3` URL the
+video API accepts **directly** — no download, no re-upload.
+
+### One speaker — say all three things, or it narrates instead of acting
+
+1. **Assign the audio a job, in caps, before the shot list:**
+   `USE [Audio 1] AS THE CHARACTER'S VOICE FOR THE ENTIRE VIDEO.`
+2. **Demand the sync explicitly:** *"The boy SPEAKS the words in [Audio 1] out loud, on
+   camera, and his mouth, jaw and face must be lip-synced to that exact recording — every
+   syllable, every pause, matching the timing of [Audio 1] exactly. He is the one talking."*
+3. **Write the line in `{curly braces}`** — `His line is: {Whoa... look at all these lights!}`
+   — and keep it **identical** to the TTS text, or lip-sync and audio disagree.
+
+Then give the line **its own close-up**, held for most of it: *"CLOSE-UP on his FACE and MOUTH
+filling the frame … his MOUTH clearly forming every word of [Audio 1] in perfect lip-sync."*
+A wide shot wastes the performance. Close `Audio:` with what sits underneath — *"use [Audio 1]
+as the boy's spoken voice for the whole video, in sync with his mouth. Underneath it only
+gentle rain. No music. No other voices."*
+
+*Measured* (1 character sheet + 1 location + 1 TTS, 8 s, 3 shots): **3/3 shots delivered**,
+159 s. The mouth articulated distinctly across the line — an "O" on *"Whoa"*, open jaw
+mid-sentence, a grin on the last words.
+
+### Two speakers — nail the roles down BEFORE the shot list
+
+Otherwise both voices bleed onto both faces:
+
+```text
+THIS IS A TWO-CHARACTER DIALOGUE AND EACH CHARACTER HAS HIS OWN VOICE RECORDING.
+[Audio 1] is the BOY'S voice ONLY. [Audio 2] is the VENDOR'S voice ONLY. Each
+character's mouth, jaw and face must be lip-synced to HIS OWN recording exactly,
+syllable by syllable, and the two never speak at the same time - the boy speaks
+first, then the vendor answers.
+The boy from [Image 1] says, in the voice of [Audio 1]: {Wow! What is that smell?}
+Then the vendor from [Image 2] answers, in the voice of [Audio 2]: {That, my young
+friend, is the finest ramen in the entire city.}
 ```
 
-Keep spoken lines **short** — a 5 s clip holds roughly one sentence. Over-writing dialogue
-makes the model rush the delivery or drop the tail of the line.
+Then **one close-up per speaker**, and in each say who is *not* talking — *"the VENDOR does
+not speak in this shot."*
 
----
+*Measured* (3 reference images + 2 TTS tracks, 12 s, 4 shots): **4/4 delivered**, 234 s. Both
+characters matched their sheets and each spoke in his own close-up.
+
+### Verify the voice actually landed — don't trust your ears
+
+Correlate the TTS envelope against the rendered audio:
+
+```bash
+ffmpeg -i vo.mp3  -f s16le -ac 1 -ar 16000 t.raw
+ffmpeg -i out.mp4 -f s16le -ac 1 -ar 16000 v.raw   # then slide t over v, best normalised correlation
+```
+
+*Measured:* one speaker **0.73**; dialogue **0.80** (boy, at 3.8 s) and **0.90** (vendor, at
+6.3 s) — each inside their own close-up, so the assignment worked. It never reaches 1.0
+because `--audio` mixes ambience underneath: **>0.75 means it is your recording**, not a
+re-performance.
+
+### Notes
+
+- **Size the clip to the speech.** A 3.6 s line in a 12 s clip leaves the model inventing
+  filler — budget line-length + 2–3 s of setup per speaker.
+- Shot budget holds up here: 3/3 and 4/4 delivered with references attached. Stay at **≤4**.
+- Pick contrasting voices (age, accent) so the audience can tell who speaks without the face.
+
+### …or use `generate avatar` instead — the decision
+
+Both make a person talk. They are not interchangeable:
+
+| | `generate avatar` | `generate video --ref-image --ref-audio` |
+|---|---|---|
+| what it is | ONE still, lip-synced to an exact track — a presenter holding a pose | a character who **acts**: moves through a scene, multiple shots, two speakers |
+| framing | fixed by the still | the model composes shots |
+| verbatim script | ✅ the track IS the audio | ✅ lip-synced to your TTS (verify >0.75) |
+| **personalized scenes** | ✅ **prefer this** — a stable presenter plate is what Idomoo swaps by layer name | ⚠ a re-generated performance is not a swappable plate |
+| cost | one still + one call | a character sheet, TTS, and a 3–9 min generation |
+
+**Piece to camera, or anything personalized → `generate avatar`** ([avatar.md](avatar.md)).
+**Talking inside a scene, dialogue, a character who moves → `generate video`.**
 
 ## `strata sketch` — author the camera plan as a 3D animatic
 

@@ -5,6 +5,20 @@ presenter video. It runs on HeyGen's **Avatar IV** engine, which takes an **arbi
 image** — not a passport headshot — and a `--motion` prompt that drives **body movement and
 hand gestures**.
 
+## When avatar, and when `generate video` instead
+
+Avatar is **one still, lip-synced to an exact track** — a presenter holding a pose and
+talking to camera. It is not the only way to make a person speak: `generate video
+--ref-image --ref-audio` lip-syncs a character who **acts** — moves through a scene, several
+shots, even two speakers answering each other
+([the protocol](video-generation-advanced.md#--ref-audio--characters-that-speak-your-audio)).
+
+- **Piece to camera, spokesperson, explainer host → avatar.** Cheaper (one still, one call),
+  framing is fixed and predictable, and the audio track IS the output audio.
+- **Anything PERSONALIZED → avatar.** Idomoo swaps media by layer name, so a stable presenter
+  plate is what the swap targets; a re-generated performance is not a swappable plate.
+- **Talking inside a scene, dialogue, a character who moves → `generate video`.**
+
 **The image is the whole game.** The engine animates what you give it: a flat, front-facing,
 brightly-lit crop produces a flat talking bust; an angled, cinematically-lit shot in a real
 room produces something that reads as filmed. Most of this file is therefore about the
