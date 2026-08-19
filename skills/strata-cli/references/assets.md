@@ -104,10 +104,16 @@ shot-list structure, the identity lock, the `.jet` no-cuts rule, keyframes and c
 [video-generation-advanced.md](video-generation-advanced.md).
 
 ## `strata generate fastvideo <image> [flags]`  — the OLD image-to-video path
-Quick and cheap (~1–3 min), and **only for when fast mode is explicitly asked for**. Takes a
-hosted URL **or a local file path** (auto-base64), `--prompt "<motion>"`, `--duration`,
-`--ratio`. No text-to-video, keyframes, references or audio — everything else belongs in
-`generate video`.
+Quick and cheap (~1–3 min), and **only for when fast mode is explicitly asked for**. It is a
+different, older endpoint — **not** a quality tier of `generate video`, whose own `--fast`
+flag selects a faster model within the new API and is an unrelated thing.
+
+Takes a hosted URL **or a local file path** (auto-base64), plus `--prompt "<motion>"`,
+`--duration`, `--ratio`. That is the whole surface: **an image is required** (no
+text-to-video), and there are no keyframes, no references, no `--audio`, no
+`--last-frame-out`, no `--realistic-human` and no shot list. None of the prompt craft in
+[video-generation.md](video-generation.md) applies — it produces one continuous move, which
+does at least make it safe to matte into a `.jet` overlay.
 
 ```bash
 strata generate fastvideo ./hero.png --prompt "slow cinematic push-in" --duration 5
@@ -278,6 +284,7 @@ still in: a static photo in a motion-design piece reads as a slideshow.
 | `generate video "<motion>" --first-frame <url>` | the **composition** is the point — an approved hero shot, a frame that must match the layout. Frame 0 *is* that image |
 | `generate video "<the shot>" --ref-image <url>` | the **subject** is the point and framing is free — a character across several shots, a product, a world. Composes new angles instead of pushing into one still; **this is what makes a series of clips of the same person look right**. Costs one shot of budget (≤4 per 12 s) |
 | plain text-to-video | no image exists yet and nothing downstream needs that exact still — don't manufacture a PNG just to animate it |
+| `generate fastvideo <image>` | **only when fast mode was explicitly asked for.** A different, older endpoint — not a quality tier of `generate video`, whose own `--fast` flag is an unrelated thing |
 
 ⚠ Never both: `--first-frame` and `--ref-*` are mutually exclusive.
 

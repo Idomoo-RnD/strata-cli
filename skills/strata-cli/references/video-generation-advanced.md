@@ -5,54 +5,243 @@ Advanced modes of `strata generate video`. Read
 prompt anatomy and chaining all live there and all still apply.
 
 **Reminder of the hard rule:** `--ref-image` / `--ref-video` / `--ref-audio` can never be
-combined with `--first-frame` / `--last-frame`.
+combined with `--first-frame` / `--last-frame`. Attaching any reference makes a frame an
+instant `422`. Want a reference look *and* a controlled start frame? Generate the
+reference-driven clip first, then chain off its last frame.
+
+*(None of this applies to `strata generate fastvideo`, which takes one image and a motion
+line — no references, no shot list, no audio. See the end of this file.)*
+
+---
+
+## 🔑 How to address a reference — get this wrong and it is never cited
+
+| Reference | Cite it as | Limit |
+|---|---|---|
+| `--ref-image` | **`[Image 1]`, `[Image 2]`** — *square* brackets | ≤ 9 |
+| `--ref-video` | **`<Video_1>`, `<Video_2>`** — *angle* brackets | ≤ 3 |
+| `--ref-audio` | **`[Audio 1]`, `[Audio 2]`** — *square* brackets | ≤ 3 |
+
+Numbering is **1-based, in the order the flags appear on the command line**. Mixing the
+bracket styles up means the reference is silently never cited — the model still generates,
+it just ignores what you attached.
 
 ---
 
 ## `--ref-image` — carry a character, a product or a world across clips
 
-Give the model images of *what things are*, and it composes new shots with them. Repeatable
-across a whole series in a way that a text description of a face never is.
+Attach images that steer subject and style, and address them as `[Image N]`. This is how you
+put **your** character in **your** location without owning a single frame of the result — the
+most powerful mode for branded and series work.
 
 ```bash
-strata generate video "<prompt referring to the references>" \
-  --ref-image <character.png> --ref-image <location.png> --duration 12 -o shot.mp4
+strata generate video "<prompt citing [Image 1] and [Image 2]>" \
+  --ref-image <character_sheet.png> --ref-image <location_plate.png> \
+  --ratio 16:9 --duration 12 -o shot.mp4
 ```
 
-- **Refer to them in the prompt** — "the woman from the reference", "the product from the
-  reference image". An unreferenced reference is largely ignored.
+### Give every image an explicit JOB
+
+Do not attach images and hope. Name each one, say what it governs, and list the specific
+invariants — the same discipline as the identity lock:
+
+```text
+[Image 1] is the CHARACTER SHEET and is the definitive reference for the boy in every
+shot: the same very large round amber eyes behind big round glasses with thick black
+rims, the same messy sandy-blond hair, the same bright orange hoodie with a white
+drawstring, the same dark green cargo shorts, the same red high-top sneakers with white
+soles. Match [Image 1] exactly for his face, his proportions and his wardrobe in every
+single shot.
+
+[Image 2] is the LOCATION plate and is the definitive reference for the world in every
+shot: the same narrow night market alley in the rain, the same striped canvas awnings,
+the same tangle of paper lanterns and hot pink, teal and amber neon, the same steaming
+noodle cart, the same wet cobblestones smearing the neon. Match [Image 2] exactly for
+the set, the palette and the lighting in every single shot.
+```
+
+Then keep citing them **inside the shots** — "the boy from [Image 1] small in the frame",
+"straight down the alley of [Image 2]" — and restate both in the Static Description. Same
+rule as always: **state it three times**.
+
+### Build the reference images for the job
+
+- **Character** → a proper **model sheet**: the same character in front, three-quarter, side
+  and back views on one flat grey background, same ground line, plus a couple of expression
+  heads. Give the model every angle it needs rather than one pose.
+- **Location** → a clean **plate with NO PEOPLE in it**. Put `ABSOLUTELY NO PEOPLE, no
+  characters, no figures anywhere in the frame` in the image prompt — a stray figure in the
+  plate will fight the character you are inserting.
 - **One subject per image**, clean and unambiguous. A reference containing two people makes
   the model guess.
-- Character, wardrobe, product, location and style can each be their own reference.
-- *Measured:* budget **≤4 shots per 12 s** with references attached — one fewer than a plain
-  text-to-video prompt. The model spends capacity holding identity.
-- A reference with a **real face, a logo or a real product** → expect `--realistic-human`
-  (the CLI auto-retries and says so).
 
-References give you *who and what*. They do **not** give you an exact opening frame — that is
-`--first-frame`, and you cannot have both. Establish the look with references, then chain.
+Both are ordinary `strata generate image` calls, and their printed `url:` goes straight into
+`--ref-image`.
 
-## `--ref-video` — copy a camera plan or a motion style
+### Measured
 
-The model copies **shot flow, camera movement and cut rhythm** from the reference video, not
-its pixels. Two uses:
+Character sheet + location plate, 5-shot prompt, 12 s, 720p, 16:9, `--audio`:
 
-**1. The user hands you a video to mimic.** Upload it if it has no URL
-(`strata upload clip.mp4`), pass it as `--ref-video`, and describe *your* content in the
-prompt. Say what to copy: *"match the camera movement and cut rhythm of the reference video."*
+- **1280×720, 12.05 s, 6.0 MB**, generation **259 s**.
+- **Location transfer is extremely faithful** — not "a neon market" but *that* market: the
+  same signage, awnings, noodle cart and reflections. The opening wide read as the plate
+  itself with the character walked into it.
+- **Character transfer held**: glasses, amber eyes, hair, hoodie, cargo shorts, high-tops.
+- ⚠ **It dropped a shot — 4 of the 5 requested.** The same model kept all 5 in text-to-video
+  *and* image-to-video; with two references it lost the medium tracking shot. **Budget ~4
+  shots per 12 s with references**, not 5.
+- ⚠ **A small prop drifted.** The red backpack is on the sheet and named in the prompt, yet it
+  vanished in the final walking-away shot. **Wardrobe survives; small accessories do not.** If
+  a prop matters, give it its own shot and its own sentence, or accept losing it.
 
-**2. You author the camera plan yourself** — see `strata sketch` below.
+### Notes
 
-*Measured:* a reference **video** is exempt from the privacy pre-filter — a clip full of
-photoreal people, including a face close-up, was accepted with no flag at all. (Passing
-`--realistic-human` with only `--ref-video` is a hard error.)
+- **Set `--ratio` explicitly.** There is no input frame to infer from — do not leave it on
+  `adaptive` here.
+- A reference with a **real face, a logo or a real product** → expect `--realistic-human` (the
+  CLI auto-retries and says so).
+- References give you *who and what*. They do **not** give you an exact opening frame — that is
+  `--first-frame`, and you cannot have both.
+
+### Checklist
+
+- [ ] **No** `--first-frame` / `--last-frame` — hard `422`, whichever reference type you attach
+- [ ] ≤ 9 images, addressed as `[Image N]`, 1-based in flag order
+- [ ] Every image given an explicit JOB and its invariants listed
+- [ ] References re-cited inside the shots AND in the Static Description
+- [ ] Character reference is a multi-view model sheet, not one pose
+- [ ] Location plate generated with "no people" stated in its prompt
+- [ ] `--ratio` set explicitly — nothing to infer from
+- [ ] ~4 shots per 12 s, not 5
+- [ ] Any must-keep prop given its own shot and its own sentence
+
+---
+
+## `--ref-video` — control the SHOTS
+
+A reference video hands the model the thing a prompt is worst at conveying: **the edit**. Cut
+timing, shot sizes, camera height and camera movement all transfer. Cite as `<Video_1>` —
+**angle** brackets. Two ways to use it.
+
+### Use 1 — mimic footage the user gave you
+
+Cite it as the shot plan and **write no shot list of your own** — if you enumerate shots you
+are overriding the very thing you attached:
+
+```text
+MIMIC <Video_1> AS THE SHOT PLAN. Copy the edit of <Video_1> exactly: the same number
+of shots in the same order, the same shot sizes in the same sequence, the same cut
+rhythm and timing, and the same camera behaviour in each shot. Do not invent a
+different structure. Only the subject and the location change; the shot flow is
+<Video_1>'s.
+```
+
+*Measured*, with a 4-shot reference and a completely different subject:
+
+| | reference | output |
+|---|---|---|
+| cuts | 1.500 / 3.458 / 6.917 s | **1.500 / 3.458** / 8.000 s |
+| shot progression | wide → macro detail → face ECU → departing wide | **identical, 1:1** |
+
+The first two cuts came back **frame-identical**, while subject and location changed completely.
+
+Upload the footage first if it has no URL (`strata upload clip.mp4`). *Measured:* a reference
+video is exempt from the privacy pre-filter — a clip full of photoreal people, including a
+face close-up, was accepted with no flag. (Passing `--realistic-human` with only `--ref-video`
+is a hard error.)
+
+### Use 2 — block the shot yourself with a grey-box animatic
+
+When *you* want the camera plan, build it with `strata sketch` (below) and feed the render in
+as `--ref-video`.
+
+**The instruction that makes it work is telling the model what the reference _isn't_.**
+Without this it copies the grey untextured look:
+
+```text
+<Video_1> IS A GREY-BOX ANIMATIC - A CAMERA AND STAGING PLAN ONLY. It is untextured
+geometry and flat blocks on a plain background. Each labelled block is a PLACEHOLDER
+with its name written on it, standing exactly where that thing stands and moving exactly
+along the path that thing moves. IGNORE the look of <Video_1> completely - ignore the
+background, the grey blocks and the text labels. Take from <Video_1> ONLY:
+- the number of shots and the exact moments it cuts;
+- the camera position, height, angle and lens for each shot;
+- the camera movement inside each shot, at the same speed;
+- the ground position and travel path of every labelled placeholder.
+
+REPLACE EACH LABELLED BLOCK WITH THE REAL THING, at the same position, the same scale
+and following the same path:
+- the placeholder labelled BOY is the boy from [Image 1];
+- KERB, BUILDING, TRAFFIC LIGHT and BUS STOP are those features of [Image 2].
+```
+
+Close the Static Description with the negative too: *"fully textured and fully lit, nothing
+grey, no placeholder blocks, no text on screen."* *Measured:* zero leakage — no blocks, no
+labels, no plain background in the output.
+
+*Measured*, a 3-shot sketch with cuts designed at 2.00 / 4.00 s:
+
+- output cut at **2.042 / 3.958 s** — within **one frame** at 24 fps;
+- all three camera setups reproduced (low wide push-in → high top-down → side medium arc);
+- the **box mapping was honoured**: a small box on the table became the pocket watch, two tall
+  boxes at the back became shelves of clocks flanking frame left and right, at the same scale
+  and position.
+
+### The strongest combination: sheets + plate + sketch
+
+References compose. Character sheet as `[Image 1]`, location plate as `[Image 2]`, animatic as
+`<Video_1>`: the images say **who and where**, the video says **how it is shot**. That is the
+most control this API offers.
+
+*Measured* on a 10 s street-crossing sketch: character came off the sheet (glasses, hoodie,
+sneakers, backpack), world came off the plate (zebra stripes, pedestrian light, bus shelter,
+shopfronts), and the first cut matched at **3.500 s exactly**.
+
+### ⚠ What does NOT transfer cleanly
+
+- **Look leaks from the reference.** With real footage as the reference, a macro insert came
+  back on the *reference's* wet cobbles rather than the new location's surface. State the
+  intended surfaces and palette in the Static Description.
+- **Style breaks on close inserts.** Macro and top-down inserts came back with a near-photoreal
+  adult hand instead of the cartoon character's hand, even while the wides and the face
+  close-up stayed on-model.
+- **Extreme camera positions get moderated.** A near bird's-eye (camera 13 m up) came back as a
+  modest raised three-quarter angle. Design the sketch within believable camera heights.
+- **Per-actor placement is a hint, not a constraint.** Staging held once the actors were the
+  *subject* of the shot; in the establishing wide the crossing came back empty in the
+  foreground with figures far down the street. Do not rely on the animatic to place extras.
+- **Cut timing drifts on later cuts.** The first cut matched exactly in every test; the last
+  cut was 0.6 s early in one run and 1.1 s late in another. **Trust cut 1; treat the rest as
+  approximate.**
+- **Sprite labels can leak as on-screen TEXT.** *Measured:* a 5 s run rendered the word `KERB`
+  onto the asphalt despite "no text on screen" in the Static Description — the same sketch at
+  10 s did not. The negative reduces this, it does not guarantee it. **Check the output for
+  stray label text**, and keep labels short and generic.
+- **Slowest mode.** *Measured:* 315 s, 357 s, 367 s and once 541 s, versus 139 s for keyframes.
+
+### Checklist
+
+- [ ] Cited as `<Video_1>` — **angle** brackets
+- [ ] **No** `--first-frame` / `--last-frame` (reference media, hard `422`)
+- [ ] ≤ 3 reference videos
+- [ ] Mimicking footage? Then write **no shot list** — the reference is the shot list
+- [ ] Using an animatic? "IGNORE the look of `<Video_1>` completely" + an explicit list of
+      what to take from it
+- [ ] Every placeholder mapped by label to a real thing, ideally to `[Image N]`
+- [ ] Static Description ends with the negative: nothing grey, no blocks, no text on screen
+- [ ] Camera heights in the sketch kept believable
+- [ ] Surfaces and palette stated, so the reference's look does not leak in
+- [ ] Only cut 1 relied on for exact timing
+- [ ] Output checked for stray label text burned into the picture
+
+---
 
 ## `--ref-audio` — characters that speak YOUR audio
 
 Attach up to **3** tracks and address them as `[Audio 1]`, `[Audio 2]`, … The model
 **lip-syncs a character to a recording you supply**, so you control the voice instead of
 accepting whatever it invents. This is what makes branded spokes-characters and real dialogue
-possible. Reference media, so the hard rule applies — no `--first-frame`/`--last-frame`.
+possible.
 
 ```bash
 strata generate voices                                     # pick a voice_id
@@ -119,12 +308,23 @@ ffmpeg -i out.mp4 -f s16le -ac 1 -ar 16000 v.raw   # then slide t over v, best n
 because `--audio` mixes ambience underneath: **>0.75 means it is your recording**, not a
 re-performance.
 
-### Notes
+### Notes and checklist
 
 - **Size the clip to the speech.** A 3.6 s line in a 12 s clip leaves the model inventing
   filler — budget line-length + 2–3 s of setup per speaker.
 - Shot budget holds up here: 3/3 and 4/4 delivered with references attached. Stay at **≤4**.
 - Pick contrasting voices (age, accent) so the audience can tell who speaks without the face.
+
+- [ ] TTS generated first; its **URL** passed to `--ref-audio` (≤3)
+- [ ] **No** `--first-frame` / `--last-frame` — reference media, hard `422`
+- [ ] Each audio assigned to exactly ONE character, in caps, before the shot list
+- [ ] The spoken line in `{curly braces}`, identical to the TTS text
+- [ ] "lip-synced … every syllable, every pause" demanded explicitly
+- [ ] Each speaker given their OWN close-up, held for most of the line
+- [ ] For dialogue: "never speak at the same time", and each shot states who is silent
+- [ ] `Audio:` says what sits underneath, and "No other voices"
+- [ ] Clip length ≈ speech length + setup; ≤4 shots
+- [ ] Voice presence verified by envelope correlation (>0.75)
 
 ### …or use `generate avatar` instead — the decision
 
@@ -141,12 +341,14 @@ Both make a person talk. They are not interchangeable:
 **Piece to camera, or anything personalized → `generate avatar`** ([avatar.md](avatar.md)).
 **Talking inside a scene, dialogue, a character who moves → `generate video`.**
 
+---
+
 ## `strata sketch` — author the camera plan as a 3D animatic
 
-When a shot is complex enough that words fail — *"crane down past the sign as she crosses
-left to right, cut to a low tracking shot following the car"* — build the blocking as a
-grey-box animatic, render it to MP4, upload it, and feed it in as `--ref-video`. The model
-copies the camera and the timing; the prompt supplies the content.
+When a shot is complex enough that words fail — *"crane down past the sign as she crosses left
+to right, cut to a low tracking shot following the car"* — build the blocking as a grey-box
+animatic, render it to MP4, upload it, and feed it in as `--ref-video` with the "IGNORE the
+look" instruction above.
 
 This is the CLI's own tool. **Do not rewrite a Three.js scene by hand.**
 
@@ -178,58 +380,118 @@ strata generate video "<the real content>" --ref-video <that url> --duration 12 
 }
 ```
 
-- **`shots` is required and a shot IS a cut** — the cut timing is the main thing the model
-  copies. `from`/`to` are seconds; `pos`/`lookAt` are the start of the move and
-  `toPos`/`toLookAt` the end (omit them for a locked-off shot). `ease` defaults to true.
-- **`boxes`** are static set pieces; **`sprites`** are labelled flat billboards that move
-  along `path` — `[[timeSeconds, [x,y,z]], …]`, interpolated. Y is up; put a standing figure
-  at y ≈ half its height.
-- Labels render as **small 2D screen-space text** so the model reads the blocking. They are
-  dropped rather than smeared when a subject is too far away.
+- **`shots` is required and a shot IS a cut** — cut timing is the main thing the model copies.
+  `from`/`to` are seconds; `pos`/`lookAt` start the move, `toPos`/`toLookAt` end it (omit them
+  for a locked-off shot). `ease` defaults to true.
+- **`boxes`** are static set pieces; **`sprites`** are labelled billboards moving along `path`
+  — `[[timeSeconds, [x,y,z]], …]`, interpolated. Y is up; put a standing figure at y ≈ half
+  its height.
+- Labels render as **small 2D screen-space text** so the model reads the blocking, and are
+  dropped rather than smeared when a subject is too far away. Keep them **short and generic** —
+  they can burn into the output as on-screen text (above).
 - Solid shaded blocks, no wireframe — deliberately. *Measured:* a wireframe animatic **leaked
-  its wireframe look into the generated video**; solid grey boxes do not.
+  its wireframe look into the generated video**; solid blocks do not.
+- Keep camera heights **believable** — extreme positions get moderated.
 - `--html` writes an interactive page for eyeballing the blocking before you render;
   `--frames` dumps the PNG sequence.
 
 **The animatic is a camera plan, not a look.** Keep the prompt's `Style & Mood:` and identity
-lock complete — the reference contributes nothing but movement and timing. And because it is
-a `--ref-video`, the hard rule applies: no `--first-frame` alongside it.
-
-Sketch + reference images compose well: `--ref-image` for the character and world, plus
-`--ref-video` of the animatic for the camera — full control of *who*, *where* and *how it
-moves*, without a single frame having to exist first.
+lock complete — the reference contributes nothing but movement and timing.
 
 ---
 
-## Editing and extension — LAST RESORT
+## Editing and extension — ⚠ LAST RESORT
 
-Both work. Both are the **last thing to reach for** — try text-to-video, image-to-video,
-keyframes and references first. Each is a fresh generation with its own failure modes, and
-neither is a substitute for authoring the shot correctly.
+Put the source clip in `--ref-video` and cite it as `<Video_1>`; the prompt either **changes**
+it (edit) or **continues** it (extension).
 
-### Editing an existing clip
+### 🛑 Reach for these LAST
 
-Pass the source clip as `--ref-video` with an instruction prompt describing the change:
+Both are the slowest mode (~300–330 s *measured*), both re-generate the whole clip rather than
+touching the original, and both give less control than every mode above. **Exhaust the other
+features first**, in this order:
 
-```bash
-strata generate video "Change the season to winter — bare branches, snow on the ground, cold
-blue light. Keep the camera move, the framing and the subject exactly as in the reference." \
-  --ref-video <source url> --duration 8 -o edited.mp4
+| Want to… | Use this instead | Why it beats editing/extension |
+|---|---|---|
+| A different look / colour / material | **Re-generate** with the prompt you actually want | Same cost, full control, no drift from a source |
+| Keep a character across clips | **`--ref-image`** | Purpose-built for identity; cheaper to steer |
+| Keep a *world* across clips | **`--ref-image`** with a location plate | Same |
+| Continue a shot with EXACT continuity | **Chain on `--last-frame-out`** | *Measured:* pixel-exact handoff, no identity drift |
+| Reuse the camera plan | **`--ref-video` as a shot plan** | You keep authorship of the content |
+| Fix a content rejection | **`--realistic-human`** | A flag, not a re-generation |
+
+Only when none of those fits — the user hands you a finished clip and wants **that clip**
+changed or continued — is this the tool.
+
+### Editing — change one thing, freeze everything else
+
+*Measured, and the strongest result in the whole test suite.* Source: a studio watch clip.
+Instruction: brushed steel → polished gold, change nothing else.
+
+| At | Source | Edited |
+|---|---|---|
+| 1.5 s | steel case, navy dial | **gold case**, navy dial, same pose |
+| 5.0 s | macro, steel hands | **gold hands and markers**, same crop |
+| 8.5 s | pulled back with reflection | **gold**, same framing, same reflection |
+
+It held the boundary exactly: case, bezel, crown and hands turned gold while the **dial stayed
+navy and the strap stayed dark leather**, as specified. Framing, camera moves, background and
+reflections were unchanged at every matched timestamp.
+
+What made it work — the prompt is a **freeze list plus one change**:
+
+```text
+EDIT <Video_1>. Keep EVERYTHING about it identical - the same three shots, the same cut
+points, the same camera moves at the same speed, the same framing, the same lighting
+setup, the same background and the same reflections.
+
+CHANGE ONE THING ONLY: <the change, described physically>.
+
+Change nothing else. Do not re-time it, do not re-frame it, do not add or remove a shot,
+do not move the camera differently.
 ```
 
-State what must **not** change as explicitly as what must. Global changes (grade, season,
-weather, time of day) land far more reliably than local ones ("remove the cup from the table"
-— the model re-generates the whole shot and the rest of the frame drifts with it).
+Then repeat the invariants in the Static Description. **One change per call** — a list of
+edits is a re-generation wearing a disguise, so write the prompt you want instead. Global
+changes (grade, season, weather, material, time of day) land far more reliably than local ones
+("remove the cup from the table" re-generates the whole shot and the rest drifts with it).
 
-### Extending a clip
+### Extension — the next N seconds of the same take
 
-Same shape, prompting for the continuation. ⚠ *Measured failure:* extending a clip of one
-woman produced **two women** in the 4.8–7.2 s range — the model re-introduced the subject
-instead of continuing her.
+*Measured:* a 10 s continuation of a 12 s clip. **0 cuts**, opens on the source's final
+framing, and the grade, lens and location carry over without a frame handoff.
 
-**Prefer chaining on `--last-frame-out` whenever person continuity matters** (see
-[video-generation.md](video-generation.md#chaining--clips-longer-than-15-s)). Chaining pins
-the boundary to an actual rendered frame; extension only infers it.
+```text
+CONTINUE <Video_1>. This video is what happens NEXT, immediately after its final frame -
+the same subject, the same location, the same light, the same lens and grade. It must
+feel like the next ten seconds of the same take, not a new video.
+<then: what happens, physically, in order>
+Match <Video_1> exactly for <the identity invariants>.
+```
+
+⚠ **Extension duplicated the subject.** *Measured:* between ~4.8 s and ~7.2 s the clip
+contained **two women** — one in a dark top, one in the olive shirt from the source — before
+resolving back to one as she exited frame. The continuation was otherwise correct.
+
+So identity is **not** guaranteed through a large action:
+
+- **Continuity of a PERSON matters → chain on `--last-frame-out`**, which gave a pixel-exact
+  handoff with no duplication. It carries only one frame, but it carries it perfectly.
+- **Reference-video extension** carries the whole clip's motion, grade and feel — use it when
+  the *look* must continue and the action is small.
+- The duplication appeared during the **largest movement**. If you must extend a person shot,
+  keep the duration short and the action simple, and **check the middle of the clip**.
+
+### Checklist
+
+- [ ] Every other feature ruled out first (table above) — this is the last resort
+- [ ] Source clip in `--ref-video`, cited as `<Video_1>`
+- [ ] EDIT: an explicit freeze list, then exactly **ONE** change, then "change nothing else"
+- [ ] EDIT: invariants repeated in the Static Description
+- [ ] EXTEND: "what happens NEXT, immediately after its final frame … the same take"
+- [ ] EXTEND: identity invariants restated, duration short, action simple
+- [ ] EXTEND: **middle of the clip checked for a duplicated subject**
+- [ ] Budget ~300 s — the slowest mode
 
 ---
 
@@ -243,5 +505,19 @@ the boundary to an actual rendered frame; extension only infers it.
 | a character/product/world to keep consistent | `--ref-image` |
 | a camera plan or a clip to imitate | `--ref-video` (+ `strata sketch`) |
 | a voice or a line to speak | `--ref-audio` + `--audio` |
+| a person delivering a script to camera | `generate avatar` |
 | a clip needing a global change | editing — **last resort** |
 | a clip needing more length | **chain**, not extension |
+| speed matters more than control | `generate fastvideo` — fast mode only |
+
+## What `generate fastvideo` cannot do
+
+`strata generate fastvideo <image>` is the OLD image-to-video path, used **only when fast mode
+is explicitly asked for**. Nothing on this page applies to it: no references of any kind, no
+`[Image N]` / `<Video_1>` citations, no keyframes, no `--audio`, no `--last-frame-out`, no
+`--realistic-human`, and no shot list — it takes one image plus a short motion line and
+animates it. It does accept a **local file** (auto-encoded), unlike `generate video`.
+
+Because it produces a single continuous move with no cuts, it is safe for a `.jet` overlay
+clip — but it gives you no control over the matte-friendliness of the shot, which the source
+image has to carry instead.
