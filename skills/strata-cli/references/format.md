@@ -383,6 +383,49 @@ Graphs are **images, not drawn primitives**. The data-dynamism comes from swappi
 - Never try to encode the data in the animation (e.g. stopping a wipe at 62%) — the image carries the data; the animation only presents it.
 - Name the graph layer for replacement (e.g. `savings_graph`) and keep the layer box's aspect ratio equal to the graph image's, so every swapped variant lands pixel-identical.
 
+## Unpacking and repacking an existing `.idm`
+
+```bash
+strata inspect film.idm --assets un/ -o un/doc.json   # -> every asset + the VASCO doc
+#   ...edit un/doc.json, or swap a file in un/...
+strata repack un/doc.json -o film2.idm                # -> re-encoded .idm
+```
+
+`inspect --assets` writes **every** asset id-prefixed (`00_clip.mp4`, `01_logo.png`, …) plus
+an `assets.json` manifest mapping `asset_id -> file`. `repack` rebinds **by id** using that
+manifest, so swapping a file on disk is enough to swap the asset. Asset URIs resolve against
+the document's own directory (or `--assets <dir>`), so an unpacked folder repacks as-is.
+*Verified:* a 6-asset scene (video + 3 images + font + audio) unpacked byte-identical,
+survived an edit, repacked, and rendered.
+
+⚠️ **Repack is an escape hatch, not an editing workflow.** A VASCO document is **baked
+output**: `{"t":0,"v":1,"ease":"outExpo"}` has already become ~100 per-frame 4×4 matrices,
+`box`+`position` are folded into one transform, `font`/`src` are integer ids. *Measured:* a
+1,880-byte scene compiles to a 69,475-byte VASCO doc with 3,575 baked animation numbers.
+So **text edits and asset swaps are fine; motion is not hand-editable**, and you lose
+`validate`'s glyph/overlap/position warnings and the tagging flow. **If the source scene JSON
+exists, edit that and recompile — always.** `compile` refuses a VASCO document rather than
+silently writing an empty `.idm`.
+
+### ⛔ Two assets with IDENTICAL BYTES crash the exporter (error 3000)
+
+*Measured by bisection:* a 6-asset scene where two assets held the same bytes under different
+filenames failed export every time with `error_code 3000 "Scene exporter error"` — which
+names nothing and reads like a corrupt scene. The same 6 assets with all-distinct content
+exported fine. **The compiler now dedupes assets by content hash**, so the same file reused
+under two names collapses to one id — the crash is gone and the `.idm` shrinks (measured:
+4,189,841 → 3,812,502 bytes). Worth knowing when reading someone else's `.idm`, or if you
+ever build one outside this CLI.
+
+### ⚠️ The encoder stores only an asset's BASENAME
+
+`./a/logo.png` and `./b/logo.png` both land as `logo.png`. The `.idm` is fine — bytes and ids
+stay distinct — but `idm2vasco` returns assets keyed by that name, so on extraction one
+file's **bytes are unrecoverable** (*measured:* 2 assets in, 1 file out, silently). The
+compiler now stages a copy under a unique name (`logo_2.png`) so every `.idm` we produce is
+fully unpackable, and `inspect` warns loudly if it meets a third-party `.idm` that has this
+problem.
+
 ## Raw VASCO passthrough
 
 Any layer/comp key not consumed by the sugar above is copied **verbatim** into the compiled VASCO — useful for real VASCO properties the sugar doesn't cover, e.g. `is_3d`, `motion_blur`, `placeholder`, `offset_frame`, `track_matte`, `playback_mode`, `baseline`, `field_of_view`, `shutter_angle`.
