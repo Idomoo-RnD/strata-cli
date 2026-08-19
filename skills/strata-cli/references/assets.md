@@ -304,10 +304,39 @@ Idomoo's alpha format is **`.jet`** (IDMJET, YUVA420 — alpha is a real plane).
 overlay clip is a `.jet` used as a `video` layer. **Its fps must match the source clip and
 the scene**, or the overlay drifts out of time — the CLI prints the fps it used.
 
+### Same-source occlusion — text behind a subject with NO alpha at all
+
+When the only thing you need is **text passing behind a subject that stays on its own
+plate**, you do not need a matte, a key, or a `.jet`. Use the clip **twice**:
+
+```
+video  "plate"    src: hero.mp4   box: [0,0,W,H]     <- the clip, untouched
+text   "headline"                                    <- sits BETWEEN them
+video  "front"    src: hero.mp4   box: [0,0,W,H]     <- the SAME clip, masked to the subject
+```
+
+Both video layers are full-frame on the same box, neither gets position animation, and the
+front copy carries a **rough geometric mask** in the shape of the subject (a rect plus a
+cylinder/ellipse is usually enough).
+
+**Why it is more robust than any key:** outside the mask, both layers are the *identical*
+pixels — so a wrong mask edge is invisible. The edge only matters where the text actually
+passes behind the subject. That inverts the usual advice: **a generous, sloppy mask beats a
+tight one**, and it costs nothing to oversize it.
+
+Use it when the subject is hard to key (frosted glass, warm-on-warm, a gold cap against a
+brown seamless) or when `matte` refuses because there is no person in frame. Its one limit:
+**the subject can never leave its own plate** — for that you need real alpha, so generate on
+a green backdrop instead.
+
+If the subject moves or turns, animate the mask loosely (a few keyframes) or drive it with
+`strata track --point`. Precision is wasted here; coverage is not.
+
 ### Getting to `.jet` — pick the row that matches the source
 | I have | command | notes |
 |---|---|---|
-| **Ordinary footage, no green screen** (a person on a beach, in an office…) | `strata matte clip.mp4 -o subject.jet` | **removes the background automatically** (AI video matting, runs locally on CPU). First run downloads a ~14 MB model into `~/.strata/models/`. |
+| **A PERSON in ordinary footage, no green screen** (on a beach, in an office…) — also works on cartoon/stylized characters | `strata matte clip.mp4 -o subject.jet` | **removes the background automatically** (AI video matting, runs locally on CPU). ⚠ **People only** — see the row below. First run downloads a ~14 MB model into `~/.strata/models/`. |
+| **A PRODUCT, object, logo or landscape** | ❌ **not `matte`** — re-generate the clip on a green backdrop and use `--method chroma`, or key a uniform background with `--key`, or use same-source occlusion (below) | `matte` runs Robust Video Matting, trained on **people**. On a product it finds no subject and the CLI now stops with `no subject found`. *Measured coverage:* cartoon character 46.8%, person close-up 23.9%, person in wide shots 8.9%, **perfume bottle 0.00%** |
 | **Green/blue screen footage** | `strata jet clip.mp4 --key 0,177,64 --method chroma -o o.jet` | add `--choke 1 --feather 1` to trim a colour fringe |
 | **A solid white/black background** | `strata jet clip.mp4 --key 255,255,255 -o o.jet` | `distance` method is the default |
 | **A PNG sequence that already has alpha** (AE/Blender/Nuke/Resolve export, or roto) | `strata jet ./frames --fps 24 -o o.jet` | **best quality — no keying at all.** The frames' own alpha is used automatically; only pass `--key` if you actually want a colour keyed |
