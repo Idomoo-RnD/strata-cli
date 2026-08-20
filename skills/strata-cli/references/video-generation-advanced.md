@@ -308,6 +308,31 @@ ffmpeg -i out.mp4 -f s16le -ac 1 -ar 16000 v.raw   # then slide t over v, best n
 because `--audio` mixes ambience underneath: **>0.75 means it is your recording**, not a
 re-performance.
 
+### 🔇 NEVER lay the source TTS over the generated clip — use the CLIP'S audio
+
+Once a TTS track has been used as `--ref-audio`, **the generated clip's own audio is the
+deliverable.** Put that clip in the scene with its audio intact. Do **not** add the original
+`.mp3` as a separate `audio` layer on top — it cannot be made to sync, and doubling it means
+two voices.
+
+Look at where the speech actually lands in the numbers above: **1.3 s, 3.8 s and 6.3 s into
+the clips** — never at 0. The model places each line against the picture it generated and
+paces the delivery to the performance, so the words sit at a different time inside the clip
+than they do in the source file. Laying the `.mp3` at `t=0` is seconds early, and **no fixed
+offset repairs it**, because the internal pacing is re-timed too, not just shifted.
+
+So:
+
+- generate the clip **with `--audio`** — that is what carries the lip-synced voice;
+- keep that track through every ffmpeg step ([video-editing.md](video-editing.md) rule 3 —
+  the first `-map` silently drops it);
+- reference the **video** in the scene, and give it **no** competing `audio` layer;
+- if the voice needs to be louder or cleaner, treat it in the clip's own track
+  (`-af "volume=…"`), never by re-adding the source.
+
+**One line, one place.** A TTS file is either an *input to the generation* or a *layer in the
+scene* — never both.
+
 ### Notes and checklist
 
 - **Size the clip to the speech.** A 3.6 s line in a 12 s clip leaves the model inventing
