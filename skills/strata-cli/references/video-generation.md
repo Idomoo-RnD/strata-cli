@@ -97,12 +97,31 @@ something we rendered locally (a `strata sketch` animatic, an ffmpeg frame grab)
 | `--ratio` | `16:9` `9:16` `1:1` `4:3` `3:4` `21:9` `adaptive`. *Measured:* `adaptive` snaps to the nearest standard ratio and crops (1376×768 → 1280×720) — it does **not** preserve an unusual source aspect. With references there is nothing to infer from, so **set it explicitly** |
 | `--seed` | reproducibility; keep it fixed across a series |
 | `--camera-fixed` | locks the camera — useful when VASCO will do its own camera work |
-| `--audio` | native synced audio. *Measured:* real AAC 44.1 kHz stereo |
+| `--audio` | native synced audio. *Measured:* real AAC 44.1 kHz stereo. ⚠ **Anything you do to this clip afterwards must keep that track** — see below |
 | `--last-frame-out <file>` | saves the last frame for chaining. **Do it now** — the URL is signed and expires in 24 h |
 | `--fast` | the fast model: ~1.5× quicker, but *measured* it dropped a shot (4 delivered of 5). Use when shot count does not matter |
 | `--resolution` | **clamped to 720p** by the CLI. The standard model will happily return 1080p if asked, so the discipline lives here. Upscale afterwards if a deliverable needs more |
 
 Generation takes **3–9 minutes**. Run it in the background and report the URL.
+
+### 🔊 A clip generated with `--audio` must keep its audio downstream
+
+Sound design and lip-synced dialogue are generated **into the clip** — they are not a
+separate track you can re-attach. If a trim, reframe, retime or concat drops the audio, the
+fix is **re-generating the whole clip (3–9 minutes)**, not re-running the edit. That is why
+this is worth checking every single time.
+
+The trap is one flag: **ffmpeg keeps audio automatically until the command contains a
+`-map`** — then it keeps only what you map, and video-only mapping discards the audio
+silently, exit code 0. So any `-map "[v]"` needs `-map 0:a -c:a copy` (or a filtered audio
+label) beside it, and **`ffprobe` the result before using it**:
+
+```bash
+ffprobe -v error -show_entries stream=codec_type,duration -of csv=p=0 out.mp4
+# want TWO lines, video and audio, with matching durations
+```
+
+Full measured table of which patterns keep audio: [video-editing.md](video-editing.md).
 
 ---
 
