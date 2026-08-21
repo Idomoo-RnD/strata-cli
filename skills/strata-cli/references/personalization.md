@@ -53,11 +53,14 @@ example, or drive `/scenes/generate` directly. Note it needs one real render (th
 
 ## The batch flow — `strata render --data` (VERIFIED)
 1. Build and approve **one** scene; confirm it renders (`strata render … --library <id>`).
-2. Prepare a **data set** — a JSON/CSV with one row per viewer, columns = layer names → values (text or a media URL/path):
+2. Prepare a **data set** — a JSON array (`--data` reads JSON, not CSV; convert a CSV first),
+   one object per viewer, keys = **layer names**, values = the text, or a **public URL** for media:
    ```json
-   [ { "first_name": "Dana", "monthly_amount": "$48", "hero_photo": "./a.jpg" },
-     { "first_name": "Marco", "monthly_amount": "$112", "hero_photo": "./b.jpg" } ]
+   [ { "first_name": "Dana",  "monthly_amount": "$48",  "hero_photo": "https://s3.us-east-1.amazonaws.com/assets-temp.idomoo.ai/images/dana.png" },
+     { "first_name": "Marco", "monthly_amount": "$112", "hero_photo": "https://t.idomoo.com/7c1e….jpg" } ]
    ```
+   (A media URL comes from `generate image`'s printed `url:`, or `strata upload` for the
+   viewer's own photo — a local path will not work, the cloud renderer cannot read it.)
 3. Render them: **`strata render scene.json --library <id> --data rows.json -o out.mp4`**.
    The template is uploaded and exported **once**, then one `/scenes/generate` runs per row;
    the jobs poll concurrently and land as `out_1.mp4`, `out_2.mp4`, … (`--json` lists each
