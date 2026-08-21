@@ -82,6 +82,30 @@ frame-accurate but slow. With a re-encode, before-`-i` is accurate enough and mu
 printf "file 'a.mp4'\nfile 'b.mp4'\n" > list.txt
 ffmpeg -f concat -safe 0 -i list.txt -c copy out.mp4
 ```
+
+> ⛔ **Never stitch more than ~3 AAC segments this way — the audio drifts against the video.**
+> Every AAC segment carries **encoder priming** (~20–30 ms of padding) that a stream copy keeps
+> as real samples, so the audio track grows by that much **per join** while the video does not.
+> It is silent, it is progressive, and it only becomes audible late in the piece.
+> *Measured:* 15 concatenated segments gave **30.93 s of audio against 30.50 s of video —
+> 0.43 s of lag by the end**. The two-clip example below shows the same defect in miniature.
+>
+> **For any multi-segment piece, build the audio ONCE, not per segment.** Either assemble the
+> full track from the sources as WAV and encode it a single time —
+>
+> ```bash
+> # decode each segment's audio to raw PCM, join, encode once, mux against the video
+> ffmpeg -f concat -safe 0 -i list.txt -vn -c:a pcm_s16le -ar 44100 -ac 2 full.wav
+> ffmpeg -f concat -safe 0 -i list.txt -an -c:v copy full_v.mp4
+> ffmpeg -i full_v.mp4 -i full.wav -c:v copy -c:a aac -b:a 192k -shortest out.mp4
+> ```
+>
+> — or use the **concat filter** (below), which decodes and re-encodes in one pass and so has
+> no per-segment padding to accumulate. Check the result every time:
+> `ffprobe -v error -show_entries stream=codec_type,duration -of csv=p=0 out.mp4` — **the two
+> durations must match**. A WAV target is exact: 30.5 s at 48 kHz is 1,464,000 samples, and you
+> can assert it.
+
 **Different codecs/sizes/fps** → normalise in one filter graph (this is the usual case for
 clips from different sources):
 ```bash
@@ -93,7 +117,10 @@ ffmpeg -i a.mp4 -i b.mp4 -filter_complex \
 ```
 **If either clip has audio — which any AI clip generated with `--audio` does — normalise the
 audio too and concat with `a=1`.** Verified on two Seedance clips: 4.04s + 5.04s -> 9.12s
-video / 9.13s audio.
+video / 9.13s audio. ⚠ Read those numbers carefully: the inputs sum to **9.08 s**, so even
+here the output is long and the **audio is 10 ms longer than the video**. At two segments that
+is inaudible; it is the same per-join padding that reaches 0.43 s by fifteen (box above).
+Always compare the two durations rather than trusting the sum.
 ```bash
 ffmpeg -i a.mp4 -i b.mp4 -filter_complex \
  "[0:v]scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:-1:-1,fps=25,setsar=1[v0]; \
@@ -132,6 +159,22 @@ ffmpeg -i in.mp4 -vf "fps=25" -c:v libx264 -crf 18 out.mp4     # conform fps
 `atempo` only handles 0.5–2.0 per instance — chain it for more. Slowing below ~0.5×
 without interpolation stutters; there's no frame interpolation here (a RIFE-class tool
 would be needed).
+
+⚠ **Never combine `-t` with a `setpts` stretch — `-t` cuts the OUTPUT, after the stretch.**
+You ask for a slow-down to fill *N* seconds, `-t` then truncates the stretched result back to
+its old length and you are short. *Measured:* an end-card retime that should have produced
+**105 frames returned 79**. Drop `-t` entirely and let the filter define the length — add
+`fps=24` so the output has real frames at the scene's rate rather than stretched timestamps:
+
+```bash
+# 60 frames -> 105 frames at 24 fps (2.5 s to 4.375 s): factor = 105/60 = 1.75
+ffmpeg -i card.mp4 -vf "setpts=1.75*PTS,fps=24" -c:v libx264 -crf 18 -pix_fmt yuv420p -y out.mp4
+ffprobe -v error -count_frames -select_streams v -show_entries stream=nb_read_frames \
+        -of csv=p=0 out.mp4        # assert the frame count you asked for
+```
+
+Compute the factor from **frames you want ÷ frames you have**, then verify the count — a
+retime that silently lands short desyncs everything downstream of it.
 
 ## Audio
 ```bash

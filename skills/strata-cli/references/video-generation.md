@@ -166,6 +166,17 @@ where it dies. Depth is what makes camera moves read as real.
 
 Add a hold on the face shot: *"hold this shot long enough to clearly read her face."*
 
+> ⚠️ **Montage verbs cut the clip even when there is no shot list.** *"Cut to"*, *"then we
+> see"*, *"meanwhile"*, *"next"*, *"later"*, *"intercut"* are read as edit instructions
+> **wherever they appear** — including in plain prose you never intended as an edit.
+> *Measured:* a prose brief with no `Shot N:` and no `Cut.`, containing only "We see her
+> unlock the door. Cut to her flipping the sign." returned **3 hard cuts in a 5 s clip**
+> (scene scores 0.47 / 0.60 / 0.65). Describe **one continuous action** instead — *"she
+> unlocks the door, crosses to the counter and starts the machine"*. And whenever a clip is
+> meant to be a single take, **say so explicitly**: the identical prompt plus `ONE single
+> continuous shot, one unbroken take, no cuts` returned **0 cuts** (max scene score 0.07).
+> This is not only a `.jet` rule — it applies to **any** clip you intend as one shot.
+
 ### 6. `Static Description:` — the invariants
 Set + light + identity that must hold in **every** shot. This is the line that stops wardrobe
 and room mutating between cuts. End it with the negatives you need ("no text on screen").
@@ -370,6 +381,17 @@ which is exactly what the concat demuxer needs, so the join is a lossless stream
 does not remember the previous call — and Shot 1 of every continuation should be written to
 begin on its first frame.
 
+⚠ **Events do not chain either — only surfaces do.** A first frame carries *appearance* (wet
+asphalt, reflections, a lit sign), never *activity*. Anything that is **happening** — rain or
+snow falling, a crowd moving, traffic, smoke, steam, flicker, wind, blowing fabric — has no
+representation in a still frame and **stops at the seam unless the continuation prompt
+re-establishes it**. *Measured:* a base clip of heavy rain with six umbrella-carrying
+pedestrians, chained on `--last-frame-out`; the continuation described only the character's
+action. The wet street and its reflections survived — **the rain and every umbrella
+vanished**. Re-stating the ambient line brought both back from the identical first frame. So
+restate the **weather and the background life** in every continuation, not just the set: it is
+the Static Description's missing third column, and it fails silently mid-sequence.
+
 ⚠ **One duplicate frame at every seam** — clip N's last frame *is* clip N+1's first frame
 (*measured:* mean pixel difference 3.27/255, the same image differing only by compression). At
 24 fps that is a 42 ms hold and *measured* it is invisible; **prefer the plain `-c copy`
@@ -386,6 +408,11 @@ ffmpeg -i clip_01.mp4 -i clip_02.mp4 -filter_complex \
 ⚠ **Audio does not chain** — each clip gets its own track, so ambience restarts at every join.
 Video continuity does not buy audio continuity. For a multi-clip piece, generate without
 `--audio` and lay one continuous bed over the join.
+
+⛔ **And past ~3 clips, never `-c copy` the audio together** — each AAC segment's encoder
+priming survives the copy, so the audio grows ~20–30 ms per join while the video does not
+(*measured:* 0.43 s of lag across 15 segments). Build the bed **once** as WAV and encode it a
+single time: [video-editing.md](video-editing.md#join--concat).
 
 **Chaining vs keyframes:**
 
