@@ -51,15 +51,25 @@ Use it to: confirm which layers are actually replaceable, hand a backend team a 
 example, or drive `/scenes/generate` directly. Note it needs one real render (the
 `scene_id` comes from the cloud), and `snapshot` does not emit it.
 
-## The batch flow (concept)
+## The batch flow — `strata render --data` (VERIFIED)
 1. Build and approve **one** scene; confirm it renders (`strata render … --library <id>`).
 2. Prepare a **data set** — a JSON/CSV with one row per viewer, columns = layer names → values (text or a media URL/path):
    ```json
    [ { "first_name": "Dana", "monthly_amount": "$48", "hero_photo": "./a.jpg" },
      { "first_name": "Marco", "monthly_amount": "$112", "hero_photo": "./b.jpg" } ]
    ```
-3. Render one variant per row, supplying that row's values as **data-points** keyed by layer name. Each render reuses the **same library and template**; only the data changes.
-4. Collect the resulting `video_url`s (one per row).
+3. Render them: **`strata render scene.json --library <id> --data rows.json -o out.mp4`**.
+   The template is uploaded and exported **once**, then one `/scenes/generate` runs per row;
+   the jobs poll concurrently and land as `out_1.mp4`, `out_2.mp4`, … (`--json` lists each
+   file with its row and URLs). A single object instead of an array renders one variant —
+   also valid for `snapshot`, which is the cheap way to proof a personalized frame.
+   *Verified:* two rows → two videos, each showing its own greeting and amount.
+4. **Keys are layer names and must match exactly** — an unknown key fails the render before
+   anything is spent (`--data keys that match no placeholder layer: amout`). Text values
+   replace the text; **media values must be public URLs** (a `generate` URL, or `strata
+   upload` for the user's own file — never a local path). Per-viewer **audio** (a TTS that
+   says the name) is not covered: generate that narration per row first and pass its URL as
+   the audio layer's value.
 
 ## Notes
 - Keep all variants in **one library** (don't mint a new library per render).

@@ -39,7 +39,8 @@ Keep a `frame-chrome` (layouts #16) on every shot: brand mark, running index, sm
 - One idea per shot; build diagrams/graphics over a calm background.
 - Use `stat-card`/charts (see [recipes.md](recipes.md) data-viz) for any numbers.
 - Close on a one-line takeaway + soft CTA.
-Generate narration first, then pace shots to its word timings.
+Generate narration first, then pace shots to its cues — `strata captions` on the MP3 gives each
+sentence's `t0`/`t1` ([captions.md](captions.md)); TTS alone only reports the total duration.
 
 ## SaaS / app / AI product promo
 Dark, quiet, confident. 8–12 shots, 25–45s. Almost no footage — the UI *is* the visual.
@@ -82,7 +83,7 @@ Add a `COUPON CODE: XXXX` block on the penultimate frame. Fast 250–350ms trans
 the beat. Keep the same diagonal angle on every frame.
 
 ## Social promo (9:16, 5–15s)
-- Frame **1080×1920**; reserve the bottom ~17% for captions/safe area; keep text in the title-safe ~90%.
+- Frame **1080×1920**; keep text out of the **top 10% and bottom 15%** (platform chrome — the same numbers as layouts.md) and clear of the right-hand ~12% in the lower half where TikTok/Reels stack their buttons.
 - 2–4 punchy shots, fast 300–400ms transitions, big type, one message.
 - Assume **muted autoplay**: lead with a strong visual + on-screen text; personalized value appears early but not at t=0.
 
@@ -133,8 +134,9 @@ over white with a single `Drop Email` / `Shop now` pill.
 ## Corporate / interior / real-estate slideshow
 40–60s, slow. A muted ground (bone, warm grey), black display type in outlined boxes, one image
 card per frame with a `_01 … _04` index chip on its corner, and an oversized letterform sliding
-behind. Ken-Burns everything by 3–5% only. This shape is what "premium and quiet" looks like —
-resist adding motion.
+behind. Fixed images become slow clips (`generate video --first-frame`, "barely moves, 3–5%"); personalized
+property photos stay `image` layers with a 3–5% Ken-Burns. This shape is what "premium and quiet"
+looks like — resist adding motion.
 
 ## Website / app showcase
 - Capture a screenshot of the site/app (the agent can use the browser tools), bring it in as an `image` layer.

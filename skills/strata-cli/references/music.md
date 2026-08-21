@@ -96,6 +96,43 @@ Notice what they all do: **name the instruments AND their character**, give the 
 - **Ask before assuming.** A piece may already have a licensed track, or need none at all
   (some social video is watched muted — the visuals must carry it regardless).
 
+## The sound design pass — SFX, levels, fades (MEASURED)
+
+A finished mix has **three** layers, not two: voice, bed, and **sound effects**. The SFX are
+what make a transition feel cut and a logo feel landed; without them even a beat-synced edit
+reads as "graphics over music". The same command makes them:
+
+```bash
+strata generate music "TrackType: SFX, a short cinematic whoosh transition, airy rising swoosh with a soft tail, no music" --duration 2 -o whoosh.wav
+strata generate music "TrackType: SFX, a single deep cinematic impact hit, punchy low boom with a short reverb tail, no music" --duration 1 -o hit.wav
+```
+
+*Measured:* both came back as exactly 2.000 s and 1.000 s of 44.1 kHz stereo, and the
+**envelopes are the right shapes** — the whoosh rises to its peak at ~60 % and tails off, the
+hit is front-loaded and decays. So `--duration 1–2` is fine; describe the *shape* (rise, hit,
+tail) and say `no music`.
+
+**Where they go** — an `audio` layer with `start` at the moment (verified: a whoosh at
+`start: 1` and a hit at `start: 4` landed at 2.0 s peak and 4.0 s onset in the render):
+```json
+{ "type": "audio", "name": "sfx_whoosh", "src": "./whoosh.wav", "start": 1.0, "volume": -6 },
+{ "type": "audio", "name": "sfx_hit",    "src": "./hit.wav",    "start": 4.0, "volume": -3 }
+```
+Vocabulary worth having: **whoosh / swoosh** on a move or a transition (start it ~0.15 s
+*before* the cut so the peak lands on it) · **hit / impact / boom** on a logo land or a hard
+cut · **riser** under the build into the climax, ending on the downbeat · **tick / click** on
+UI and counters · **shimmer / chime** on a reveal. One SFX family per piece, used 4–8 times,
+not twenty different ones.
+
+**Levels (dBFS, `volume`):** VO **0** · bed **−10 to −12** with `ducking: true` · SFX **−3 to
+−8** (a hit louder than a whoosh) · never more than two SFX overlapping. Check the result by
+ear *and* by probe — `ffprobe` the rendered MP4's audio stream exists, and listen to the join.
+
+⚠ **`volume` cannot be keyframed.** The audio layer's `animations` accept only `transform`
+(schema), so a fade in/out or a swell is done **in ffmpeg before import**
+(`afade=t=out:st=9.5:d=0.5`, video-editing.md). The same goes for **trimming into** a track:
+there is no audio `offset_frame` — to start the music at 0:12, cut it with ffmpeg first.
+
 ## Rules
 - `TrackType: Music, VocalType: Instrumental` on every underscore.
 - **State a BPM.** Vague tempo gives generic results.

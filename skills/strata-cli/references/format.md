@@ -17,7 +17,7 @@ Contents: [Scene](#scene) · [Layers](#layers-common) · [Text](#text) · [Image
 }
 ```
 
-Passthrough at comp level: `shutter_angle`, `shutter_phase`, `transition`.
+Passthrough at comp level: `shutter_angle` (0–2, default 0.5 ≈ 180°), `shutter_phase`. (`transition {start,end}` also exists on a comp; its semantics are undocumented and tagging auto-stamps it — do not set it by hand.)
 
 **File naming — the scene's FILENAME is its identity in the cloud.** `render`/`snapshot`
 upload under `basename(<scene file>)` and derive the output MP4/JPG name from it, so the
@@ -153,7 +153,7 @@ Position/scale/rotation compose to the VASCO 4×4 `transform` as `T(position)·R
 }]
 ```
 
-Animator offsets (`opacity`, `position`, `scale`, `rotation`, `color`, `tracking`, `skew`, …) apply to the characters selected by `ranges`; animate the range `start`/`end`/`offset` to sweep the selection. Range options: `based_on` (`characters` `characters_excluding_spaces` `words` `lines`), `mode`, `shape` (`square ramp_up ramp_down triangle round smooth`), `units`, `randomize_order`.
+Animator offsets (`opacity`, `position`, `scale`, `rotation`, `color`, `tracking`, `skew`, **`character_offset`** — shift digits/letters by N, wraps mod 10 for digits, negative = glyph vanishes; **`character_value`** — replace with a codepoint, needs `character_range: full_unicode`; both verified, see recipes.md "Count-up") apply to the characters selected by `ranges`; animate the range `start`/`end`/`offset` to sweep the selection. Range options: `based_on` (`characters` `characters_excluding_spaces` `words` `lines`), `mode`, `shape` (`square ramp_up ramp_down triangle round smooth`), `units`, `randomize_order`.
 
 ⚠️ **`shape` and the string edges:** `square` has hard edges; the others (`ramp_up`/`ramp_down`/`triangle`/`round`/`smooth`) **taper** the selection. A tapered shape whose window edge lands at `0` or `1` leaves the first/last unit **partially** selected — so a "hidden at t=0, reveal in order" reveal (opacity 0, `start` 0→1, `end` pinned at 1) breaks with `smooth`/`round`/`triangle`: the last unit does visible→gone→visible and the first never animates in (widening the window doesn't fix it; the taper scales with width). **Use `square` for ordered reveals; keep tapered shapes for continuous effects with the window kept off the string ends** (see recipes.md §1).
 
@@ -211,7 +211,16 @@ the line grows from, so prove the layout against a long RTL value, not just the 
 { "type": "audio", "src": "./music.mp3", "volume": -6, "ducking": true, "start": 0, "duration": 10 }
 ```
 
-`volume` in dB; `ducking` → `sidechain_compression` (auto-lower under voice).
+`volume` in dB (0 = unity); `ducking` → `sidechain_compression` (auto-lower under voice); `start` places
+the clip in time — that is how SFX are spotted (music.md, *sound design pass*).
+
+- ⚠ **`volume` is NOT animatable** — the schema allows only `transform` under an audio layer's
+  `animations`, so `animate: { volume: … }` fails validation. Fades and swells are done in
+  ffmpeg before import (`afade`), see video-editing.md.
+- **No trim-in.** Audio layers have no `offset_frame`; to start a track at 0:12, cut it with
+  ffmpeg first.
+- `duration_referrer` (boolean) exists in the schema and is undocumented by the engine; it is
+  not used by this CLI.
 
 ## Sub-compositions
 
@@ -250,15 +259,50 @@ Only affects layers with `"is_3d": true` (passthrough key). `zoom` is an animata
 ⚠️ **`position` on the camera is an ABSOLUTE comp coordinate, and z is NEGATIVE.** For a
 1920×1080 comp the camera lives at `[960, 540, -z]` — the comp **centre**, pulled back. A
 common wrong guess is `[0,0,z]` (treating it as an offset like a layer's), which parks the
-camera at the **top-left corner** and renders the scene black or wildly off-centre. Increasing
-z toward 0 moves the camera *forward* into the scene; layers sit at `z = 0` (screen plane) and
-further away at negative z.
+camera at the **top-left corner** and renders the scene black or wildly off-centre.
 
-⚠️ **3D layer + `anchor` + animated `position`.** Setting an `anchor` makes **every** position
+### The camera is an exact pinhole — here is the calibration (MEASURED)
+
+Rendered 160 px squares at several z, fov and camera distances; every size matched this to
+two decimals:
+
+```
+focal  = (comp_height / 2) / tan(fov / 2)        # fov is the VERTICAL field of view
+scale  = focal / (z_layer - z_camera)            # on-screen size ÷ box size
+```
+
+| comp height | fov 60 | fov 70 | fov 90 (schema default) |
+|---|---|---|---|
+| 720  | focal **623** | 514 | 360 |
+| 1080 | focal **935** | 771 | 540 |
+
+Three consequences, each of which the docs used to get wrong:
+
+1. **A layer at `z = 0` renders at its box size ONLY when the camera sits at `z = -focal`.**
+   Camera at `[960,540,-1200]` with the default fov 90 (focal 540) renders every z=0 layer at
+   **0.45×** — that is why "3D scenes come out small / off-centre". Put the camera at
+   `-focal` for your fov, or set `fov` to match the distance you want: `fov = 2·atan(h/2 / d)`.
+2. **Negative z is TOWARD the camera and makes a layer BIGGER; positive z is away and
+   smaller.** Measured at fov 60, camera −800: z=0 → 0.78×, z=−200 → 1.03×, z=−400 → 1.55×;
+   camera −623: z=0 → 1.00×, z=+400 → 0.61×. So a **far background goes at POSITIVE z** and
+   must be oversized by `(z_bg − z_cam)/focal`; a foreground element that should loom goes at
+   negative z. (Layers at or behind the camera plane are culled.)
+3. **Draw order is still the layer order**, not z — a "far" layer listed last still paints on
+   top. Keep the stack bottom-first as usual.
+
+A push-in is the camera's z moving toward the layers; the scale of each layer follows the
+formula frame by frame, so near layers grow faster than far ones — that differential is the
+parallax.
+
+`strata preview` draws 2D boxes only and cannot show any of this. For 3D framing, compute the
+size with the formula and confirm with a `snapshot`.
+
+⚠️ **3D layer + `anchor` + `position`.** Setting an `anchor` makes **every** position
 keyframe the absolute point where that anchor lands — including in 3D. So keep x,y equal to the
 anchor and vary only z (`[anchorX, anchorY, z]`). Writing `[0,0,z]` while an anchor is set drags
-the layer's anchor to comp coordinate (0,0) — the top-left corner. Need a plain z-offset instead?
-**Omit the anchor**, and then `position: [0,0,z]` is the correct depth offset.
+the layer's anchor to comp coordinate (0,0) — *verified by render: the layer left the frame
+entirely*, while the same layer with `[640,360,-400]` sat centred. Need a plain z-offset
+instead? **Omit the anchor**, and then `position: [0,0,z]` is the correct depth offset.
 
 ## Tween engine (`animate`)
 
@@ -305,6 +349,13 @@ Channels on layers:
 ```
 
 - `shadow`/`glow`/`stroke`/`overlay` merge into one layer-styles effect per layer. Animatable channels inside them: their own keys (`color`, `opacity`, `distance`, `size`, …) — the CLI prefixes the VASCO path (`drop_shadow.color` etc.).
+- **Channel masks (VERIFIED):** the same layer-styles effect carries `blending_options`
+  `{ red, green, blue, opacity }` — R/G/B are **booleans** that switch a colour channel off.
+  A white solid with `{"red":true,"green":false,"blue":false}` renders pure red. Use it as a
+  raw effect: `{ "name": "styles", "blending_options": { "red": true, "green": false, "blue": false } }`
+  (the raw name must be exactly `styles`). Three copies of one layer, each with one channel on
+  and `blend: "add"`, offset a few px, make a true chromatic-aberration split that recombines to
+  white where they overlap — recipes.md "RGB split".
 - Corner-pin pins order: `[upper_left, upper_right, lower_left, lower_right]` (or `{ul, ur, ll, lr}`).
 - ⚠️ **Corner pin only applies to `solid` and `comp` layers** (verified by render). On a `text` layer it is
   silently ignored (the text renders flat); on an `image` layer the layer disappears entirely. **To perspective-
@@ -349,20 +400,20 @@ Hex anywhere a color is expected: `#rgb`, `#rrggbb`, `#rrggbbaa`. Layer/text-sty
 
 ## Generating assets (Idomoo AI API)
 
-The CLI can generate the media an IDM needs, via `strata generate <kind>`. Every command needs Idomoo auth (`strata auth login` or `IDOMOO_ACCOUNT_ID`/`IDOMOO_SECRET_KEY`) and **saves the file to a folder** — `./strata_assets/` by default, `--out-dir <dir>` to change it, or `-o <file>` for an exact path. The saved local path is what you put in the scene's `src`; the command also prints the remote `url`. Add `--json` for `{ ok, type, path, url, ... }`.
+The CLI generates the media a scene needs — `strata generate image|video|fastvideo|avatar|narration|music`,
+plus `voices`. **The full reference is [assets.md](assets.md)** (flags, reference images, the
+upload rule, `.jet`); **prompting `generate video` is [video-generation.md](video-generation.md)**.
+Two facts worth having here, next to the scene syntax:
 
-Workflow: generate an **image** → optionally **animate** it into a video clip (animate takes the image's *url*, printed by the image command) → generate **narration** and **music** for the audio track. Then reference the saved files from the scene.
+- The saved **local path** goes in the scene's `src`; the printed **`url:`** is what you pass to
+  any `generate` flag that takes a URL (`--first-frame`, `--ref-*`, avatar inputs). Generated
+  assets are already hosted — never re-upload one.
+- **Native sizes:** `generate image` returns **1376×768** (16:9), `generate video` is capped at
+  **1280×720**, avatar is 1280×720 @ 25 fps. In a 1920×1080 comp a full-bleed generated plate is
+  already upscaled ~1.4–1.5× before any push-in — see *Source resolution* in assets.md.
 
-| command | params | output |
-|---|---|---|
-| `strata generate voices [--search <text>] [--json]` | `--search` filters by name/gender/accent/use-case | prints `voice_id  name · gender · accent` rows — pick a `voice_id` for narration |
-| `strata generate image "<prompt>"` | `--aspect` one of `16:9 4:3 3:4 1:1 9:16 21:9` (default `1:1`) · `--colors "#hex,#hex"` brand palette · **`--reference <img\|url>` reference image(s) — repeatable (or comma-separated); each a local file (auto-base64) or URL** | a PNG (async, ~10–20s). Prints local path + remote url. Use `--aspect` matching the comp (e.g. `9:16`) |
-| ↳ **reference images** | steer **art style / character / composition**. Order = index: 1st `--reference` is **image 0**, 2nd **image 1**, … — cite them in the **prompt**: *"using image 0's art style, draw a dog"*, *"image 1's character in image 0's scene"*. One ref reproduces its subject strongly (say "image 0's **style**" to restyle a new subject); multiple refs compose; be explicit per index when they compete. | — |
-| `strata generate video <image-url>` | positional = an image **url** (use the url printed by `generate image`) · `--prompt "<motion>"` describes the camera/movement · `--duration <sec>` (default 5) · `--ratio <e.g. 9:16>` | an MP4 image-to-video clip (async, ~1–3 min). Reference it as a `video` layer (`loop: true` to hold the comp) |
-| `strata generate narration "<text>" --voice <voice_id>` | `--voice` required (from `generate voices`) · `--normalize <mode>` | an MP3 (sync) + spoken `duration` in seconds — size the layer/scene around it. Reference as an `audio` layer |
-| `strata generate music "<prompt>" [--duration <sec>]` | `--duration` seconds (default 30) | an instrumental track. Reference as an `audio` layer at low `volume` with `ducking: true` so it sits under narration |
-
-Notes: image and video are **asynchronous** (the CLI submits, polls, then downloads — just wait). Narration is synchronous. Generated asset URLs are temporary, so rely on the **downloaded local file**. Match `--aspect`/`--ratio` to the comp dimensions, and for personalized graphs generate the image at its canonical/full state (see *Graphs & charts* below).
+⚠ `strata generate video <image> --prompt "…"` is the **pre-1.0.82** form. The CLI now refuses it
+(the image path would otherwise become the prompt). New form: `generate video "<prompt>" --first-frame <url>`.
 
 ## Personalization — design for replaceable elements
 

@@ -5,8 +5,8 @@ Each command saves the file locally (default `./strata_assets/`, or `-o <file>` 
 `--out-dir <dir>`) and prints the local path **and** a hosted URL; add `--json` for
 machine-readable output. Image/video are **async** (polled to completion); narration is sync.
 
-**The chain:** image → animate it into a video → narration + music for the audio bed →
-point the scene's `src`/`audio` at the saved files.
+**The chain:** image → `generate video --first-frame` (or `--ref-image`) → narration + music for
+the audio bed → point the scene's `src`/`audio` at the saved files.
 
 **Local files vs URLs.** `generate image --reference` and `generate fastvideo` accept either
 a hosted URL or a **local file path** (the CLI base64-encodes it into a data-URI; no upload
@@ -15,6 +15,29 @@ inputs are URLs only** — every `generate` command prints one, so chain off tha
 local input needs `strata upload` first (the CLI says so rather than publishing it silently).
 
 ---
+
+## Source resolution vs canvas — read before choosing the comp size (MEASURED)
+
+| asset | native size |
+|---|---|
+| `generate image` | **1376×768** (16:9; other aspects the same area) |
+| `generate video` / `fastvideo` | **1280×720** — the CLI clamps to 720p |
+| `generate avatar` | 1280×720 @ 25 fps |
+
+The default comp is 1920×1080, so a generated plate used **full-bleed** is already upscaled
+**1.4–1.5×** before the mandatory push-in adds more. There is no upscaler in the CLI.
+Author around it:
+
+- **Full-bleed generated footage → author the comp at 1280×720** (or 720×1280 / 1080×1080
+  for 1:1, where a 1080 square from a 1376×768 source is also ~1:1). The cloud render is
+  the deliverable size; design at the footage's size and let the platform scale once.
+- **In a 1920 comp, keep generated media in a framed slot ≤ its native size** — the split,
+  card and mosaic layouts in layouts.md already do this, and it is why they look sharper
+  than a full-bleed plate with a caption.
+- **Never stack a push-in on an already-upscaled full-bleed plate**: at 1.5× plus a 10 %
+  Ken-Burns the frame ends at 1.65×, and softness reads as "AI footage" faster than anything.
+- Match `--aspect` / `--ratio` to the **slot**, not the comp — a 9:16 slot in a 16:9 frame
+  wants a 9:16 asset, so none of the resolution is cropped away.
 
 ## `strata generate image "<prompt>" [flags]`
 A still PNG (async, ~10–20s).
@@ -90,7 +113,7 @@ EXCLUSIVE** — the CLI rejects the combination before spending anything.
 | `--fast` · `--model <id>` | the fast model (quicker, drops shots) · an explicit model |
 | `--resolution` | **clamped to 720p** — 720p is always the max |
 
-Reference the result as a `video` layer; set `loop: true` to hold it for the comp's duration.
+Reference the result as a `video` layer. If the comp outlives the clip, `playback_mode: "hold"` freezes the last frame — do **not** `loop` it to fill time (the restart reads as a glitch, format.md).
 
 ```bash
 strata generate image "hero shot" -o hero.png          # prints url:
@@ -149,7 +172,8 @@ An instrumental track (default 30s). Reference as an `audio` layer at low `volum
 ### 🔴 CRITICAL — the whole rule in one line
 
 > **Upload only an asset we created ourselves that has no URL, and use the resulting URL
-> only as a reference for `generate` (image/video) — nothing else.**
+> only as an input to `generate` (image/video/avatar) — nothing else.** (`strata captions`
+> uploads for itself when it must; that is the one other consumer, and it is inside the CLI.)
 
 Both halves are binding:
 
@@ -302,7 +326,9 @@ still in: a static photo in a motion-design piece reads as a slideshow.
 ⚠ Never both: `--first-frame` and `--ref-*` are mutually exclusive.
 
 **The only exception is a genuine icon / logo / flat UI graphic**, where motion would look
-wrong. (A slow Ken-Burns on a still is a fallback only when image-to-video is unavailable.)
+wrong — **and a PERSONALIZED media slot**, which must stay an `image` layer because the API
+substitutes a still per viewer: give it layer-level motion (Ken-Burns on an anchored, `fit:"fill"`
+layer). For a fixed image, Ken-Burns is the fallback only when image-to-video is unavailable.
 
 ⚠️ **Check every `src` before compiling.** A real failure seen in the wild: `sky.mp4` was
 generated and then the scene still pointed at `sky.png`, so the background sat frozen. If a

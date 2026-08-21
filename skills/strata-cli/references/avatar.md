@@ -93,8 +93,8 @@ prompt + reference in **`.brand/brand.md`** ([brand.md](brand.md)) so later sess
 ## Mechanics (all verified against the live API)
 
 - **Both inputs must be URLs the service can fetch.** A local file is **rejected** — the
-  endpoint does not accept base64 data-URIs the way `generate image`/`generate video` do (it
-  answers HTTP 500). Use the URLs those commands print. The CLI catches this and says so.
+  endpoint does not accept base64 data-URIs the way `generate image --reference` and `generate
+  fastvideo` do (it answers HTTP 500); `generate video` is URL-only too. Use the URLs those commands print. The CLI catches this and says so.
 - **`--audio` is required** and defines the length: the output duration equals the audio's.
   `strata generate narration` prints exactly the URL you need.
 - **The response tells you the duration** — `duration: 9.04s`. **Size the scene to it**, the

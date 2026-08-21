@@ -78,19 +78,23 @@ pattern). Count quantised colours across the logo/frames, drop near-white/near-b
 unless they're structural, and keep the top 5–8 by frequency:
 
 ```js
-// palette.mjs — dominant colours from an image, exact hexes
-import { decodePng } from './png.mjs';        // or ffmpeg → rawvideo for a video frame
-const { data, width, height } = decodePng(process.argv[2]);
+// palette.mjs — dominant colours from an image, exact hexes. Self-contained: ffmpeg dumps
+// raw RGBA (works for PNG/JPG/WebP and for a video frame with -ss), no decoder needed.
+import { execFileSync } from 'node:child_process';
+const [,, file, W = 256] = process.argv;                 // downscale for speed; colours survive
+const H = W;
+const rgba = execFileSync('ffmpeg', ['-v', 'error', '-i', file, '-vf', `scale=${W}:${H}`,
+  '-f', 'rawvideo', '-pix_fmt', 'rgba', '-frames:v', '1', '-'], { maxBuffer: 1 << 28 });
 const bins = new Map();
-for (let i = 0; i < width * height; i++) {
-    const a = data[i*4+3]; if (a < 128) continue;                  // skip transparent
+for (let i = 0; i < W * H; i++) {
+    const a = rgba[i*4+3]; if (a < 128) continue;                  // skip transparent
     const q = c => Math.round(c / 16) * 16;                        // quantise to 16 steps
-    const k = `${q(data[i*4])},${q(data[i*4+1])},${q(data[i*4+2])}`;
+    const k = `${q(rgba[i*4])},${q(rgba[i*4+1])},${q(rgba[i*4+2])}`;
     bins.set(k, (bins.get(k) ?? 0) + 1);
 }
 [...bins].sort((a,b) => b[1]-a[1]).slice(0, 12).forEach(([k, n]) => {
     const [r,g,b] = k.split(',').map(Number);
-    console.log('#' + [r,g,b].map(v => v.toString(16).padStart(2,'0')).join(''), (100*n/(width*height)).toFixed(1) + '%');
+    console.log('#' + [r,g,b].map(v => Math.min(255, v).toString(16).padStart(2,'0')).join(''), (100*n/(W*H)).toFixed(1) + '%');
 });
 ```
 

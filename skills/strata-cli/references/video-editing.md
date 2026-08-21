@@ -142,6 +142,27 @@ ffmpeg -i in.mp4 -af "volume=0.3" -c:v copy out.mp4            # duck under a VO
 ffmpeg -i in.mp4 -af "afade=t=in:d=0.5,afade=t=out:st=9.5:d=0.5" -c:v copy out.mp4
 ```
 
+## Grade & match — the look is built here, not in the scene
+The engine has **no colour correction** (its only effects are blur, layer styles and corner
+pin), so exposure matching and any grade happen in ffmpeg **before** the clip becomes a layer.
+All verified, all keep the audio (`-c:a copy`):
+```bash
+# lift / contrast / saturation — the everyday match between two clips
+ffmpeg -i in.mp4 -vf "eq=contrast=1.08:brightness=0.02:saturation=0.85" -c:v libx264 -crf 18 -c:a copy out.mp4
+# teal–orange push: shadows toward blue, mids toward warm
+ffmpeg -i in.mp4 -vf "colorbalance=rs=-0.05:bs=0.08:rm=-0.03:bm=0.05" -c:v libx264 -crf 18 -c:a copy out.mp4
+# filmic curve presets: lighter | darker | increase_contrast | vintage | cross_process | negative
+ffmpeg -i in.mp4 -vf "curves=preset=vintage" -c:v libx264 -crf 18 -c:a copy out.mp4
+# desaturate + gamma (the "muted premium" look), then a LUT if the brand has one
+ffmpeg -i in.mp4 -vf "hue=s=0.7,eq=gamma=0.95" -c:v libx264 -crf 18 -c:a copy out.mp4
+ffmpeg -i in.mp4 -vf "lut3d=brand.cube" -c:v libx264 -crf 18 -c:a copy out.mp4
+```
+**Matching two clips for a split or grid:** probe both (`signalstats` or just a frame of each
+side by side), bring the darker one up with `eq=brightness` first, then saturation, then a
+single shared `curves`/LUT on both so they share a "film stock". Grade **once**, in the same
+pass as the trim/reframe (rule 2). In the scene, the remaining look tools are overlay solids
+with blend modes, a vignette mask, and a grain `.jet` — motion-design.md, finish pass.
+
 ## Fades, stills, loops
 ```bash
 ffmpeg -i in.mp4 -vf "fade=t=in:d=0.4,fade=t=out:st=5.6:d=0.4" -c:v libx264 -crf 18 out.mp4

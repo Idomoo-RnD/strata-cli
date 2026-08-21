@@ -7,6 +7,10 @@ matches the intent, then fill it — instead of inventing arbitrary boxes.
 Always check the result with **`strata preview scene.json --at <sec> --grid`** (local
 wireframe, free) before rendering.
 
+**Canvas size and generated media:** `generate image` is 1376×768 and `generate video` is
+1280×720, so a full-bleed generated plate in a 1920 comp is upscaled 1.5× — author at 1280×720
+when the footage fills the frame, or keep it in a framed slot (assets.md, *Source resolution*).
+
 ---
 
 ## The grid (landscape 1920×1080)
@@ -34,7 +38,7 @@ landscape first, then reflow (see *Reflow to vertical* below) — never letterbo
 | **1080×1350** 4:5 | 72 | 936 | 6 @136 / 24 | 150–380 | 430–1120 | 1180–1250 |
 | **1080×1080** 1:1 | 72 | 936 | 6 @136 / 24 | 120–300 | 340–800 | 900–960 |
 
-For 9:16 and 4:5 keep text out of the **top 8% / bottom 12%** (platform UI chrome).
+For 9:16 and 4:5 keep text out of the **top 10% / bottom 15%** (platform UI chrome), and off the right-hand ~12% in the lower half (the Reels/TikTok button stack).
 
 ---
 
@@ -109,7 +113,7 @@ Rows at y `420, 560, 700, 840`, each `[240,y,1440,90]`, revealed 0.4–0.6s apar
 number/tick at `[120,y,80,90]`. Use for: steps, agendas, feature lists.
 
 ### 8. lower-third — name/label over anything
-`bar [80,860,760,150]` anchored bottom-left; rise in with `position [0,60]→[0,0]`.
+`bar [120,860,760,150]` anchored bottom-left on the margin; rise in with `position [0,60]→[0,0]`.
 See `blocks.md` for the block.
 
 ### 9. speaker-card — a person, their title, their slot

@@ -36,7 +36,9 @@ to know before designing around it.
 - ❌ **Not good for:** per-word kinetic text, karaoke-style highlighting, one-word-per-cut
   editing.
 
-There is no cheap way to subdivide a cue into words — *measured* against hand-authored
+Per-word timing **is** achievable locally — a Whisper (`whisper-tiny.en`, timestamped) prototype
+via transformers.js ran in Node at roughly real-time in the repo's feature tests — but it is not
+shipped in the CLI. Through the API, there is no cheap way to subdivide a cue into words — *measured* against hand-authored
 ground truth: splitting a segment proportionally by character count is **118 ms mean / 501 ms
 worst**, and snapping those estimates to `strata beats` onsets is **124 ms / 407 ms**. Half a
 second out is plainly wrong on screen. If a piece truly needs per-word timing, **author the

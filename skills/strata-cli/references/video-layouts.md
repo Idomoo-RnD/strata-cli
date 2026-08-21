@@ -19,7 +19,7 @@ Two or more videos sharing the frame, snapped to the grid, with a gutter between
 - **2×2:** four `video` boxes at the quadrants, each `fit:"fill"`; thin solid gutters.
 - **Freehand:** unequal panels (a big hero + a strip of two) — more editorial than a clean grid.
 Start from a **2-panel with one purpose** (before/after, product/reaction), then add panels.
-**Balance exposure** across clips (grade/adjust) so it reads intentional, not accidental.
+**Balance exposure** across clips so it reads intentional — with ffmpeg before import (`eq`/`curves`, video-editing.md "Grade"); the engine has no colour correction.
 Motion discipline: let the *content* move; keep the panel boxes still.
 
 ### 2. Footage inside shapes ("media frames") — VERIFIED
@@ -72,7 +72,7 @@ A transparent **`.jet`** of the hero element sits ON TOP of the type, so the sub
 physically overlaps and covers the words — a shoe sweeping across the brand name, a bottle
 turning in front of the price, a person walking through the headline. This is the
 highest-recognition composition in modern product advertising, and it is cheap here:
-**video → extract the element (matte/key) → `.jet` → top layer.**
+**video → extract the element (chroma-key a green plate; `matte` only for a person) → `.jet` → top layer.**
 
 ⚠ **Only when the shot earns it** — one hero element, large type for it to cross, a piece
 where the hero should dominate, and motion that genuinely carries it **across** the words.
@@ -145,7 +145,7 @@ composition is the design; the video is one element in it.
 - **One hero video; supporting videos are smaller.** Size is hierarchy — don't give three clips
   equal weight unless the point is symmetry.
 - **Consistent gutters/borders** between panels (4–8px seams, or a uniform 40–80px margin).
-- **Match exposure/colour** across multiple clips so a grid feels intentional.
+- **Match exposure/colour** across multiple clips so a grid feels intentional (ffmpeg `eq`/`curves` before import — video-editing.md "Grade").
 - **Motion discipline:** usually let *one* thing carry the motion (the footage, or the camera) and
   keep the frame still — resist animating every panel at once.
 - **Frame the video** (mask, border, device, shape) rather than butting a raw rectangle against

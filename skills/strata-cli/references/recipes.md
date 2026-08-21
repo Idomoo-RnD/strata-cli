@@ -1,6 +1,6 @@
 # Recipe library — drop-in keyframe patterns
 
-43 ready-to-use motion-design recipes in the **compact scene format**. Each snippet is one (or a few) layers — paste into a scene's `layers`, swap the font/box/colours, and tune the timing. Times are **seconds**; coordinates assume a 1280×720 comp (scale to your size). The craft theory behind these (shots, easing, 3D/camera, rhythm) lives in the main SKILL.md.
+43 ready-to-use motion-design recipes in the **compact scene format**. Each snippet is one (or a few) layers — paste into a scene's `layers`, swap the font/box/colours, and tune the timing. Times are **seconds**; coordinates assume a **1280×720** comp — for the 1920×1080 grid in layouts.md multiply every box, size and distance by **1.5**. The craft theory behind these (shots, easing, 3D/camera, rhythm) lives in the main SKILL.md.
 
 **Conventions used below**
 - `"./font.ttf"` — any real `.ttf`/`.otf`. `"./image.jpg"` — your media.
@@ -87,8 +87,19 @@ Use `shape: "square"` and pin `end` at 1 so the whole string is hidden at t=0; `
                    "end":   [{"t":0,"v":0.2,"ease":"inOutSine"},{"t":2,"v":1.2},{"t":4,"v":0.2}] } }] }] }
 ```
 
-### RGB-split glitch
-Three additive copies in pure R/G/B, jittered on hold steps.
+### RGB-split glitch (VERIFIED with channel masks)
+Three additive copies of the **same white text**, each showing **one colour channel** via
+`blending_options`, jittered on hold steps. Where the copies overlap they recombine to the
+original colour, so the split reads as lens aberration rather than three coloured words.
+```json
+{ "type": "text", "text": "GLITCH", "font": "./font.ttf", "size": 150, "color": "#ffffff",
+  "box": [0,250,1280,200], "align": "center middle", "blend": "add", "anchor": [640,350],
+  "effects": [{ "name": "styles", "blending_options": { "red": true, "green": false, "blue": false } }],
+  "animate": { "position": [{"t":0,"v":[646,350],"ease":"hold"},{"t":0.2,"v":[634,350]},{"t":0.5,"v":[648,350]},{"t":0.9,"v":[638,350]}] } }
+```
+*(Copy 2: `green` only, copy 3: `blue` only, each with its own jitter; one can stay still.)*
+The older recolouring version (three copies tinted `#ff0040` / `#00ff90` / `#4080ff`) still
+works but never recombines to white:
 ```json
 { "type": "text", "text": "GLITCH", "font": "./font.ttf", "size": 150, "color": "#ff0040",
   "box": [0,250,1280,200], "blend": "add", "anchor": [640,350],
@@ -266,10 +277,13 @@ A wedge polygon mask whose sweep grows 0°→360° (compute the rim points; both
 ```
 
 ### 3D camera push-in
-`is_3d` layers need an `anchor` at their box centre so they stay centred; the camera dollies in z.
+The camera starts at **`−focal`** (623 for a 720-high comp at fov 60 — format.md, Camera) so
+the layer is true-size on frame 1, then dollies in. An anchored 3D layer's `position` is
+absolute, so it is written `[anchorX, anchorY, z]`; the unanchored alternative is no anchor
+and `position:[0,0,0]`.
 ```json
-{ "type": "camera", "fov": 60, "position": [640,360,-650],
-  "animate": { "position": [{"t":0,"v":[640,360,-650],"ease":"inOutSine"},{"t":4,"v":[640,360,-300]}] } }
+{ "type": "camera", "fov": 60, "position": [640,360,-623],
+  "animate": { "position": [{"t":0,"v":[640,360,-623],"ease":"inOutSine"},{"t":4,"v":[640,360,-300]}] } }
 ```
 ```json
 { "type": "text", "text": "idomoo", "font": "./font.ttf", "size": 120, "box": [0,250,1280,220],
@@ -456,20 +470,26 @@ Stack offset duplicates of the word in a dark colour behind the master (here gen
 
 ## 6. Extras
 
-### Rich text — many styles in one block
-Style ranges (`start`/`length`) carry `bold`/`italic`/`underline`/`color`/`size`/`highlight`/per-span `font`.
+### Rich text — many styles in one block (VERIFIED)
+Weight and slant come from **font files** per span; `bold`/`italic`/`underline`/`highlight`
+flags do **not** render (verified by render — the flagged version came out in one weight with
+no underline and no highlight). And spans must be **contiguous over every character,
+spaces and punctuation included**: the renderer drops any character no span covers, so a
+recipe that skips the spaces renders "BolditaliccolourSIZE" with the tail of the sentence gone.
 ```json
-{ "type": "text", "text": "Bold, italic, colour & SIZE — one block, many styles.",
+{ "type": "text", "text": "Bold, italic, colour & SIZE - one block, many styles.",
   "font": "./font.ttf", "size": 58, "color": "#cfd6e6", "box": [120,250,1040,280], "align": "center middle", "leading": 1.3, "shrink": true,
   "styles": [
-    { "start": 0,  "length": 4, "bold": true, "color": "#ffffff" },
-    { "start": 6,  "length": 6, "italic": true, "color": "#c4b5fd" },
-    { "start": 14, "length": 6, "color": "#22d3ee", "underline": true },
-    { "start": 23, "length": 4, "size": 92, "bold": true, "color": "#fde047" },
-    { "start": 30, "length": 10, "highlight": "#a855f733" }
+    { "start": 0,  "length": 6,  "font": "./font-bold.ttf",   "color": "#ffffff" },
+    { "start": 6,  "length": 8,  "font": "./font-italic.ttf", "color": "#c4b5fd" },
+    { "start": 14, "length": 9,  "color": "#22d3ee" },
+    { "start": 23, "length": 7,  "size": 92, "font": "./font-bold.ttf", "color": "#fde047" },
+    { "start": 30, "length": 23, "color": "#cfd6e6" }
   ],
   "animate": { "opacity": [{"t":0,"v":0},{"t":0.6,"v":1,"ease":"outCubic"}] } }
 ```
+*(0+6+8+9+7+23 = 53 = the string length — no gaps. Underline: a thin `solid` under the span.
+Highlight: a `solid` behind the text layer.)*
 
 ### Easing comparison — one ease per row
 Build one row per ease so you can feel the difference side-by-side.
@@ -492,13 +512,38 @@ Rule: **author at the full/canonical state and animate the reveal** — a mask w
 > reveal animation (mask wipe / scale / opacity) — it still works on the replaced image.
 > See [personalization.md](personalization.md).
 
-### Count-up number
-Bake an animated text value by stepping `text` per frame is not supported directly — instead reveal a final number with a fast scale/track-in and a mask wipe, or animate a bar/ring alongside it. For a true rolling count, render the number as an image sequence upstream; for most videos the entrance below reads as "counting".
+### Count-up number — NATIVE, and safe for personalization (VERIFIED by render)
+The text animator's **`character_offset`** shifts every selected digit by N, **wrapping
+modulo 10** — so animating it **`0 → 10·k`** spins each digit k full turns and lands
+**exactly on the layer's own text**. That is what makes it personalization-safe: whatever
+value the API substitutes, the roll ends on it. Measured: `2400` with offset 0→20 showed
+`8066`, `1399`, … and ended on `2400`.
 ```json
-{ "type": "text", "name": "kpi_value", "text": "98%", "font": "./font-bold.ttf", "size": 120, "color": "#fff",
-  "box": [40,110,340,130], "align": "left middle", "anchor": [210,175],
-  "animate": { "scale": [{"t":0,"v":0.6,"ease":"outBack"},{"t":0.5,"v":1}], "opacity": [{"t":0,"v":0},{"t":0.25,"v":1}] } }
+{ "type": "text", "name": "kpi_value", "text": "2400", "font": "./font-bold.ttf", "size": 160, "color": "#fff",
+  "box": [40,110,700,200], "align": "left middle",
+  "animators": [
+    { "character_offset": 0, "character_range": "case_and_digits",
+      "ranges": [{ "shape": "square", "units": "index", "start": 0, "end": 3 }],
+      "animate": { "character_offset": [{"t":0,"v":0,"ease":"outCubic"},{"t":1.6,"v":20}] } },
+    { "character_offset": 0, "character_range": "case_and_digits",
+      "ranges": [{ "shape": "square", "units": "index", "start": 3, "end": 4 }],
+      "animate": { "character_offset": [{"t":0,"v":0,"ease":"outCubic"},{"t":1.6,"v":50}] } }
+  ] }
 ```
+The second animator makes the **last digit spin faster** (5 turns vs 2) — the odometer feel.
+Rules, each one measured:
+- **The final keyframe must be an exact multiple of 10**, or it lands on the wrong number.
+- **Digits only in the animated layer.** `case_and_digits` does **not** protect symbols here:
+  `$1,280` rolled through `=6_735`, `{6%35` and ended on `"1*280`. Put currency, commas and
+  units in a **separate** text layer beside the digits.
+- **Never go negative** — a negative offset does not wrap, the glyph simply disappears.
+- `linear` / `outCubic` read as a roll; `outExpo` hits the end value in a few frames and then
+  sits — fine for a "snap to the number" but it is not a count.
+- **`character_value`** (with `character_range: full_unicode`) replaces each selected glyph
+  with a codepoint — animate 48→57 and an `A` becomes `0`…`9`. That is the scramble / decode
+  reveal: run it over the string, then let the real text show.
+For a rolling **strip** (digits physically sliding) build the nested-comp odometer in
+video-styles.md instead; for a plain numeric count this animator is simpler and cheaper.
 
 ### Bar chart (mask wipe L→R)
 The bar solid is full width; a rect mask animates its width from 0 to full so it "grows".
@@ -532,15 +577,20 @@ Draw a line by sweeping a rectangular mask across a pre-drawn line image/solid p
   "mask": { "rect": [120,140,0,440], "animate": { "shape": [ {"t":0,"v":{"rect":[120,140,0,440]}}, {"t":1.6,"v":{"rect":[120,140,1040,440]},"ease":"inOutSine"} ] } } }
 ```
 
-### Parallax depth (3D)
-Give layers different z and drift the camera for instant depth.
+### Parallax depth (3D) — MEASURED
+Give layers different z and drift the camera. **Far = POSITIVE z** (smaller), **near = negative
+z** (bigger); camera at `−focal` so z=0 is true size. Sizes follow `scale = focal/(z − z_cam)`
+(format.md, Camera) — so the bg at z=+400 with the camera at −623 renders at 623/1023 = 0.61×
+and must be oversized by 1/0.61 ≈ 1.65× to still fill the frame.
 ```json
-{ "type": "camera", "name": "cam", "animate": { "position": [ {"t":0,"v":[640,360,-1200],"ease":"inOutSine"}, {"t":4,"v":[700,360,-1000]} ] } },
-{ "type": "image", "name": "bg_far",  "src": "./bg.jpg",  "box": [-200,-120,1680,960], "is_3d": true, "position": [0,0,-400] },
-{ "type": "image", "name": "mid_card", "src": "./card.png","box": [340,180,600,360], "is_3d": true, "position": [0,0,-120] },
+{ "type": "camera", "name": "cam", "fov": 60, "animate": { "position": [ {"t":0,"v":[640,360,-623],"ease":"inOutSine"}, {"t":4,"v":[700,360,-560]} ] } },
+{ "type": "image", "name": "bg_far",  "src": "./bg.jpg",  "box": [-420,-240,2120,1200], "is_3d": true, "position": [0,0,400] },
+{ "type": "image", "name": "mid_card", "src": "./card.png","box": [340,180,600,360], "is_3d": true, "position": [0,0,120] },
 { "type": "text",  "name": "fg_title", "text": "Depth", "font": "./font-bold.ttf", "size": 120, "color": "#fff", "box": [0,300,1280,160], "align": "center middle", "is_3d": true, "position": [0,0,0] }
 ```
-*(Near layers (z≈0) drift more than far ones (z negative) as the camera moves — true cinematic parallax. **`position` x,y are still a delta from the box — put depth in z and keep x,y `0`; the box positions the layer.** Oversize a far bg (negative z shrinks it by perspective, so a 1280-wide bg at z−400 won't fill the frame). See SKILL.md "3D & camera".)*
+*(No anchors here, so `position` x,y stay `0` and the box places each layer; depth lives in z.
+Near layers drift more than far ones as the camera moves — that differential is the parallax.
+Draw order is still layer order, not z.)*
 
 ---
 

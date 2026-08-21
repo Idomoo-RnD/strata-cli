@@ -1,6 +1,6 @@
 # Block library — reusable sub-comps (reuse-first)
 
-Drop-in **sub-composition templates** for the parts every video needs. Each block is a VASCO sub-comp in the compact format with **unique layer names**; paste it into your scene's `comps`, then add a `comp` layer that instantiates it (with its own `box`, `start`, `duration`, and entrance animation). Or let the CLI wire it for you:
+Drop-in **sub-composition templates** for the parts every video needs. ⚠ **Coordinates here assume a 1280×720 comp** — for the 1920×1080 grid in layouts.md multiply every box and size by **1.5**. Each block is a VASCO sub-comp in the compact format with **unique layer names**; paste it into your scene's `comps`, then add a `comp` layer that instantiates it (with its own `box`, `start`, `duration`, and entrance animation). Or let the CLI wire it for you:
 
 ```bash
 strata add lower-third scene.json      # injects the block's sub-comp + a comp-instance stub
@@ -30,7 +30,7 @@ A name/title strip for the bottom-left. Solid bar + two text lines.
   { "type": "text", "name": "lt_title", "text": "Head of Design", "font": "./font.ttf", "size": 26, "color": "#9aa3bf", "box": [28, 92, 580, 36], "align": "left middle" }
 ] } }
 ```
-Instance (note `position` is a **delta from the box**, not absolute — rise 60px → settle): `{ "type":"comp","comp":"lower_third","name":"lt_inst","box":[80,860,760,150],"start":1,"duration":4,"animate":{"position":[{"t":0,"v":[0,60],"ease":"outCubic"},{"t":0.5,"v":[0,0]}],"opacity":[{"t":0,"v":0},{"t":0.4,"v":1},{"t":3.6,"v":1},{"t":4,"v":0}]} }`
+Instance (note `position` is a **delta from the box**, not absolute — rise 60px → settle): `{ "type":"comp","comp":"lower_third","name":"lt_inst","box":[120,860,760,150],"start":1,"duration":4,"animate":{"position":[{"t":0,"v":[0,60],"ease":"outCubic"},{"t":0.5,"v":[0,0]}],"opacity":[{"t":0,"v":0},{"t":0.4,"v":1},{"t":3.6,"v":1},{"t":4,"v":0}]} }`
 
 ### stat-card
 A big number + label on a card. Animate the number with a count-up (see recipes).
@@ -84,11 +84,13 @@ A rounded input bar with a caret (good for "type a query" shots).
 ```
 
 ### quote-card
-A pull-quote with attribution.
+A pull-quote with attribution. The quote uses `"left middle"` in a box sized to its two
+lines — **never `"… top"`**: vertical `top` is ignored and the text drops to the box bottom
+(verified by render; see format.md).
 ```json
 "comps": { "quote_card": { "width": 1000, "height": 420, "duration": 5, "layers": [
   { "type": "solid", "name": "qc_bg", "color": "#0e1230", "box": [0, 0, 1000, 420] },
-  { "type": "text", "name": "qc_quote", "text": "“This changed how we ship.”", "font": "./font-bold.ttf", "size": 56, "color": "#ffffff", "box": [60, 60, 880, 220], "align": "left top" },
+  { "type": "text", "name": "qc_quote", "text": "“This changed how we ship.”", "font": "./font-bold.ttf", "size": 56, "color": "#ffffff", "box": [60, 70, 880, 160], "align": "left middle" },
   { "type": "text", "name": "qc_attr", "text": "— A. Customer, Acme", "font": "./font.ttf", "size": 30, "color": "#9aa3bf", "box": [60, 320, 880, 44], "align": "left middle" }
 ] } }
 ```

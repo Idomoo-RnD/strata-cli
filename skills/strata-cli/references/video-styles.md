@@ -206,7 +206,8 @@ The cheapest to produce, the easiest to personalise, and where the craft shows m
 - **isometric-build** — a cube is three path-mask faces shaded ×1 / ×0.8 / ×0.62; pieces drop
   in ordered by grid distance.
 - **odometer-count** — a rolling digit strip inside a **nested-comp window** (a mask cannot
-  make a window — see gotchas), stepping outExpo.
+  make a window — see gotchas), stepping outExpo. For a plain numeric count the native
+  `character_offset` animator is cheaper and personalization-safe (recipes.md, Count-up).
 - **memphis** — squash-and-stretch: `[0.2,1.7] → [1.12,0.9] → [1,1]`. Overshoot is the point.
 - **type-in-space** — words every ~600 units of z, camera flying through them.
 - **orbit-dolly** — cards at different z, camera arcs ±170px; parallax does the work, no
@@ -245,7 +246,9 @@ Every one was found by rendering, and each one silently produces a broken video:
    set `duration` on every comp, or its content blanks part-way through.
 2. **Camera `position` is an ABSOLUTE comp coordinate** — `[960,540,z]` for 1920×1080, with
    **negative z**. `[0,0,z]` parks the camera in the top-left corner and the scene renders
-   black or badly off-centre.
+   black or badly off-centre. And it is a measured pinhole: park it at **`z = −focal`**
+   (`focal = (h/2)/tan(fov/2)`, 935 for 1080p @ fov 60) or every z=0 layer renders small;
+   **negative z on a layer comes TOWARD the camera** (bigger), far backgrounds go at positive z.
 3. **`anchor` + animated `position` on a 3D layer:** with an anchor set, every position
    keyframe is the **absolute point where the anchor lands**. Keep x,y at the anchor and vary
    only z, or the layer is dragged to that coordinate.
