@@ -151,7 +151,7 @@ TTS voiceover MP3 (sync). Returns the spoken **duration** in seconds — size th
 | The narration is… | Then |
 |---|---|
 | **Narration / VO over visuals with no one speaking on camera** (motion graphics, b-roll, product shots, kinetic text) | reference the MP3 as an `audio` layer in the scene. This is the normal case |
-| **A voice fed to `generate video --ref-audio`** so a character lip-syncs to it | the generated **clip's own audio** is the deliverable. Put the clip in the scene and **do NOT add the MP3 as an audio layer** |
+| **Anyone speaks on camera** — a `{line}` in a text-to-video prompt, a voice fed to `--ref-audio`, an avatar, the user's footage | the **clip's own audio** is the voice. Put the clip in the scene and **do NOT add a TTS of the same line as an audio layer** — it cannot be synced and the voice doubles |
 
 ⚠️ **Never lay the source TTS over a clip that was generated from it.** *Measured:* the
 spoken lines land **1.3 s, 3.8 s and 6.3 s into their clips** — never at 0 — because the

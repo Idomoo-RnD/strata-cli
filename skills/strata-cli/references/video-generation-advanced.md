@@ -310,6 +310,11 @@ re-performance.
 
 ### 🔇 NEVER lay the source TTS over the generated clip — use the CLIP'S audio
 
+This is the general rule for **any clip in which someone speaks** — whether the voice came from
+`--ref-audio`, from a `{line}` in a plain text-to-video prompt, from an avatar, or from the user's
+own footage: the clip's audio is the performance. Generating a narration of the same words and
+laying it on top cannot sync, for the reason measured below.
+
 Once a TTS track has been used as `--ref-audio`, **the generated clip's own audio is the
 deliverable.** Put that clip in the scene with its audio intact. Do **not** add the original
 `.mp3` as a separate `audio` layer on top — it cannot be made to sync, and doubling it means
