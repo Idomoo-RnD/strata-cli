@@ -8,6 +8,10 @@ That is the amateur tell. This file is the motion language that separates the tw
 **Read this by default** whenever the user hasn't dictated the motion. Pair it with
 `video-layouts.md` (where things sit) — this is how they move.
 
+Need a **name** for a technique, more options than the ten below, or a checklist to critique
+against? That is the vocabulary layer: [motion-atlas.md](motion-atlas.md), ~700 named concepts.
+**This file stays the authority on numbers** — the atlas defers to it wherever they overlap.
+
 ---
 
 ## The 10 techniques (each maps to a real key)
