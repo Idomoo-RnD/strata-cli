@@ -113,8 +113,9 @@ Runs through `matte` / reframe / trim / ffmpeg — never `generate`.
   One interaction per shot; never move the cursor and change the screen at once.
 - **footage-repurpose** — centre-crop 16:9 → 9:16 with ffmpeg, then panel the top and bottom
   to carry title and CTA. What survives a crop decides the cut.
-- **event-recap** — energy over polish. Scrim + title over handheld; a meta line
-  (place · scale · duration) does the work a paragraph would.
+- **event-recap** — energy over polish. Title over handheld, held legible by placing it on
+  the quietest part of the plate or on a solid panel, not a scrim ([anti-slop.md](anti-slop.md));
+  a meta line (place · scale · duration) does the work a paragraph would.
 
 ## B · Generated footage
 

@@ -130,6 +130,15 @@ place, the season, the medium — and name why.
 
 If two or more are true of a frame, it will read as generated. Fix before spending a render.
 
+**`strata validate` runs the mechanical half of this list for me.** It reads the scene's
+geometry and warns — naming the pattern and this file — on a box-shaped scrim under text, a
+rule under a title, a side colour bar on a panel, three-or-more identical list markers,
+stacked atmospheric effects, and bullet glyphs in copy. A `.brand/brand.md` beside the scene
+exempts the scrim warning, because a brand can own one. **The warnings are the checklist
+firing, not noise**: I fix each one or say in my report why the brief earns it. What validate
+cannot see — eyebrow labels, numbered markers in text, the no-brand palettes, buzzwords — I
+still check by eye against the list above.
+
 - [ ] Text sits on a box-shaped scrim that is not part of the layout
 - [ ] There is a rule under a title that separates nothing
 - [ ] A card or lower-third has a side colour bar the brand did not ask for
