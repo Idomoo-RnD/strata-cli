@@ -256,5 +256,5 @@ Every one was found by rendering, and each one silently produces a broken video:
    comps** (a comp canvas clips its content) or a static track-matte layer.
 5. **The `validate` overlap warning is a false positive for 3D and RGB-split scenes** —
    layers at different z, and deliberate chromatic-split copies, legitimately overlap in 2D.
-6. **`strikethrough` / `underline` / `highlight` do not render** — draw a `solid` bar.
+6. **`strikethrough` / `underline` / `highlight` do not render** — draw a `solid` bar when the brief asks for one (a rule under a lone title is a tell — [anti-slop.md](anti-slop.md)).
 7. **Emoji are image layers, never text** — `strata glyphs` catches this before a render.

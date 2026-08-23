@@ -71,6 +71,9 @@ Contents: 1 Formats and technical baselines · 2 Web and HTML-native motion · 3
 - **Watch tests**: 1x for rhythm, frame-step for errors, muted for story, phone for hierarchy.
 
 ## 5. Anti-patterns (the most common mistakes)
+
+> These are **motion** anti-patterns. The **composition** defaults an agent falls into - scrims, rules under titles, side bars, effect stacks, decorative structure, the no-brand palettes - live in [anti-slop.md](../anti-slop.md), which is mandatory and is the only place that list is maintained.
+
 - **Linear easing** on entrances and exits.
 - **Everything moving at once**: no focal point.
 - **Over-animation**: motion that decorates instead of communicates.

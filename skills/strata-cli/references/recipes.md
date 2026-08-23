@@ -39,7 +39,7 @@ Per-span `color`/`size`/`tracking` plus a word-by-word rise-and-fade. **Spans mu
       "animate": { "start": [{"t":0,"v":0},{"t":1.6,"v":1,"ease":"outCubic"}],
                    "end":   [{"t":0,"v":0.34},{"t":1.6,"v":1.34}] } }] }] }
 ```
-*(Fake underline: a thin `solid` bar under the box. Fake highlight: a `solid` behind the text layer.)*
+*(Fake underline: a thin `solid` bar under the box — only when the brief asks; a rule under a lone title is a tell, see [anti-slop.md](anti-slop.md). Fake highlight: a `solid` behind the text layer.)*
 
 ### Typewriter with a caret that follows the text
 Per-character hard-edged reveal (`shape:"square"`, `start` stepped one notch per char), plus a caret solid whose `x` is stepped to the **cumulative glyph advances** (`x += size × advance/1000`; Arial 'm'≈833, 'i'≈222, space≈278). Use a monospace font for exact tracking.
@@ -133,9 +133,10 @@ works but never recombines to white:
 ```
 *(Place the dark text layer on top.)*
 
-### Title + underline wipe
+### Rule wipe — a divider drawing on between two regions
+A rule that *separates* (a header from a body, two columns) may draw on. A rule under a lone title is decoration — [anti-slop.md](anti-slop.md).
 ```json
-{ "type": "solid", "name": "ul", "color": "#a855f7", "box": [410,408,460,6], "anchor": [410,411],
+{ "type": "solid", "name": "rule", "color": "#d9dde3", "box": [410,408,460,2], "anchor": [410,409],
   "animate": { "opacity": [{"t":0.5,"v":0},{"t":0.6,"v":1}],
                "scale":   [{"t":0.6,"v":[0,1],"ease":"outExpo"},{"t":1.3,"v":[1,1]}] } }
 ```
@@ -488,7 +489,7 @@ recipe that skips the spaces renders "BolditaliccolourSIZE" with the tail of the
   ],
   "animate": { "opacity": [{"t":0,"v":0},{"t":0.6,"v":1,"ease":"outCubic"}] } }
 ```
-*(0+6+8+9+7+23 = 53 = the string length — no gaps. Underline: a thin `solid` under the span.
+*(0+6+8+9+7+23 = 53 = the string length — no gaps. Underline, if the brief wants one: a thin `solid` under the span.
 Highlight: a `solid` behind the text layer.)*
 
 ### Easing comparison — one ease per row

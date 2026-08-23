@@ -158,10 +158,16 @@ move. That pause is what makes the next beat land.
 - **Cut/land key moves on the audio** when there's music or VO — get the actual onset times with `strata beats` ([generative-fx.md](generative-fx.md)); never eyeball them.
 
 ## The finish pass (compositing polish)
-What separates a "designed" frame from a plain one, all available here:
-`glow` on hero type/marks · `blend:"add"` light-leaks/flares · subtle grain · `shadow` for depth ·
-**track mattes** (text reveals video, shapes reveal images) · `blend` modes so overlays sit *in*
-the image, not on it.
+All available here: `glow` on hero type/marks · `blend:"add"` light-leaks/flares · subtle grain ·
+`shadow` for depth · **track mattes** (text reveals video, shapes reveal images) · `blend` modes
+so overlays sit *in* the image, not on it.
+
+**This pass is subtractive, not additive.** A designed frame is usually **one** of these, chosen
+because the subject calls for it — neon glows, a screen flares, a 70s piece has grain — and it is
+the piece's signature. Glow + flare + grain + vignette stacked on one frame is *the* generated
+look. Pick at most one atmospheric effect, then look at the snapshot and remove one more thing
+([anti-slop.md](anti-slop.md)). Track mattes and blend modes are structure, not atmosphere, and
+do not count against that one.
 
 ---
 

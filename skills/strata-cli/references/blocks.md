@@ -21,11 +21,10 @@ strata add --list                      # list available blocks
 ## Available blocks
 
 ### lower-third
-A name/title strip for the bottom-left. Solid bar + two text lines.
+A name/title strip for the bottom-left. Solid bar + two text lines. **Ships without a side accent bar** — an 8 px colour bar on the edge of a lower-third is the single most recognisable agent tell ([anti-slop.md](anti-slop.md)). If the **brand's** motion system has one, add it in the brand colour: `{ "type": "solid", "name": "lt_accent", "color": "<brand>", "box": [0, 40, 8, 92] }` before `lt_name`.
 ```json
 "comps": { "lower_third": { "width": 760, "height": 150, "duration": 5, "layers": [
   { "type": "solid", "name": "lt_bar", "color": "#101418", "box": [0, 40, 620, 92], "opacity": 0.92 },
-  { "type": "solid", "name": "lt_accent", "color": "#4cc9f0", "box": [0, 40, 8, 92] },
   { "type": "text", "name": "lt_name",  "text": "Jane Cooper", "font": "./font-bold.ttf", "size": 40, "color": "#ffffff", "box": [28, 48, 580, 46], "align": "left middle" },
   { "type": "text", "name": "lt_title", "text": "Head of Design", "font": "./font.ttf", "size": 26, "color": "#9aa3bf", "box": [28, 92, 580, 36], "align": "left middle" }
 ] } }
@@ -33,11 +32,10 @@ A name/title strip for the bottom-left. Solid bar + two text lines.
 Instance (note `position` is a **delta from the box**, not absolute — rise 60px → settle): `{ "type":"comp","comp":"lower_third","name":"lt_inst","box":[120,860,760,150],"start":1,"duration":4,"animate":{"position":[{"t":0,"v":[0,60],"ease":"outCubic"},{"t":0.5,"v":[0,0]}],"opacity":[{"t":0,"v":0},{"t":0.4,"v":1},{"t":3.6,"v":1},{"t":4,"v":0}]} }`
 
 ### stat-card
-A big number + label on a card. Animate the number with a count-up (see recipes).
+A big number + label on a card. Animate the number with a count-up (see recipes). **Ships without the short accent rule** between label and value — it separates nothing ([anti-slop.md](anti-slop.md)); hierarchy comes from the 120/28 size ratio. Brand wants one: `{ "type": "solid", "name": "sc_rule", "color": "<brand>", "box": [40, 96, 64, 6] }` after `sc_bg`.
 ```json
 "comps": { "stat_card": { "width": 420, "height": 300, "duration": 5, "layers": [
   { "type": "solid", "name": "sc_bg", "color": "#0e1230", "box": [0, 0, 420, 300] },
-  { "type": "solid", "name": "sc_rule", "color": "#ffd166", "box": [40, 96, 64, 6] },
   { "type": "text", "name": "sc_value", "text": "98%", "font": "./font-bold.ttf", "size": 120, "color": "#ffffff", "box": [40, 110, 340, 130], "align": "left middle" },
   { "type": "text", "name": "sc_label", "text": "Customer satisfaction", "font": "./font.ttf", "size": 28, "color": "#9aa3bf", "box": [40, 40, 340, 40], "align": "left middle" }
 ] } }
