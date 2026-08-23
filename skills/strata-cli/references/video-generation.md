@@ -441,6 +441,34 @@ single time: [video-editing.md](video-editing.md#join--concat).
 
 They compose: author the key moments as frames, chain to cover the ground between them.
 
+## ⛔ A clip shorter than its scene is NEVER stretched — cover the gap with more shots
+
+The scene is 17 s, the clip came back 15 s. **Do not retime the clip to fit.** Slowing
+footage to fill time is the single most visible amateur tell in a finished piece: motion
+goes syrupy, the model's already-slow pacing becomes glacial, and a talking or sound-designed
+clip loses its audio sync. A retime is for a *deliberate* slow-motion beat the storyboard
+asked for, never for arithmetic.
+
+**Cover the gap with new footage.** Two ways, both keeping the piece alive:
+
+1. **A companion clip of the same subject — more shots, not more seconds.** Pull a reference
+   frame from the clip you have (`ffmpeg -ss <t> -i clip.mp4 -frames:v 1 ref.png` →
+   `strata upload`), then generate a second clip with **2–3 new shots of the same people and
+   place** — a close-up, a wide, an insert — using that frame as `--ref-image` (or as
+   `--first-frame` if you want it to begin exactly there). Now the long scene is *covered*:
+   cut between the original and the companion, and the 17 s reads as an edit, not a hold.
+   This is the better answer almost always — a scene that is too long for one shot was
+   asking for coverage anyway.
+2. **Extend the take** — chain off `--last-frame-out` (above) when the scene genuinely needs
+   the *same* shot to continue: a walk that must reach the door, a pour that must finish.
+
+And the two tools that make this cheap: `strata captions` / `strata beats` tell you where
+the edit points are, and the editorial layer ([editing-director.md](editing-director.md))
+says *which* shots a scene needs — a scene's job, not its length, decides the coverage.
+
+The same rule in the other direction: a clip **longer** than its scene is trimmed
+([video-editing.md](video-editing.md)), never sped up.
+
 ---
 
 ## Two different things are called "fast" — don't confuse them

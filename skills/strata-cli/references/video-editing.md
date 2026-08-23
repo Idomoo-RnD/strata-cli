@@ -155,6 +155,13 @@ brand letterbox, or the important half leaves the frame. **Check a frame afterwa
 crop that decapitates the subject is the classic failure.
 
 ## Speed & retime
+
+⛔ **A retime is for a slow-motion beat the storyboard asked for — never to make a short clip
+fit a long scene.** A 15 s clip in a 17 s scene is covered with **more shots of the same subject**
+(a companion clip from a reference frame) or **extended** off its last frame, not stretched:
+[video-generation.md](video-generation.md#a-clip-shorter-than-its-scene-is-never-stretched--cover-the-gap-with-more-shots).
+Stretched footage is the most visible amateur tell in a finished piece.
+
 ```bash
 ffmpeg -i in.mp4 -filter_complex "[0:v]setpts=0.5*PTS[v];[0:a]atempo=2.0[a]" -map "[v]" -map "[a]" out.mp4  # 2× faster
 ffmpeg -i in.mp4 -filter:v "setpts=2.0*PTS" -an out.mp4        # 2× slower, silent
@@ -262,7 +269,8 @@ output to confirm dimensions/fps/duration are what was asked for.
 | "just the good bit, 12s–20s" | `-ss 12 -to 20` |
 | "put these three together" | normalise + `concat` (differing sources) |
 | "make it vertical for TikTok" | crop or blur-fill reframe, then check a frame |
-| "speed it up / slow-mo" | `setpts` (+`atempo` for audio) |
+| "speed it up / slow-mo" (a deliberate beat) | `setpts` (+`atempo` for audio) |
+| "the clip is shorter than the scene" | **not a retime** — generate a companion clip or extend it ([video-generation.md](video-generation.md)) |
 | "remove the sound" / "add this music" | `-an` / map a new audio stream |
 | "grab me a thumbnail" | `-ss <t> -frames:v 1` |
 | "loop it" | palindrome loop, or `-stream_loop` if the ends match |

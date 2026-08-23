@@ -373,6 +373,49 @@ Both make a person talk. They are not interchangeable:
 
 ---
 
+### `--ref-audio` with MUSIC — choreograph the clip to a track
+
+The same input, the other job: attach a music track and the model **cuts and moves to it**.
+This is the strongest way to get a beat-locked clip without post — the edit points come out
+already on the music. Four moves, in this order, and every one is load-bearing:
+
+1. **Assign the job up front, before anything else:** `Use [Audio 1] as the music track for
+   the entire video, and choreograph everything to it.`
+2. **Tie the motion to the phrasing, in CAPS:** `HIS MOVEMENT FOLLOWS THE MUSIC IN [Audio 1]:
+   every gesture rises and falls with the music's phrasing — he expands as the music swells,
+   softens and settles as it quiets.`
+3. **End every shot with `Cut on the beat.`** instead of `Cut.` — and say it once more in
+   prose: *"each camera CUT lands on a musical beat or transition in [Audio 1] so the edit is
+   locked to the track."*
+4. **Close `Audio:` with the track as the whole soundtrack:** *"use [Audio 1] as the full
+   soundtrack throughout, with only the faintest natural breath and fabric rustle beneath it.
+   No narration, no voice."* Needs `--audio`.
+
+The last shot should **land with the music's closing phrase** — say so — or the clip ends
+mid-bar. The rest of the prompt is the ordinary anatomy: identity lock ×3, double-contrast
+shots, `Static Description:`. Worked in full on a tai-chi piece in the prompt reference this
+file's anatomy comes from; the measured result was the "super good" one.
+
+When the music is *yours to place* rather than the model's to cut to — a VASCO scene with a
+bed under it — do the opposite: generate **without** a track and cut in the scene on
+`strata beats` onsets ([generative-fx.md](generative-fx.md)). Never both: a clip cut to one
+track and then laid over another fights itself.
+
+### A series — same skeleton, swap the theme
+
+For a set of clips that must read as one family (a campaign, a character's week, a product
+line), keep **`Style & Mood:`, the location, the identity lock and `Static Description:`
+byte-identical** across every prompt, and change only two things: the one-line **theme in
+CAPS** and the **five shots** that express it.
+
+> `taichi_A` — about WEIGHT and ROOTEDNESS (low angles, bare feet, palms pressing down)
+> `taichi_B` — about CIRCLES and ROTATION (orbit arc, spiral turn, rim light from behind)
+> `taichi_C` — about RISING and OPENING (bird's-eye opener, arms unfold, camera cranes up)
+
+Same seed across the series if you want the look to hold even tighter (`--seed`). A series
+whose prompts differ in more than the theme and the shots drifts — the identical skeleton is
+what makes three clips look like they came from one shoot.
+
 ## `strata sketch` — author the camera plan as a 3D animatic
 
 When a shot is complex enough that words fail — *"crane down past the sign as she crosses left
