@@ -4,6 +4,10 @@ Sometimes the user doesn't want a designed piece: they hand over an MP4 and say 
 first 3 seconds"*, *"make this 9:16"*, *"stitch these together"*, *"drop the audio"*. That
 is a **mechanical edit**, and the tool is **ffmpeg** — not a scene.
 
+This file is the **mechanical** half. The **editorial** half — which cut, why, and in what order,
+when the user hands over footage and says *"make this better"* or *"cut it down for social"* —
+is [editing-director.md](editing-director.md); read it first, then come back here for the commands.
+
 **The split that decides everything:**
 - **Mechanical** (trim/join/crop/speed/audio/format) → **ffmpeg**, output an MP4, done.
 - **Design** (titles, graphics, transitions, kinetic type, logo, data) → **a strata scene**.
