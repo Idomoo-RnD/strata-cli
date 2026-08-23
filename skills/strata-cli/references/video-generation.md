@@ -96,7 +96,7 @@ something we rendered locally (a `strata sketch` animatic, an ffmpeg frame grab)
 | `--duration` | 4–15 s, default 5 |
 | `--ratio` | `16:9` `9:16` `1:1` `4:3` `3:4` `21:9` `adaptive`. *Measured:* `adaptive` snaps to the nearest standard ratio and crops (1376×768 → 1280×720) — it does **not** preserve an unusual source aspect. With references there is nothing to infer from, so **set it explicitly** |
 | `--seed` | reproducibility; keep it fixed across a series |
-| `--camera-fixed` | locks the camera — useful when VASCO will do its own camera work |
+| `--camera-fixed` | ⛔ **rejected by the current model on every task type** (*measured:* t2v, i2v and r2v all answer `camera_fixed … must be empty`; the CLI now refuses it before spending the request). **Lock the camera in the prompt instead** — see *Locking the camera* below |
 | `--audio` | native synced audio. *Measured:* real AAC 44.1 kHz stereo. ⚠ **Anything you do to this clip afterwards must keep that track** — see below |
 | `--last-frame-out <file>` | saves the last frame for chaining. **Do it now** — the URL is signed and expires in 24 h |
 | `--fast` | the fast model: ~1.5× quicker, but *measured* it dropped a shot (4 delivered of 5). Use when shot count does not matter |
@@ -284,8 +284,9 @@ the overlay.**
   sharing the subject's colours.
 - **Keep the subject whole and in frame throughout.** A subject that leaves frame or is
   cropped by the edge mattes badly at that boundary.
-- **`--camera-fixed`**, or at most a very slow drift — camera movement changes the background
-  continuously and gives the matte more to get wrong.
+- **A locked-off camera, stated in the prompt** (the `--camera-fixed` flag is rejected by the
+  model — see *Locking the camera*), or at most a very slow drift — camera movement changes the
+  background continuously and gives the matte more to get wrong.
 - **Avoid what mattes badly**: wispy or flyaway hair, smoke, steam, water spray, glass, veils,
   heavy motion blur, and backlight strong enough to silhouette. Say so in the prompt.
 - **Full body or a clean waist-up**, held throughout, so the overlay is reusable.
@@ -357,6 +358,23 @@ filler between two fixed poses. The real-face rule applies to **both** images. A
 snaps. And this is the cleanest way to build a controlled sequence: author frames A, B, C as
 images and interpolate A→B, B→C — every clip boundary is then a frame you chose, which is
 stronger than chaining, where the boundary is wherever the model happened to end.
+
+## Locking the camera — in the prompt, not the flag
+
+`camera_fixed` is in the API spec, but the model Idomoo routes to **rejects it on every task
+type** — *measured 2026-08-22:* text-to-video, first-frame and reference-image requests all
+fail with *"camera_fixed is not supported for model … must be empty"*, surfaced as an HTTP
+500 so it does not even look like an input error. `strata generate video --camera-fixed` now
+refuses up front with this message instead of spending a request.
+
+**State the lock in the prompt, and say what *does* move:**
+
+> LOCKED-OFF CAMERA: the camera is completely static on a tripod — no pan, no tilt, no zoom,
+> no push, no drift, no handheld movement; the frame edges never move. Only the steam moves.
+
+Naming the one thing that moves matters as much as the lock: a prompt that only forbids
+motion invites the model to invent some. Put it in the Static Description too, so it survives
+a chained continuation ([Chaining](#chaining--clips-longer-than-15-s)).
 
 ## Chaining — clips longer than 15 s
 

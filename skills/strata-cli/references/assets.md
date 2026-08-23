@@ -106,7 +106,7 @@ EXCLUSIVE** — the CLI rejects the combination before spending anything.
 | `--ref-audio <url>` | a voice / audio bed to sync to |
 | `--duration <4..15>` | clip length (default 5); longer needs chaining |
 | `--ratio <16:9\|9:16\|1:1\|4:3\|3:4\|21:9\|adaptive>` | output aspect |
-| `--seed <N>` · `--camera-fixed` | reproducibility · lock the camera |
+| `--seed <N>` | reproducibility. (`--camera-fixed` is rejected by the model on every task type — lock the camera in the prompt: [video-generation.md](video-generation.md#locking-the-camera--in-the-prompt-not-the-flag)) |
 | `--audio` | native synced audio (real AAC 44.1 kHz stereo) |
 | `--last-frame-out <file>` | save the last frame for chaining — its URL expires in 24 h |
 | `--realistic-human` | required for real faces, logos and real products; **applied automatically** on a content rejection |
