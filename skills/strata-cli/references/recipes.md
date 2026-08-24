@@ -133,6 +133,28 @@ works but never recombines to white:
 ```
 *(Place the dark text layer on top.)*
 
+
+### Seamless loop — first frame equals last frame, invisibly
+
+For backgrounds, stickers and web embeds that repeat. Three rules, all load-bearing
+(*measured: a 4 s scene concatenated 3× with invisible joins*):
+
+1. **Every keyframed value returns to its start** — closed paths: `A → B → A`, with the
+   SAME easing family on the way out and back (`inOutSine` both ways puts velocity ≈ 0 at
+   the seam, so the join cannot pop).
+2. **Rotations complete full turns** — `0 → 360` reads as continuous across the cut.
+3. **Nothing keys off absolute time** — no element may still be mid-entrance at the end.
+
+```json
+"animate": { "position": [ {"t":0,"v":[0,0],"ease":"inOutSine"},
+                            {"t":2,"v":[180,140],"ease":"inOutSine"},
+                            {"t":4,"v":[0,0]} ] }
+```
+
+Prove it before shipping: render once, `ffmpeg -f concat` three copies, watch the joins.
+For a generated (AI) loop: keyframe interpolation with the SAME image as `--first-frame`
+and `--last-frame` closes the loop at the model level ([video-generation.md](video-generation.md)).
+
 ### Rule wipe — a divider drawing on between two regions
 A rule that *separates* (a header from a body, two columns) may draw on. A rule under a lone title is decoration — [anti-slop.md](anti-slop.md).
 ```json

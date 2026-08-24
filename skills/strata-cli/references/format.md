@@ -261,6 +261,12 @@ Only affects layers with `"is_3d": true` (passthrough key). `zoom` is an animata
 common wrong guess is `[0,0,z]` (treating it as an offset like a layer's), which parks the
 camera at the **top-left corner** and renders the scene black or wildly off-centre.
 
+**Depth goes on `position` z with a 2D `anchor` — a 3-element anchor silently drops the z.**
+*Measured (2026-08-24):* eleven text copies given `anchor:[x,y,z]` all rendered at z=0 — a
+perfectly flat stack. The same layers with `anchor:[x,y]` and `position:[x,y,z]` rendered
+at their depths (the extruded-title block relies on this). The anchor is a 2D pivot; the
+third coordinate belongs to the position target.
+
 ### The camera is an exact pinhole — here is the calibration (MEASURED)
 
 Rendered 160 px squares at several z, fov and camera distances; every size matched this to

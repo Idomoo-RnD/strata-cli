@@ -468,6 +468,35 @@ strata generate video "<the real content>" --ref-video <that url> --duration 12 
 - `--html` writes an interactive page for eyeballing the blocking before you render;
   `--frames` dumps the PNG sequence.
 
+Two more worked plans — adapt, do not start from zero:
+
+**Product turntable** (orbit + push-in — the commonest product ask):
+```json
+{ "width": 1280, "height": 720, "fps": 24, "duration": 8, "fov": 45,
+  "ground": { "size": 24, "step": 2 },
+  "boxes": [ { "label": "product", "at": [0, 1.0, 0], "size": [1.4, 2.0, 1.4] },
+             { "label": "pedestal", "at": [0, 0.25, 0], "size": [2.4, 0.5, 2.4] } ],
+  "shots": [ { "from": 0, "to": 5, "pos": [6, 2.2, 6], "lookAt": [0, 1.2, 0],
+               "toPos": [-6, 2.2, 6], "toLookAt": [0, 1.2, 0] },
+             { "from": 5, "to": 8, "pos": [0, 1.2, 3.2], "lookAt": [0, 1.2, 0],
+               "toPos": [0, 1.2, 2.2], "toLookAt": [0, 1.2, 0] } ] }
+```
+
+**Character through a doorway** (sprite path through a gap, camera leading then following):
+```json
+{ "width": 1280, "height": 720, "fps": 24, "duration": 10, "fov": 50,
+  "ground": { "size": 40, "step": 2 },
+  "boxes": [ { "label": "wall L", "at": [-4.5, 2, 0], "size": [6, 4, 0.6] },
+             { "label": "wall R", "at": [4.5, 2, 0], "size": [6, 4, 0.6] },
+             { "label": "table", "at": [3, 0.5, -5], "size": [2.4, 1.0, 1.2] } ],
+  "sprites": [ { "label": "woman", "size": [0.8, 1.8],
+    "path": [[0,[0,0.9,7]], [4,[0,0.9,1.5]], [5.5,[0,0.9,-1]], [10,[2.6,0.9,-4.2]]] } ],
+  "shots": [ { "from": 0, "to": 4.5, "pos": [0, 1.6, -3], "lookAt": [0, 1.2, 6],
+               "toPos": [0, 1.6, -4.5], "toLookAt": [0, 1.2, 3] },
+             { "from": 4.5, "to": 10, "pos": [-3.5, 1.8, -3.5], "lookAt": [0, 1.2, -1],
+               "toPos": [-2.5, 1.8, -5.5], "toLookAt": [2.6, 1.0, -4.2] } ] }
+```
+
 **The animatic is a camera plan, not a look.** Keep the prompt's `Style & Mood:` and identity
 lock complete — the reference contributes nothing but movement and timing.
 

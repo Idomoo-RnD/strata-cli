@@ -156,6 +156,13 @@ crop that decapitates the subject is the classic failure.
 
 ## Speed & retime
 
+**A keyframed ramp is a built-in — do not hand-build it.** `strata retime <clip> --ramp
+"0:1.0, 2.0:0.25, 3.2:1.0"` splits at the keyframes, motion-interpolates any segment below
+0.5× (the difference between slow motion and a slideshow), tempo-adjusts the audio through
+the ramp (or `--mute`), and asserts the output duration. Hand-built ramps hit the `-t` trap
+and the `-map` audio drop every time — that is why the command exists. A ramp is an
+**impact beat**: real speed into the hit, slow through it, back out.
+
 ⛔ **A retime is for a slow-motion beat the storyboard asked for — never to make a short clip
 fit a long scene.** A 15 s clip in a 17 s scene is covered with **more shots of the same subject**
 (a companion clip from a reference frame) or **extended** off its last frame, not stretched:
@@ -235,6 +242,23 @@ ffmpeg -i in.mp4 -filter_complex \
 An **honest loop** is either a palindrome or a clip whose first and last frames already
 match — repeating an arbitrary clip shows a hard jump and reads cheap.
 
+## Colour — `strata grade`
+
+Clips from different `generate` calls do not match each other, and none match a brand.
+Grade them instead of hiding it with grain:
+
+```bash
+strata grade clip_b.mp4 --match clip_a.mp4 -o clip_b_graded.mp4   # histogram-match to a reference
+strata grade clip.mp4 --lut brand.cube                            # the brand's LUT, if it has one
+strata grade clip.mp4 --look warm-film                            # restrained named looks
+```
+
+**`--match` is the coverage-rule companion:** a companion clip generated from a reference
+frame rarely matches the original's colour; matching it before the edit makes the cut read
+as one shoot (*measured on the two golden-hour/cool-morning street clips — the join
+disappears*). A grade is a look; it does not count as an atmospheric effect
+([anti-slop.md](anti-slop.md)).
+
 ## Probe first, verify after — every time
 ```bash
 ffprobe -v error -select_streams v:0 \
@@ -269,7 +293,9 @@ output to confirm dimensions/fps/duration are what was asked for.
 | "just the good bit, 12s–20s" | `-ss 12 -to 20` |
 | "put these three together" | normalise + `concat` (differing sources) |
 | "make it vertical for TikTok" | crop or blur-fill reframe, then check a frame |
-| "speed it up / slow-mo" (a deliberate beat) | `setpts` (+`atempo` for audio) |
+| "speed it up / slow-mo" (flat, whole clip) | `setpts` (+`atempo` for audio) |
+| "slow through the impact" (a ramp) | **`strata retime --ramp`** — never hand-build it |
+| "these clips don't match" / "make it cinematic" | **`strata grade --match ref` / `--lut brand.cube` / `--look`** |
 | "the clip is shorter than the scene" | **not a retime** — generate a companion clip or extend it ([video-generation.md](video-generation.md)) |
 | "remove the sound" / "add this music" | `-an` / map a new audio stream |
 | "grab me a thumbnail" | `-ss <t> -frames:v 1` |

@@ -1,5 +1,12 @@
 # Personalization & data-driven batch — one template, many videos
 
+> **Charts personalise as ANIMATION now, not images.** `strata chart bars` emits bars as
+> named solid layers whose heights grow from the data — so `render --data` swaps the
+> per-viewer VALUES and every viewer's bar grows to their number. The swapped-image chart
+> is the fallback only for chart types the tool does not emit. (`chart donut`'s sweep is
+> baked at compile time — its value TEXT personalises, the sweep does not; use bars for
+> per-viewer data.)
+
 Idomoo's superpower: a single IDM is a **template** whose layers are **placeholders** replaced per-viewer at generate time, keyed by **layer name**. The animation, layout, effects, and timing stay exactly as authored; only the *content* (a text value or a media asset) swaps. This is how you render thousands of personalized variants from one scene — something pure motion-graphics tools can't do.
 
 ## ⚠️ The keys are LAYER NAMES — so duplicates silently break personalization

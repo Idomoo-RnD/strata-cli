@@ -31,6 +31,18 @@ A name/title strip for the bottom-left. Solid bar + two text lines. **Ships with
 ```
 Instance (note `position` is a **delta from the box**, not absolute — rise 60px → settle): `{ "type":"comp","comp":"lower_third","name":"lt_inst","box":[120,860,760,150],"start":1,"duration":4,"animate":{"position":[{"t":0,"v":[0,60],"ease":"outCubic"},{"t":0.5,"v":[0,0]}],"opacity":[{"t":0,"v":0},{"t":0.4,"v":1},{"t":3.6,"v":1},{"t":4,"v":0}]} }`
 
+### extruded-title
+3D type faked as 11 z-stepped text copies (darker to the rear) under the scene camera —
+the engine has no extruded text; this stack, measured, reads as real depth once the camera
+moves. **Needs a `camera` layer in the scene** (park it at `-focal` for true size —
+[format.md](format.md)) and a push or lateral drift so the depth shows. ⚠ The measured
+trap this block encodes: **anchor is 2D — depth goes on `position` z**; a 3-element anchor
+silently drops z and the stack renders flat. Tune text, colours and `size` after adding;
+more copies with a smaller step kill the banding on the letter returns.
+```bash
+strata add extruded-title scene.json
+```
+
 ### stat-card
 A big number + label on a card. Animate the number with a count-up (see recipes). **Ships without the short accent rule** between label and value — it separates nothing ([anti-slop.md](anti-slop.md)); hierarchy comes from the 120/28 size ratio. Brand wants one: `{ "type": "solid", "name": "sc_rule", "color": "<brand>", "box": [40, 96, 64, 6] }` after `sc_bg`.
 ```json

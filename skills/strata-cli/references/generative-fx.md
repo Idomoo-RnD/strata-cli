@@ -129,6 +129,38 @@ for (let i = 0; i < 10; i++) { const a = -Math.PI/2 + i*Math.PI/5, rad = i%2 ? r
 
 ---
 
+## 5. Stroke reveal — `strata path` (draw-on is a built-in now)
+
+Logo draw-on, a route tracing across a map, a signature, an underline-on-cue: **do not
+write a generator for these** — `strata path` is the generator, built in:
+
+```bash
+strata path route.svg -o route.jet --duration 2 --stroke 6 --color "#e8b34a" --head 12
+# -> alpha .jet; scene layer { "type": "video", "src": "./route.jet" }  (fps MUST match)
+```
+
+Paths draw in SVG document order (so a traced logo hand-draws stroke by stroke); `--head`
+adds a travelling dot (map routes); `--hold` keeps the finished stroke on screen for the
+last fraction. Takes `<path d=...>`, `<line>`, `<polyline>`, `<polygon>`; M/L/H/V/C/Q/Z.
+
+## 6. Displacement — heat haze, water, warp (no such effect in the engine)
+
+Two honest routes; the recipe is knowing which:
+
+- **Graphics and stills → offline warp.** ffmpeg's `displace` filter driven by two
+  generated sine maps (*measured on a still plate — convincing haze*):
+  ```bash
+  ffmpeg -loop 1 -i plate.png \
+    -f lavfi -i "color=gray:s=WxH,format=gray,geq=lum='128+10*sin(Y/26+T*3.2)+5*sin(Y/9-T*5.1)'" \
+    -f lavfi -i "color=gray:s=WxH,format=gray,geq=lum='128+7*sin(X/31+T*2.6)'" \
+    -filter_complex "[0:v]scale=W:H[b];[b][1:v][2:v]displace=edge=mirror[v]" \
+    -map "[v]" -t 6 -r 24 -c:v libx264 -crf 18 -pix_fmt yuv420p haze.mp4
+  ```
+  Amplitude lives in the `10*`/`7*`; frequency in the `/26`/`/31`; speed in the `T*`.
+- **Organic distortion of a SUBJECT → generate it as footage.** Water, glass, liquid morph
+  on a real thing is video-model work: `generate video --first-frame <plate>` with the
+  distortion described physically ("heat haze rises off the asphalt, the storefront wavers").
+
 ## Rules (all learned by building these)
 - **fps discipline:** generated `.jet` fps = scene fps = audio envelope fps. One mismatch
   and the sync visibly drifts.
