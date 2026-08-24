@@ -27,6 +27,25 @@ overwriting — otherwise the library fills with indistinguishable entries and e
 clobbers the last MP4. (`name` above is the *comp* name, internal — it does not label the
 upload.)
 
+### Version control — automatic, two layers *(measured 2026-08-24)*
+
+**1. Folder history.** Every `compile`/`render` snapshots the scene JSON into
+`.strata/versions/vNNN/` beside it, with an index (time, scene hash, render URL once one
+exists). Identical content never makes a new version — the hash is over the *canonical*
+JSON, so whitespace churn is not an edit. `strata versions <scene>` lists them;
+`strata revert <scene> --to N` restores one (the current state is snapshotted first, so
+revert can never lose anything; `-o other.json` branches instead of replacing).
+
+**2. Embedded stamp.** Every compiled `.idm` carries a `strata.meta.ttf` asset — the same
+disguise as the tag manifest — holding `{version, parent, created, scene_hash, tool}`.
+*Measured:* it survives the Idomoo exporter (uploads and renders normally), round-trips
+through `idm2vasco`, and `strata inspect` prints it — so a bare `.idm` received from anyone
+identifies its own version and ancestry. The filename rule above remains the **library's**
+identity (Idomoo shows the filename); the stamp is the **file's** identity wherever it
+travels. Two `.idm`s with the same `scene_hash` are the same cut regardless of their
+numbers — numbering is per-folder.
+
+
 ## Layers (common)
 
 > ### ⚠️ Layer names must be unique across the WHOLE scene
