@@ -122,4 +122,4 @@ route that made it with the block restated; it does not get "fixed" in the edit.
 - [ ] The hero element has its own sheet, its own sentence in every shot, and a shot of its own
 - [ ] Frame-driven scenes get their frames generated with `--reference` to the sheets
 - [ ] One voice per speaking principal; `{line}` identical to the TTS text
-- [ ] Each clip checked against the sheet and its storyboard row before the next is made
+- [ ] Each clip checked against the sheet and its storyboard row as it lands — the clips themselves are generated in waves, all at once per wave ([assets.md](assets.md))

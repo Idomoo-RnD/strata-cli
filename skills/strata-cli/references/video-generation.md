@@ -102,7 +102,7 @@ something we rendered locally (a `strata sketch` animatic, an ffmpeg frame grab)
 | `--fast` | the fast model: ~1.5× quicker, but *measured* it dropped a shot (4 delivered of 5). Use when shot count does not matter |
 | `--resolution` | **clamped to 720p** by the CLI. The standard model will happily return 1080p if asked, so the discipline lives here. Upscale afterwards if a deliverable needs more |
 
-Generation takes **3–9 minutes**. Run it in the background and report the URL.
+Generation takes **3–9 minutes**. Run it in the background and report the URL — and when a job has several clips, launch every independent one **at once** and build the scene while they render ([assets.md](assets.md), *Generate in waves*).
 
 ### 🔊 A clip generated with `--audio` must keep its audio downstream
 

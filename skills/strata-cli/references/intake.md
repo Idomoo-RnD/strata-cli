@@ -97,8 +97,10 @@ card) is **VO over pictures**: the clip is silent, the line is laid in the scene
 
 Before any clip: the cast, props and locations as reference sheets with **one canonical
 identity block each**, reused verbatim in every prompt — [production-bible.md](production-bible.md).
-Then generate scene by scene in the material's order, checking each against its row (the
-frame, the action, the line) before moving on. A clip that comes back short is covered
+Then generate **in waves, not scene by scene** ([assets.md](assets.md), *Generate in
+waves*): all sheets, plates and TTS at once; then every scene whose inputs exist, at once;
+then only the continuations. Each clip is checked against its row (the frame, the action,
+the line) as it lands, and the VASCO scene is authored while the waves run. A clip that comes back short is covered
 with more shots, never stretched ([video-generation.md](video-generation.md)).
 
 ## 5. Assemble to the timecodes

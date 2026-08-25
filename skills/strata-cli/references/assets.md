@@ -309,6 +309,37 @@ because the documented failure mode is a successful upload whose URL then 404s.
 
 ---
 
+## Generate in WAVES, not in sequence — parallel is the default
+
+Every generation is 10 s (image, TTS) to 3–9 min (video). Doing them one after another is
+the single biggest time sink in a multi-asset job: a 10-scene piece is **~10 minutes in
+waves and ~60 serially**. *Measured:* seven video generations submitted at once all
+completed, five at once, four at once, five renders at once — the API takes concurrent
+submits without throttling. The only real constraint is dependency.
+
+**The waves:**
+
+1. **Wave 1 — everything with no inputs:** every character sheet, product sheet, location
+   plate, every TTS line, the music. All at once, in the background.
+2. **Wave 2 — every clip whose inputs now exist:** all the scenes of a storyboard,
+   together — each cites the sheets and its TTS from wave 1.
+3. **Wave 3 — only what depends on wave 2:** a continuation chained off a last frame, a
+   companion clip covering a scene that came back short, a matte of a delivered clip.
+
+**While a wave runs, do the work that needs no output:** author the VASCO scene and its
+layout, the end card, the lower-thirds, the captions plan, the `bible.md`; `preview --grid`
+the layout. The clips land into a scene that is already built — never sit and wait.
+
+**Two rules that keep parallel safe:**
+- **Unique filenames for parallel renders.** *Measured:* five renders of files all named
+  `scene.json` into one library failed with error 3000 (upload filename collision); unique
+  names (`scene_a.json`, `scene_b.json`, or the versioned `promo_v3.json`) fixed every one.
+- **Verify each result before it feeds the next wave** — a wave-2 clip is checked against
+  its storyboard row and sheet ([production-bible.md](production-bible.md)) before a wave-3
+  continuation is built on it; a bad input propagates.
+
+Report per wave, not per asset: *"wave 1: 6 assets launched"*, then a table of what landed.
+
 ## Every image becomes a video — no still photos
 **Any image used as a visual in the scene becomes a clip before it goes in.** Backgrounds,
 hero shots, scenery, products, people — all of them. Do not ask first and do not leave the
