@@ -243,6 +243,13 @@ Attach up to **3** tracks and address them as `[Audio 1]`, `[Audio 2]`, … The 
 accepting whatever it invents. This is what makes branded spokes-characters and real dialogue
 possible.
 
+> ⛔ **Audio never travels alone — it needs a visual reference to attach the voice to.**
+> *Measured 2026-08-25:* `--ref-audio` with no `--ref-image`/`--ref-video` is rejected —
+> `422 "Reference audio requires at least one reference image or video"`. So a talking
+> person is always **two references**: a portrait or character sheet of the speaker in
+> `--ref-image` (+ `--realistic-human` when photoreal) and the recording in `--ref-audio`.
+> The CLI now refuses a bare `--ref-audio` before spending the request.
+
 ```bash
 strata generate voices                                     # pick a voice_id
 strata generate narration "<the line>" --voice <voice_id>  # prints a hosted URL
@@ -339,6 +346,8 @@ So:
 scene* — never both.
 
 ### Notes and checklist
+
+- [ ] `--ref-audio` is paired with `--ref-image` (or `--ref-video`) — audio alone is a `422`
 
 - **Size the clip to the speech.** A 3.6 s line in a 12 s clip leaves the model inventing
   filler — budget line-length + 2–3 s of setup per speaker.
