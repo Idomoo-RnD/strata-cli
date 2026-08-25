@@ -374,11 +374,14 @@ Both make a person talk. They are not interchangeable:
 | what it is | ONE still, lip-synced to an exact track — a presenter holding a pose | a character who **acts**: moves through a scene, multiple shots, two speakers |
 | framing | fixed by the still | the model composes shots |
 | verbatim script | ✅ the track IS the audio | ✅ lip-synced to your TTS (verify >0.75) |
-| **personalized scenes** | ✅ **prefer this** — a stable presenter plate is what Idomoo swaps by layer name | ⚠ a re-generated performance is not a swappable plate |
+| **personalized scenes** | ✅ **the right answer** — a stable presenter plate is what Idomoo swaps by layer name | ⚠ a re-generated performance is not a swappable plate |
+| **non-personalized presenter** | a talking still — fine for a fixed plate or a quick cut | ✅ **the default** — a directed, filmed shot |
 | cost | one still + one call | a character sheet, TTS, and a 3–9 min generation |
 
-**Piece to camera, or anything personalized → `generate avatar`** ([avatar.md](avatar.md)).
-**Talking inside a scene, dialogue, a character who moves → `generate video`.**
+**Presenter, spokesperson, host, testimonial → `generate video --ref-image --ref-audio`** (the
+filmed one is the default). **Personalized, or the user wants a fixed plate / a quick cut →
+`generate avatar`.** State the route and its trade-off in the storyboard either way — the full
+decision lives in [avatar.md](avatar.md).
 
 ---
 

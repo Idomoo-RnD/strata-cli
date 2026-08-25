@@ -13,11 +13,29 @@ talking to camera. It is not the only way to make a person speak: `generate vide
 shots, even two speakers answering each other
 ([the protocol](video-generation-advanced.md#--ref-audio--characters-that-speak-your-audio)).
 
-- **Piece to camera, spokesperson, explainer host → avatar.** Cheaper (one still, one call),
-  framing is fixed and predictable, and the audio track IS the output audio.
+**The default for a presenter is the FILMED one — `generate video --ref-image --ref-audio`
+— unless the piece is personalized.** An avatar is one animated still; the reference route is
+a directed shot: the speaker in a real scene, natural head and hand motion, a close-up the
+model composes, and the voice you supplied (*measured 2026-08-25, tts_test:* identical
+transcript at matching timings, mouth articulating on every syllable). For a hero presenter in
+a promo, an explainer host, a testimonial, that is the better video, and since v1.0.108 the
+CLI carries the whole recipe (portrait → TTS → two references).
+
+- **Presenter, spokesperson, explainer host, testimonial → `generate video`** (portrait or
+  sheet in `--ref-image` + the TTS in `--ref-audio`; `--realistic-human` for a photoreal face;
+  the recipe and prompt in [video-generation-advanced.md](video-generation-advanced.md#--ref-audio--characters-that-speak-your-audio)).
 - **Anything PERSONALIZED → avatar.** Idomoo swaps media by layer name, so a stable presenter
-  plate is what the swap targets; a re-generated performance is not a swappable plate.
-- **Talking inside a scene, dialogue, a character who moves → `generate video`.**
+  plate is what the swap targets; a re-generated performance is not a swappable plate. This is
+  the one case where avatar is the *right* answer, not the cheap one.
+- **A fixed plate the user wants to lay out around, a quick cut, or speed → avatar.** One still,
+  one call, framing you control exactly.
+- **Talking inside a scene, dialogue, a character who moves → `generate video`** (as before).
+
+**Say which, in the storyboard.** Whenever a piece has a presenter I name the route and its
+trade-off in one line — *"filmed presenter (directed shot, 3–9 min) — or avatar (fixed plate,
+one call) if you want to place it yourself / it's personalized"* — so the user can downgrade
+for speed or a plate without a re-do. Never silently pick avatar for a non-personalized piece:
+that was the old default, and it produced a talking still where a filmed shot was wanted.
 
 **The image is the whole game.** The engine animates what you give it: a flat, front-facing,
 brightly-lit crop produces a flat talking bust; an angled, cinematically-lit shot in a real
