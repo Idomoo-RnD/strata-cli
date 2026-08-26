@@ -60,6 +60,24 @@ each with a purpose:
 Every category gets **pass** or **must-fix**. Not a score out of ten: numbers get inflated and
 an 8 is not a decision. A must-fix carries a timecode, a frame reference and the rule it breaks.
 
+**What the levels look like** — the ladder is here to calibrate the word "pass", not to be averaged.
+A category *passes* only at the middle column; the right column is what the piece is aiming at.
+
+| | Functional (not a pass) | Premium (the pass line) | Exceptional |
+|---|---|---|---|
+| Brief / brand / reference fit | present, but could belong to another brief | decisions clearly arise from *this* subject, brand and viewing context | the treatment feels inevitable for this brief and still surprises |
+| Story / information release | the sequence is understandable | every beat changes what the viewer knows, feels or expects | information and emotion are released with memorable control |
+| Focal hierarchy | the main thing is findable | eye order is deliberate at rest **and through the motion** | attention is choreographed effortlessly through complex change |
+| Temporal composition | timing works locally | rhythm varies — setup, action, settle, hold, contrast | the whole piece has dramatic shape without feeling mechanical |
+| Weight & easing | motion is smooth | curves, inertia, path and settle express material and intent | motion has a distinctive physical character, no compromises visible |
+| Typography | copy is legible | scale, breaks, animation unit and read time form one system | meaning, voice and letterform behaviour reinforce each other |
+| Editing / transitions | cuts connect shots | every cut has a job and keeps or deliberately breaks continuity | the joins add meaning and are inseparable from sound and motion |
+| Camera / space | framing is usable | shot size, depth and camera behaviour are motivated and varied | spatial design creates real orientation, tension or reveal |
+| Compositing / finish | no obvious artifacts | grade, mattes, edges, blur, texture and light are coherent and restrained | surfaces survive close inspection and still serve the story |
+| Sound / picture | audio present and roughly in sync | hits, silence, VO, bed and mix hierarchy shape the cut | sound and image are one system; removing either weakens the idea |
+| Originality / restraint | familiar devices dominate | one earned signature; no defaults, no spare decoration | a recognisable motion identity without mannerism |
+| Brand fidelity / delivery | it plays | atoms exact; safe areas, fps, codec, first/last frames correct | holds up across sizes, languages and data extremes |
+
 | Category | Passes when | Typical must-fix |
 |---|---|---|
 | **Art direction** | the frames match the styleframes / the brand; one signature; nothing decorative survived | a scrim, rule, glow or gradient nobody chose (anti-slop tell at 00:04.2) |
@@ -74,8 +92,30 @@ an 8 is not a decision. A must-fix carries a timecode, a frame reference and the
 
 ## 4. Evidence rules
 
+**Every must-fix is written in one shape:**
+
+```text
+[priority] timecode — evidence → viewer effect → likely cause → smallest useful fix → trade-off
+```
+
+*Example:* `[1] 00:00.0–00:03.1 — bands are flat colour, no material (contact.png tiles 1–3) →
+the piece claims "nothing is flat" over its flattest frame → the texture was generated but only
+used on the wordmark → mask a slice of the rock into each band → +12 masks, ~1 s of compile.`
+
+The chain matters: **viewer effect** stops a note being a style opinion, **likely cause** points at
+the build pass that owns it, **smallest useful fix** stops a revision becoming a redesign, and the
+**trade-off** lets the fix be refused knowingly.
+
+Group the notes as **Must fix** (breaks meaning, hierarchy, fidelity, continuity, legibility, sync
+or finish) · **Should improve** (visible weakness below the intended bar) · **Experiments**
+(alternatives worth testing, not assumed better) · **Keep**. The **Keep** list is not padding — it
+names the decisions a revision must not quietly destroy, and it is what makes the second render
+comparable to the first.
+
 - A finding cites a **timecode** (`mm:ss.f`) and, where a frame matters, the **frame file**
   (`cut_03.png`, tile 4) or a frame number. "The motion feels off" is not a finding.
+- Never write "make it more dynamic", "make it cinematic" or "add polish" without naming the
+  property, the moment and the intended viewer effect.
 - A finding names the **rule** it breaks — the bible field, the anti-slop pattern, the
   motion-design tell, the brand atom.
 - Findings are listed **must-fix first**, then observations. Observations do not block.

@@ -32,6 +32,24 @@ serve the thesis is cut, however good it looks.
 Write it with the editorial contract ([editing-director.md](editing-director.md)): viewer promise,
 information release, and the one dominant mode. The thesis is the promise in visual terms.
 
+**Then place the piece on six traits**, low to high, before any direction is drawn. Adjectives in a
+brief ("premium", "bold", "calm") are unusable until they are positions; these six are what the
+motion bible's numbers are derived from, and two pieces with the same thesis and different traits
+look nothing alike.
+
+| Trait | Low | High | What it decides |
+|---|---|---|---|
+| **Energy** | slow, few events | fast, many events | shot lengths, cut rate, entrance durations |
+| **Weight** | light, floaty | heavy, grounded | easing curves, settle length, counter-motion |
+| **Precision** | loose, organic | exact, engineered | grid discipline, stagger regularity, path straightness |
+| **Warmth** | cool, clinical | warm, human | palette, light, type roundness, sound texture |
+| **Density** | sparse, one thing at a time | layered, many at once | elements on screen, the ⅓ rule, negative space |
+| **Playfulness** | restrained, serious | witty, elastic | overshoot policy, squash, transition wit |
+
+Write them as a line — *energy 3, weight 8, precision 9, warmth 4, density 2, playfulness 1* — and
+check every later decision against it. A move that contradicts the traits is off-direction even
+when it looks good on its own.
+
 ## 2. Reference analysis
 
 If the user supplied references (a campaign, a film, a competitor's spot, an AEPX or Lottie), or
@@ -50,6 +68,52 @@ against (`strata review --reference`).
 
 A reference is a **technique source, never a costume**: take its rhythm and restraint, not its
 palette or its mark ([video-styles.md](video-styles.md) rule 1; a brand overrides everything).
+
+**Measure these nine lanes.** The tool gives the temporal and colour ones; the rest come from
+watching. Say what you measured and what you inferred — an estimate labelled as a fact is how a
+reference gets copied wrong.
+
+| Lane | What to capture |
+|---|---|
+| Editorial | shot count, shot lengths, information release, density curve, holds, what motivates each cut |
+| Composition | grid, focal placement, scale contrast, negative space, framing, safe-area behaviour |
+| Typography | family and weight, size ratios, tracking, leading, line breaks, animation unit, read time |
+| Motion | entrance/exit durations, stagger, overshoot *or its absence*, settle, path, counter-motion, rest |
+| Camera | shot size, lens character, locked vs moving, push/orbit/pan, parallax, horizon behaviour |
+| Transitions | cut / wipe / match / matte families, direction, duration, frequency, narrative job |
+| Surface | palette, contrast, texture, grade, shadow, glow, grain, blend behaviour, edge treatment |
+| Sound | BPM and onsets, silence, VO rhythm, SFX placement, picture-to-sound lead/lag, mix hierarchy |
+| Brand | repeated tokens, logo behaviour, signature device, prohibited treatments, consistency rules |
+
+**Write the result as a reference profile**, and keep it beside the bible:
+
+```markdown
+# Reference profile
+
+## Control map
+| Reference | Controls | Does NOT control |          <!-- rank primary vs secondary; name conflicts, never average them -->
+
+## Observed facts
+| Time / frame | Observation | Measurement | Confidence (measured / estimated / inferred) |
+
+## Motion signature
+- Rhythm:            - Easing and weight:      - Type behaviour:
+- Camera:            - Transitions:            - Surface:            - Sound:
+
+## Transfer to Strata
+| Source technique | Strata-native route | Approximation / pre-render route | Known gap |
+
+## Reuse / avoid
+- Preserve:   - Adapt:   - Do not copy:   - Unknowns needing a decision:
+```
+
+Two rules the profile enforces: **match relationships before isolated numbers** (relative timing,
+focal order, amplitude hierarchy and contrast carry a look further than one exact duration), and
+**protect the reference's restraint** — the absence of motion, sound, texture or camera movement is
+evidence too, and the easiest thing to lose. Where VASCO has no native equivalent (true camera
+depth-of-field, displacement), choose deliberately between a pre-rendered alpha overlay, generated
+footage, a simpler native construction, or the AE exporter for exact reproduction — and record the
+trade-off in the *Known gap* column rather than pretending the feature exists.
 
 ## 3. Three directions — genuinely different
 
@@ -105,6 +169,7 @@ One page, written before the scene, pasted into the storyboard, obeyed by every 
 | **Focal order** | where the eye goes, per shot, in order | hero → headline → CTA |
 | **Timing scale** | the piece's tempo family, in frames at the scene fps | snap 6 f · settle 12 f · phrase 36 f · hold 48 f |
 | **Easing family** | one entrance ease, one exit ease, one drift ease — and the overshoot policy | `outExpo` in · `[0.7,0,0.84,0]` out · `inOutSine` drift · overshoot 0 % (rigid) |
+| **Material logic** | what the things are made of, and what that does to inertia, deformation and settle | stone: heavy, no overshoot, long settle, dust on impact |
 | **Type behaviour** | how words arrive, how long they hold, how they leave; captions vs kinetic | per-word rise 26 px, hold 0.5 s + 0.3 s/word, exit 65 % of entrance |
 | **Camera rule** | locked, one push per shot, or one continuous move — and never what | locked; one 3 % push on the hero shot only |
 | **Transition palette** | at most two families, named | hard cut; mask-rect wipe from the outer edge |
@@ -141,4 +206,11 @@ the pass it belongs to, not to a patch on top.
 - [ ] Motion hierarchy per shot, with an explicit still list
 - [ ] The motion bible, every field filled, pasted into the storyboard
 - [ ] Forbidden moves named before the first keyframe
+- [ ] **The highest-risk moments named, and prototyped first** — the shot most likely to fail
+      (a generated clip that must travel, a matte edge, a camera move through depth, a settle the
+      whole piece hangs on). Prove it at blocking, not after the finishing pass
+- [ ] **Acceptance criteria written for the critic** — what, specifically, the render must
+      demonstrate for this direction to have worked ("the wall separates into readable layers",
+      "the wordmark lands without overshoot", "the bed is audible on a phone"). The review scores
+      against these, not against taste
 - [ ] Sign-off on the direction and the frames before scene JSON
