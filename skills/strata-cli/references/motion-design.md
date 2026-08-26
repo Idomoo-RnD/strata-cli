@@ -26,8 +26,11 @@ cubic-bezier `[x1,y1,x2,y2]` for a custom curve:
 - `inOutCubic`/`inOutSine` — reserve for slow drifts and camera, NOT entrances.
 **Tell to avoid:** the same soft ease on every move.
 
-### 2. Overshoot + settle — After Effects' signature
-A value goes **past** its target and settles back. Two ways:
+### 2. Overshoot + settle — one tool, not a signature
+A value goes **past** its target and settles back. It is *one* technique, chosen by material
+(the table below: rigid = 0 %, paper 3–5 %, rubber 15–25 %) — not a quality signal. Premium,
+rigid, confident things usually stop **clean** on a steep settle with no overshoot at all;
+overshoot on every entrance is the templated look. Two ways when the material earns it:
 ```json
 // explicit overshoot: scale blows past 1.0, settles
 "scale": [ {"t":0,"v":0.6,"ease":"outExpo"}, {"t":0.4,"v":1.06}, {"t":0.55,"v":1.0,"ease":"outCubic"} ]
@@ -35,7 +38,8 @@ A value goes **past** its target and settles back. Two ways:
 "position": [ {"t":0,"v":[0,80],"ease":"outBack"}, {"t":0.5,"v":[0,0]} ]
 ```
 `outBack` (position/scale) and `outElastic`/`outBounce` (toy/energetic only) build it in.
-**Tell to avoid:** elements stop dead exactly on their mark.
+**Tell to avoid:** elements stop dead on their mark *on a soft curve* (no settle at all) — and,
+just as much, every element bouncing past its mark.
 
 ### 3. Overlap & offset (stagger) — nothing arrives together
 Secondary elements lag the primary by a few frames; a group cascades. This is what makes a
@@ -63,6 +67,9 @@ is the difference between "filmed" and "stepped". Only disable for a deliberate 
 Except a deliberate held shot, **something is always in gentle motion**: a slow camera drift,
 a Ken-Burns on a still, a subtle scale-breathe on the hero, background parallax. A truly frozen
 frame reads as a bug. (Held shots are still allowed — but they're a choice, not the default.)
+**Every move has a named job** — reveal, emphasis, transition, continuity, rhythm. A move with
+no job is decoration, and "continuous life" is not a licence to add it: a composed, deliberately
+held frame beats a frame that drifts because nobody chose. Quality is not activity.
 
 ### 8. Designed transitions — not crossfades
 Opacity crossfades between scenes are the biggest slideshow tell. Instead:
@@ -82,6 +89,10 @@ settling title reads premium and cannot be faked in a 2D web timeline. Give laye
 Every entrance in a piece shares the **same curve and timing family**; exits share another.
 Random transitions per shot read as a template grab-bag. Pick one entrance ease (e.g. `outExpo`
 ~450ms), one exit, one transition type, and repeat them — consistency *is* the design.
+**Limits that hold across every style:** one dominant motion idea per shot (a push *or* a
+reveal *or* a cascade — not all three), and at most **two transition families** in a piece.
+For premium work these come from the motion bible ([director.md](director.md)), written before
+the scene.
 
 ---
 
@@ -175,9 +186,12 @@ do not count against that one.
 If two or more are true, it will read as HTML animation, not motion design — fix them:
 - [ ] Easing is linear or `inOutSine` on most moves (→ use snap-and-settle curves)
 - [ ] Everything enters together on the same timing (→ stagger/offset)
-- [ ] Elements stop dead on target (→ add overshoot + settle)
+- [ ] Elements stop dead on target on a soft curve (→ a real settle; overshoot only where the material earns it)
+- [ ] Every entrance overshoots (→ the templated look; rigid things stop clean)
 - [ ] No motion blur on fast moves (→ keep `motion_blur` on)
 - [ ] Scene changes are opacity crossfades (→ designed transition)
-- [ ] The frame is flat — no camera move, no depth (→ add a push/parallax)
+- [ ] The frame is flat — no camera move, no depth — *and the flatness was not a decision* (→ add a push/parallax, or own the flat frame)
 - [ ] The same single entrance style repeats with no variation in tempo
-- [ ] A frame sits fully static with nothing alive in it
+- [ ] A frame sits fully static with nothing alive in it and no reason to be still
+- [ ] A move with no nameable job; more than one dominant motion idea in a shot; more than two transition families in the piece
+- [ ] These were judged on a poster frame only — easing, rhythm, settles and sound are checked on the rendered MP4 ([review.md](review.md))
