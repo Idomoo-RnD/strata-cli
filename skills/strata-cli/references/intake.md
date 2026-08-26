@@ -2,23 +2,33 @@
 
 **Read this FIRST whenever the request comes with inputs** — a storyboard image, a script, a
 shot list, reference sheets, footage, product photos, a voice, a brand kit. The rest of the
-skill assumes I am inventing the piece; this file covers the case where the piece already
-exists on paper and my job is to *execute* it faithfully. Skipping intake is how an agent
+skill assumes the piece is being invented; this file covers the case where the piece already
+exists on paper and the job is to *execute* it faithfully. Skipping intake is how an agent
 ignores a finished storyboard and improvises something else.
 
 **The supplied material is the brief.** Every note, timecode, line of dialogue and
-continuity instruction in it outranks my own craft defaults ([anti-slop.md](anti-slop.md)'s
-first rule: the brief's words always win). I execute it; I do not redesign it. Where it
+continuity instruction in it outranks the skill's own craft defaults ([anti-slop.md](anti-slop.md)'s
+first rule: the brief's words always win). Execute it; do not redesign it. Where it
 leaves an axis free, the skill's craft applies as usual.
 
 ---
+
+## Contents
+
+- [0. Open everything, and say what it changes](#0-open-everything-and-say-what-it-changes)
+- [1. Recognise what was handed over](#1-recognise-what-was-handed-over)
+- [2. The shot table — the one artefact intake produces](#2-the-shot-table--the-one-artefact-intake-produces)
+- [3. Route every scene to a mode](#3-route-every-scene-to-a-mode)
+- [4. Build the production bible, then execute in storyboard order](#4-build-the-production-bible-then-execute-in-storyboard-order)
+- [5. Assemble to the timecodes](#5-assemble-to-the-timecodes)
+- [Worked example — a supplied 30 s commercial storyboard](#worked-example--a-supplied-30-s-commercial-storyboard)
 
 ## 0. Open everything, and say what it changes
 
 **Every file, link or folder the user attaches is opened and read before anything is
 planned** — images with vision, PDFs page by page, URLs fetched, footage probed and
 frame-sampled, audio listened to via `strata captions`. Not skimmed, not inferred from the
-filename. For each one I write down, in the intake summary, **what it is and what it changes
+filename. For each one, write down in the intake summary **what it is and what it changes
 in the video**: the brief, the brand atoms, the cast, the copy, the timing, the look, the
 deliverable format. An input that changes nothing is stated as such (*"the deck's slides 4–9
 are internal, no effect on the spot"*) — so the user can correct me before a render, not
@@ -31,8 +41,9 @@ the answer and I generated a different one.
 |---|---|---|
 | **Storyboard image** (frames in a grid with captions, timecodes, dialogue, a notes block) | the whole piece, decided | the shot table below, one row per scene, plus every note verbatim |
 | **Script / VO doc** | the words and their order; timing implied by reading speed | dialogue per beat, who speaks, tone; timecodes from `strata captions` once TTS exists |
-| **Shot list / spreadsheet** | scene structure without pictures | the shot table; I storyboard the visuals for sign-off |
+| **Shot list / spreadsheet** | scene structure without pictures | the shot table; storyboard the visuals for sign-off |
 | **Character / product reference sheets** | the cast and props, decided | the production bible ([production-bible.md](production-bible.md)) — never regenerate what was supplied |
+| **Material the notes cite but the folder lacks** (sheets, a logo, fonts, footage) | a gap in the brief, not a licence to invent | ask for it first, in the intake summary; if it is not coming, build a stand-in from the material's own frames (`generate image --reference` on a crop) and flag that the supplied one replaces it before the first clip that cites it |
 | **Footage / photos** | plates and subjects that must appear | which scenes they cover; `strata captions` / `strata beats` for their timing; `.jet` if a subject must sit over a layer |
 | **A brand kit / `.brand/brand.md`** | the atoms | [brand.md](brand.md) — it governs everything below |
 | **A previous cut / `.idm`** | a version to continue from | `strata inspect` reads its embedded version; `strata versions` if the folder has history ([format.md](format.md)) |
@@ -53,8 +64,11 @@ e.g. *storyboard.png · storyboard · brief, cast, copy, timing · every scene, 
 three claims; hero photo for the product sheet*.
 
 A storyboard **image** is read with vision, frame by frame, left to right, top to bottom.
-I transcribe rather than summarise: captions verbatim, timecodes exact, dialogue in quotes,
-the notes block whole. If a frame is ambiguous I say so in the table rather than guessing.
+Transcribe rather than summarise: captions verbatim, timecodes exact, dialogue in quotes,
+the notes block whole. If a frame is ambiguous, say so in the table rather than guessing. A
+cell whose first and last frames are two different setups (an interior, then an exterior) is
+two sub-shots: split the row, divide its time, and say so — one clip cannot cut inside itself
+without a montage verb, and a montage verb cuts everywhere.
 
 ## 2. The shot table — the one artefact intake produces
 
@@ -111,6 +125,18 @@ the end card is authored; dialogue that is VO sits as audio layers; captions com
 timing). Then the ordinary gates: `validate`, `preview --grid`, `snapshot`, the Definition
 of Done.
 
+- **A board's timecodes round to frames.** Tenth-of-a-second in/out points do not land on
+  24 or 25 fps frames; round each cut to the nearest frame (≤ 21 ms at 24 fps), keep the
+  running total exact, and state the rounding in the summary. Pick the scene fps from the
+  clips ([assets.md](assets.md), *Scene fps follows the footage*).
+- **Trimming a talking clip to its cell.** The model's minimum is 4 s and the line lands
+  1.3–6.3 s in, never at 0 — so run `strata captions` on the delivered clip, take the window
+  that opens on the board's first-frame beat and closes ≥ 0.2 s after the line's `t1`, and cut
+  exactly the cell's length with `ffmpeg -ss <t0> -i clip.mp4 -t <len>` — no `-map`, so the
+  in-clip voice survives ([video-editing.md](video-editing.md)). If the line cannot fit the
+  cell, the slack comes from an adjacent silent cell and the summary says which; a clip is
+  never retimed.
+
 ## Worked example — a supplied 30 s commercial storyboard
 
 A storyboard image with 10 scenes + end card, first/last frames, dialogue and a notes block
@@ -127,4 +153,4 @@ priority continuity element"* resolves to:
   product sheet reference, VO laid in the scene; the getaway → first frame + action; the end
   card → a VASCO scene with the three icons as authored layers.
 - **Assembly:** eleven layers at the storyboard's timecodes, three TTS tracks placed under
-  their scenes, no music (the notes said so — I do not add one).
+  their scenes, no music (the notes said so — do not add one).

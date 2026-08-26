@@ -15,6 +15,17 @@ does not need a bible; it needs a good identity lock.
 
 ---
 
+## Contents
+
+- [1. Inventory the principals](#1-inventory-the-principals)
+- [2. Make one sheet per principal — or use the supplied ones](#2-make-one-sheet-per-principal--or-use-the-supplied-ones)
+- [3. Write one canonical identity block per principal — and never rewrite it](#3-write-one-canonical-identity-block-per-principal--and-never-rewrite-it)
+- [4. Protect the hero element in every shot it appears in](#4-protect-the-hero-element-in-every-shot-it-appears-in)
+- [5. Consistency across the two clip families](#5-consistency-across-the-two-clip-families)
+- [6. Voices are principals too](#6-voices-are-principals-too)
+- [7. Verify the bible held, per clip](#7-verify-the-bible-held-per-clip)
+- [Checklist](#checklist)
+
 ## 1. Inventory the principals
 
 From the brief, script or storyboard, list every recurring visual element and rank it:
@@ -46,7 +57,8 @@ element gets the most protection below. Otherwise the ranking is: hero product �
   fights the principal you insert.
 - **Keep every sheet on disk beside the scene**, named for its role (`cast_groom.png`,
   `prop_card_bride.png`, `set_altar.png`), and record the URLs in one `bible.json` so every
-  clip cites the same files. `--seed` fixed for the whole production.
+  clip cites the same files. `--seed` fixed for the whole production (`generate video` only —
+  `generate image` has no seed flag; its consistency comes from `--reference`).
 
 ## 3. Write one canonical identity block per principal — and never rewrite it
 
@@ -56,6 +68,9 @@ in all three positions (character block, inside the close-up, Static Description
 prompts written from memory drift ten ways; one block pasted ten times does not.
 
 ```text
+(Index by the command that reads the block: `generate video --ref-image` counts from **[Image 1]**;
+`generate image --reference` counts from **image 0** — keep two copies of a block if both use it.)
+
 GROOM — [Image 1] is the definitive reference for the groom in every shot: mid-thirties,
 dark swept-back hair, close-trimmed dark stubble, strong brow, pale skin, a black tuxedo
 with a black bow tie over a white wing-collar shirt and a single white rose boutonnière;
@@ -66,8 +81,11 @@ Keep the blocks in `bible.md` next to `bible.json`. A prompt for a scene is asse
 **Style & Mood → the blocks for whoever is on screen (citing their `[Image N]` in flag order)
 → location plate block → the scene's shots → Static Description restating every block's
 invariants → Audio.** The `[Image N]` numbers follow the `--ref-image` order on the command
-line, so **attach references in the same order in every call** (groom always `[Image 1]`,
-card always `[Image 2]`, …) and the blocks never need renumbering.
+line, so **keep one canonical order for the whole production** (groom → card → preacher →
+set …) and attach, in that order, only the principals on screen in the shot — the budget
+(≤4 references, one shot fewer per reference) rules out attaching everything to every call.
+A block's `[Image N]` is then renumbered per call from that order; keep the numbering in
+`bible.md` per scene so the text itself is never rewritten, only its index.
 
 ## 4. Protect the hero element in every shot it appears in
 
@@ -98,6 +116,11 @@ A talking scene and a listening scene of the same person are therefore made by d
 routes and still match, because both derive from the same sheet.
 
 ## 6. Voices are principals too
+
+Brand names and acronyms are written the way they are *spoken*, in the TTS text and in the
+`{line}` alike ("AAA" → "Triple-A", "SQL" → "sequel" if that is the house pronunciation) —
+the two strings stay byte-identical to each other, and the on-screen spelling is a separate
+text layer's concern.
 
 One TTS voice per speaking principal, chosen once (`strata generate voices`), recorded in
 the bible, used for every line that character speaks. The line in the prompt's `{braces}`

@@ -4,8 +4,8 @@ A brand document is how a user gets **videos that come out the same** every time
 one, every session re-invents the palette, the type sizes, the corner treatment and the
 motion, and the fifth video looks unrelated to the first.
 
-The artefact is **`.brand/brand.md`** in the user's project. I write it from the assets
-they give me, they approve it, and from then on **every scene is authored from it**.
+The artefact is **`.brand/brand.md`** in the user's project. Write it from the assets
+they give, get it approved, and from then on **every scene is authored from it**.
 
 Two jobs, both in this file: **§A build it** · **§B use it**.
 
@@ -13,22 +13,32 @@ Two jobs, both in this file: **§A build it** · **§B use it**.
 
 # §A — Building `.brand/brand.md`
 
-## When to build one — I offer it, I don't wait to be asked
+## Contents
+
+- [When to build one — offer it, do not wait to be asked](#when-to-build-one--offer-it-do-not-wait-to-be-asked)
+- [Step 1 — Inventory every input, then actually look at it](#step-1--inventory-every-input-then-actually-look-at-it)
+- [Step 1½ — After Effects files: the richest brand source](#step-1½--after-effects-files-the-richest-brand-source)
+- [Step 2 — Fill the template (§C below), obeying the strata traps](#step-2--fill-the-template-c-below-obeying-the-strata-traps)
+- [Step 3 — Say what I could not know](#step-3--say-what-i-could-not-know)
+- [Step 4 — Show it and get sign-off](#step-4--show-it-and-get-sign-off)
+- [Rules](#rules)
+
+## When to build one — offer it, do not wait to be asked
 - The user hands me **brand assets** (logo, brand book/PDF, style guide, screenshots,
   existing videos, a website, a Figma file) → *"want me to capture this as a brand
   document so every video matches?"*
 - They say **"like the last one"**, "on brand", "same style", "our template", or ask for
   a **series** / multiple videos / a campaign.
 - They're on their **second** video in a project and there is no `.brand/`.
-- ❗ If `.brand/brand.md` already exists I **read it and follow it** — I never silently
-  rebuild it. I update it only when the user says the brand changed (and I say what I
+- ❗ If `.brand/brand.md` already exists, **read it and follow it** — never silently
+  rebuild it. Update it only when the user says the brand changed (and say what
   changed).
 
 ## Step 1 — Inventory every input, then actually look at it
-I list what I was given and read **all** of it. Nothing goes in the document that I did
-not see in an asset or hear from the user.
+List what was given and read **all** of it. Nothing goes in the document that was not
+seen in an asset or heard from the user.
 
-| Input | How I extract from it |
+| Input | How to extract from it |
 |---|---|
 | **Images** (logo, screenshots, style frames, product shots) | Read the image and describe it; extract the palette **with code**, not by eye (below) |
 | **Videos** (existing brand videos, competitor refs) | `ffmpeg -i in.mp4 -vf "select='eq(n\,0)+eq(n\,90)',tile=2x1" -vsync 0 -frames:v 1 f.png` → look at real frames. Note pacing, transitions, type entrances, where the logo lands and for how long |
@@ -42,7 +52,7 @@ not see in an asset or hear from the user.
 ## Step 1½ — After Effects files: the richest brand source
 An AE template is a brand's motion identity written down. Unlike a logo or a PDF it
 carries **the easing curves, durations and stagger** — the things that make two videos
-feel like one brand and that I would otherwise have to guess. Routes, best first:
+feel like one brand and that would otherwise have to be guessed. Routes, best first:
 
 | Route | How | Gets you |
 |---|---|---|
@@ -106,7 +116,7 @@ that make the difference between a document that works and one that fails at com
    `C:/…/Inter-Bold.ttf` (or `./fonts/Inter-Bold.ttf`) per ramp entry, plus a fallback,
    plus confirmation the file covers the glyphs the brand needs (currency, accents, ₪/€,
    emoji). A missing glyph crashes the export.
-2. **Sizes are px at a stated canvas.** VASCO has no `cqw`/container queries. I declare
+2. **Sizes are px at a stated canvas.** VASCO has no `cqw`/container queries. Declare
    the **primary canvas** (usually 1920×1080) and give every size in px at it, plus the
    conversion for other ratios: `size_other = size_1920 × (width_other / 1920)`.
 3. **Corner radius is a mask `rect` + `radius`.** Record the brand's radii in px at the
@@ -127,17 +137,17 @@ section (entrance ease + duration, exit, stagger, transition type, camera stance
 timing) drawn from the user's existing videos if they gave any. See
 [motion-design.md](motion-design.md).
 
-## Step 3 — Say what I could not know
-Every gap goes in **Known Gaps** and I ask about the ones that matter. I never fabricate:
+## Step 3 — Say what could not be known
+Every gap goes in **Known Gaps**; ask about the ones that matter. Never fabricate:
 - a colour that isn't in an asset,
-- a font I don't have a file for,
+- a font with no file on disk,
 - a claim, stat, price or customer name (see Numerals & Claims in the template).
 Placeholders instead: `— figure —`, `{metric}`, `<logo asset needed>`.
 
 ## Step 4 — Show it and get sign-off
-I write `.brand/brand.md`, then summarise for the user: **palette + type + the 3 laws +
-what's missing**. Cheap to fix now, expensive after ten videos are built on it. I also
-save the assets I was given next to it (`.brand/assets/`) so paths stay valid.
+Write `.brand/brand.md`, then summarise for the user: **palette + type + the 3 laws +
+what's missing**. Cheap to fix now, expensive after ten videos are built on it. Also
+save the supplied assets next to it (`.brand/assets/`) so paths stay valid.
 
 ---
 
@@ -146,7 +156,7 @@ save the assets I was given next to it (`.brand/assets/`) so paths stay valid.
 1. **Read it before the storyboard** — it decides the canvas, palette, type ramp,
    components and motion, so it comes before layout choice, not after.
 2. **Tokens beat invention.** Every colour, size, font, shadow and ease comes from the
-   document. If a shot needs something the brand lacks, I say so and propose an addition
+   document. If a shot needs something the brand lacks, say so and propose an addition
    rather than quietly inventing one.
 3. **Layout is still free** (unless the brand fixes it): the document governs *atoms and
    laws*; [layouts.md](layouts.md) still picks the frame. That's the template's own
@@ -154,7 +164,7 @@ save the assets I was given next to it (`.brand/assets/`) so paths stay valid.
 4. **Generated assets inherit the brand:** pass the palette to
    `strata generate image --colors "#a,#b"` and put the brand's aesthetic words in the
    prompt, so AI art doesn't drift off-identity.
-5. **Run the Pre-Render Self-Audit** from the document before I call a video done —
+5. **Run the Pre-Render Self-Audit** from the document before calling a video done —
    it's the brand's own checklist, on top of the craft check in SKILL.md.
 6. **Version the scene files** per cut (`promo_v1.json` → `promo_final.json`) so a series
    built on one brand stays legible in the library.

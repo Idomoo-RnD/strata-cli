@@ -1,6 +1,6 @@
 # Anti-slop — defaults are not choices
 
-**Mandatory. I read this before every storyboard and run its check before every render.**
+**Mandatory. Read this before every storyboard and run its check before every render.**
 
 Agent-composed frames cluster around a small set of moves that appear **regardless of
 subject**. Each is legitimate for some briefs. **None is legitimate as a reflex.** This file
@@ -12,12 +12,20 @@ is that the frame could have come from any brief. That is what a viewer reads as
 
 ---
 
+## Contents
+
+- [The one rule that overrides this file](#the-one-rule-that-overrides-this-file)
+- [The test (run at storyboard time, per element)](#the-test-run-at-storyboard-time-per-element)
+- [The patterns](#the-patterns)
+- [Before the render — the composition-tells checklist](#before-the-render--the-composition-tells-checklist)
+- [Where the rest of the skill points here](#where-the-rest-of-the-skill-points-here)
+
 ## The one rule that overrides this file
 
 **The brief's words always win.** If the brand document, or the user, asks for a scrim, a
-rule under the title, a glow, a colour bar — that is a *choice*, and I make it exactly as
+rule under the title, a glow, a colour bar — that is a *choice*; make it exactly as
 asked. This file governs only the axes the brief leaves free. Where it leaves an axis free,
-I do not spend that freedom on a default.
+do not spend that freedom on a default.
 
 ---
 
@@ -105,7 +113,11 @@ generated → what to do instead.
 
 These are not banned colours. They are the palettes that appear when nobody chose one.
 Derive the palette from the subject's world instead — the product's own material, the
-place, the season, the medium — and name why.
+place, the season, the medium — and name why. When the subject's own materials land on a
+flagged default (a wood-fired bakery *is* char + ember; a night race *is* near-black + one
+hot light), it is a choice, not a default: name the material behind every hex, keep the
+accent as a lit thing in the picture rather than a glow or a neon stroke, and let the
+typeface and the layout carry the difference.
 
 ### Motion
 
@@ -135,7 +147,7 @@ geometry and warns — naming the pattern and this file — on a box-shaped scri
 rule under a title, a side colour bar on a panel, three-or-more identical list markers,
 stacked atmospheric effects, and bullet glyphs in copy. A `.brand/brand.md` beside the scene
 exempts the scrim warning, because a brand can own one. **The warnings are the checklist
-firing, not noise**: I fix each one or say in my report why the brief earns it. What validate
+firing, not noise**: fix each one or say in the report why the brief earns it. What validate
 cannot see — eyebrow labels, numbered markers in text, the no-brand palettes, buzzwords — I
 still check by eye against the list above.
 
@@ -152,7 +164,7 @@ still check by eye against the list above.
 
 ## Where the rest of the skill points here
 
-[SKILL.md](../SKILL.md) Part 2 carries the short form and the mandatory read. The blocks in
+[craft.md](craft.md) Part 2 carries the short form; [SKILL.md](../SKILL.md) carries the mandatory read. The blocks in
 [blocks.md](blocks.md) ship **without** accent bars for this reason. The underline
 workaround in [format.md](format.md) and the rule-wipe recipe in [recipes.md](recipes.md)
 carry a one-line echo. The finish pass in [motion-design.md](motion-design.md) is

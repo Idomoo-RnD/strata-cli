@@ -13,6 +13,15 @@ when the footage fills the frame, or keep it in a framed slot (assets.md, *Sourc
 
 ---
 
+## Contents
+
+- [The grid (landscape 1920×1080)](#the-grid-landscape-19201080)
+- [The other three canvases](#the-other-three-canvases)
+- [Layouts](#layouts)
+- [Reflow to vertical (and square)](#reflow-to-vertical-and-square)
+- [Rules that make any layout read as *designed*](#rules-that-make-any-layout-read-as-designed)
+- [Letting the user lay it out — `strata studio`](#letting-the-user-lay-it-out--strata-studio)
+
 ## The grid (landscape 1920×1080)
 | token | value | notes |
 |---|---|---|
@@ -34,11 +43,12 @@ landscape first, then reflow (see *Reflow to vertical* below) — never letterbo
 | canvas | margin | content | columns | header band | body band | bottom safe line |
 |---|---|---|---|---|---|---|
 | **1920×1080** 16:9 | 120 | 1680 | 12 @118 / 24 | 120–360 | 420–830 | 950–990 |
-| **1080×1920** 9:16 | 72 | 936 | 6 @136 / 24 | 160–460 | 560–1500 | 1690–1770 |
+| **1280×720** 16:9 (authoring at footage size — [assets.md](assets.md)) | 80 | 1120 | 12 @78.7 / 16 | 80–240 | 280–553 | 633–660 |
+| **1080×1920** 9:16 | 72 | 936 | 6 @136 / 24 | 240–520 | 560–1500 | 1560–1630 |
 | **1080×1350** 4:5 | 72 | 936 | 6 @136 / 24 | 150–380 | 430–1120 | 1180–1250 |
 | **1080×1080** 1:1 | 72 | 936 | 6 @136 / 24 | 120–300 | 340–800 | 900–960 |
 
-For 9:16 and 4:5 keep text out of the **top 10% / bottom 15%** (platform UI chrome), and off the right-hand ~12% in the lower half (the Reels/TikTok button stack).
+For 9:16 and 4:5 keep text out of the **top 10% / bottom 15%** (platform UI chrome), and off the right-hand ~12% in the lower half (the Reels/TikTok button stack) — the 9:16 header band and bottom safe line in the table already sit inside that (y ≥ 192, y ≤ 1632), so a CTA on the safe line clears the chrome.
 
 ---
 

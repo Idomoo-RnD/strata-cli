@@ -1,16 +1,26 @@
 # Generative FX — beat-sync, procedural overlays, audio-reactive graphics, vector windows
 
 Four proven techniques that make a piece read as *produced*, not templated. The heavy
-lifting is split: **`strata beats` (in the CLI) analyses the audio; I write small
+lifting is split: **`strata beats` (in the CLI) analyses the audio; the agent writes small
 generator scripts for the visuals** — frames → PNG sequence → `strata jet` → an alpha
 overlay in the scene. The whole pattern is verified to work with just the installed
 binary + Node.
 
 ---
 
+## Contents
+
+- [1. Beat-sync — cut and animate ON the music (never guess)](#1-beat-sync--cut-and-animate-on-the-music-never-guess)
+- [2. Procedural overlays — WRITE the generator (confetti, light leaks, wipes, snow…)](#2-procedural-overlays--write-the-generator-confetti-light-leaks-wipes-snow)
+- [3. Audio-reactive graphics — the envelope drives the pixels (or the keyframes)](#3-audio-reactive-graphics--the-envelope-drives-the-pixels-or-the-keyframes)
+- [4. Vector-path video windows — footage inside a shape (star, badge, blob, logo)](#4-vector-path-video-windows--footage-inside-a-shape-star-badge-blob-logo)
+- [5. Stroke reveal — `strata path` (draw-on is a built-in now)](#5-stroke-reveal--strata-path-draw-on-is-a-built-in-now)
+- [6. Displacement — heat haze, water, warp (no such effect in the engine)](#6-displacement--heat-haze-water-warp-no-such-effect-in-the-engine)
+- [Rules (all learned by building these)](#rules-all-learned-by-building-these)
+
 ## 1. Beat-sync — cut and animate ON the music (never guess)
 
-Whenever the scene has music (or any rhythmic audio), I do **not** hand-time the motion:
+Whenever the scene has music (or any rhythmic audio), do **not** hand-time the motion:
 
 ```bash
 strata beats music.mp3 -o beats.json                 # onsets + bpm
@@ -19,7 +29,7 @@ strata beats music.mp3 --fps 24 --bands 12 -o a.json # + per-frame envelope (see
 
 `beats.json` → `{ "duration": 12, "bpm": 123, "beats": [0.255, 0.499, 0.766, …] }`
 
-Then I snap the design to it:
+Then snap the design to it:
 - **Scene cuts / shot changes** land on beats (usually every 4th or 8th onset — the bar, not
   every hit).
 - **Entrances** (cards, words, logos) start at `beats[i]` with a fast pop:
@@ -32,9 +42,9 @@ This is the single strongest "professionally edited" tell, and it costs one comm
 
 ---
 
-## 2. Procedural overlays — I WRITE the generator (confetti, light leaks, wipes, snow…)
+## 2. Procedural overlays — WRITE the generator (confetti, light leaks, wipes, snow…)
 
-There is no fixed preset list: **I write a small Node script that draws RGBA frames, save
+There is no fixed preset list: **write a small Node script that draws RGBA frames, save
 them as a PNG sequence, and encode with `strata jet`** (PNG frames keep their own alpha —
 no keying). Anything drawable is an overlay: confetti, light leaks, sparks, snow, bokeh,
 scanlines, animated gradients, luma wipes for transitions.

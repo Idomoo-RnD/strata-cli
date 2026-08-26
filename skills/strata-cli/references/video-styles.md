@@ -6,6 +6,20 @@ built and rendered as a real scene, so the techniques below are measured, not im
 
 ---
 
+## Contents
+
+- [🔴 Read these two rules before using anything here](#read-these-two-rules-before-using-anything-here)
+- [Pick a style](#pick-a-style)
+- [A · Footage the user supplies](#a--footage-the-user-supplies)
+- [B · Generated footage](#b--generated-footage)
+- [C · Graphics-led](#c--graphics-led)
+- [D · Ads & commerce](#d--ads--commerce)
+- [E · Personalized / systemic](#e--personalized--systemic)
+- [F · Style-forward](#f--style-forward)
+- [G · Pure motion design (no footage at all)](#g--pure-motion-design-no-footage-at-all)
+- [Cross-cutting motion vocabulary](#cross-cutting-motion-vocabulary)
+- [⚠ Engine gotchas these styles hit](#engine-gotchas-these-styles-hit)
+
 ## 🔴 Read these two rules before using anything here
 
 ### 1. A brand document OVERRIDES every style in this file
