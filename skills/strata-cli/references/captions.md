@@ -26,14 +26,6 @@ $ strata captions ./talk.mp4 -o cues.json
 
 ---
 
-## Contents
-
-- [⚠️ SEGMENT timings, not per-word](#segment-timings-not-per-word)
-- [It takes VIDEO directly](#it-takes-video-directly)
-- [Any source works — the hosting is handled](#any-source-works--the-hosting-is-handled)
-- [Typical uses](#typical-uses)
-- [Notes](#notes)
-
 ## ⚠️ SEGMENT timings, not per-word
 
 Each cue is a **phrase or sentence**, not a word. That is the single most important thing

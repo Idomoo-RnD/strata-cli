@@ -4,15 +4,7 @@
 > mapped to real VASCO keys, with numbers measured on this engine. This file names and classifies;
 > that file tells you what to type. **Where the two give a number for the same thing, that file wins.**
 
-## Contents
-
-- [1. Classic animation principles (the Disney 12, adapted for graphics)](#1-classic-animation-principles-the-disney-12-adapted-for-graphics)
-- [2. Motion graphics and UI motion principles](#2-motion-graphics-and-ui-motion-principles)
-- [3. Timing and spacing](#3-timing-and-spacing)
-- [4. Easing](#4-easing)
-- [5. Physics and weight](#5-physics-and-weight)
-- [6. Rhythm and patterns](#6-rhythm-and-patterns)
-
+Contents: 1 Classic animation principles · 2 Motion graphics and UI principles · 3 Timing and spacing · 4 Easing · 5 Physics and weight · 6 Rhythm and patterns
 
 ## 1. Classic animation principles (the Disney 12, adapted for graphics)
 - **Squash and stretch**: deform along the motion axis to sell speed and softness; preserve volume (stretch one axis, squash the other). Use for playful, organic work and impacts. Avoid on text and precise corporate pieces.

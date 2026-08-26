@@ -14,14 +14,6 @@ against? That is the vocabulary layer: [motion-atlas.md](motion-atlas.md), ~700 
 
 ---
 
-## Contents
-
-- [The 10 techniques (each maps to a real key)](#the-10-techniques-each-maps-to-a-real-key)
-- [Choosing the values — briefs are adjectives, scenes need numbers](#choosing-the-values--briefs-are-adjectives-scenes-need-numbers)
-- [Rhythm & timing](#rhythm--timing)
-- [The finish pass (compositing polish)](#the-finish-pass-compositing-polish)
-- [The "web-animation tells" checklist — run before shipping](#the-web-animation-tells-checklist--run-before-shipping)
-
 ## The 10 techniques (each maps to a real key)
 
 ### 1. Custom easing, not ease-in-out — the single biggest upgrade
@@ -84,7 +76,7 @@ Opacity crossfades between scenes are the biggest slideshow tell. Instead:
 ### 9. Depth & camera — impossible in flat HTML
 `is_3d:true` on layers + a `camera` (push-in, orbit, parallax). A slow camera push under a
 settling title reads premium and cannot be faked in a 2D web timeline. Give layers different
-**z**, move the camera, and near/far drift apart. (See [craft.md](craft.md), *3D & camera*.)
+**z**, move the camera, and near/far drift apart. (See SKILL.md "3D & camera".)
 
 ### 10. A consistent motion language — a "motion brand"
 Every entrance in a piece shares the **same curve and timing family**; exits share another.

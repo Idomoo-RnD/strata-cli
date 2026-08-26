@@ -5,14 +5,6 @@ presenter video. It runs on HeyGen's **Avatar IV** engine, which takes an **arbi
 image** — not a passport headshot — and a `--motion` prompt that drives **body movement and
 hand gestures**.
 
-## Contents
-
-- [When avatar, and when `generate video` instead](#when-avatar-and-when-generate-video-instead)
-- [The image — how to make one that doesn't look flat](#the-image--how-to-make-one-that-doesnt-look-flat)
-- [Mechanics (all verified against the live API)](#mechanics-all-verified-against-the-live-api)
-- [Using it in a scene](#using-it-in-a-scene)
-- [Rules](#rules)
-
 ## When avatar, and when `generate video` instead
 
 Avatar is **one still, lip-synced to an exact track** — a presenter holding a pose and
@@ -26,8 +18,8 @@ shots, even two speakers answering each other
 a directed shot: the speaker in a real scene, natural head and hand motion, a close-up the
 model composes, and the voice you supplied (*measured 2026-08-25, tts_test:* identical
 transcript at matching timings, mouth articulating on every syllable). For a hero presenter in
-a promo, an explainer host, a testimonial, that is the better video, and the CLI carries the
-whole recipe (portrait → TTS → two references).
+a promo, an explainer host, a testimonial, that is the better video, and since v1.0.108 the
+CLI carries the whole recipe (portrait → TTS → two references).
 
 - **Presenter, spokesperson, explainer host, testimonial → `generate video`** (portrait or
   sheet in `--ref-image` + the TTS in `--ref-audio`; `--realistic-human` for a photoreal face;
@@ -39,7 +31,7 @@ whole recipe (portrait → TTS → two references).
   one call, framing you control exactly.
 - **Talking inside a scene, dialogue, a character who moves → `generate video`** (as before).
 
-**Say which, in the storyboard.** Whenever a piece has a presenter, name the route and its
+**Say which, in the storyboard.** Whenever a piece has a presenter I name the route and its
 trade-off in one line — *"filmed presenter (directed shot, 3–9 min) — or avatar (fixed plate,
 one call) if you want to place it yourself / it's personalized"* — so the user can downgrade
 for speed or a plate without a re-do. Never silently pick avatar for a non-personalized piece:

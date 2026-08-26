@@ -14,17 +14,6 @@ line — no references, no shot list, no audio. See the end of this file.)*
 
 ---
 
-## Contents
-
-- [🔑 How to address a reference — get this wrong and it is never cited](#how-to-address-a-reference--get-this-wrong-and-it-is-never-cited)
-- [`--ref-image` — carry a character, a product or a world across clips](#--ref-image--carry-a-character-a-product-or-a-world-across-clips)
-- [`--ref-video` — control the SHOTS](#--ref-video--control-the-shots)
-- [`--ref-audio` — characters that speak YOUR audio](#--ref-audio--characters-that-speak-your-audio)
-- [`strata sketch` — author the camera plan as a 3D animatic](#strata-sketch--author-the-camera-plan-as-a-3d-animatic)
-- [Editing and extension — ⚠ LAST RESORT](#editing-and-extension---last-resort)
-- [Choosing a mode](#choosing-a-mode)
-- [What `generate fastvideo` cannot do](#what-generate-fastvideo-cannot-do)
-
 ## 🔑 How to address a reference — get this wrong and it is never cited
 
 | Reference | Cite it as | Limit |
@@ -77,7 +66,7 @@ rule as always: **state it three times**.
 
 ### Build the reference images for the job
 
-- **Character** → a proper **character sheet**: the same character in front, three-quarter, side
+- **Character** → a proper **model sheet**: the same character in front, three-quarter, side
   and back views on one flat grey background, same ground line, plus a couple of expression
   heads. Give the model every angle it needs rather than one pose.
 - **Location** → a clean **plate with NO PEOPLE in it**. Put `ABSOLUTELY NO PEOPLE, no
@@ -120,7 +109,7 @@ Character sheet + location plate, 5-shot prompt, 12 s, 720p, 16:9, `--audio`:
 - [ ] ≤ 9 images, addressed as `[Image N]`, 1-based in flag order
 - [ ] Every image given an explicit JOB and its invariants listed
 - [ ] References re-cited inside the shots AND in the Static Description
-- [ ] Character reference is a multi-view character sheet, not one pose
+- [ ] Character reference is a multi-view model sheet, not one pose
 - [ ] Location plate generated with "no people" stated in its prompt
 - [ ] `--ratio` set explicitly — nothing to infer from
 - [ ] ~4 shots per 12 s, not 5

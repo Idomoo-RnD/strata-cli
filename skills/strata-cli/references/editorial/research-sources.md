@@ -8,19 +8,6 @@ Research snapshot: 2026-08-23.
 
 This skill synthesizes established editing grammar, empirical viewer-attention research, direct interviews with working editors, factual-media standards, platform guidance, documentary ethics frameworks, and accessibility standards. The sources support decisions; they are not a list of fixed formulas.
 
-## Contents
-
-- [How to use the evidence](#how-to-use-the-evidence)
-- [Evidence-to-practice synthesis](#evidence-to-practice-synthesis)
-- [Foundations: cut types, continuity, split edits, and attention](#foundations-cut-types-continuity-split-edits-and-attention)
-- [Direct editor accounts: genre, performance, rhythm, and sound](#direct-editor-accounts-genre-performance-rhythm-and-sound)
-- [Documentary craft, accountability, archive, and rights](#documentary-craft-accountability-archive-and-rights)
-- [Animation and story reels](#animation-and-story-reels)
-- [News and factual broadcast standards](#news-and-factual-broadcast-standards)
-- [Advertising, social, and platform-native video](#advertising-social-and-platform-native-video)
-- [Accessibility](#accessibility)
-- [Maintenance notes](#maintenance-notes)
-
 ## How to use the evidence
 
 - **Editing grammar sources** define common tools and vocabulary.

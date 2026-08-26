@@ -9,19 +9,6 @@
 
 Use this reference to turn style direction into an edit process, review a cut systematically, or prepare deliverables. Scale the process to the risk and size of the project; a 20-second creator clip does not need feature-film paperwork, while a sensitive documentary needs more than a creative timeline.
 
-## Contents
-
-- [Editorial artifacts](#editorial-artifacts)
-- [Footage intake and discovery](#footage-intake-and-discovery)
-- [Build passes](#build-passes)
-- [Style bible](#style-bible)
-- [Give and resolve cut notes](#give-and-resolve-cut-notes)
-- [Audience and pacing evaluation](#audience-and-pacing-evaluation)
-- [Factual integrity and provenance QA](#factual-integrity-and-provenance-qa)
-- [Accessibility as editorial design](#accessibility-as-editorial-design)
-- [Delivery and technical QC](#delivery-and-technical-qc)
-- [Handoff summary](#handoff-summary)
-
 ## Editorial artifacts
 
 Create only the artifacts the project needs:

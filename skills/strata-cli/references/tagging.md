@@ -23,15 +23,6 @@ Read the manifest back out of any `.idm` with `strata inspect <file.idm> --asset
 
 ---
 
-## Contents
-
-- [The manifest](#the-manifest)
-- [The two closed vocabularies](#the-two-closed-vocabularies)
-- [Coverage — what must be documented](#coverage--what-must-be-documented)
-- [Colors are corrected, not trusted](#colors-are-corrected-not-trusted)
-- [Naming the output](#naming-the-output)
-- [Checklist before shipping a tagged scene](#checklist-before-shipping-a-tagged-scene)
-
 ## The manifest
 
 ```json

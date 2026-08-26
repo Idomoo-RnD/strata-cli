@@ -9,15 +9,6 @@
 
 Use this reference to choose an editing language, diagnose pacing, or explain why a cut should happen. A technique is not a style by itself. Style emerges from consistent choices about point of view, information, time, space, performance, rhythm, and sound.
 
-## Contents
-
-- [The six control dimensions](#the-six-control-dimensions)
-- [Primary editing languages](#primary-editing-languages)
-- [Cut and transition vocabulary](#cut-and-transition-vocabulary)
-- [Sound-picture grammar](#sound-picture-grammar)
-- [Diagnose pacing precisely](#diagnose-pacing-precisely)
-- [Review passes](#review-passes)
-
 ## The six control dimensions
 
 Describe an edit through these independent controls instead of calling it merely "fast" or "cinematic":

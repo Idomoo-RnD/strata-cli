@@ -4,15 +4,7 @@
 > `strata snapshot` before spending a render - are in SKILL.md. Use this file for the craft checks
 > those do not automate.
 
-## Contents
-
-- [1. Formats and technical baselines](#1-formats-and-technical-baselines)
-- [2. Web and HTML-native motion](#2-web-and-html-native-motion)
-- [3. Accessibility and safety](#3-accessibility-and-safety)
-- [4. QA checklist](#4-qa-checklist)
-- [5. Anti-patterns (the most common mistakes)](#5-anti-patterns-the-most-common-mistakes)
-- [6. Default numbers (starting points; tune to the brief)](#6-default-numbers-starting-points-tune-to-the-brief)
-
+Contents: 1 Formats and technical baselines · 2 Web and HTML-native motion · 3 Accessibility and safety · 4 QA checklist · 5 Anti-patterns · 6 Default numbers
 
 ## 1. Formats and technical baselines
 - **Frame rates**: 24 (cinematic), 25 (PAL, broadcast, many pipelines), 30 (web, US), 60 (UI, gaming, smooth slow-mo); pick one per project and design in frames.

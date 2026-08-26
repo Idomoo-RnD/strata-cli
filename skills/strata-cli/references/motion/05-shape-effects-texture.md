@@ -5,15 +5,7 @@
 > [format.md](../format.md). A cut-out subject that sits over another layer needs alpha, which
 > means a `.jet`: [assets.md](../assets.md).
 
-## Contents
-
-- [1. Shape and form](#1-shape-and-form)
-- [2. Masks and mattes](#2-masks-and-mattes)
-- [3. Optical effects](#3-optical-effects)
-- [4. Particles and systems](#4-particles-and-systems)
-- [5. Color, light, compositing](#5-color-light-compositing)
-- [6. Materials and surfaces](#6-materials-and-surfaces)
-
+Contents: 1 Shape and form · 2 Masks and mattes · 3 Optical effects · 4 Particles and systems · 5 Color, light, compositing · 6 Materials and surfaces
 
 ## 1. Shape and form
 - **Shape morph**: interpolate one path into another; match point counts; complex morphs need intermediate poses.

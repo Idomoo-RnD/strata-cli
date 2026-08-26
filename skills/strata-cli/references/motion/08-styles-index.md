@@ -11,14 +11,7 @@
 > look, then use that file to execute it**; only fall back to the one-liner below when it has no
 > deep entry. Neighbouring entries here are the place to borrow cues from.
 
-## Contents
-
-- [1. Graphic and design-system styles](#1-graphic-and-design-system-styles)
-- [2. Retro and era styles](#2-retro-and-era-styles)
-- [3. Illustration and character styles](#3-illustration-and-character-styles)
-- [4. Digital, tech, effects-led styles](#4-digital-tech-effects-led-styles)
-- [5. Industry and genre conventions](#5-industry-and-genre-conventions)
-
+Contents: 1 Graphic and design-system styles · 2 Retro and era styles · 3 Illustration and character styles · 4 Digital, tech, effects-led styles · 5 Industry and genre conventions
 
 ## 1. Graphic and design-system styles
 - **Flat design**: no depth, solid colors; slide plus fade, no shadows, quick.

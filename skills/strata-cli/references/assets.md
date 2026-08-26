@@ -16,21 +16,6 @@ local input needs `strata upload` first (the CLI says so rather than publishing 
 
 ---
 
-## Contents
-
-- [Source resolution vs canvas — read before choosing the comp size (MEASURED)](#source-resolution-vs-canvas--read-before-choosing-the-comp-size-measured)
-- [`strata generate image "<prompt>" [flags]`](#strata-generate-image-prompt-flags)
-  - [Reference images — art style, characters, composition (the important part)](#reference-images--art-style-characters-composition-the-important-part)
-- [`strata generate video "<prompt>" [flags]`](#strata-generate-video-prompt-flags)
-- [`strata generate fastvideo <image> [flags]`  — the OLD image-to-video path](#strata-generate-fastvideo-image-flags---the-old-image-to-video-path)
-- [`strata generate narration "<text>" --voice <voice_id>`](#strata-generate-narration-text---voice-voice_id)
-- [`strata generate music "<prompt>" [--duration <sec>]`](#strata-generate-music-prompt---duration-sec)
-- [`strata upload <file>` — ONLY for generation inputs with no URL](#strata-upload-file--only-for-generation-inputs-with-no-url)
-- [Generate in WAVES, not in sequence — parallel is the default](#generate-in-waves-not-in-sequence--parallel-is-the-default)
-- [Every image becomes a video — no still photos](#every-image-becomes-a-video--no-still-photos)
-- [Alpha overlays — `.jet`, and how to get anything into it](#alpha-overlays--jet-and-how-to-get-anything-into-it)
-- [Command reference — every generation and media command, with the rules](#command-reference--every-generation-and-media-command-with-the-rules)
-
 ## Source resolution vs canvas — read before choosing the comp size (MEASURED)
 
 | asset | native size |
@@ -38,11 +23,6 @@ local input needs `strata upload` first (the CLI says so rather than publishing 
 | `generate image` | **1376×768** (16:9; other aspects the same area) |
 | `generate video` / `fastvideo` | **1280×720** — the CLI clamps to 720p |
 | `generate avatar` | 1280×720 @ 25 fps |
-
-**Scene fps follows the footage:** `generate video` clips arrive at 24 fps, avatars at 25 —
-set the scene's `fps` to the rate of the clips it carries (one rate per piece; a `.jet`, an
-envelope and a `strata beats --fps` must use the same), and when both kinds appear pick the
-one with the speaking clip, since lip-sync tolerates no resample.
 
 The default comp is 1920×1080, so a generated plate used **full-bleed** is already upscaled
 **1.4–1.5×** before the mandatory push-in adds more. There is no upscaler in the CLI.
@@ -189,11 +169,145 @@ An instrumental track (default 30s). Reference as an `audio` layer at low `volum
 
 ## `strata upload <file>` — ONLY for generation inputs with no URL
 
-**The rule, in one line:** **Upload only an asset we created ourselves that has no URL, and use the resulting URL only as an input to `generate` (image/video/avatar) — nothing else.** (`strata captions` uploads for itself when it must; that is the one other consumer, and it is inside the CLI.)
+### 🔴 CRITICAL — the whole rule in one line
 
-The full policy — the two-condition test, which inputs already have a URL, the temporary-only rule,
-when a URL is actually required, why public-and-permanent means temp-only, and the extension-must-match-bytes
-check — is in [upload.md](upload.md). Read it before the first `strata upload` of a job.
+> **Upload only an asset we created ourselves that has no URL, and use the resulting URL
+> only as an input to `generate` (image/video/avatar) — nothing else.** (`strata captions`
+> uploads for itself when it must; that is the one other consumer, and it is inside the CLI.)
+
+Both halves are binding:
+
+- **What may be uploaded:** a file **we produced locally** (or one the user supplied) that
+  **has no URL**. Never a generated asset — those already have one.
+- **What the URL may be used for:** **a generation reference input only.** It goes into
+  `--reference`, `first_frame`/`last_frame`, or `reference_images`/`reference_videos`/
+  `reference_audio`. It does **not** go into a scene, a `src`, a deliverable, a brand file,
+  or anything shown to the user as a link.
+
+If you cannot name the `generate` call the URL is for, do not upload.
+
+### 🛑 The two-condition test
+
+Upload only when **both** are true:
+
+1. the file is a **generation INPUT** — something handed to the AI API, which takes URLs:
+   `generate avatar`'s image, and the video API's `first_frame`, `last_frame`,
+   `reference_images`, `reference_videos`, `reference_audio`; **and**
+2. it **has no URL** already.
+
+If it is not a generation input, it does not need a URL at all. **Scene assets are local
+paths** — images, MP4s, **`.jet` overlays**, fonts. The encoder reads their bytes at encode
+time and embeds them in the `.idm`, so a `.jet` from `matte`/`jet` is never uploaded; it is
+just a `src`.
+
+### Most generation inputs already have a URL
+
+**Everything `strata generate` produces is already hosted and prints its URL.** Read it off
+the command's output and pass that string on. Uploading a generated file is always a
+mistake: it costs an extra request, and it creates a second, permanent, public copy of
+something that was already served.
+
+```
+✅ saved C:\…\presenter.png
+   url: https://s3.us-east-1.amazonaws.com/assets-temp.idomoo.ai/images/…png   <-- USE THIS
+```
+
+| Asset | Already has a URL? | `upload`? |
+|---|---|---|
+| `generate image` (incl. `--reference` output) | ✅ prints `url:` | **no** |
+| `generate video` | ✅ prints `url:` | **no** |
+| `generate narration` / `generate music` | ✅ prints `url:` | **no** |
+| `generate avatar` | ✅ prints `url:` | **no** |
+| A rendered MP4 from `strata render` | ✅ prints `video:` / `poster:` | **no** |
+| A file **the user gave us**, used as a reference or a first/last frame | ❌ | **yes** |
+| Something **we built locally** and are using as a generation reference — a rendered animatic, an ffmpeg frame grab, a texture drawn by a script | ❌ | **yes** |
+| A `.jet`, or any other **scene asset** (`src`) | n/a — embedded in the `.idm` | **never** |
+
+The split is by **command**, not by luck — it is not "upload if the URL was missing":
+
+| Returns a URL | Writes local files ONLY — never a URL |
+|---|---|
+| `generate image` · `video` · `avatar` · `narration` · `music` | `jet` · `matte` · `preview` · `compile` · `track` |
+| `render` (`video:` + `poster:`) | anything from ffmpeg or a throwaway script |
+
+Most of the right-hand column needs **no** URL, because its output is a scene asset that
+gets embedded (`jet`, `matte`, `compile`) or is local-only by nature (`preview`, `track`).
+They appear here only because *if* one of their outputs is later used as a generation
+reference, it will need uploading first.
+
+So the rule is: **capture the `url:` line when an asset is generated.** If a `generate`
+command did not print one, something failed — investigate, do not paper over it with an
+upload. Reach for `upload` only in the two cases that legitimately have no URL: **a file the
+user supplied**, or **something produced by a local-only command** (a `.jet` from `matte`, an
+ffmpeg frame grab or cut, a generated texture, a rendered animatic). Upload it once and reuse
+that URL.
+
+### 🛑 TEMPORARY assets only — never persistent ones
+
+`upload` is a **transient handoff**: the one job is getting a local file into an API call
+that will only accept a URL. It is **not** asset storage, not a CDN, and not where a
+project's files live.
+
+**Never upload:**
+
+- **Scene assets — including every `.jet`.** A scene's `src` points at a **local file on
+  disk**; the encoder reads the bytes at encode time and embeds them in the `.idm`. A `.jet`
+  alpha overlay, an MP4 background, a PNG, a font: all local, all embedded. Uploading them
+  and pointing `src` at a URL is wrong and gains nothing.
+- **Deliverables** — finished MP4s, posters, anything the user is meant to keep. Those live
+  in the project folder (and rendered videos are already hosted by `render`).
+- **Brand assets** — a logo, a `.brand/` file, a font. Those belong in the repo.
+- **Anything long-lived or referenced later.** Treat every uploaded URL as throwaway: good
+  for this API call, not something to build on.
+
+The irony is the point: the store itself is permanent and undeletable (below), so the
+discipline has to be yours. **Temporary use, permanent consequence** — upload the minimum,
+once, and only to feed a call that demands a URL.
+
+### When a URL is actually required
+
+Some endpoints take **only** a URL and reject base64 data-URIs — `generate avatar`'s image
+is the one in this CLI today, and **`generate video`'s media inputs** (`--first-frame`,
+`--last-frame`, `--ref-*`) are the other. `generate image --reference` and `generate
+fastvideo` do **not** need a URL at all — they accept a local path and encode it themselves,
+so never upload for their sake. And never upload for `generate video` either when the input
+came from a `generate`/`render` command: that already printed a `url:` — use it.
+
+```bash
+strata upload footage_the_client_sent.mp4
+# ✅ https://t.idomoo.com/9e289b70-…-7a1ed49e102f.mp4
+#    1.30 MB · sniffed as video/mp4 · serving video/mp4
+```
+
+### ⚠ Public and permanent — which is why it is for temp use only
+
+The endpoint is unauthenticated, the object is `public-read`, and there is **no expiry and
+no delete**. Anything uploaded is world-readable forever — there is no way to take it back.
+Every needless upload is a permanent public artefact, so the bar is: *this call will not
+work without it.* **Never upload anything private,
+personal or client-confidential** — and never a viewer's personalized data. Say so when
+offering it; do not upload a user's file without asking.
+
+### The extension must match the bytes
+
+The host sniffs the real type from the file's first 261 bytes and **rejects a request whose
+extension disagrees — with a bare `404` and an empty body** (measured: `.png` holding JPEG
+bytes → 404; `.mov` holding MP4 bytes → 404; `.jpg` and `.jpeg` are interchangeable).
+
+The CLI handles this: it sniffs the magic number locally and uploads under the type the
+bytes actually are, telling you when it does:
+
+```
+⚠ named .png but the bytes are jpg — uploaded as .jpg
+```
+
+This matters because `generate image` sometimes returns JPEG bytes for a `-o …png` — so a
+"png" on disk may not be one. The served `Content-Type` always follows the bytes.
+
+The command also **verifies the URL serves** before handing it back (`serving image/png`),
+because the documented failure mode is a successful upload whose URL then 404s.
+
+---
 
 ## Generate in WAVES, not in sequence — parallel is the default
 
@@ -255,43 +369,152 @@ video exists for an asset, the scene must reference the video.
 
 ## Alpha overlays — `.jet`, and how to get anything into it
 
-Every layer that sits over another layer needs alpha → a `.jet`; a full-frame plate or unoverlapped
-footage stays an MP4 (`matte` is the slowest step and `.jet` is lossy). How to get any source into a
-`.jet` — the source→method table, same-source occlusion with no alpha at all, `matte` at half width,
-the quality setting, keying the VIDEO not a still, and text BEHIND the subject from the SAME clip —
-is in [alpha.md](alpha.md).
+An **MP4 has no alpha**, so a clip laid over the scene arrives as an opaque rectangle.
+Idomoo's alpha format is **`.jet`** (IDMJET, YUVA420 — alpha is a real plane). Every
+overlay clip is a `.jet` used as a `video` layer. **Its fps must match the source clip and
+the scene**, or the overlay drifts out of time — the CLI prints the fps it used.
 
-## Command reference — every generation and media command, with the rules
+### Same-source occlusion — text behind a subject with NO alpha at all
 
-**Every command's signature, in one line:** `compile` · `validate` · **`versions <scene>`** / **`revert <scene> --to N`** (automatic per-scene history — [format.md](format.md)) · **`preview <scene> [--at <sec>] [--grid] [--comp <name>]`** (free local layout wireframe — no cloud) · **`studio [scene.json] [--port 4321] [--no-open]`** (local browser layout designer → writes `*.guide.json`; only with the user's go-ahead — it waits for them to press Save) · **`jet <frames|video> [--key R,G,B] [--method chroma] [--fps N]`** (alpha-video overlay — .jet, not .mp4) · **`matte <video> [--width N]`** (remove the background from footage **of a PERSON or a character** → .jet — it is a human matting model, so a product/object/logo clip fails with `no subject found`; key those instead) · **`track <video> [--comp WxH | --point x,y]`** (track a surface → corner_pin, or an element → position keyframes) · **`captions <file|url> [-o cues.json] [--srt f]`** (speech-to-text WITH TIMINGS from audio **or video** — caption bars, VO timing, verifying a generated clip said its line; ⚠ segment-level, not per-word) · **`glyphs <font.ttf> "<text>" | <scene.json>`** (does the font cover the copy — before authoring) · **`beats <audio> [--fps N --bands N]`** (onsets + bpm, and the per-frame envelope — never hand-time to music) · **`upload <file>`** (host a generation input that has no URL — public + permanent) · `inspect <file.idm> [--assets <dir>] [-o doc.json]` (unpack an .idm: every asset + the VASCO doc) · `repack <doc.json> -o out.idm` (re-encode an unpacked .idm — **escape hatch only**, VASCO is baked output so text/asset swaps yes, motion no) · `sketch <plan.json>` (blocking animatic → `generate video --ref-video`) · `generate image|video|fastvideo|avatar|narration|music|voices` · `add <block>` · `render --library <id> [--data row.json|rows.json]` (a data object personalizes one render by layer name; an array renders one video per row — the template is uploaded once) · `snapshot --library <id> [--data row.json]` (poster-only, fast QA — proof a personalized frame cheaply) · `library list|create <name>` (**create is get-or-create — ask the user which library before the first render, never pick one**) · `init` · `auth login|status` · `schema` · `update` · `uninstall`. Add `--json` for machine-readable output (errors on stderr; nothing reads a TTY non-interactively). Exit codes: 0 ok · 1 compile/schema · 2 missing file · 3 auth · 4 render timeout.
-The CLI creates media via the Idomoo AI API (needs auth; saves to `./strata_assets/`):
+When the only thing you need is **text passing behind a subject that stays on its own
+plate**, you do not need a matte, a key, or a `.jet`. Use the clip **twice**:
 
-| command | makes |
-|---|---|
-| `strata generate image "<prompt>" [--aspect 9:16] [--colors …] [--reference <img\|url> …]` | a still PNG (async) |
-| `strata generate video "<prompt>" [--first-frame <url>] [--last-frame <url>] [--ref-image/--ref-video/--ref-audio <url>] [--duration 5] [--ratio 9:16] [--audio] [--last-frame-out <f>]` | a **video clip** (async, 3–9 min). One command, five modes chosen by the inputs: text-to-video, image-to-video, keyframe interpolation, reference-driven, editing. ⚠ frames and references are **mutually exclusive**. **A clip shorter than its scene is never stretched** — cover the gap with a companion clip of more shots, or extend off the last frame. `--ref-audio` lip-syncs a voice **or** choreographs the cut to a music track. Prompting is a craft — [video-generation.md](video-generation.md) |
-| `strata generate fastvideo <image\|url> [--prompt "<motion>"] [--duration 5] [--ratio 9:16]` | the OLD quick image-to-video path. **Only when fast mode is explicitly asked for** — no text-to-video, keyframes, references or audio |
-| `strata sketch <plan.json> -o plan.mp4` | a grey-box 3D **animatic** to drive a complex camera plan, fed back as `--ref-video`: [video-generation-advanced.md](video-generation-advanced.md) |
-| `strata path <file.svg> -o out.jet [--duration N] [--stroke N] [--color #hex] [--head N]` | a **stroke reveal** (draw-on) as an alpha `.jet` overlay - logo draw-on, map routes, signatures, the line-draw style. Paths draw in SVG document order; `--head` adds a travelling dot. The `.jet` fps MUST match the scene |
-| `strata retime <clip> --ramp "0:1.0, 2.0:0.25, 3.2:1.0" [-o out]` | a **keyframed speed ramp** - slow segments are motion-interpolated (no stutter), audio tempo-adjusted through the ramp. For a deliberate impact beat ONLY - never to make a clip fit a scene |
-| `strata grade <clip> --match <ref> \| --lut <f.cube> \| --look <name> [-o out]` | **colour-match / grade** - `--match` histogram-matches a companion clip to its reference so the cut reads as one shoot; `--lut` applies the brand's LUT; `--look` restrained named looks |
-| `strata chart bars\|donut\|line --box x,y,w,h ... [scene.json]` | **animated chart layers** as scene JSON - bars GROW from data, donuts sweep, lines draw on. Named layers, so `render --data` personalises the value TEXT; heights and sweeps are baked at emit time - per-viewer heights are one scene per row, see [personalization.md](personalization.md) |
-| `strata generate avatar <image URL> --audio <url> [--aspect 9:16] [--motion "..."]` | a **talking presenter** from one still + audio (lip-synced). The image must NOT be a flat front-facing headshot — angle it, free the hands, light it: [avatar.md](avatar.md). **Not the default for a presenter.** A presenter, host or testimonial is a **filmed** shot — `generate video --ref-image --ref-audio` (portrait + TTS) — unless the piece is **personalized** (then a stable avatar plate is what Idomoo swaps) or the user wants a fixed plate / a quick cut. Name the route and its trade-off in the storyboard: [avatar.md](avatar.md) |
-| `strata generate narration "<text>" --voice <voice_id>` | TTS voiceover MP3 (`generate voices` lists ids) |
-| `strata generate music "<prompt>" [--duration 30]` | an instrumental track (**Stable Audio 3**, 44.1kHz stereo **WAV**). Prompt it properly — tags, arc, BPM: [music.md](music.md) |
-| `strata upload <file>` | a **public URL** for a local file — **only** when a file has no URL yet and an endpoint accepts nothing else (`generate avatar`, `generate video`'s `--first-frame`/`--ref-*`; `strata captions` does its own). ⚠ TEMP handoff only, and public + permanent: [assets.md](assets.md) |
+```
+video  "plate"    src: hero.mp4   box: [0,0,W,H]     <- the clip, untouched
+text   "headline"                                    <- sits BETWEEN them
+video  "front"    src: hero.mp4   box: [0,0,W,H]     <- the SAME clip, masked to the subject
+```
 
-Chain: **image → animate into video → narration + music**, then point `src`/`audio` at the saved files. `generate image` accepts a **local file or a URL** for `--reference` (auto-encoded, no upload); `generate video` takes **URLs only** for `--first-frame`/`--ref-*`, and every `generate` command prints one. **CRITICAL — upload only an asset we created ourselves that has no URL, and use that URL only as a reference for `generate` (image/video). Nothing else.** Every `generate` command already prints a hosted `url:`, so use that string and never re-upload a generated asset. `strata upload` is only for a **generation INPUT** (something fed to the AI API, which takes URLs) that has **no URL yet** — the user's own photo/footage, or something rendered locally to use as a reference ([upload.md](upload.md)). It is a throwaway handoff, never asset storage. **Scene assets are never uploaded**: `src` values — images, MP4s, **`.jet` overlays**, fonts — stay local paths and are embedded in the `.idm` at encode time; so are deliverables and brand files.
+Both video layers are full-frame on the same box, neither gets position animation, and the
+front copy carries a **rough geometric mask** in the shape of the subject (a rect plus a
+cylinder/ellipse is usually enough).
 
-**Two rules that always apply when generating media — details in [alpha.md](alpha.md) and *Every image becomes a video* above:**
-- **An overlay's motion must live IN the footage — key the VIDEO, never a still.** The pipeline for any subject that composites over the scene (a plane, a person, a mascot, a product) is: **generate the image → `generate video "<motion>" --first-frame <its url>` → matte/key THAT VIDEO per frame → `.jet`**. The subject then flies/walks/turns inside the clip and the layer itself stays put (box = full frame, no `position` animation). **Do this even when the user never says "key it"** — it is what makes the overlay look filmed instead of pasted. ❌ **The failure to avoid:** matte a *still*, or matte a clip whose subject barely moves, then fake the motion by translating the cut-out across the screen with a couple of `position` keyframes — it reads exactly like a sticker sliding over the picture, because that is what it is. ⚠️ Image-to-video models often **hover the subject instead of moving it**, so after generating, check that it actually travelled (compare the subject's position in the first and last frames, or `strata track --point`); if it barely moved, **re-prompt the clip with the displacement stated explicitly** — never compensate by sliding the layer.
-- **EVERY image in the scene gets animated — no still photos.** Any generated or supplied image that appears as a visual (background, hero shot, product, scenery, person) becomes a clip before it goes in the scene. **The rule is "no stills" — it does not prescribe HOW**; pick the mode per asset:
-  - **`generate video "<motion>" --first-frame <its url>`** when the **composition is the point** — a laid-out hero shot, an approved frame, anything that must match the sketched layout. Frame 0 *is* that image, so the framing is guaranteed. (Every `generate image` prints the url.)
-  - **`generate video "<the shot>" --ref-image <its url>`** when the **subject is the point and framing is free** — a character across several shots, a product, a world. It composes new angles instead of pushing into one still, which is why a series of clips of the same person looks far better this way. Costs one shot of budget (≤4 per 12s) and does **not** lock the opening frame.
-  - **Straight text-to-video** when no image exists yet and nothing downstream needs that exact still — do not manufacture a PNG just to animate it.
-  - **`generate fastvideo <image>`** ONLY when fast mode was explicitly asked for — it is a different, older endpoint, not a quality tier of `generate video` (which also has its own `--fast` model flag; the two are not the same thing).
-  ⚠ A clip destined for a `.jet` overlay must be **ONE continuous shot, no cuts** — [video-generation.md](video-generation.md). **The only exception is a genuine icon/logo/UI element** — small flat graphics that would look wrong moving. Do **not** ask first and do **not** fall back to the still: a static photo in a motion-design piece reads as a slideshow, which is the failure this skill exists to prevent. **And once a video was generated for an asset, the scene must reference the VIDEO, never the leftover `.png`** — check every `src` before compiling. (For a **fixed** image, Ken-Burns on the still is the fallback only when image-to-video is unavailable; for a **personalized** slot it is the standard treatment — see "Images are never still" above.)
-- **Reference images — keep the SAME person or the SAME art style across images (verified).** `generate image --reference <img|url>` (repeatable, local file or URL) passes reference images in the `images` array, and **the prompt refers to them by index**: the 1st `--reference` is **image 0**, the 2nd **image 1** (note: `generate video`'s `--ref-image` counts from **[Image 1]** — the two commands index differently). Two proven jobs:
-  - **Same character / subject:** *"the same person as image 0, sitting at a cafe with a laptop"* → her exact face, hair and freckles are preserved in a new pose and scene. This is how a recurring person, mascot, product or brand character stays on-model across every shot — pass that reference into **each** image.
-  - **Same art style:** *"in image 0's art style, draw a car"* → the reference's palette, linework and look transfer to a new subject.
-  Use references **whenever the user gives an image** (a person, a character, a logo, a product, a style frame, a prior render) or needs consistency across shots. Phrasing (style-vs-copy, combining several references) is in *Reference images* above.
+**Why it is more robust than any key:** outside the mask, both layers are the *identical*
+pixels — so a wrong mask edge is invisible. The edge only matters where the text actually
+passes behind the subject. That inverts the usual advice: **a generous, sloppy mask beats a
+tight one**, and it costs nothing to oversize it.
+
+Use it when the subject is hard to key (frosted glass, warm-on-warm, a gold cap against a
+brown seamless) or when `matte` refuses because there is no person in frame. Its one limit:
+**the subject can never leave its own plate** — for that you need real alpha, so generate on
+a green backdrop instead.
+
+If the subject moves or turns, animate the mask loosely (a few keyframes) or drive it with
+`strata track --point`. Precision is wasted here; coverage is not.
+
+### Getting to `.jet` — pick the row that matches the source
+| I have | command | notes |
+|---|---|---|
+| **A PERSON in ordinary footage, no green screen** (on a beach, in an office…) — also works on cartoon/stylized characters | `strata matte clip.mp4 -o subject.jet` | **removes the background automatically** (AI video matting, runs locally on CPU). ⚠ **People only** — see the row below. First run downloads a ~14 MB model into `~/.strata/models/`. |
+| **A PRODUCT, object, logo or landscape** | ❌ **not `matte`** — re-generate the clip on a green backdrop and use `--method chroma`, or key a uniform background with `--key`, or use same-source occlusion (below) | `matte` runs Robust Video Matting, trained on **people**. On a product it finds no subject and the CLI now stops with `no subject found`. *Measured coverage:* cartoon character 46.8%, person close-up 23.9%, person in wide shots 8.9%, **perfume bottle 0.00%** |
+| **Green/blue screen footage** | `strata jet clip.mp4 --key 0,177,64 --method chroma -o o.jet` | add `--choke 1 --feather 1` to trim a colour fringe |
+| **A solid white/black background** | `strata jet clip.mp4 --key 255,255,255 -o o.jet` | `distance` method is the default |
+| **A PNG sequence that already has alpha** (AE/Blender/Nuke/Resolve export, or roto) | `strata jet ./frames --fps 24 -o o.jet` | **best quality — no keying at all.** The frames' own alpha is used automatically; only pass `--key` if you actually want a colour keyed |
+| **A still image I generated** | `strata generate image …` → `strata generate video "<motion>" --first-frame <its url>` (**ONE continuous shot, no cuts** — see [video-generation.md](video-generation.md)) → then one of the rows above | a generated still becomes a clip first; ask for a **solid green background** in the prompt if you intend to key it |
+
+`--width N` downscales an oversized overlay — a 960×960 source rarely needs full
+resolution, and it cuts the `.jet` size a lot. Any **video** input needs `ffmpeg` on PATH
+(it decodes the clip); a PNG sequence needs nothing.
+
+### `matte` is slow — halve the width first (MEASURED)
+AI matting is the slowest thing in the toolchain: it runs a neural net on **every frame**
+on the CPU. On a 144-frame 1280×720 clip:
+
+| run | time | `.jet` size |
+|---|---|---|
+| full 1280 wide | **2m42s** | 34.5 MB |
+| `--width 640` | **24.7s** | 10.6 MB |
+
+**6.6× faster and 3× smaller** — so unless the subject fills the frame at full res, pass
+`--width 640` (or 720). An overlay is composited over a busy scene and usually scaled
+down anyway, so the resolution is rarely doing any work. This is the reliable lever: it
+shrinks every stage (decode → net → jet encode) and behaves the same on any machine.
+
+`--threads N|auto` also exists (default **1**). Measured on a 32-core box it burns ~8× the
+CPU for an erratic wall-clock win — sometimes a loss — so it is opt-in, not default;
+`auto` scales to the CPU count, and anything unusable falls back to 1 thread rather than
+failing. Reach for `--width` before `--threads`.
+**Tell the user roughly how long a matte will take** before starting a long one, and run
+it in the background rather than blocking.
+
+### Quality — `.jet` is lossy; the default is Idomoo's own reference setting
+`--quality draft|good|high|max` (default **draft**). Despite the name, `draft` is
+**not** a compromise: `[8,8,4,4]` is exactly what Idomoo's reference encoders hardcode,
+so it is what every `.jet` from the AE plugin has always used.
+
+| preset | quant factors | size (144f 720p matte) |
+|---|---|---|
+| **draft** (default) | 8,8,4,4 | **34.5 MB** |
+| good | 4,4,2,2 | ~50 MB |
+| high | 2,2,1,1 | ~65 MB |
+| max | 1,1,1,1 | 81.0 MB |
+
+**Verified side by side in a jet viewer:** `draft` vs `max` is indistinguishable —
+RGB PSNR 37.5 dB, **alpha PSNR 53.0 dB**, mean edge-alpha error 3.96/255. Crucially the
+residual alpha in "empty" regions is **7/255 at both settings**, so finer quantisation
+never buys cleaner transparency — only RGB precision inside the subject. `max` costs
+**2.4× the bytes** for that.
+
+So: **leave the default alone.** Step up to `high`/`max` only when a specific clip
+actually shows artefacts (fine hard-edged alpha — confetti, thin type, vector shapes — is
+the plausible case; soft/photographic subjects are not). If a `.jet` is too big, reduce
+`--width` first: halving resolution quarters the data. (`max` is the ceiling regardless:
+the format caps coefficients at ±1022 and a flat DCT's DC term reaches ~4080, so the base
+matrix's ÷4 is what makes them fit — going finer corrupts the file.)
+
+### ⚠️ Key the VIDEO, not a still — the motion belongs in the clip
+Always matte/key the **moving clip**, so the subject's motion is carried by the `.jet`
+itself and the layer stays still (`box` = full frame, no `position` animation). Do this
+**even when the user never asks for keying** — it is what separates a filmed-looking
+overlay from a sticker.
+
+**The failure mode, seen in a real project:** a plane was matted from a clip whose subject
+barely moved (centre drifted ~35px over 80 frames), and the "flight" was then faked by
+translating the cut-out `position: [-260,380] -> [1540,265]`. On screen that reads as a
+paper plane sliding across the picture — no parallax, no perspective change, no banking.
+
+Compare the beach example above: the woman's walk is *inside* the matted clip, the layer
+never moves, and it looks filmed.
+
+**Image-to-video models frequently hover the subject rather than translate it.** After
+generating, verify it actually travelled — compare the subject between the first and last
+frames, or run `strata track --point x,y` and read the reported travel. If it barely moved,
+**re-prompt the clip** stating the displacement explicitly ("crosses from the left edge to
+the right edge, camera static"); never compensate by animating the layer.
+
+### Text BEHIND the subject — the SAME clip, used twice
+
+**This is the single easiest thing to get wrong, so the rule is absolute: the background
+plate and the matted overlay must be THE SAME CLIP.** The subject is cut out of the very
+frames it is sitting in, so it lines up perfectly and the text slides between the two
+copies.
+
+```json
+{ "width":1280, "height":720, "fps":24, "layers": [
+  { "type":"video", "name":"plate",   "src":"./clip.mp4",     "box":[0,0,1280,720], "fit":"fill" },
+  { "type":"text",  "name":"headline","text":"SUMMER", "size":210, "box":[0,230,1280,240], "align":"center middle" },
+  { "type":"video", "name":"subject", "src":"./clip.jet",     "box":[0,0,1280,720] }
+] }
+```
+Read it as three layers, bottom to top:
+1. **`clip.mp4`** — the untouched clip, full frame. The background.
+2. **the text** — anything that should appear *behind* the subject.
+3. **`clip.jet`** — `strata matte clip.mp4 -o clip.jet`, i.e. **that same clip** with its
+   background removed. The subject, back on top of itself.
+
+Both video layers are **full frame at the same box**, and the `.jet` layer gets **no
+`position` animation** — the subject's movement is already inside it.
+
+❌ **The failure to avoid: matting clip A and laying it over clip B.** That is not this
+effect — it is just an overlay of one video on another, the subject will not line up with
+anything behind it, and the "behind" illusion never happens. If the two `src` values are
+different clips, it is wrong. Same clip in, same clip matted, text in between.
+
+*(Layering an unrelated subject over a different background — a mascot, a logo sting, a
+product cut-out — is a perfectly good separate technique. It just is not "text behind the
+subject", and should not be confused with it.)*
+
+**Judgement:** matting is excellent on clear subjects, decent edges, and is temporally
+stable (it's a video model, so edges don't crawl). For hero shots with fine flyaway hair or
+heavy motion blur, a proper roto in After Effects / Resolve still wins — ask for a **PNG
+sequence with alpha** and use the PNG row above.

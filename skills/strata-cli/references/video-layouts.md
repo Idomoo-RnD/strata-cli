@@ -11,11 +11,6 @@ Pair with `layouts.md` (the grid) and `motion-design.md` (how it moves).
 
 ---
 
-## Contents
-
-- [The patterns](#the-patterns)
-- [Rules that make a video layout read as designed](#rules-that-make-a-video-layout-read-as-designed)
-
 ## The patterns
 
 ### 1. Split-screen / multi-video grid
@@ -85,7 +80,7 @@ If the hero never overlaps the type, skip it: `matte` is the slowest step in the
 and `.jet` is lossy, so a cut-out with nothing to composite against costs time and quality
 for no visible effect.
 
-**DETECT this opportunity — do not wait to be asked.** Triggers, any of:
+**I DETECT this opportunity myself — I don't wait to be asked.** Triggers, any of:
 - the piece is an **ad/promo with one hero product or subject** (shoe, bottle, phone, car,
   food, mascot, presenter) — this is the default premium treatment, propose it;
 - there is a **big wordmark, price, stat or headline** that the hero could plausibly cross;

@@ -14,17 +14,6 @@ when a cut "feels off" and the note would otherwise be "make it faster".
 
 ---
 
-## Contents
-
-- [What overrides this file](#what-overrides-this-file)
-- [Establish the editorial contract](#establish-the-editorial-contract)
-- [Reference map](#reference-map)
-- [Make decisions in this order](#make-decisions-in-this-order)
-- [The cut decision gate](#the-cut-decision-gate)
-- [Output — the editorial blueprint](#output--the-editorial-blueprint)
-- [Critiquing an existing cut](#critiquing-an-existing-cut)
-- [Non-negotiables](#non-negotiables)
-
 ## What overrides this file
 
 - **The brief's own words and a brand document** — [brand.md](brand.md). Editorial grammar is

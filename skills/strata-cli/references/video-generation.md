@@ -23,24 +23,6 @@ References, dialogue, animatics and editing are in
 
 ---
 
-## Contents
-
-- [🚫 The one hard rule: frames and references are mutually exclusive](#the-one-hard-rule-frames-and-references-are-mutually-exclusive)
-- [🟢 `--realistic-human` — the answer to content rejections](#--realistic-human--the-answer-to-content-rejections)
-- [Media inputs are URLs](#media-inputs-are-urls)
-- [Parameters](#parameters)
-- [Writing the prompt](#writing-the-prompt)
-- [Worked example — the prompt that produced the result above](#worked-example--the-prompt-that-produced-the-result-above)
-- [⛔ Clips destined for a `.jet` alpha overlay — NO shots, NO cuts](#clips-destined-for-a-jet-alpha-overlay--no-shots-no-cuts)
-- [Image-to-video — `--first-frame`](#image-to-video----first-frame)
-- [Keyframe interpolation — `--first-frame` + `--last-frame`](#keyframe-interpolation----first-frame----last-frame)
-- [Locking the camera — in the prompt, not the flag](#locking-the-camera--in-the-prompt-not-the-flag)
-- [Chaining — clips longer than 15 s](#chaining--clips-longer-than-15-s)
-- [⛔ A clip shorter than its scene is NEVER stretched — cover the gap with more shots](#a-clip-shorter-than-its-scene-is-never-stretched--cover-the-gap-with-more-shots)
-- [Two different things are called "fast" — don't confuse them](#two-different-things-are-called-fast--dont-confuse-them)
-- [Errors](#errors)
-- [Checklist](#checklist)
-
 ## 🚫 The one hard rule: frames and references are mutually exclusive
 
 **`--first-frame` / `--last-frame` can NEVER be combined with `--ref-image`, `--ref-video`
@@ -201,10 +183,7 @@ and room mutating between cuts. End it with the negatives you need ("no text on 
 
 ### 7. `Audio:` — always present, always specific
 Even for near-silence: *"soft slow breathing, the faint creak of an old window frame, a
-distant city hum. No music. No speech."* Needs `--audio`. The two cases where `--audio` is
-omitted: a `.jet` overlay (no track wanted at all) and a **multi-clip piece under one
-continuous bed** (audio does not chain — see *Chaining*), where the line still describes the
-ambience the picture should imply and the bed carries the sound in the scene.
+distant city hum. No music. No speech."* Needs `--audio`.
 
 ### 8. Physics, not adjectives
 "dust motes drift in the beam", "thumb moving slowly over the glaze", "linen folds catching

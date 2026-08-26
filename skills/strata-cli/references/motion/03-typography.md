@@ -5,14 +5,7 @@
 > ⚠ Vertical text anchors to the **bottom** of its box and digits wrap mod 10 in a count-up; both
 > are measured facts in format.md that no amount of craft here overrides.
 
-## Contents
-
-- [1. Entrance and reveal patterns](#1-entrance-and-reveal-patterns)
-- [2. Exit patterns](#2-exit-patterns)
-- [3. Craft rules for kinetic typography](#3-craft-rules-for-kinetic-typography)
-- [4. Numbers in type](#4-numbers-in-type)
-- [5. Multilingual and RTL](#5-multilingual-and-rtl)
-
+Contents: 1 Entrance patterns · 2 Exit patterns · 3 Craft rules · 4 Numbers in type · 5 Multilingual and RTL
 
 ## 1. Entrance and reveal patterns
 - **Fade**: the neutral default; pair with a 10-20 px rise for life.

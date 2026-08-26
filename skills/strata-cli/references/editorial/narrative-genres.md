@@ -9,22 +9,6 @@
 
 Use genre as an audience contract, not as a preset. First identify the scene's dramatic job and point of view; then apply the genre conventions that make that job legible and satisfying. A comedy can need a long dramatic hold, an action film can need stillness, and horror can become less frightening when cut rapidly.
 
-## Contents
-
-- [Genre control matrix](#genre-control-matrix)
-- [Character drama](#character-drama)
-- [Romance and intimacy](#romance-and-intimacy)
-- [Comedy](#comedy)
-- [Action and adventure](#action-and-adventure)
-- [Thriller and suspense](#thriller-and-suspense)
-- [Horror](#horror)
-- [Mystery, crime, and noir](#mystery-crime-and-noir)
-- [Science fiction and fantasy](#science-fiction-and-fantasy)
-- [Musical and dance narrative](#musical-and-dance-narrative)
-- [Animation and family storytelling](#animation-and-family-storytelling)
-- [Experimental, essay, and poetic film](#experimental-essay-and-poetic-film)
-- [Hybrid selection examples](#hybrid-selection-examples)
-
 ## Genre control matrix
 
 | Mode | Audience tracks | Default picture bias | Default sound bias | Rhythm shape |
