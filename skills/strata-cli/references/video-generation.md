@@ -128,10 +128,23 @@ something we rendered locally (a `strata sketch` animatic, an ffmpeg frame grab)
 | `--camera-fixed` | ⛔ **rejected by the current model on every task type** (*measured:* t2v, i2v and r2v all answer `camera_fixed … must be empty`; the CLI now refuses it before spending the request). **Lock the camera in the prompt instead** — see *Locking the camera* below |
 | `--audio` | native synced audio. *Measured:* real AAC 44.1 kHz stereo. ⚠ **Anything you do to this clip afterwards must keep that track** — see below |
 | `--last-frame-out <file>` | saves the last frame for chaining. **Do it now** — the URL is signed and expires in 24 h |
-| `--fast` | the fast model: ~1.5× quicker, but *measured* it dropped a shot (4 delivered of 5). Use when shot count does not matter |
-| `--resolution` | **clamped to 720p** by the CLI. The standard model will happily return 1080p if asked, so the discipline lives here. Upscale afterwards if a deliverable needs more |
+| `--best` | the **standard** model instead of the default fast one: slower, but it delivers every shot asked for. Pass it when the storyboard needs all its shots (`--fast` still parses and is now a no-op — fast is the default) |
+| `--resolution` | **clamped to 720p — always, never more.** That cap is why fast is the default: full resolution is the only thing the standard model buys above it |
 
 Generation takes **3–9 minutes**. Run it in the background and report the URL — and when a job has several clips, launch every independent one **at once** and build the scene while they render ([assets.md](assets.md), *Generate in waves*).
+
+### Which model runs — fast is the default
+
+| | Model id | When |
+|---|---|---|
+| **default** | `dreamina-seedance-2-0-fast-260128` | every call. ~1.5× quicker, and it refuses anything above 720p — which costs nothing, because output is clamped to **720p always** |
+| `--best` | `dreamina-seedance-2-0-260128` | when the storyboard needs **every shot to land**: the fast model's one measured cost is shot count (a 5-shot ask returned 4) |
+| `--model <id>` | any id the account has activated | an explicit override, only when asked for. An unactivated id fails with *"account has not activated the model"* — say so rather than retrying |
+
+720p is the ceiling in every case, so the standard model buys nothing but shot reliability here.
+`--fast` still parses and does nothing (fast is already the default). Every other measured number
+on this page was taken on the standard model; shot delivery is the only figure the fast model
+changes.
 
 ### 🔊 A clip generated with `--audio` must keep its audio downstream
 
@@ -504,7 +517,7 @@ The same rule in the other direction: a clip **longer** than its scene is trimme
 
 | | What it is |
 |---|---|
-| **`generate video --fast`** | the same command and all its modes, on the **fast model**. ~1.5× quicker, rejects anything above 720p outright (`400 InvalidParameter`). *Measured:* it delivered 4 of 5 requested shots, so use it when shot count does not matter |
+| **the fast model** (`generate video`, the **default**) | the same command and all its modes, on the fast Seedance model. ~1.5× quicker, and it rejects anything above 720p outright (`400 InvalidParameter`) — irrelevant, because output is clamped to 720p always. *Measured:* it delivered 4 of 5 requested shots, so a piece that needs every shot passes `--best` |
 | **`generate fastvideo <image>`** | a **different, older endpoint**. One image + a motion line → a clip |
 
 **"Fast mode" means `generate fastvideo`**, and it is used **only when the user or a workflow

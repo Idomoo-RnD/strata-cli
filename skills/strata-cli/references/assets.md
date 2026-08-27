@@ -137,7 +137,7 @@ EXCLUSIVE** — the CLI rejects the combination before spending anything.
 | `--audio` | native synced audio (real AAC 44.1 kHz stereo) |
 | `--last-frame-out <file>` | save the last frame for chaining — its URL expires in 24 h |
 | `--realistic-human` | required for real faces, logos and real products; **applied automatically** on a content rejection |
-| `--fast` · `--model <id>` | the fast model (quicker, drops shots) · an explicit model |
+| `--best` · `--model <id>` | the **standard** model instead of the default fast one (slower, but delivers every shot) · an explicit model id. Default is `dreamina-seedance-2-0-fast-260128`; `--best` is `dreamina-seedance-2-0-260128` — [video-generation.md](video-generation.md) |
 | `--resolution` | **clamped to 720p** — 720p is always the max |
 
 Reference the result as a `video` layer. If the comp outlives the clip, `playback_mode: "hold"` freezes the last frame — do **not** `loop` it to fill time (the restart reads as a glitch, format.md).
@@ -155,8 +155,8 @@ shot-list structure, the identity lock, the `.jet` no-cuts rule, keyframes and c
 
 ## `strata generate fastvideo <image> [flags]`  — the OLD image-to-video path
 Quick and cheap (~1–3 min), and **only for when fast mode is explicitly asked for**. It is a
-different, older endpoint — **not** a quality tier of `generate video`, whose own `--fast`
-flag selects a faster model within the new API and is an unrelated thing.
+different, older endpoint — **not** a quality tier of `generate video`, which already runs on
+the fast Seedance model by default and is an unrelated thing.
 
 Takes a hosted URL **or a local file path** (auto-base64), plus `--prompt "<motion>"`,
 `--duration`, `--ratio`. That is the whole surface: **an image is required** (no
