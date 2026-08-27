@@ -12,6 +12,14 @@ is that the frame could have come from any brief. That is what a viewer reads as
 
 ---
 
+## Contents
+
+- [The one rule that overrides this file](#the-one-rule-that-overrides-this-file)
+- [The test (run at storyboard time, per element)](#the-test-run-at-storyboard-time-per-element)
+- [The patterns](#the-patterns)
+- [Before the render — the composition-tells checklist](#before-the-render--the-composition-tells-checklist)
+- [Where the rest of the skill points here](#where-the-rest-of-the-skill-points-here)
+
 ## The one rule that overrides this file
 
 **The brief's words always win.** If the brand document, or the user, asks for a scrim, a

@@ -2,7 +2,32 @@
 
 Compiled by `strata compile <scene.json>` into VASCO, schema-validated, then encoded to `.idm`.
 
-Contents: [Scene](#scene) · [Layers](#layers-common) · [Text](#text) · [Image/Video](#image--video-media) · [Solid](#solid) · [Audio](#audio) · [Comp layers](#sub-compositions) · [Camera](#camera) · [Tweens](#tween-engine-animate) · [Effects](#effects) · [Masks](#masks) · [Track mattes](#track-mattes) · [Generating assets](#generating-assets-idomoo-ai-api) · [Personalization](#personalization--design-for-replaceable-elements) · [Graphs](#graphs--charts--dynamic-images) · [Passthrough](#raw-vasco-passthrough)
+## Contents
+
+- [Scene](#scene)
+  - [Version control — automatic, two layers *(measured 2026-08-24)*](#version-control--automatic-two-layers-measured-2026-08-24)
+- [Layers (common)](#layers-common)
+- [Text](#text)
+  - [Right-to-left scripts (Hebrew, Arabic) — they already work; the flag does not](#right-to-left-scripts-hebrew-arabic--they-already-work-the-flag-does-not)
+- [Image / Video (media)](#image--video-media)
+- [Solid](#solid)
+- [Audio](#audio)
+- [Sub-compositions](#sub-compositions)
+- [Camera](#camera)
+  - [The camera is an exact pinhole — here is the calibration (MEASURED)](#the-camera-is-an-exact-pinhole--here-is-the-calibration-measured)
+- [Tween engine (`animate`)](#tween-engine-animate)
+- [Effects](#effects)
+- [Masks](#masks)
+- [Track mattes](#track-mattes)
+- [Colors](#colors)
+- [Generating assets (Idomoo AI API)](#generating-assets-idomoo-ai-api)
+- [Personalization — design for replaceable elements](#personalization--design-for-replaceable-elements)
+- [Graphs & charts — dynamic images](#graphs--charts--dynamic-images)
+- [Unpacking and repacking an existing `.idm`](#unpacking-and-repacking-an-existing-idm)
+  - [⛔ Two assets with IDENTICAL BYTES crash the exporter (error 3000)](#two-assets-with-identical-bytes-crash-the-exporter-error-3000)
+  - [⚠️ The encoder stores only an asset's BASENAME](#the-encoder-stores-only-an-assets-basename)
+- [Raw VASCO passthrough](#raw-vasco-passthrough)
+
 
 ## Scene
 
@@ -314,6 +339,14 @@ Three consequences, each of which the docs used to get wrong:
    negative z. (Layers at or behind the camera plane are culled.)
 3. **Draw order is still the layer order**, not z — a "far" layer listed last still paints on
    top. Keep the stack bottom-first as usual.
+4. **The same projection moves a layer's POSITION, not just its size** — the consequence that
+   costs a render. A layer is scaled about the camera axis (the comp centre), so its distance
+   from that centre scales too: `screen_x = cx + (box_x − cx) · scale`, same for y. Two things
+   follow, both measured on real scenes: an off-screen layer at positive z can be **pulled back
+   into frame** (a band parked at `y = −1000` at z=+600, camera −935, sits at y ≈ −460 — visible
+   for over a second), and a layer at negative z is **pushed outward** and can leave the frame it
+   was laid out in. Compute the projected box before trusting a `preview` wireframe, which draws
+   the authored box and not the projected one — or `snapshot --at` the moment in question.
 
 A push-in is the camera's z moving toward the layers; the scale of each layer follows the
 formula frame by frame, so near layers grow faster than far ones — that differential is the

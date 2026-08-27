@@ -15,6 +15,17 @@ does not need a bible; it needs a good identity lock.
 
 ---
 
+## Contents
+
+- [1. Inventory the principals](#1-inventory-the-principals)
+- [2. Make one sheet per principal — or use the supplied ones](#2-make-one-sheet-per-principal--or-use-the-supplied-ones)
+- [3. Write one canonical identity block per principal — and never rewrite it](#3-write-one-canonical-identity-block-per-principal--and-never-rewrite-it)
+- [4. Protect the hero element in every shot it appears in](#4-protect-the-hero-element-in-every-shot-it-appears-in)
+- [5. Consistency across the two clip families](#5-consistency-across-the-two-clip-families)
+- [6. Voices are principals too](#6-voices-are-principals-too)
+- [7. Verify the bible held, per clip](#7-verify-the-bible-held-per-clip)
+- [Checklist](#checklist)
+
 ## 1. Inventory the principals
 
 From the brief, script or storyboard, list every recurring visual element and rank it:
@@ -102,7 +113,7 @@ routes and still match, because both derive from the same sheet.
 One TTS voice per speaking principal, chosen once (`strata generate voices`), recorded in
 the bible, used for every line that character speaks. The line in the prompt's `{braces}`
 is byte-identical to the TTS text. Different lines, same voice, same face — that is what
-reads as one actor. Never a TTS laid over a clip that already speaks (SKILL.md, the clip's
+reads as one actor. Never a TTS laid over a clip that already speaks ([traps.md](traps.md), the clip's
 audio rule).
 
 ## 7. Verify the bible held, per clip

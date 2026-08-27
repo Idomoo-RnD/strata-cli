@@ -23,6 +23,35 @@ References, dialogue, animatics and editing are in
 
 ---
 
+## Contents
+
+- [🚫 The one hard rule: frames and references are mutually exclusive](#the-one-hard-rule-frames-and-references-are-mutually-exclusive)
+- [🟢 `--realistic-human` — the answer to content rejections](#--realistic-human--the-answer-to-content-rejections)
+- [Media inputs are URLs](#media-inputs-are-urls)
+- [Parameters](#parameters)
+  - [🔊 A clip generated with `--audio` must keep its audio downstream](#a-clip-generated-with---audio-must-keep-its-audio-downstream)
+- [Writing the prompt](#writing-the-prompt)
+  - [1. `Style & Mood:` — one line](#1-style--mood--one-line)
+  - [2. One theme, in CAPS](#2-one-theme-in-caps)
+  - [3. Identity lock — state it THREE times](#3-identity-lock--state-it-three-times)
+  - [4. Location — one paragraph with depth](#4-location--one-paragraph-with-depth)
+  - [5. Numbered shots with `Cut.` — never timecodes](#5-numbered-shots-with-cut--never-timecodes)
+  - [6. `Static Description:` — the invariants](#6-static-description--the-invariants)
+  - [7. `Audio:` — always present, always specific](#7-audio--always-present-always-specific)
+  - [8. Physics, not adjectives](#8-physics-not-adjectives)
+  - [What to expect *(measured)*](#what-to-expect-measured)
+- [Worked example — the prompt that produced the result above](#worked-example--the-prompt-that-produced-the-result-above)
+- [⛔ Clips destined for a `.jet` alpha overlay — NO shots, NO cuts](#clips-destined-for-a-jet-alpha-overlay--no-shots-no-cuts)
+  - [Prompt for a clean matte, not just a nice shot](#prompt-for-a-clean-matte-not-just-a-nice-shot)
+- [Image-to-video — `--first-frame`](#image-to-video----first-frame)
+- [Keyframe interpolation — `--first-frame` + `--last-frame`](#keyframe-interpolation----first-frame----last-frame)
+- [Locking the camera — in the prompt, not the flag](#locking-the-camera--in-the-prompt-not-the-flag)
+- [Chaining — clips longer than 15 s](#chaining--clips-longer-than-15-s)
+- [⛔ A clip shorter than its scene is NEVER stretched — cover the gap with more shots](#a-clip-shorter-than-its-scene-is-never-stretched--cover-the-gap-with-more-shots)
+- [Two different things are called "fast" — don't confuse them](#two-different-things-are-called-fast--dont-confuse-them)
+- [Errors](#errors)
+- [Checklist](#checklist)
+
 ## 🚫 The one hard rule: frames and references are mutually exclusive
 
 **`--first-frame` / `--last-frame` can NEVER be combined with `--ref-image`, `--ref-video`

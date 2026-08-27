@@ -14,6 +14,39 @@ line — no references, no shot list, no audio. See the end of this file.)*
 
 ---
 
+## Contents
+
+- [🔑 How to address a reference — get this wrong and it is never cited](#how-to-address-a-reference--get-this-wrong-and-it-is-never-cited)
+- [`--ref-image` — carry a character, a product or a world across clips](#--ref-image--carry-a-character-a-product-or-a-world-across-clips)
+  - [Give every image an explicit JOB](#give-every-image-an-explicit-job)
+  - [Build the reference images for the job](#build-the-reference-images-for-the-job)
+  - [Measured](#measured)
+  - [Notes](#notes)
+  - [Checklist](#checklist)
+- [`--ref-video` — control the SHOTS](#--ref-video--control-the-shots)
+  - [Use 1 — mimic footage the user gave you](#use-1--mimic-footage-the-user-gave-you)
+  - [Use 2 — block the shot yourself with a grey-box animatic](#use-2--block-the-shot-yourself-with-a-grey-box-animatic)
+  - [The strongest combination: sheets + plate + sketch](#the-strongest-combination-sheets--plate--sketch)
+  - [⚠ What does NOT transfer cleanly](#what-does-not-transfer-cleanly)
+  - [Checklist](#checklist)
+- [`--ref-audio` — characters that speak YOUR audio](#--ref-audio--characters-that-speak-your-audio)
+  - [One speaker — say all three things, or it narrates instead of acting](#one-speaker--say-all-three-things-or-it-narrates-instead-of-acting)
+  - [Two speakers — nail the roles down BEFORE the shot list](#two-speakers--nail-the-roles-down-before-the-shot-list)
+  - [Verify the voice actually landed — don't trust your ears](#verify-the-voice-actually-landed--dont-trust-your-ears)
+  - [🔇 NEVER lay the source TTS over the generated clip — use the CLIP'S audio](#never-lay-the-source-tts-over-the-generated-clip--use-the-clips-audio)
+  - [Notes and checklist](#notes-and-checklist)
+  - […or use `generate avatar` instead — the decision](#or-use-generate-avatar-instead--the-decision)
+  - [`--ref-audio` with MUSIC — choreograph the clip to a track](#--ref-audio-with-music--choreograph-the-clip-to-a-track)
+  - [A series — same skeleton, swap the theme](#a-series--same-skeleton-swap-the-theme)
+- [`strata sketch` — author the camera plan as a 3D animatic](#strata-sketch--author-the-camera-plan-as-a-3d-animatic)
+- [Editing and extension — ⚠ LAST RESORT](#editing-and-extension---last-resort)
+  - [🛑 Reach for these LAST](#reach-for-these-last)
+  - [Editing — change one thing, freeze everything else](#editing--change-one-thing-freeze-everything-else)
+  - [Extension — the next N seconds of the same take](#extension--the-next-n-seconds-of-the-same-take)
+  - [Checklist](#checklist)
+- [Choosing a mode](#choosing-a-mode)
+- [What `generate fastvideo` cannot do](#what-generate-fastvideo-cannot-do)
+
 ## 🔑 How to address a reference — get this wrong and it is never cited
 
 | Reference | Cite it as | Limit |

@@ -23,6 +23,22 @@ missing, say so instead of failing cryptically.
 
 ---
 
+## Contents
+
+- [The three rules that prevent most damage](#the-three-rules-that-prevent-most-damage)
+- [Trim & cut](#trim--cut)
+- [Join / concat](#join--concat)
+- [Reframe — 16:9 → 9:16 (and back)](#reframe--169--916-and-back)
+- [Speed & retime](#speed--retime)
+- [Audio](#audio)
+- [Grade & match — the look is built here, not in the scene](#grade--match--the-look-is-built-here-not-in-the-scene)
+- [Fades, stills, loops](#fades-stills-loops)
+- [Colour — `strata grade`](#colour--strata-grade)
+- [Probe first, verify after — every time](#probe-first-verify-after--every-time)
+- [Output rules for anything going into a scene or Idomoo](#output-rules-for-anything-going-into-a-scene-or-idomoo)
+- [Recipes for common asks](#recipes-for-common-asks)
+- [Rules](#rules)
+
 ## The three rules that prevent most damage
 
 **1. Copy when you can, re-encode when you must.** `-c copy` is instant and lossless but

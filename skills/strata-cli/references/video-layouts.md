@@ -11,6 +11,11 @@ Pair with `layouts.md` (the grid) and `motion-design.md` (how it moves).
 
 ---
 
+## Contents
+
+- [The patterns](#the-patterns)
+- [Rules that make a video layout read as designed](#rules-that-make-a-video-layout-read-as-designed)
+
 ## The patterns
 
 ### 1. Split-screen / multi-video grid

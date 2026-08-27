@@ -13,6 +13,40 @@ when the footage fills the frame, or keep it in a framed slot (assets.md, *Sourc
 
 ---
 
+## Contents
+
+- [The grid (landscape 1920×1080)](#the-grid-landscape-19201080)
+- [The other three canvases](#the-other-three-canvases)
+- [Layouts](#layouts)
+  - [1. hero-center — one message, maximum impact](#1-hero-center--one-message-maximum-impact)
+  - [2. split-media-left — product/UI beside the pitch](#2-split-media-left--productui-beside-the-pitch)
+  - [3. three-up — three parallel points/stats](#3-three-up--three-parallel-pointsstats)
+  - [4. stat-hero — one number that lands](#4-stat-hero--one-number-that-lands)
+  - [5. title-over-media — full-bleed footage with copy](#5-title-over-media--full-bleed-footage-with-copy)
+  - [6. quote-full — testimonial / pull quote](#6-quote-full--testimonial--pull-quote)
+  - [7. list-reveal — sequential points](#7-list-reveal--sequential-points)
+  - [8. lower-third — name/label over anything](#8-lower-third--namelabel-over-anything)
+  - [9. speaker-card — a person, their title, their slot](#9-speaker-card--a-person-their-title-their-slot)
+  - [10. diagonal-split — footage one side, solid the other](#10-diagonal-split--footage-one-side-solid-the-other)
+  - [11. media-mosaic — the multiscreen opener](#11-media-mosaic--the-multiscreen-opener)
+  - [12. card-inset — a safe card over a busy background](#12-card-inset--a-safe-card-over-a-busy-background)
+  - [13. product-card-split — the e-commerce frame](#13-product-card-split--the-e-commerce-frame)
+  - [14. schedule-row — one session in the programme](#14-schedule-row--one-session-in-the-programme)
+  - [15. meta-rail — the evenly-spaced footer strip](#15-meta-rail--the-evenly-spaced-footer-strip)
+  - [16. frame-chrome — the persistent HUD](#16-frame-chrome--the-persistent-hud)
+  - [17. marker-headline — solid blocks behind each line](#17-marker-headline--solid-blocks-behind-each-line)
+  - [18. logo-wall — sponsors / partners / integrations](#18-logo-wall--sponsors--partners--integrations)
+  - [19. avatar-cluster — "15 speakers", many faces at once](#19-avatar-cluster--15-speakers-many-faces-at-once)
+  - [20. device-trio — an app in three screens](#20-device-trio--an-app-in-three-screens)
+  - [21. title-wall — the phrase repeated as a pattern](#21-title-wall--the-phrase-repeated-as-a-pattern)
+  - [22. carousel-index — "which one of these am I on"](#22-carousel-index--which-one-of-these-am-i-on)
+  - [23. nav-bar frame — the web-page pastiche](#23-nav-bar-frame--the-web-page-pastiche)
+  - [24. ghost-display — oversized type as background](#24-ghost-display--oversized-type-as-background)
+- [Reflow to vertical (and square)](#reflow-to-vertical-and-square)
+- [Rules that make any layout read as *designed*](#rules-that-make-any-layout-read-as-designed)
+- [Letting the user lay it out — `strata studio`](#letting-the-user-lay-it-out--strata-studio)
+- [Hand the layout to the user — `strata studio`](#hand-the-layout-to-the-user--strata-studio)
+
 ## The grid (landscape 1920×1080)
 | token | value | notes |
 |---|---|---|
@@ -318,3 +352,8 @@ strata studio scene.json                      # re-open a scene to nudge its box
 **Always pass the piece's real canvas** (or a scene, which carries its own size). The studio
 fits any aspect to the window, snaps to the same 12-column grid used here, and writes a
 `*.guide.json` whose boxes are ready to author from directly.
+
+## Hand the layout to the user — `strata studio`
+
+**Every time I show a layout — the wireframe sketch, layout options, or a `preview` grid — I ask in the same breath: "want to lay it out yourself in the studio, or shall I go with this?"** `strata studio` opens a local browser designer (offline, 127.0.0.1) where they drag and annotate named areas per scene on the same 12-column grid, set roles/colours/notes, and press Save to write a `*.guide.json`. I then **author from those boxes as given** rather than re-inventing the layout. **I always launch it at the user's actual canvas** — `strata studio --width 1080 --height 1920` for a vertical piece, `--width 1080 --height 1080` for square — or pass an existing `scene.json` so it picks the size up automatically; it is **not** 16:9 unless the piece is. I can also re-open a scene I already wrote (`strata studio scene.json`) so they nudge my boxes instead of describing the fix in words. (It runs a local server and waits for Save — I only launch it once they say yes, never in an automated run.)
+

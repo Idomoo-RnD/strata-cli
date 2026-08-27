@@ -8,6 +8,18 @@
 
 Nonfiction editing creates structure and meaning from reality, but formal freedom does not permit false implication. Treat chronology, quotation, archive, reaction, sound, labels, and consent as editorial material with ethical consequences.
 
+## Contents
+
+- [Shared factual integrity rules](#shared-factual-integrity-rules)
+- [Documentary](#documentary)
+- [Interview, profile, and testimonial video](#interview-profile-and-testimonial-video)
+- [News and current affairs](#news-and-current-affairs)
+- [Corporate, internal communication, education, and explainer](#corporate-internal-communication-education-and-explainer)
+- [Reality, competition, and unscripted entertainment](#reality-competition-and-unscripted-entertainment)
+- [Sports highlights, sports documentary, and sports narrative](#sports-highlights-sports-documentary-and-sports-narrative)
+- [Multicamera talks, concerts, ceremonies, and live events](#multicamera-talks-concerts-ceremonies-and-live-events)
+- [Nonfiction review audit](#nonfiction-review-audit)
+
 ## Shared factual integrity rules
 
 - Keep a provenance record for interviews, archive, user-generated material, documents, graphics, music, and generated media.

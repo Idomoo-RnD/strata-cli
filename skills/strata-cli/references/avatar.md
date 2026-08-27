@@ -5,6 +5,14 @@ presenter video. It runs on HeyGen's **Avatar IV** engine, which takes an **arbi
 image** — not a passport headshot — and a `--motion` prompt that drives **body movement and
 hand gestures**.
 
+## Contents
+
+- [When avatar, and when `generate video` instead](#when-avatar-and-when-generate-video-instead)
+- [The image — how to make one that doesn't look flat](#the-image--how-to-make-one-that-doesnt-look-flat)
+- [Mechanics (all verified against the live API)](#mechanics-all-verified-against-the-live-api)
+- [Using it in a scene](#using-it-in-a-scene)
+- [Rules](#rules)
+
 ## When avatar, and when `generate video` instead
 
 Avatar is **one still, lip-synced to an exact track** — a presenter holding a pose and

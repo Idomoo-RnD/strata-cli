@@ -9,6 +9,40 @@
 
 Use this reference to turn style direction into an edit process, review a cut systematically, or prepare deliverables. Scale the process to the risk and size of the project; a 20-second creator clip does not need feature-film paperwork, while a sensitive documentary needs more than a creative timeline.
 
+## Contents
+
+- [Editorial artifacts](#editorial-artifacts)
+- [Footage intake and discovery](#footage-intake-and-discovery)
+  - [Inventory before interpretation](#inventory-before-interpretation)
+  - [Log for editorial retrieval](#log-for-editorial-retrieval)
+  - [Separate evidence from interpretation](#separate-evidence-from-interpretation)
+- [Build passes](#build-passes)
+  - [1. Backbone pass](#1-backbone-pass)
+  - [2. Structure pass](#2-structure-pass)
+  - [3. Performance and POV pass](#3-performance-and-pov-pass)
+  - [4. Picture grammar pass](#4-picture-grammar-pass)
+  - [5. Sound pass](#5-sound-pass)
+  - [6. Text, graphics, and access pass](#6-text-graphics-and-access-pass)
+  - [7. Fine cut and finishing handoff](#7-fine-cut-and-finishing-handoff)
+- [Style bible](#style-bible)
+- [Give and resolve cut notes](#give-and-resolve-cut-notes)
+  - [Strong note anatomy](#strong-note-anatomy)
+  - [Triage](#triage)
+  - [Version comparison](#version-comparison)
+- [Audience and pacing evaluation](#audience-and-pacing-evaluation)
+  - [Observable tests](#observable-tests)
+  - [Retention data](#retention-data)
+- [Factual integrity and provenance QA](#factual-integrity-and-provenance-qa)
+- [Accessibility as editorial design](#accessibility-as-editorial-design)
+  - [Captions and transcripts](#captions-and-transcripts)
+  - [Audio description](#audio-description)
+  - [Cognitive and visual legibility](#cognitive-and-visual-legibility)
+  - [Flash safety](#flash-safety)
+- [Delivery and technical QC](#delivery-and-technical-qc)
+  - [Full-watch QC](#full-watch-qc)
+  - [Variant QC](#variant-qc)
+- [Handoff summary](#handoff-summary)
+
 ## Editorial artifacts
 
 Create only the artifacts the project needs:

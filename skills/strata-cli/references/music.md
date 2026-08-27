@@ -20,6 +20,15 @@ an mp3 name (the CLI now warns). Either keep `.wav`, or convert:
 
 ---
 
+## Contents
+
+- [The prompt formula](#the-prompt-formula)
+- [Vocabulary that works](#vocabulary-that-works)
+- [Reference prompts (from Stability's own guide — good templates)](#reference-prompts-from-stabilitys-own-guide--good-templates)
+- [Video-specific craft — this is where a track earns its place](#video-specific-craft--this-is-where-a-track-earns-its-place)
+- [The sound design pass — SFX, levels, fades (MEASURED)](#the-sound-design-pass--sfx-levels-fades-measured)
+- [Rules](#rules)
+
 ## The prompt formula
 Stable Audio responds to **layered description in a consistent order**, not a keyword soup:
 

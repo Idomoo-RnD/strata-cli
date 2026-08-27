@@ -12,6 +12,21 @@ What to pull from Figma (via the Figma MCP — exact tool names vary by server):
 
 ---
 
+## Contents
+
+- [1. Decide the canvas FIRST (before converting anything)](#1-decide-the-canvas-first-before-converting-anything)
+- [2. Convert coordinates](#2-convert-coordinates)
+- [3. Node → layer mapping](#3-node--layer-mapping)
+- [4. Text — the most error-prone mapping](#4-text--the-most-error-prone-mapping)
+- [5. Colour & opacity](#5-colour--opacity)
+- [6. Images & vectors must be exported](#6-images--vectors-must-be-exported)
+- [7. Z-order](#7-z-order)
+- [8. Names — this one breaks renders](#8-names--this-one-breaks-renders)
+- [9. Effects](#9-effects)
+- [10. Reuse the design tokens](#10-reuse-the-design-tokens)
+- [11. Verify against the source — the loop that makes this accurate](#11-verify-against-the-source--the-loop-that-makes-this-accurate)
+- [12. A faithful import is still a slideshow — add motion](#12-a-faithful-import-is-still-a-slideshow--add-motion)
+
 ## 1. Decide the canvas FIRST (before converting anything)
 Figma designs are usually web-sized (1440×1024, 375×812); video is 1920×1080 or 1080×1920.
 
@@ -150,7 +165,7 @@ Fix drift here — it's free. Only then `snapshot` / `render`.
 ## 12. A faithful import is still a slideshow — add motion
 Importing the frame gives you **the layout, not the video**. Author motion on top: staggered
 entrances (`position` delta + `opacity`, 300–500ms), reveals ordered by hierarchy, Ken-Burns
-on stills, masks for wipes, a held CTA. See SKILL.md Part 1 and `recipes.md`.
+on stills, masks for wipes, a held CTA. See [craft.md](craft.md) and [recipes.md](recipes.md).
 
 ---
 

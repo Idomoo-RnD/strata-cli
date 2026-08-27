@@ -11,6 +11,27 @@ sport/energy, up to 6s for a speaker frame with copy to read). Total runtimes cl
 
 ---
 
+## Contents
+
+- [Product launch / promo](#product-launch--promo)
+- [Event / conference promo](#event--conference-promo)
+- [Explainer (faceless)](#explainer-faceless)
+- [SaaS / app / AI product promo](#saas--app--ai-product-promo)
+- [UI walkthrough / product demo (simulated interface)](#ui-walkthrough--product-demo-simulated-interface)
+- [E-commerce / product carousel](#e-commerce--product-carousel)
+- [Sale / seasonal offer](#sale--seasonal-offer)
+- [Social promo (9:16, 5–15s)](#social-promo-916-515s)
+- [Multi-aspect delivery (cross-cutting)](#multi-aspect-delivery-cross-cutting)
+- [Data story / KPI](#data-story--kpi)
+- [Logo reveal / sting (3–6s)](#logo-reveal--sting-36s)
+- [Kinetic typography / title pack](#kinetic-typography--title-pack)
+- [Sport / fitness / energy promo](#sport--fitness--energy-promo)
+- [Fashion / lookbook](#fashion--lookbook)
+- [Corporate / interior / real-estate slideshow](#corporate--interior--real-estate-slideshow)
+- [Website / app showcase](#website--app-showcase)
+- [Overlay an existing video (lower-thirds / captions / callouts)](#overlay-an-existing-video-lower-thirds--captions--callouts)
+- [Devices worth stealing (they work in almost any blueprint)](#devices-worth-stealing-they-work-in-almost-any-blueprint)
+
 ## Product launch / promo
 **Arc:** hook → problem → product → proof → CTA. 6–8 shots, 20–40s.
 1. **Hook** (0–3s) — bold title + a moving background (animated still or video). One sentence.

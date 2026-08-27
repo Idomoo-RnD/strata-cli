@@ -18,6 +18,11 @@ strata add --list                      # list available blocks
 > `strata add`, which uniquifies for you. Never ignore a `⚠ renamed … duplicate layer name(s)`
 > warning (format.md, Layers).
 
+## Contents
+
+- [Available blocks](#available-blocks)
+- [Using a block well](#using-a-block-well)
+
 ## Available blocks
 
 ### lower-third

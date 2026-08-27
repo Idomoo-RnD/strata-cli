@@ -16,6 +16,33 @@ local input needs `strata upload` first (the CLI says so rather than publishing 
 
 ---
 
+## Contents
+
+- [Source resolution vs canvas — read before choosing the comp size (MEASURED)](#source-resolution-vs-canvas--read-before-choosing-the-comp-size-measured)
+- [`strata generate image "<prompt>" [flags]`](#strata-generate-image-prompt-flags)
+  - [Reference images — art style, characters, composition (the important part)](#reference-images--art-style-characters-composition-the-important-part)
+- [`strata generate video "<prompt>" [flags]`](#strata-generate-video-prompt-flags)
+- [`strata generate fastvideo <image> [flags]`  — the OLD image-to-video path](#strata-generate-fastvideo-image-flags---the-old-image-to-video-path)
+- [`strata generate narration "<text>" --voice <voice_id>`](#strata-generate-narration-text---voice-voice_id)
+- [`strata generate music "<prompt>" [--duration <sec>]`](#strata-generate-music-prompt---duration-sec)
+- [`strata upload <file>` — ONLY for generation inputs with no URL](#strata-upload-file--only-for-generation-inputs-with-no-url)
+  - [🔴 CRITICAL — the whole rule in one line](#critical--the-whole-rule-in-one-line)
+  - [🛑 The two-condition test](#the-two-condition-test)
+  - [Most generation inputs already have a URL](#most-generation-inputs-already-have-a-url)
+  - [🛑 TEMPORARY assets only — never persistent ones](#temporary-assets-only--never-persistent-ones)
+  - [When a URL is actually required](#when-a-url-is-actually-required)
+  - [⚠ Public and permanent — which is why it is for temp use only](#public-and-permanent--which-is-why-it-is-for-temp-use-only)
+  - [The extension must match the bytes](#the-extension-must-match-the-bytes)
+- [Generate in WAVES, not in sequence — parallel is the default](#generate-in-waves-not-in-sequence--parallel-is-the-default)
+- [Every image becomes a video — no still photos](#every-image-becomes-a-video--no-still-photos)
+- [Alpha overlays — `.jet`, and how to get anything into it](#alpha-overlays--jet-and-how-to-get-anything-into-it)
+  - [Same-source occlusion — text behind a subject with NO alpha at all](#same-source-occlusion--text-behind-a-subject-with-no-alpha-at-all)
+  - [Getting to `.jet` — pick the row that matches the source](#getting-to-jet--pick-the-row-that-matches-the-source)
+  - [`matte` is slow — halve the width first (MEASURED)](#matte-is-slow--halve-the-width-first-measured)
+  - [Quality — `.jet` is lossy; the default is Idomoo's own reference setting](#quality--jet-is-lossy-the-default-is-idomoos-own-reference-setting)
+  - [⚠️ Key the VIDEO, not a still — the motion belongs in the clip](#key-the-video-not-a-still--the-motion-belongs-in-the-clip)
+  - [Text BEHIND the subject — the SAME clip, used twice](#text-behind-the-subject--the-same-clip-used-twice)
+
 ## Source resolution vs canvas — read before choosing the comp size (MEASURED)
 
 | asset | native size |

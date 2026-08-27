@@ -13,6 +13,16 @@ leaves an axis free, the skill's craft applies as usual.
 
 ---
 
+## Contents
+
+- [0. Open everything, and say what it changes](#0-open-everything-and-say-what-it-changes)
+- [1. Recognise what was handed over](#1-recognise-what-was-handed-over)
+- [2. The shot table — the one artefact intake produces](#2-the-shot-table--the-one-artefact-intake-produces)
+- [3. Route every scene to a mode](#3-route-every-scene-to-a-mode)
+- [4. Build the production bible, then execute in storyboard order](#4-build-the-production-bible-then-execute-in-storyboard-order)
+- [5. Assemble to the timecodes](#5-assemble-to-the-timecodes)
+- [Worked example — a supplied 30 s commercial storyboard](#worked-example--a-supplied-30-s-commercial-storyboard)
+
 ## 0. Open everything, and say what it changes
 
 **Every file, link or folder the user attaches is opened and read before anything is

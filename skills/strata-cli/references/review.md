@@ -46,7 +46,11 @@ The tool finds what a machine can find; the critic still watches. Four viewings,
 each with a purpose:
 
 1. **1× with sound.** Does the piece land as a whole? Do cuts sit on the audio? Does the mix
-   carry the arc (voice / bed / SFX levels)?
+   carry the arc (voice / bed / SFX levels)? An agent cannot literally listen — measure instead
+   and say that is what was done: `strata beats` onsets against the cut times, the report's
+   integrated LUFS / true peak / silences, and per-band levels
+   (`ffmpeg -af highpass=f=120,volumedetect`) to prove the mix is not all sub-bass. Never claim a
+   viewing that did not happen.
 2. **Muted.** Does the message survive without sound — legible copy, clear focal order, the CTA
    obvious? Most feeds start muted.
 3. **Phone size** (`contact_phone.png`, or the MP4 at ~360 px wide). Do captions read, does the
@@ -141,6 +145,24 @@ comparable to the first.
 - **Loudness** — integrated LUFS, range and true peak; **silence** longer than 1 s that the
   storyboard did not plan.
 - **Reference comparison** (§7) when a reference was given.
+
+### Known false positives — check the frames before believing the metric
+
+Every number in the report is computed on the **whole frame**, from tiny greyscale frames. Three
+consequences, each measured on a real render:
+
+- **A small-area move reads as a freeze.** A 0.68 s grind that moved ~10 % of the frame was
+  reported as frozen. If a freeze is flagged where something *is* moving, open the frames either
+  side and compare — a real freeze is identical pixels, not low energy.
+- **A settle can be reported as "bounce or overrun" when the energy is the NEXT element.** The
+  check reads energy after the keyframe, and cannot tell whose energy it is. `outExpo` and
+  `outCubic` cannot overshoot at all, so a bounce verdict on one of those is always something else
+  arriving — confirm with `settle_NN.png` before changing a curve that is correct.
+- **A camera that is meant to keep moving past a keyframe** is not an overrun. Say so in the notes
+  rather than "fixing" it.
+- **`contact_phone.png` is stricter than a phone.** Its tiles are ~185 px wide; a phone is
+  390–430 px. Copy that fails the tile may still pass on the device — check at true width before
+  calling type a must-fix, and never the other way round (passing the tile is a real pass).
 
 ## 6. Revise until clean
 

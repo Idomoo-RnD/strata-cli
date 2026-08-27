@@ -7,6 +7,21 @@ and what was measured when it was generated. Entries marked **pattern** follow t
 anatomy but were not individually rendered — their mechanics are measured in the linked
 sections.
 
+## Contents
+
+- [Shot budget by duration](#shot-budget-by-duration)
+- [Product hero — 3 shots / 8 s ✅ measured](#product-hero--3-shots--8-s--measured)
+- [Logo / brand sting — 1 shot / 5 s ✅ measured](#logo--brand-sting--1-shot--5-s--measured)
+- [Food / beverage — 3 shots / 8 s ✅ measured](#food--beverage--3-shots--8-s--measured)
+- [Vertical social hook — 2 beats / 5 s / 9:16 ✅ measured](#vertical-social-hook--2-beats--5-s--916--measured)
+- [Place / establishing — 1 take / 6 s ✅ measured](#place--establishing--1-take--6-s--measured)
+- [Lifestyle with a real person — 5 shots / 12 s ✅ measured](#lifestyle-with-a-real-person--5-shots--12-s--measured)
+- [Talking-head testimonial — 2 shots / 8 s · pattern](#talking-head-testimonial--2-shots--8-s--pattern)
+- [Explainer B-roll — 4 shots / 10 s · pattern](#explainer-b-roll--4-shots--10-s--pattern)
+- [Cartoon / stylized character — 4 shots / 10 s · pattern](#cartoon--stylized-character--4-shots--10-s--pattern)
+- [Music-choreographed — 5 shots / 15 s · pattern (mechanics measured)](#music-choreographed--5-shots--15-s--pattern-mechanics-measured)
+- [Chained continuation · pattern (mechanics measured)](#chained-continuation--pattern-mechanics-measured)
+
 ## Shot budget by duration
 
 The model paces cuts itself and never divides time evenly (*measured:* a 12 s / 5-shot ask

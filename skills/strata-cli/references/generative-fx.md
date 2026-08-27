@@ -8,6 +8,16 @@ binary + Node.
 
 ---
 
+## Contents
+
+- [1. Beat-sync — cut and animate ON the music (never guess)](#1-beat-sync--cut-and-animate-on-the-music-never-guess)
+- [2. Procedural overlays — I WRITE the generator (confetti, light leaks, wipes, snow…)](#2-procedural-overlays--i-write-the-generator-confetti-light-leaks-wipes-snow)
+- [3. Audio-reactive graphics — the envelope drives the pixels (or the keyframes)](#3-audio-reactive-graphics--the-envelope-drives-the-pixels-or-the-keyframes)
+- [4. Vector-path video windows — footage inside a shape (star, badge, blob, logo)](#4-vector-path-video-windows--footage-inside-a-shape-star-badge-blob-logo)
+- [5. Stroke reveal — `strata path` (draw-on is a built-in now)](#5-stroke-reveal--strata-path-draw-on-is-a-built-in-now)
+- [6. Displacement — heat haze, water, warp (no such effect in the engine)](#6-displacement--heat-haze-water-warp-no-such-effect-in-the-engine)
+- [Rules (all learned by building these)](#rules-all-learned-by-building-these)
+
 ## 1. Beat-sync — cut and animate ON the music (never guess)
 
 Whenever the scene has music (or any rhythmic audio), I do **not** hand-time the motion:

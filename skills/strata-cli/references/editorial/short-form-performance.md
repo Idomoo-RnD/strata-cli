@@ -12,6 +12,18 @@
 
 Short runtime does not justify random acceleration. These formats depend on a clear promise, rapid orientation, intentional information density, and a finish that delivers brand, payoff, or action. Build one master editorial idea, then adapt its rhythm, framing, text, and CTA for each placement rather than merely cropping the same cut.
 
+## Contents
+
+- [Performance-video decision model](#performance-video-decision-model)
+- [Commercial and branded film](#commercial-and-branded-film)
+- [Product demonstration, direct response, and ecommerce](#product-demonstration-direct-response-and-ecommerce)
+- [Trailer and teaser](#trailer-and-teaser)
+- [Music video](#music-video)
+- [Creator video, vlog, podcast video, and long-form web](#creator-video-vlog-podcast-video-and-long-form-web)
+- [Vertical short-form: Shorts, Reels, TikTok, and feed video](#vertical-short-form-shorts-reels-tiktok-and-feed-video)
+- [Cross-platform adaptation matrix](#cross-platform-adaptation-matrix)
+- [Review tests for performance formats](#review-tests-for-performance-formats)
+
 ## Performance-video decision model
 
 Before editing, define:
