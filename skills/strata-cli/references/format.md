@@ -407,6 +407,46 @@ Channels on layers:
 ```
 
 - `shadow`/`glow`/`stroke`/`overlay` merge into one layer-styles effect per layer. Animatable channels inside them: their own keys (`color`, `opacity`, `distance`, `size`, …) — the CLI prefixes the VASCO path (`drop_shadow.color` etc.).
+
+### The four layer styles in full — every key the engine accepts
+
+These four are the **whole** set VASCO has (there is no inner shadow, bevel, satin or gradient
+overlay). Each one takes more than the example line above shows:
+
+| Style | VASCO section | Keys | Notes |
+|---|---|---|---|
+| `shadow` | `drop_shadow` | `color` `opacity` `angle` `distance` `spread` `size` `knock` | `knock` defaults **true** — the shadow is knocked out from under the layer. Set `"knock": false` when the layer is semi-transparent and the shadow should show through it |
+| `glow` | `outer_glow` | `color` `opacity` `spread` `size` `range` | `range` (0–1) moves the falloff: low = tight halo, high = soft bloom |
+| `stroke` | `stroke` | `color` `opacity` `size` `position` | `position` is `outside` (default) · `center` · `inside`. `inside` keeps the layer's silhouette exactly — the right choice on a masked shape or a text layer that must not grow |
+| `overlay` | `overlay` | `color` `opacity` `blend` | **`blend` takes 24 modes**, not just `overlay` — see below |
+
+**`overlay.blend` — the full set.** A colour overlay is the cheapest way to tint, grade, knock
+back or duotone a layer without touching the asset, and the mode is what decides which:
+
+```
+normal · multiply · screen · overlay · softlight · hardlight · vividlight · linearlight
+pinlight · hardmix · darken · lighten · colorburn · colordodge · linearburn · lineardodge
+difference · exclusion · subtract · divide · hue · saturation · color · luminosity
+```
+
+Practical picks: `multiply` to deepen and tint shadows · `screen` / `lineardodge` to lift and
+glow · `softlight` for a gentle grade that keeps the highlights · `color` to recolour while
+keeping the original luminance (the honest duotone) · `luminosity` to keep the colour and take
+the brightness.
+
+**Every style has an `enabled` flag, and it animates.** The compiler sets `enabled: true` for
+you; animating `<style>.enabled` switches a style on or off mid-shot (a stroke that appears only
+while a card is selected, a glow that fires on the beat) without a second layer:
+
+```json
+{ "type": "glow", "color": "#7cf", "size": 22,
+  "animate": { "enabled": [ {"t":0,"v":false}, {"t":1.2,"v":true} ],
+               "size":    [ {"t":1.2,"v":8}, {"t":1.5,"v":22,"ease":"outExpo"} ] } }
+```
+
+`blending_options` also carries an `opacity` alongside its three channel booleans — a second
+opacity that multiplies with the layer's own, useful when the layer's `opacity` is already
+carrying an animation you do not want to disturb.
 - **Channel masks (VERIFIED):** the same layer-styles effect carries `blending_options`
   `{ red, green, blue, opacity }` — R/G/B are **booleans** that switch a colour channel off.
   A white solid with `{"red":true,"green":false,"blue":false}` renders pure red. Use it as a
