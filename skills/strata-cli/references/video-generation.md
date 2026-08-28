@@ -15,7 +15,7 @@ give it — never by a mode flag:
 strata generate video "<prompt>" [--first-frame <url>] [--last-frame <url>]
    [--ref-image <url>]... [--ref-video <url>]... [--ref-audio <url>]...
    [--duration 4..15] [--ratio 16:9] [--seed N] [--camera-fixed] [--audio]
-   [--last-frame-out <file>] [--realistic-human] [--fast] [-o out.mp4]
+   [--last-frame-out <file>] [--realistic-human] [--best] [-o out.mp4]
 ```
 
 References, dialogue, animatics and editing are in
@@ -47,7 +47,7 @@ References, dialogue, animatics and editing are in
 - [Keyframe interpolation — `--first-frame` + `--last-frame`](#keyframe-interpolation----first-frame----last-frame)
 - [Locking the camera — in the prompt, not the flag](#locking-the-camera--in-the-prompt-not-the-flag)
 - [Chaining — clips longer than 15 s](#chaining--clips-longer-than-15-s)
-- [⛔ A clip shorter than its scene is NEVER stretched — cover the gap with more shots](#a-clip-shorter-than-its-scene-is-never-stretched--cover-the-gap-with-more-shots)
+- [⛔ A clip must be ≥ its scene slot — a short one freezes, and is NEVER stretched](#a-clip-must-be--its-scene-slot--a-short-one-freezes-and-is-never-stretched)
 - [Two different things are called "fast" — don't confuse them](#two-different-things-are-called-fast--dont-confuse-them)
 - [Errors](#errors)
 - [Checklist](#checklist)
@@ -483,9 +483,18 @@ single time: [video-editing.md](video-editing.md#join--concat).
 
 They compose: author the key moments as frames, chain to cover the ground between them.
 
-## ⛔ A clip shorter than its scene is NEVER stretched — cover the gap with more shots
+## ⛔ A clip must be ≥ its scene slot — a short one freezes, and is NEVER stretched
 
-The scene is 17 s, the clip came back 15 s. **Do not retime the clip to fit.** Slowing
+**First, the rule that prevents it: ask for a clip at least as long as the slot it fills, plus
+about a second of margin, and trim the excess.** Footage is cheap to trim and impossible to
+lengthen honestly. A `video` layer whose media runs out before its slot ends does **not** clear
+the frame — it holds the last frame, so the shot freezes for the remainder while the scene keeps
+running (set `loop` instead and it visibly jumps back to frame one, which reads worse). Either
+way the piece dies mid-scene, and nothing in `validate` catches it because the scene is
+structurally fine. When a slot is 6 s, ask the model for 8.
+
+If it happens anyway: the scene is 17 s, the clip came back 15 s. **Do not retime the clip to
+fit.** Slowing
 footage to fill time is the single most visible amateur tell in a finished piece: motion
 goes syrupy, the model's already-slow pacing becomes glacial, and a talking or sound-designed
 clip loses its audio sync. A retime is for a *deliberate* slow-motion beat the storyboard

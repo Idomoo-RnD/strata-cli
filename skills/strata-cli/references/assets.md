@@ -140,7 +140,7 @@ EXCLUSIVE** — the CLI rejects the combination before spending anything.
 | `--best` · `--model <id>` | the **standard** model instead of the default fast one (slower, but delivers every shot) · an explicit model id. Default is `dreamina-seedance-2-0-fast-260128`; `--best` is `dreamina-seedance-2-0-260128` — [video-generation.md](video-generation.md) |
 | `--resolution` | **clamped to 720p** — 720p is always the max |
 
-Reference the result as a `video` layer. If the comp outlives the clip, `playback_mode: "hold"` freezes the last frame — do **not** `loop` it to fill time (the restart reads as a glitch, format.md).
+Reference the result as a `video` layer — and **ask for a clip at least as long as the slot it fills, plus about a second, then trim.** If the layer outlives its media the shot freezes on the last frame for the remainder (`playback_mode: "hold"`), and `loop` is worse: it visibly restarts. Neither is caught by `validate`, because the scene is structurally fine — the fix belongs here, at generation time ([video-generation.md](video-generation.md)).
 
 ```bash
 strata generate image "hero shot" -o hero.png          # prints url:

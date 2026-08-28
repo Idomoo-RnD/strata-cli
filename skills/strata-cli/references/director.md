@@ -191,7 +191,9 @@ how decoration creeps in:
    `snapshot`. No animation yet beyond the cut points.
 2. **Primary motion** — the one idea per shot, on the bible's curves and timing scale.
 3. **Secondary motion** — stagger, follow-through, counters, the camera rule.
-4. **Finishing** — effects (at most one atmospheric), grade, sound design, motion blur check.
+4. **Finishing** — effects (at most one atmospheric), grade, sound design, motion blur check: every
+   moving layer blurred (the compiler's default — do not opt out) **and every animated camera carrying
+   an explicit `"motion_blur": true`**, which is the one the default misses.
 
 Each pass ends with the tells checklists ([anti-slop.md](anti-slop.md), [motion-design.md](motion-design.md)).
 The rendered MP4 is reviewed after pass 4 ([review.md](review.md)); a must-fix sends the fix to

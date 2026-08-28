@@ -104,7 +104,7 @@ numbers — numbering is per-folder.
 | `opacity` | 0..1 |
 | `blend` | blend mode: `normal add subtract multiply divide screen darken lighten difference exclusion overlay hardmix colordodge colorburn lineardodge linearburn linearlight vividlight pinlight hardlight softlight luminosity hue saturation color` |
 | `fit` | `"fit"` / `"fill"` or `{x, y, scale, scale_type}` — content alignment in box (media/solid/comp) |
-| `motion_blur` | **defaults to `true`** on every visual layer — set `"motion_blur": false` to opt out. Smooths animated motion; no cost on static layers |
+| `motion_blur` | **compiler sets `true`** on every visual layer (text/solid/media/comp) — set `"motion_blur": false` to opt out (rarely right). Smooths animated motion; no cost on static layers. **⚠ Not applied to `camera` layers:** the schema default there is `false` and the compiler passes the camera's value through only when set, so an animated camera needs an explicit `"motion_blur": true` or the whole move renders crisp (`validate` warns) |
 | `animate` | tween channels, see below |
 | `effects` | inline effect list, see below |
 | `mask` | inline mask, see below |

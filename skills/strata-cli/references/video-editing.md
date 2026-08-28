@@ -182,7 +182,7 @@ and the `-map` audio drop every time — that is why the command exists. A ramp 
 ⛔ **A retime is for a slow-motion beat the storyboard asked for — never to make a short clip
 fit a long scene.** A 15 s clip in a 17 s scene is covered with **more shots of the same subject**
 (a companion clip from a reference frame) or **extended** off its last frame, not stretched:
-[video-generation.md](video-generation.md#a-clip-shorter-than-its-scene-is-never-stretched--cover-the-gap-with-more-shots).
+[video-generation.md](video-generation.md#a-clip-must-be--its-scene-slot--a-short-one-freezes-and-is-never-stretched).
 Stretched footage is the most visible amateur tell in a finished piece.
 
 ```bash
