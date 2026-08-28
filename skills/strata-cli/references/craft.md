@@ -2,9 +2,17 @@
 
 The craft manifesto: story and shots, composition, occlusion and tracking, 3D and camera,
 motion principles, kinetic type, transitions, atmosphere, rhythm and sound, polish, and the
-design and layout rules. `SKILL.md` carries the one-screen spine and routes here; every rule
-and number below is unchanged. Read this when planning any piece the user has not fully
-dictated — it is what makes output *designed* rather than assembled.
+design and layout rules. `SKILL.md` carries the one-screen spine and routes here. Read this when
+planning any piece the user has not fully dictated — it is what makes output *designed* rather
+than assembled.
+
+**How to read this file.** Nothing below is an engine fact; the engine facts are in
+[traps.md](traps.md) and [format.md](format.md) and those are law. Everything here is what a good
+studio does when nobody has a stronger idea for *this* piece — the numbers are sensible defaults
+with the reason next to them, and a default overruled for a reason you can state in a line is
+better craft than a default obeyed. The failure to avoid is the generic frame, and a rule followed
+without a reason produces one as surely as no rule. The brief's own words win over everything
+here.
 
 ## Contents
 
@@ -30,7 +38,7 @@ dictated — it is what makes output *designed* rather than assembled.
 - **Find the arc.** Beginning → tension → resolution. Every piece, even 8 seconds, has one. I name the single message the viewer should leave with — if I can't say it in a sentence, it's not ready.
 - **Find the tension.** Product vs. the old way, user vs. friction, before vs. after. Tension holds attention.
 - **Align before building.** I run the concept past the user first — re-cutting an idea is cheap, re-rendering a finished video is not.
-- **One idea per shot.** A shot is ~1.5–4s with a single job (hook → value → proof → CTA). If two things fight for the eye, I stagger them.
+- **One idea per shot.** A shot is usually ~1.5–4 s with a single job (hook → value → proof → CTA); when two things fight for the eye, stagger them. Two ideas in one shot is a choice a montage or a split-screen can earn — say which.
 
 ### Think in shots (cinematography)
 A scene is a sequence of deliberate shots. **Which shot, why this cut, and why here** is the editorial layer — **[editing-director.md](editing-director.md)**: the scene's job, point of view, information release, a rhythm curve, and a cut-decision gate that asks *emotion* first and *continuity* sixth. I read it when planning the storyboard and whenever a brief names a kind of video (commercial, explainer, testimonial, trailer-style, social cutdown, sports recap). For each shot I decide the framing and camera:
@@ -54,10 +62,10 @@ My default is **not** "fullscreen image/video with text on top." Every layer has
 The strongest videos change their composition shot to shot; I avoid repeating the same fullscreen-media-plus-caption frame.
 
 ### Defaults are not choices — the anti-slop rule
-Agent-composed frames cluster around moves that appear regardless of subject: a scrim behind every text block, a rule under every title, a colour bar on the side of a card, glow on the hero word, light-leak + grain + vignette as "film", an eyebrow label over every headline, 01/02/03 over a list that is not a sequence, `outBack` on body text, cream+terracotta or black+one-neon when no brand exists. Each is legitimate for some briefs; **none is legitimate as a reflex**. The full named list, the test and the pre-render checklist are in **[anti-slop.md](anti-slop.md) — mandatory, I read it before every storyboard.** The short form:
+Agent-composed frames cluster around moves that appear regardless of subject: a scrim behind every text block, a rule under every title, a colour bar on the side of a card, glow on the hero word, light-leak + grain + vignette as "film", an eyebrow label over every headline, 01/02/03 over a list that is not a sequence, `outBack` on body text, cream+terracotta or black+one-neon when no brand exists. Each is legitimate for some briefs; **none is legitimate as a reflex**. The full named list, the test and the pre-render checklist are in [anti-slop.md](anti-slop.md) — worth a read before any storyboard whose look is yours to decide. The short form:
 - **The test, per decorative element:** would I have produced this for any similar brief? Then it is a default — cut it or replace it with a choice from *this* subject's world, and say what changed.
 - **The brief's words always win.** A scrim, rule or glow the brand or user asked for is a choice; I make it exactly.
-- **Spend boldness in one place** — one signature element, everything else quiet. **Remove one thing before rendering**; if the frame still reads, it was decoration.
+- **Spend boldness in one place** — one signature element, everything else quiet. Before rendering, try removing one thing from the snapshot; if the frame still reads, it was decoration.
 
 ### 3D & camera — VASCO's superpower (use it)
 This is what separates a flat template from a film. VASCO layers can be 3D and there's a real camera:
@@ -68,9 +76,9 @@ This is what separates a flat template from a film. VASCO layers can be 3D and t
 - See the **Camera** and **3D** keys in `format.md`. Reach for depth/camera when a shot feels flat **and the move has a job** — a frame that is *designed* flat (a graphic end card, a typographic statement, a locked product shot) is a decision, not a flaw, and a camera drift added "for life" is the templated look.
 
 ### Keep every frame alive
-- **Something is always moving — and every move has a named job.** Except a deliberate held shot, the camera, an element, or a transition is in motion — drift, zoom, build. A truly static frame *with nothing alive and no reason to be still* reads as a bug. But quality is not activity: each move must answer "what is this doing for the shot?" (reveal, emphasis, transition, continuity, rhythm) — a move with no nameable job is decoration and comes out. **Stillness, a hard cut and flat graphic design are valid, often premium, decisions**; a held frame that is composed is stronger than a frame that drifts because nobody chose. One dominant motion idea per shot; at most two transition families per piece.
+- **Something is always moving — and every move has a named job.** Except a deliberate held shot, the camera, an element, or a transition is in motion — drift, zoom, build. A truly static frame *with nothing alive and no reason to be still* reads as a bug. But quality is not activity: each move must answer "what is this doing for the shot?" (reveal, emphasis, transition, continuity, rhythm) — a move with no nameable job is decoration and comes out. **Stillness, a hard cut and flat graphic design are valid, often premium, decisions**; a held frame that is composed is stronger than a frame that drifts because nobody chose. One dominant motion idea per shot and two transition families per piece is where most pieces sit — a third family needs a job the first two cannot do, and it usually reads as a showreel.
 - **Images are never still — and which treatment depends on whether the image is FIXED or PERSONALIZED.** A fixed image (one I generated or the user supplied, the same for every viewer) becomes a **video clip** (`generate video --first-frame`/`--ref-image`, see below). A **personalized media slot** (`hero_photo`, a product shot swapped per viewer) must stay an **`image` layer** — the API substitutes a still — so it gets its motion at the **layer level**: a slow **Ken-Burns** (scale + position on an anchored layer, `fit:"fill"`, anchor at the box centre so any replacement zooms correctly), or graphics building over it. Ken-Burns is the *right* tool there, not a fallback.
-- **Let it breathe.** I hold text/images for read time (~0.5s + ~0.3s per word) before moving on, and never animate out before it can be read. Pacing is a feature, not dead air.
+- **Let it breathe.** Hold text and images for read time — ~0.5 s + ~0.3 s per word is the usual floor — and animate out only after it can be read. Pacing is a feature, not dead air; a beat-synced piece can cut faster when the words are few.
 
 ### Motion principles (the fundamentals)
 - **Disney basics:** anticipation (wind up before the move), **ease in/out** (nothing starts/stops instantly), follow-through & overlap (parts trail and settle), squash & stretch, exaggeration (push past literal for life), staging (compose so the eye lands where I want).
@@ -92,11 +100,12 @@ This is what separates a flat template from a film. VASCO layers can be 3D and t
 ### Transitions between shots
 - **Match-cut / continuity:** carry a shape, colour, or motion vector across the cut so shots feel connected.
 - **Whip-pan, light-leak, iris/clock wipe, scale-through** — use a transition with intent, not as decoration. (Recipes available.)
+- **A flash frame goes on the two frames *before* the cut, not on it.** Placed on the cut it covers the incoming title's entrance and the title reads as already there (*measured* on a beat-cut spot); placed just before, the cut lands on the flash's decay and the entrance is seen.
 - Cutting on a **camera move** or an audio beat hides the seam and feels designed.
 
 ### Depth, light & atmosphere
-- Glow, shadow, blur, overlays, a vignette (feathered ellipse mask), a colour grade — all available, and **at most one atmospheric effect per piece**, chosen as its signature. Stacking glow + flare + grain + vignette is the generated look ([anti-slop.md](anti-slop.md)). A colour overlay for a coherent grade is not an effect and is always fine.
-- **Motion blur is the cheapest thing that separates "rendered" from "a slideshow"** — without it every fast move strobes and the piece reads as simple even when the design is good. The compiler turns it **on for every visual layer** (text, solid, media, sub-comp), so I never have to add it and I do not switch it off; raise comp `shutter_angle` (1–1.3, default 0.5 frames) for fast moves.
+- Glow, shadow, blur, overlays, a vignette (feathered ellipse mask), a colour grade — all available. Pick one atmospheric effect as the piece's signature: stacking glow + flare + grain + vignette is what a generator does when nobody chose ([anti-slop.md](anti-slop.md)). A deliberately maximal piece can stack them — say so in the bible. A colour overlay for a coherent grade is not an effect and is always fine.
+- **Motion blur is the cheapest thing that separates "rendered" from "a slideshow"** — without it every fast move strobes and the piece reads as simple even when the design is good. The compiler turns it **on for every visual layer** (text, solid, media, sub-comp), so I never have to add it and I do not switch it off; raise comp `shutter_angle` (1–1.3, default 0.5 frames) for fast moves — **except on a piece with a native occluder**: at 360° a solid that is meant to hide type goes translucent at its leading edge and the word leaks through (*measured*, cost a render); keep the default there, or blur the occluder's motion some other way.
   **⚠ The camera is the exception, and it is the one that costs the shot.** A `camera` layer's `motion_blur` defaults to **`false`** in the schema and the compiler does not override it — so on a push, dolly, orbit or whip the LAYERS are not moving, the camera is, and the whole frame renders perfectly crisp while every layer in it is nominally "blurred". Every animated camera gets **`"motion_blur": true`** written on it. `strata validate` warns when one doesn't.
 
 ### Rhythm & continuity
@@ -105,7 +114,7 @@ This is what separates a flat template from a film. VASCO layers can be 3D and t
 - **Vary energy:** a quiet shot makes the next loud one hit harder. Design the whole arc: intro (tone) → body (escalate) → climax (biggest move/stat) → resolve (logo/CTA).
 
 ### Polish & anti-patterns
-- **Polish:** nothing moves linearly; entrances settle, never pop (overshoot is one option, for the material that earns it — rigid, premium things stop clean); text has read time; elements have weight (ease + follow-through); one clear focal point per frame.
+- **Polish:** nothing moves linearly; entrances settle rather than pop (overshoot is one option, for the material that earns it — rigid, premium things stop clean); text has read time; elements have weight (ease + follow-through); one clear focal point per frame.
 - **Amateur tells I avoid:** everything fades in the same way at the same time; centered static text on a static frame; linear motion; clutter with no hierarchy; looping a clip to fill time (a visible loop reads cheap — cut to a different shot or `playback_mode: "hold"`); decorative motion with no meaning.
 
 ### Craft check (before I call it done)
@@ -122,7 +131,7 @@ After render I look at the poster (or extract a frame) — compile success ≠ g
 - **Visual hierarchy / stamp test:** glance at the frame — what did I see first? If it isn't the most important thing, I fix size/contrast/colour/placement. Product + CTA win the first glance.
 - **Composition:** compose like a frame of film, not a web page — a clear **focal point**, **headroom and lead room** for anything that faces or moves, the subject on a **third** when the frame has a direction and **centred** when it is a statement (hero-center, end card). Give content **space**; "less is more" reads premium; "don't shout."
 - **Proximity / alignment / consistency:** group related things, align cleanly, commit to a small style set and repeat it.
-- **Typography:** **≤2 typefaces** — vary weight/size/colour for emphasis, not new fonts. Define fallback fonts; the font must cover every glyph used.
+- **Typography:** two typefaces is the usual ceiling — vary weight, size and colour for emphasis rather than adding a face; a third rarely adds a voice and usually adds noise, unless the piece is about type. Define fallback fonts; the font must cover every glyph used.
 - **Colour:** set emotional tone, apply brand colours consistently. The same scene reads completely differently by colour treatment.
 - **Contrast — text must stay legible over whatever is behind it.** Text over media/video or a busy background needs a contrast backing: a `solid` scrim or caption bar **matched to the background brightness** — near-opaque over bright footage (a 45% scrim over a white screen only makes grey; white text then washes out), light/low-opacity over dark. White-on-light and dark-on-dark fail; aim for clearly readable (~4.5:1). When in doubt, snapshot and check the caption is crisp.
 - **Safe areas & no overlap:** keep text within ~90% **title-safe** (≥5% margin all sides); reserve a lower band for captions; avoid the player chrome. **No two text/visual elements may overlap while both are on screen** — lay out on a grid with real gaps, or separate overlapping elements in **time** (stagger their `start`). Don't let any box run off the frame. `validate`/`compile` warn when text boxes overlap or extend outside the frame — I fix those before rendering, and I **snapshot and look** at the frame to confirm spacing and balance (avoid a lopsided, one-side-heavy composition).

@@ -82,9 +82,15 @@ Notice what they all do: **name the instruments AND their character**, give the 
 *situation* ("last tune in a DJ set", "long car journey"), and describe the production.
 
 ## Video-specific craft — this is where a track earns its place
-- **Write the ARC, not just a vibe.** A 20 s ad has a shape: hook → build → lift → resolve.
-  Say so — *"sparse and curious for the first bars, drums enter and build, a hopeful lift, then
-  a clean resolve"* — and it lands under the shots instead of running flat underneath them.
+- **Write the ARC, not just a vibe — and write it as a timeline.** A 20 s ad has a shape: hook →
+  build → lift → resolve. Say so — *"sparse and curious for the first bars, drums enter and build, a
+  hopeful lift, then a clean resolve"* — and it lands under the shots instead of running flat
+  underneath them. *Measured:* "90 BPM, build to a hit" came back at ~129 BPM, loudest at t = 0 and
+  decaying; the same request phrased as a timeline — *"starts almost silent, swells over five
+  seconds, the hit lands at the peak, then holds"* — was honoured. Intros and hard stops are
+  honoured; a **mid-track breakdown is not** (two attempts, two tracks) — if the edit needs one,
+  cut it in ffmpeg from a second generation or a repeated section, and re-run `strata beats` on the
+  cut track.
 - **Match BPM to the cut rhythm** you plan (or vice versa). Fast montage → 120–128 BPM; a
   considered product film → 80–100.
 - **THEN hand it to `strata beats`.** Generate the track, run
@@ -146,7 +152,7 @@ there is no audio `offset_frame` — to start the music at 0:12, cut it with ffm
 - `TrackType: Music, VocalType: Instrumental` on every underscore.
 - **State a BPM.** Vague tempo gives generic results.
 - **Name instruments and their character**, not just a genre word.
-- **Describe the arc** if the video has one.
+- **Describe the arc as a timeline** if the video has one ("starts…, swells over…, hits at…"); a shape named without times is only loosely followed.
 - Never use this for voice — that's `generate narration`.
 - Keep the `.wav`, or convert deliberately; don't mislabel it.
 - Generate long, cut short, fade the tail.

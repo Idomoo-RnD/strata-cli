@@ -117,7 +117,14 @@ trade-off in the *Known gap* column rather than pretending the feature exists.
 
 ## 3. Three directions — genuinely different
 
-Produce **three** directions that differ in *kind*, not in palette:
+This is the step that most decides whether the piece is generic, and the reason is measurable: a
+model asked for one answer gives the most typical one, and asked for several distinct answers
+with a sense of how expected each is, it finds the ones it would otherwise not reach. So produce
+**three to five** directions that differ in *kind*, not in palette, and for each write a one-line
+**expectedness score, 1–5** — 1 is what any agent would make for this brief, 5 is a choice only
+this subject could produce. At least one direction must score 4 or 5, and the recommendation is
+not the safest one by default: recommend the direction with the best ratio of surprise to fit, and
+say why in one line. Three of the classic postures, to start from rather than to copy:
 
 | Axis | Direction A | Direction B | Direction C |
 |---|---|---|---|
@@ -127,11 +134,11 @@ Produce **three** directions that differ in *kind*, not in palette:
 | Risk | reads as cheap if the frames are weak | reads as showreel if the camera has no job | reads as generic social if the type is default |
 
 For each: the thesis restated in that posture, the signature device, the transition family, the
-sound motif, and **what it refuses to do**. Then recommend one and say why in one line. The user
-picks; a direction the user did not see cannot be signed off.
+sound motif, the expectedness score, and **what it refuses to do**. The user picks; a direction
+the user did not see cannot be signed off.
 
-Two of the three must include real stillness. If all three are "everything moves", the pass
-failed its own point.
+Most of the directions should include real stillness — if every one is "everything moves", the
+set has no range and the pass has not done its job.
 
 ## 4. Key styleframes
 
@@ -150,7 +157,7 @@ hierarchy.
 Rank every element in every shot:
 
 1. **The one thing that moves with intent** — the dominant motion idea of the shot (a reveal,
-   a push, a cascade). Exactly one per shot.
+   a push, a cascade). One per shot is the default because the eye can follow one.
 2. **Secondary motion** — follow-through, counter-motion, ambient drift at ≤ 30 % of the primary,
    on a softer curve ([motion-design.md](motion-design.md) §5, counter-motion table).
 3. **Still** — everything else. The wordmark that never moves. The CTA that lands and holds.
@@ -172,7 +179,7 @@ One page, written before the scene, pasted into the storyboard, obeyed by every 
 | **Material logic** | what the things are made of, and what that does to inertia, deformation and settle | stone: heavy, no overshoot, long settle, dust on impact |
 | **Type behaviour** | how words arrive, how long they hold, how they leave; captions vs kinetic | per-word rise 26 px, hold 0.5 s + 0.3 s/word, exit 65 % of entrance |
 | **Camera rule** | locked, one push per shot, or one continuous move — and never what | locked; one 3 % push on the hero shot only |
-| **Transition palette** | at most two families, named | hard cut; mask-rect wipe from the outer edge |
+| **Transition palette** | the families in play, named — two is where most pieces sit | hard cut; mask-rect wipe from the outer edge |
 | **Sound motif** | the one SFX family, the bed's arc, the hit that lands the mark | oven-door thud on the wordmark; flour whoosh on wipes |
 | **Signature device** | the single bold idea the boldness is spent on | fire footage inside the word RYE |
 | **Forbidden moves** | what this piece will not do, so the temptation is pre-decided | no `outBack`, no crossfades, no glow, no camera drift on still frames, no scrims |
@@ -184,14 +191,14 @@ brand wins.
 
 ## 7. Four passes to build it
 
-Build the scene in four passes and do not mix them — finishing effects added during blocking is
-how decoration creeps in:
+A build order that keeps decoration from creeping in — finishing effects added during blocking
+are the usual way a frame acquires a glow nobody chose:
 
 1. **Blocking** — boxes, cuts, holds, the still list; judged on `strata preview --grid` and a
    `snapshot`. No animation yet beyond the cut points.
 2. **Primary motion** — the one idea per shot, on the bible's curves and timing scale.
 3. **Secondary motion** — stagger, follow-through, counters, the camera rule.
-4. **Finishing** — effects (at most one atmospheric), grade, sound design, motion blur check: every
+4. **Finishing** — effects (one atmospheric as the signature), grade, sound design, motion blur check: every
    moving layer blurred (the compiler's default — do not opt out) **and every animated camera carrying
    an explicit `"motion_blur": true`**, which is the one the default misses.
 
@@ -203,10 +210,10 @@ the pass it belongs to, not to a patch on top.
 
 - [ ] Thesis in one sentence, tied to the viewer promise
 - [ ] References deconstructed to tokens (or reference-styles.md used) — recorded in the bible
-- [ ] Three directions of different *kind*, two with real stillness, one recommended
+- [ ] Three to five directions of different *kind*, each with an expectedness score, at least one scoring 4–5, one recommended
 - [ ] Three styleframes built as scenes and shown (hook, hero, end card)
 - [ ] Motion hierarchy per shot, with an explicit still list
-- [ ] The motion bible, every field filled, pasted into the storyboard
+- [ ] The motion bible pasted into the storyboard — the fields the piece needs filled, the rest struck
 - [ ] Forbidden moves named before the first keyframe
 - [ ] **The highest-risk moments named, and prototyped first** — the shot most likely to fail
       (a generated clip that must travel, a matte edge, a camera move through depth, a settle the

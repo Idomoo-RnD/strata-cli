@@ -160,6 +160,10 @@ consequences, each measured on a real render:
   arriving — confirm with `settle_NN.png` before changing a curve that is correct.
 - **A camera that is meant to keep moving past a keyframe** is not an overrun. Say so in the notes
   rather than "fixing" it.
+- **A deliberate hold is listed as a freeze.** The tool cannot tell a planned breath before a slam,
+  a locked end card, or the covered beat of a hidden swap from a clip that ran out. Classify each
+  freeze in the notes — *planned, this long, because…* — and fix only the ones the storyboard did
+  not plan. A freeze the storyboard did not plan is still a must-fix.
 - **`contact_phone.png` is stricter than a phone.** Its tiles are ~185 px wide; a phone is
   390–430 px. Copy that fails the tile may still pass on the device — check at true width before
   calling type a must-fix, and never the other way round (passing the tile is a real pass).

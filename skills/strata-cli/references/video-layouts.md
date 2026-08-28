@@ -105,7 +105,12 @@ Offer it in the storyboard: *"want the shoe to pass in front of the brand name?"
 **Creative moves that elevate it (use them):**
 - **The hidden swap** — change the text *while it is occluded*: as the shoe covers the word,
   swap "RUN" → "FASTER" (stagger the two text layers' `start` at the covered moment). The
-  cut is invisible and it reads as magic. Needs the subject to fully cross the word once.
+  cut is invisible and it reads as magic. Needs the subject to fully cross the word once —
+  and *fully* means the subject's **silhouette at the height of the type**, not its bounding
+  box: a shoe's toe and heel taper, so a word sized to the box shows its letter tops for a few
+  frames at each end (*measured:* 4 frames of cap-line leak, invisible on the contact sheet,
+  found by a per-frame pixel scan). Size the word to the silhouette where it crosses, or thicken
+  the occluder, and check the covered frames one by one before calling the swap invisible.
 - **Depth sandwich** — two text planes: one BEHIND the jet (occluded), one small badge/CTA
   IN FRONT of everything. Three depths read instantly as designed.
 - **Ground it** — a soft elliptical `shadow`-blurred dark solid under the subject ties the
