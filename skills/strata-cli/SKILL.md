@@ -17,18 +17,18 @@ commands are [commands.md](references/commands.md).
 ## Contents
 
 - [Quick start](#quick-start)
+- [What to read for this brief](#what-to-read-for-this-brief)
 - [What is law and what is yours](#what-is-law-and-what-is-yours)
 - [Before authoring — four checks](#before-authoring--four-checks)
 - [The shape of a job](#the-shape-of-a-job)
 - [The traps that cost a render](#the-traps-that-cost-a-render)
-- [Route by brief kind](#route-by-brief-kind)
 - [References](#references)
 
 ## Quick start
 
 ```bash
 strata version                                  # installed? if not: commands.md, Setup
-strata route "<the brief in a sentence>"        # the reference files written for this kind of brief
+strata route "<the brief in a sentence>"        # prints the read list below for this brief
 #   ... storyboard, sign-off, then author the scene JSON ...
 strata preview scene_v1.json --at 2 --grid      # free wireframe; fix composition here
 strata validate scene_v1.json                   # offline: bad keys, traps, composition tells
@@ -39,6 +39,49 @@ strata review   scene_v1.mp4 --scene scene_v1.json -o review/    # cuts, freezes
 
 Renders take minutes — run them in the background. Every command takes `--json`. Exit codes:
 0 ok · 1 compile/schema · 2 missing file · 3 auth · 4 render timeout.
+
+## What to read for this brief
+
+`strata route "<brief>"` prints this list for a brief; the list is here too, so it holds
+whether or not the command was run. Paths are relative to `references/`.
+
+**Every piece, before the storyboard:**
+- `craft.md` — how a good video is made; the defaults and their reasons
+- `traps.md` — the engine facts that produce a wrong video with a clean compile
+
+**Any piece whose layout and motion are yours to decide** (the user did not dictate them):
+- `anti-slop.md` — the defaults agent-composed frames fall into, and the test that catches them
+- `layouts.md` — the named frame layouts and the grid
+- `video-layouts.md` — composing *with* video rather than full-bleed clip + caption
+- `motion-design.md` — the techniques that make motion read as designed, with real keys
+
+**Then by the kind of brief** — rows add up (a personalized TV ad gets the TV-ad row and the
+personalized row), and a brief can match several:
+
+| The brief is… | Written for it |
+|---|---|
+| a **TV / broadcast ad, promo, launch, sale, hero film** | `editing-director.md`, `editorial/short-form-performance.md`, `editorial/editing-grammar.md`, `blueprints.md`, `video-styles.md`, `video-prompts.md`, `motion/04-transitions.md`, `motion/07-narrative-sound-emotion.md` |
+| **social / vertical / UGC / trailer-style** | `editing-director.md`, `editorial/short-form-performance.md`, `blueprints.md`, `video-styles.md`, `motion/04-transitions.md` |
+| an **explainer, tutorial, testimonial, internal comms, recap, sports** | `editing-director.md`, `editorial/nonfiction-formats.md`, `editorial/editing-grammar.md`, `blueprints.md`, `motion/07-narrative-sound-emotion.md` |
+| **personalized / data-driven / a chart or a stat** | `personalization.md`, `motion/06-ui-data-brand.md`, `editorial/nonfiction-formats.md` (data is a claim) |
+| a **presenter, spokesperson, talking head, dialogue** | `avatar.md`, `video-generation-advanced.md`, `production-bible.md`, `captions.md` |
+| **supplied material** (storyboard, script, PDF, URL, sheets, footage, voice) | `intake.md` first, then `production-bible.md`, `video-generation.md`, `video-generation-advanced.md` |
+| a **logo sting, brand ident, product hero** | `blueprints.md`, `video-styles.md`, `motion/05-shape-effects-texture.md`, `motion/06-ui-data-brand.md`, `recipes.md` |
+| **kinetic type / typographic / captions-heavy** | `motion/03-typography.md`, `recipes.md`, `layouts.md` |
+| **music-led / beat-synced / audio-reactive** | `generative-fx.md`, `music.md`, `motion/07-narrative-sound-emotion.md`, `motion/04-transitions.md` |
+| a **genre feel** (thriller, comedy, trailer, documentary) | `editorial/narrative-genres.md`, `reference-styles.md`, `motion/08-styles-index.md` |
+| **"make it feel like X"** (a film, director, campaign) | `reference-styles.md`, `motion/08-styles-index.md`; `strata deconstruct` on any supplied clip |
+| **premium / AAA / cinematic / broadcast quality** (in addition to the kind above) | `director.md`, `motion/01-foundations.md`, `motion/02-choreography-space-camera.md`, `motion/03-typography.md`, `motion/09-production-qa.md` |
+| **any generated video clip** | `video-generation.md`, `video-prompts.md`; consistent cast → `production-bible.md` |
+| **an edit** of supplied footage (cut, join, reframe, retime) | `video-editing.md`, `editorial/workflow-and-qa.md` |
+| **brand material** supplied, "on brand", a series | `brand.md` |
+| **Figma** | `figma.md` |
+
+**After the first render, every piece:** `review.md`, `motion/09-production-qa.md`,
+`editorial/workflow-and-qa.md`.
+
+Read the list again once the concept exists: a short brief cannot say "kinetic type" or
+"music-led", but the direction chosen for it can, and that adds rows.
 
 ## What is law and what is yours
 
@@ -132,37 +175,6 @@ behind each, is [traps.md](references/traps.md) — read it before the first com
 - **Misc:** comp max 1920/axis · motion blur stays on for moving layers · keyframe times are
   relative to the layer's `start` · a sub-comp is declared before the comp that uses it ·
   `validate` before every render.
-
-## Route by brief kind
-
-`strata route "<brief>"` prints the reference files written for this kind of brief; rows add up
-(a personalized TV ad gets the TV-ad row and the personalized row). Every piece gets
-[craft.md](references/craft.md) and [traps.md](references/traps.md); any piece whose layout and
-motion are yours to decide also gets the four design files (anti-slop, layouts, video-layouts,
-motion-design). Paths are relative to `references/`.
-
-| The brief is… | Written for it |
-|---|---|
-| a **TV / broadcast ad, promo, launch, sale, hero film** | `editing-director.md`, `editorial/short-form-performance.md`, `editorial/editing-grammar.md`, `blueprints.md`, `video-styles.md`, `video-prompts.md`, `motion/04-transitions.md`, `motion/07-narrative-sound-emotion.md` |
-| **social / vertical / UGC / trailer-style** | `editing-director.md`, `editorial/short-form-performance.md`, `blueprints.md`, `video-styles.md`, `motion/04-transitions.md` |
-| an **explainer, tutorial, testimonial, internal comms, recap, sports** | `editing-director.md`, `editorial/nonfiction-formats.md`, `editorial/editing-grammar.md`, `blueprints.md`, `motion/07-narrative-sound-emotion.md` |
-| **personalized / data-driven / a chart or a stat** | `personalization.md`, `motion/06-ui-data-brand.md`, `editorial/nonfiction-formats.md` (data is a claim) |
-| a **presenter, spokesperson, talking head, dialogue** | `avatar.md`, `video-generation-advanced.md`, `production-bible.md`, `captions.md` |
-| **supplied material** (storyboard, script, PDF, URL, sheets, footage, voice) | `intake.md` first, then `production-bible.md`, `video-generation.md`, `video-generation-advanced.md` |
-| a **logo sting, brand ident, product hero** | `blueprints.md`, `video-styles.md`, `motion/05-shape-effects-texture.md`, `motion/06-ui-data-brand.md`, `recipes.md` |
-| **kinetic type / typographic / captions-heavy** | `motion/03-typography.md`, `recipes.md`, `layouts.md` |
-| **music-led / beat-synced / audio-reactive** | `generative-fx.md`, `music.md`, `motion/07-narrative-sound-emotion.md`, `motion/04-transitions.md` |
-| a **genre feel** (thriller, comedy, trailer, documentary) | `editorial/narrative-genres.md`, `reference-styles.md`, `motion/08-styles-index.md` |
-| **"make it feel like X"** (a film, director, campaign) | `reference-styles.md`, `motion/08-styles-index.md`; `strata deconstruct` on any supplied clip |
-| **premium / AAA / cinematic / broadcast quality** (in addition to the kind above) | `director.md`, `motion/01-foundations.md`, `motion/02-choreography-space-camera.md`, `motion/03-typography.md`, `motion/09-production-qa.md` |
-| **any generated video clip** | `video-generation.md`, `video-prompts.md`; consistent cast → `production-bible.md` |
-| **an edit** of supplied footage (cut, join, reframe, retime) | `video-editing.md`, `editorial/workflow-and-qa.md` |
-| **brand material** supplied, "on brand", a series | `brand.md` |
-| **Figma** | `figma.md` |
-| **after the first render — every piece** | `review.md`, `motion/09-production-qa.md`, `editorial/workflow-and-qa.md` |
-
-Route again once the concept exists: a short brief cannot say "kinetic type" or "music-led", but
-the direction chosen for it can.
 
 ## References
 

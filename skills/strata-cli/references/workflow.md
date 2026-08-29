@@ -66,7 +66,7 @@ Run these first; each one turns the request into a different job.
 `strata route "<the brief in a sentence>"` maps the brief's kind (TV ad, promo, explainer,
 personalized, presenter, supplied storyboard, edit, brand, Figma…) to the reference files written
 for that job — including the `editorial/` and `motion/` chapters — so the read list is a command
-output rather than a table to interpret. The same map is the *Route by brief kind* table in
+output rather than a table to interpret. The same map is the *What to read for this brief* section in
 `SKILL.md`. Route a second time once the concept exists: a short brief cannot say "kinetic type",
 "music-led" or "thriller", but the direction chosen for it can, so re-run `strata route` on the
 brief plus the chosen direction before scene JSON and read whatever is new. (*Measured:* a "super
