@@ -1,8 +1,8 @@
 # Transitions and scene connection
 
-> Executing these in a scene - designed transitions rather than crossfades, and the keys that
-> make them - is [motion-design.md](../motion-design.md). ⚠ A clip destined for a `.jet` overlay,
-> or asked of a video model as one take, must contain **no cuts at all**:
+> Executing these in a scene - designed transitions rather than crossfades, and the keys that make
+> them - is [motion-design.md](../motion-design.md). ⚠ A clip destined for a `.jet` overlay, or
+> asked of a video model as one take, must contain **no cuts at all**:
 > [video-generation.md](../video-generation.md).
 
 Contents: 1 Editorial cuts · 2 Dissolves and fades · 3 Wipes and geometric · 4 Motion-driven · 5 Textural and effect-driven · 6 Transition system design

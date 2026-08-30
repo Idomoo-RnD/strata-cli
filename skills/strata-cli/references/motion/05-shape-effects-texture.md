@@ -1,9 +1,9 @@
 # Shape, masks, effects, particles, color, materials
 
-> What this engine can actually do - glow, blend modes, track mattes, particles, grain, masks,
+> What this engine can do - glow, blend modes, track mattes, particles, grain, masks,
 > audio-reactive fills - and the key for each is [generative-fx.md](../generative-fx.md) and
-> [format.md](../format.md). A cut-out subject that sits over another layer needs alpha, which
-> means a `.jet`: [assets.md](../assets.md).
+> [format.md](../format.md). A cut-out over another layer needs alpha, so a `.jet`:
+> [assets.md](../assets.md).
 
 ## Contents
 

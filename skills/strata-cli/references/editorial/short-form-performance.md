@@ -3,14 +3,13 @@
 > **Engine anchors.** A brand document overrides every grammar choice here -
 > [brand.md](../brand.md). The 9:16 grid, safe lines and platform chrome are measured in
 > [layouts.md](../layouts.md); reframing footage is [video-editing.md](../video-editing.md).
-> ⚠ **Captions vs kinetic type.** The caption rule below (chunks, not word-by-word, by default)
-> governs **subtitles and captions**, where reading speed on a phone wins. It does not
-> override the per-word/per-character animators SKILL.md uses for **headlines and kinetic
-> type** - those are display, not captions. Decide which a text layer is before animating it.
-> Decorative defaults this file warns against (transition packs, whoosh-on-every-cut) are
-> the same family as [anti-slop.md](../anti-slop.md); run both.
+> ⚠ **Captions vs kinetic type.** The caption rule below (chunks, not word-by-word) governs
+> **subtitles and captions**, where phone reading speed wins; it does not override the
+> per-word/per-character animators SKILL.md uses for **headlines and kinetic type**. Decide which a
+> text layer is before animating it. The decorative defaults this file warns against (transition
+> packs, whoosh-on-every-cut) are the same family as [anti-slop.md](../anti-slop.md); run both.
 
-Short runtime does not justify random acceleration. These formats depend on a clear promise, rapid orientation, intentional information density, and a finish that delivers brand, payoff, or action. Build one master editorial idea, then adapt its rhythm, framing, text, and CTA for each placement rather than merely cropping the same cut.
+Short runtime does not justify random acceleration. These formats need a clear promise, rapid orientation, deliberate information density, and a finish that delivers brand, payoff or action. Build one master editorial idea, then adapt its rhythm, framing, text and CTA per placement rather than cropping one cut.
 
 ## Contents
 
@@ -36,11 +35,11 @@ Before editing, define:
 - **Viewing context:** sound-on expectation, muted autoplay, mobile vertical, feed, full-screen, in-stream, search, TV, or presentation
 - **Action:** what the viewer should remember or do, and how much time the final frame requires
 
-When platform specifications or ad policies determine the output, verify the current official requirements before final delivery. Do not preserve hard-coded limits from this reference as timeless facts.
+When platform specifications or ad policies determine the output, verify current official requirements before delivery; hard-coded limits here are not timeless facts.
 
 ## Commercial and branded film
 
-**Viewer promise:** a memorable, credible connection between an audience need or desire and the brand's role.
+**Viewer promise:** a credible connection between an audience need or desire and the brand's role.
 
 ### Objective-specific editing
 
@@ -54,12 +53,12 @@ When platform specifications or ad policies determine the output, verify the cur
 
 ### Practical grammar
 
-- Attract with the most relevant distinctive event, not an unrelated clickbait image.
-- Integrate product or brand meaningfully; a logo overlay cannot repair a story in which the brand is absent.
-- Translate features into visible consequences. Show what changes for the user.
-- Use faces, gesture, product interaction, and clear visual hierarchy at small screen sizes.
-- Design sound identity from music, voice, effects, product sound, and silence; do not treat the track as a disposable bed.
-- Preserve one or two hero moments long enough to be seen. Constant montage can reduce product comprehension and premium feeling.
+- Attract with the most relevant distinctive event, not a clickbait image.
+- Integrate product or brand meaningfully; a logo overlay cannot repair a story where the brand is absent.
+- Translate features into visible consequences: show what changes for the user.
+- Use faces, gesture, product interaction, and clear hierarchy at small screen sizes.
+- Design sound identity from music, voice, effects, product sound, and silence; the track is not a disposable bed.
+- Preserve one or two hero moments long enough to be seen; constant montage reduces product comprehension and premium feeling.
 - Make the CTA a continuation of the story's desire or solution.
 
 ### Brand edit variants
@@ -72,16 +71,11 @@ Create variants around hypotheses, not arbitrary alternates:
 - Brand timing: early product presence vs reveal
 - CTA: learn, compare, try, buy, subscribe, or visit
 
-Change one meaningful variable per controlled comparison when performance measurement matters.
+Change one variable per controlled comparison when performance measurement matters.
 
 ### Failure modes
 
-- Logo-first openings with no human or product relevance
-- Beautiful lifestyle montage with no proposition
-- Claims shown too quickly to comprehend or without proof
-- Every shot cut to the music while product actions become incomplete
-- CTA appearing only at the last instant
-- Over-polished social ads that feel alien to the surrounding feed without a deliberate contrast strategy
+logo-first openings with no human or product relevance · beautiful lifestyle montage with no proposition · claims shown too quickly to comprehend or without proof · every shot cut to the music while product actions become incomplete · CTA appearing only at the last instant · over-polished social ads that feel alien to the feed without a deliberate contrast strategy.
 
 ## Product demonstration, direct response, and ecommerce
 
@@ -97,12 +91,12 @@ Change one meaningful variable per controlled comparison when performance measur
 ### Editing rules
 
 - Show the product, user, or result early enough that the hook and proposition connect.
-- Preserve the complete causal action in demonstrations. Do not cut from setup to result so aggressively that the product appears deceptive.
+- Preserve the complete causal action in demonstrations; do not cut from setup to result so aggressively the product appears deceptive.
 - Label dramatization, time compression, atypical results, or conditions when required.
 - Use text to reinforce the single claim visible in that beat, not a parallel script.
 - Let tactile product sounds, interface feedback, and human reaction provide proof.
 - Keep prices, offers, qualifiers, URLs, QR codes, and CTAs readable within current platform and legal requirements.
-- Do not speed up footage in a way that misrepresents performance, assembly time, or outcome.
+- Do not speed up footage so it misrepresents performance, assembly time, or outcome.
 
 ## Trailer and teaser
 
@@ -128,13 +122,13 @@ Change one meaningful variable per controlled comparison when performance measur
 
 ### Picture and sound grammar
 
-- Write a trailer argument from dialogue, title cards, and image; do not merely select the loudest shots.
+- Write a trailer argument from dialogue, title cards, and image, not a selection of the loudest shots.
 - Use dialogue bridges to connect scenes while preserving character meaning.
 - Escalate by stakes, scale, novelty, and rhythm—not only volume and cut density.
-- Reserve one or more moments of duration so the audience can attach to character or absorb spectacle.
+- Reserve moments of duration so the audience can attach to character or absorb spectacle.
 - Use risers, impacts, stops, and cue changes structurally. Avoid stacking them without story turns.
 - Do not fake plot relationships, romance, death, or villain identity through misleading juxtaposition.
-- Protect spoilers, late transformations, and final-act resolution according to the marketing brief.
+- Protect spoilers, late transformations, and final-act resolution per the marketing brief.
 
 ### Genre promise in trailers
 
@@ -142,7 +136,7 @@ Change one meaningful variable per controlled comparison when performance measur
 - Horror: demonstrate the fear grammar but do not exhaust every scare.
 - Drama: sell an active conflict and change, not only prestige mood.
 - Action: show goal and consequence around spectacle.
-- Family/animation: preserve emotional access and readable comedy; do not market solely to children if the title's promise is broader.
+- Family/animation: preserve emotional access and readable comedy; do not market only to children if the title's promise is broader.
 
 ## Music video
 
@@ -169,7 +163,7 @@ Create markers for:
 
 ### Editing rules
 
-- Synchronize all usable performance takes and create selects by song section, energy, lens, movement, and expression.
+- Synchronize all usable performance takes and select by song section, energy, lens, movement, and expression.
 - Preserve full phrases, body lines, instrument actions, and vocal performance often enough to feel credible.
 - Cut on musical meaning: phrase, breath, lyric, gesture, texture, or counterpoint—not every beat by default.
 - Let visual motifs return altered as choruses repeat.
@@ -180,11 +174,7 @@ Create markers for:
 
 ### Failure modes
 
-- Monotonous beat cutting
-- Coverage randomization with no song-section logic
-- Performance shown only in fragments, weakening credibility
-- Narrative scenes that repeat lyrical content literally without adding meaning
-- Effects intensity rising continuously until there is nowhere to go
+monotonous beat cutting · coverage randomization with no song-section logic · performance shown only in fragments, weakening credibility · narrative scenes that repeat lyrical content literally without adding meaning · effects intensity rising continuously until there is nowhere to go.
 
 ## Creator video, vlog, podcast video, and long-form web
 
@@ -194,18 +184,18 @@ Create markers for:
 
 - Open with the subject, change, result, conflict, or question; preserve greeting and brand ritual only if the audience values it.
 - Remove true dead time while keeping personality, thought, and credible effort.
-- Use jump cuts openly for compression when that cadence suits the creator. Use B-roll, split edits, or angle changes when continuity and authority matter more.
+- Use jump cuts openly for compression when that cadence suits the creator; B-roll, split edits or angle changes when continuity and authority matter more.
 - Reset attention through new information, location, demonstration, graphic, anecdote, question, or emotional shift—not arbitrary zooms.
-- Use on-screen text for names, steps, numbers, corrections, jokes, and navigation; do not caption a second competing monologue.
+- Use on-screen text for names, steps, numbers, corrections, jokes, and navigation; do not caption a competing monologue.
 - Preserve failure, uncertainty, or process when it builds trust and is relevant.
 - Close loops created by the opening. A hook is a promise, not permission to delay value.
 
 ### Video podcast and conversation
 
 - Prioritize clean, natural dialogue and meaningful listening.
-- Cut to the speaker for complex argument; cut to listeners for consequence, humor, tension, or relationship.
+- Cut to the speaker for complex argument; to listeners for consequence, humor, tension, or relationship.
 - Use wides for overlap, group dynamics, or visual explanation.
-- Remove repetition by complete thought, not by shaving every breath.
+- Remove repetition by complete thought, not by shaving breaths.
 - Use chapters, summaries, and inserts for navigation in long-form delivery.
 - Clips extracted for social must not change the speaker's meaning through missing setup or sensational captions.
 
@@ -215,13 +205,13 @@ Create markers for:
 - Put primary evidence on screen when discussed; cite source and date where relevant.
 - Use recurring visual categories so the audience can distinguish quotation, example, reenactment, and commentary.
 - Alternate dense analysis with examples allowed to play long enough to prove the point.
-- For copyrighted clips, track source and purpose and obtain appropriate rights/legal review; do not assume a duration automatically qualifies as fair use.
+- For copyrighted clips, track source and purpose and obtain rights/legal review; do not assume a duration automatically qualifies as fair use.
 
 ## Vertical short-form: Shorts, Reels, TikTok, and feed video
 
 **Viewer promise:** immediate relevance and a complete miniature experience designed for the native viewing environment.
 
-Official platform guidance consistently emphasizes vertical composition, UI-safe placement, clear hooks, sound, text/context, native style, and testing. Treat these as starting conditions, not a formula that overrides audience or story.
+Official platform guidance emphasizes vertical composition, UI-safe placement, clear hooks, sound, text/context, native style and testing — starting conditions, not a formula that overrides audience or story.
 
 ### Structure
 
@@ -234,28 +224,28 @@ Use a flexible **hook → development → payoff → action/loop** model:
 
 ### Native editorial grammar
 
-- Compose for the intended aspect ratio from shot selection onward. A center crop of a wide master may lose hands, product, eyelines, or spatial context.
+- Compose for the intended aspect ratio from shot selection onward; a center crop of a wide master may lose hands, product, eyelines, or spatial context.
 - Keep critical faces, products, text, and actions inside current platform UI safe zones.
-- Assume mixed listening contexts. Make picture and captions understandable without audio when appropriate, but design sound as a first-class experience when the platform and concept support it.
+- Assume mixed listening contexts: picture and captions understandable without audio, but sound designed as first-class where the platform and concept support it.
 - Use text to provide context, reinforce speech, improve accessibility, and time reveals. Keep line length, contrast, and dwell readable on a phone.
-- Begin at the decisive state rather than with a slow logo animation or generic establishment.
-- Use cuts, motion, captions, sound, and graphics when new information arrives. Pattern interruption without information quickly becomes noise.
+- Begin at the decisive state, not a slow logo animation or generic establishment.
+- Use cuts, motion, captions, sound, and graphics when new information arrives. Pattern interruption without information becomes noise.
 - Favor human presence and specific behavior when credibility or connection matters.
-- A DIY or lightly polished texture can feel native; maintain intentional audio, exposure, legibility, and brand control beneath that texture.
-- Treat trends as a shared language. Use one only when it supports the audience, message, and timing, and verify that any music or assets are cleared for the intended commercial use.
+- A DIY or lightly polished texture can feel native; keep intentional audio, exposure, legibility, and brand control beneath it.
+- Treat trends as a shared language: use one only when it supports audience, message and timing, and verify music and assets are cleared for the intended commercial use.
 
 ### Pacing without fatigue
 
 - Vary short bursts with micro-holds for proof, reaction, legibility, or anticipation.
 - Use one focal action per beat. Phone viewing magnifies compositional clutter.
-- Let captions appear in meaningful chunks rather than word-by-word by default; choose kinetic word emphasis only when it helps tone or comprehension.
+- Let captions appear in meaningful chunks, not word-by-word, by default; choose kinetic word emphasis only when it helps tone or comprehension.
 - Cut filler introductions, repeated conclusions, and transitions that do not change place, time, idea, or emotion.
 - Do not conceal a weak proposition with constant zooms, emojis, whooshes, and speed ramps.
 
 ### Platform recut process
 
 1. Restate the placement's audience state and objective.
-2. Select a new opening from the master material rather than inheriting the long-form opening.
+2. Select a new opening from the master rather than inheriting the long-form opening.
 3. Rebuild the frame and shot order for vertical attention and UI zones.
 4. Rewrite captions and graphics for phone reading.
 5. Rebalance sound, music, and voice for the placement.
@@ -265,13 +255,7 @@ Use a flexible **hook → development → payoff → action/loop** model:
 
 ### Failure modes
 
-- Unrelated sensational hook followed by a different subject
-- Cropped masters with offscreen gestures and unreadable group action
-- Captions under interface controls or too fast to read
-- Every second treated as a pattern interrupt
-- Muted viewing fails because critical value exists only in narration
-- Sound-on viewing fails because the track is generic, distorted, or over-compressed
-- Trend imitation erases brand or creator identity
+unrelated sensational hook followed by a different subject · cropped masters with offscreen gestures and unreadable group action · captions under interface controls or too fast to read · every second treated as a pattern interrupt · muted viewing fails because critical value exists only in narration · sound-on viewing fails because the track is generic, distorted, or over-compressed · trend imitation erases brand or creator identity.
 
 ## Cross-platform adaptation matrix
 
@@ -284,7 +268,7 @@ Use a flexible **hook → development → payoff → action/loop** model:
 | Music video to teaser | Use a recognizable phrase and visual promise | Randomly montage chorus shots |
 | Sports broadcast to social | Rebuild stakes, setup, decisive action, and reaction | Show only the final score or impact |
 
-The adaptation succeeds when it preserves the source's truth and identity while behaving like a native piece in the new context.
+An adaptation succeeds when it preserves the source's truth and identity while behaving natively in the new context.
 
 ## Review tests for performance formats
 

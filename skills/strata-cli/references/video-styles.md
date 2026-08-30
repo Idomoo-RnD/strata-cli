@@ -268,7 +268,8 @@ Every one was found by rendering, and each one silently produces a broken video:
    keyframe is the **absolute point where the anchor lands**. Keep x,y at the anchor and vary
    only z, or the layer is dragged to that coordinate.
 4. **A mask travels WITH its layer, so it can never be a window.** Windows are **nested
-   comps** (a comp canvas clips its content) or a static track-matte layer.
+   comps** (a comp canvas clips its content) or a static track-matte layer — and the 1920/axis
+   cap applies to sub-comps, so a strip longer than that needs the track matte instead.
 5. **The `validate` overlap warning is a false positive for 3D and RGB-split scenes** —
    layers at different z, and deliberate chromatic-split copies, legitimately overlap in 2D.
 6. **`strikethrough` / `underline` / `highlight` do not render** — draw a `solid` bar when the brief asks for one (a rule under a lone title is a tell — [anti-slop.md](anti-slop.md)).

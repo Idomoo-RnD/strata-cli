@@ -1,13 +1,14 @@
 # Blueprints — whole-video recipes by type
 
-Structure-level recipes for the common video kinds. Each gives a shot list, pacing, which [blocks](blocks.md) to use, and the narration shape — feed it into the storyboard stage (SKILL.md step 2), get sign-off, then author. All assume an audio-anchored timeline: I size each scene to the **narration's returned duration** and put **0.3–0.5s transitions** between clips. Default 1920×1080 (or 1080×1920 for social).
+Structure-level recipes for the common video kinds — shot list, pacing, which [blocks](blocks.md) to use, narration shape. Feed one into the storyboard stage (SKILL.md step 2), adapt the shots, keep every layer name unique. All assume an audio-anchored timeline: each scene sized to the **narration's returned duration**, **0.3–0.5s transitions** between clips, 1920×1080 (or 1080×1920 for social).
 
-Pick one, adapt the shots, keep every layer name unique.
-
-**Pacing that holds up across the reference corpus:** shots run **2.5–4s** (down to 1.2–2s for
-sport/energy, up to 6s for a speaker frame with copy to read). Total runtimes cluster at
-**17–30s** (openers, stings), **30–60s** (promos, product reels — the bulk), **60–120s**
-(explainers, showcases). Always **hold the end card 2–3s** past the last move; never cut on it.
+**Every shot count and timecode below is written at a ~3 s mean shot — rescale it to the range this
+piece declared** (SKILL.md, *Place the piece on the range*): a 30 s promo is the same arc in ~30
+fast shots and in 5 held ones. Rescale unevenly: the beat each blueprint is built to deliver — the
+reveal, the hero shot, the stat, the end card — keeps or gains length while the connective beats
+lose theirs. The beats are the blueprint; the shot count is not, and nor is an even division.
+Runtimes cluster at **17–30s** (openers, stings), **30–60s** (promos, product reels), **60–120s**
+(explainers). Always **hold the end card 2–3s** past the last move; never cut on it — and a hold is not a freeze: keep something alive in it (a 2–3 % push, a fill travelling in the mark, secondary motion settling), or the piece ends on a still ([craft.md](craft.md)).
 
 ---
 

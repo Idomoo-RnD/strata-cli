@@ -1,11 +1,11 @@
 # Recipe library — drop-in keyframe patterns
 
-43 ready-to-use motion-design recipes in the **compact scene format**. Each snippet is one (or a few) layers — paste into a scene's `layers`, swap the font/box/colours, and tune the timing. Times are **seconds**; coordinates assume a **1280×720** comp — for the 1920×1080 grid in layouts.md multiply every box, size and distance by **1.5**. The craft theory behind these (shots, easing, 3D/camera, rhythm) lives in the main SKILL.md.
+43 recipes in the **compact scene format**. Each snippet is one or a few layers: paste into a scene's `layers`, swap the font/box/colours, tune the timing. Times are **seconds**; coordinates assume a **1280×720** comp — for the 1920×1080 grid in layouts.md multiply every box, size and distance by **1.5**. The craft theory (shots, easing, 3D/camera, rhythm) lives in SKILL.md.
 
 **Conventions used below**
 - `"./font.ttf"` — any real `.ttf`/`.otf`. `"./image.jpg"` — your media.
-- A few FX want tiny helper PNGs you can generate once: **`noise.png`** (grayscale value-noise, for luma dissolves), **`flare.png`** / **`leak.png`** (bright shapes on black, used with `"blend":"add"`). All optional.
-- **Anchor rule** (the #1 gotcha): when a recipe sets `anchor`, every `position` keyframe is the absolute point where that anchor lands — the *resting* keyframe equals the anchor. See the anchor+position warning in [format.md](format.md).
+- A few FX want tiny helper PNGs, generated once: **`noise.png`** (grayscale value-noise, for luma dissolves), **`flare.png`** / **`leak.png`** (bright shapes on black, used with `"blend":"add"`). Optional.
+- **Anchor rule** (the #1 gotcha): when a recipe sets `anchor`, every `position` keyframe is the absolute point where that anchor lands — the *resting* keyframe equals the anchor ([format.md](format.md), the anchor+position warning).
 
 ## Contents
 
@@ -89,7 +89,7 @@
 ```
 
 ### Rich multi-style headline (per-span colour + word entrance)
-Per-span `color`/`size`/`tracking` plus a word-by-word rise-and-fade. **Spans must cover every character including spaces** (extend each span over its trailing space) or the gaps vanish. For bold/italic use a real variant font in the span's `font`; `underline`/`strikethrough`/`highlight` don't render — fake them with a `solid`.
+Per-span `color`/`size`/`tracking` plus a word-by-word rise-and-fade. **Spans must cover every character including spaces** (extend each over its trailing space) or the gaps vanish. Bold/italic need a real variant font in the span's `font`; `underline`/`strikethrough`/`highlight` don't render.
 ```json
 { "type": "text", "name": "headline", "text": "Rich VASCO Text",
   "font": "./font.ttf", "size": 120, "color": "#ffffff",
@@ -104,7 +104,7 @@ Per-span `color`/`size`/`tracking` plus a word-by-word rise-and-fade. **Spans mu
       "animate": { "start": [{"t":0,"v":0},{"t":1.6,"v":1,"ease":"outCubic"}],
                    "end":   [{"t":0,"v":0.34},{"t":1.6,"v":1.34}] } }] }] }
 ```
-*(Fake underline: a thin `solid` bar under the box — only when the brief asks; a rule under a lone title is a tell, see [anti-slop.md](anti-slop.md). Fake highlight: a `solid` behind the text layer.)*
+*(Fake underline: a thin `solid` bar under the box — only when the brief asks ([anti-slop.md](anti-slop.md)). Fake highlight: a `solid` behind the text layer.)*
 
 ### Typewriter with a caret that follows the text
 Per-character hard-edged reveal (`shape:"square"`, `start` stepped one notch per char), plus a caret solid whose `x` is stepped to the **cumulative glyph advances** (`x += size × advance/1000`; Arial 'm'≈833, 'i'≈222, space≈278). Use a monospace font for exact tracking.
@@ -119,7 +119,7 @@ Per-character hard-edged reveal (`shape:"square"`, `start` stepped one notch per
   "animate": { "position": [{"t":0,"v":[360,0],"ease":"hold"},{"t":2.4,"v":[1040,0],"ease":"hold"}],
                "opacity":  [{"t":0,"v":1,"ease":"hold"},{"t":0.4,"v":0},{"t":0.8,"v":1},{"t":1.2,"v":0},{"t":1.6,"v":1}] } }
 ```
-*(Step `start` and the caret `position` at the same per-char times — one keyframe per character — for the locked caret.)*
+*(Step `start` and the caret `position` at the same per-char times — one keyframe per character.)*
 
 ### Line-by-line stagger
 Use `shape: "square"` and an explicit `end: 1` (see the ⚠️ under "Per-word bounce-in").
@@ -140,7 +140,7 @@ Use `shape: "square"` and pin `end` at 1 so the whole string is hidden at t=0; `
     "ranges": [{ "based_on": "words", "shape": "square",
       "animate": { "start": [{"t":0,"v":0,"ease":"outBack"},{"t":1.7,"v":1}], "end": [{"t":0,"v":1}] } }] }] }
 ```
-> ⚠️ **Do not use `shape: "smooth"` (or `round`/`triangle`) for a "hidden at t=0, reveal in order" effect** — verified bug. A tapered shape softens the selection at *both* window edges, so pinning `end` at 1 parks the trailing taper on the **last** unit: it starts partly visible, goes fully hidden as the window narrows onto it, then reappears (visible → gone → visible, reads as a glitch); the **first** unit sits in the leading taper and is already visible on frame 1, so it never animates in. Widening the window does **not** fix it — the taper scales with window width. `square` has hard edges, so the string is cleanly hidden at t=0 and releases unit-by-unit (it still shows soft partial-brightness frames at each boundary, so the cascade doesn't look mechanical). Tapered shapes are for *continuous* effects (waves, colour sweeps) where the window stays **off** the string ends.
+> ⚠️ **Do not use `shape: "smooth"` (or `round`/`triangle`) for a "hidden at t=0, reveal in order" effect** — verified bug. A tapered shape softens the selection at *both* window edges, so pinning `end` at 1 parks the trailing taper on the **last** unit: it starts partly visible, goes fully hidden as the window narrows onto it, then reappears (visible → gone → visible, a glitch); the **first** unit sits in the leading taper, visible on frame 1, so it never animates in. Widening the window does **not** fix it — the taper scales with it. `square` has hard edges: the string is cleanly hidden at t=0 and releases unit-by-unit (with soft partial-brightness frames at each boundary, so the cascade isn't mechanical). Tapered shapes are for *continuous* effects (waves, colour sweeps) where the window stays **off** the string ends.
 
 ### Wavy / travelling lift
 ```json
@@ -154,8 +154,8 @@ Use `shape: "square"` and pin `end` at 1 so the whole string is hidden at t=0; `
 
 ### RGB-split glitch (VERIFIED with channel masks)
 Three additive copies of the **same white text**, each showing **one colour channel** via
-`blending_options`, jittered on hold steps. Where the copies overlap they recombine to the
-original colour, so the split reads as lens aberration rather than three coloured words.
+`blending_options`, jittered on hold steps. Where they overlap they recombine to the
+original colour, so the split reads as lens aberration, not three coloured words.
 ```json
 { "type": "text", "text": "GLITCH", "font": "./font.ttf", "size": 150, "color": "#ffffff",
   "box": [0,250,1280,200], "align": "center middle", "blend": "add", "anchor": [640,350],
@@ -163,14 +163,13 @@ original colour, so the split reads as lens aberration rather than three coloure
   "animate": { "position": [{"t":0,"v":[646,350],"ease":"hold"},{"t":0.2,"v":[634,350]},{"t":0.5,"v":[648,350]},{"t":0.9,"v":[638,350]}] } }
 ```
 *(Copy 2: `green` only, copy 3: `blue` only, each with its own jitter; one can stay still.)*
-The older recolouring version (three copies tinted `#ff0040` / `#00ff90` / `#4080ff`) still
-works but never recombines to white:
+The older recolouring version (three copies tinted `#ff0040` / `#00ff90` / `#4080ff`) works
+but never recombines to white:
 ```json
 { "type": "text", "text": "GLITCH", "font": "./font.ttf", "size": 150, "color": "#ff0040",
   "box": [0,250,1280,200], "blend": "add", "anchor": [640,350],
   "animate": { "position": [{"t":0,"v":[646,350],"ease":"hold"},{"t":0.2,"v":[634,350]},{"t":0.5,"v":[648,350]},{"t":0.9,"v":[638,350]}] } }
 ```
-*(Duplicate in `#00ff90` and `#4080ff` with different jitter; one copy can stay still.)*
 
 ### Per-letter 3D flip-in
 ```json
@@ -231,17 +230,22 @@ A rule that *separates* (a header from a body, two columns) may draw on. A rule 
 ### Textured text — gradient / stripes / gold shine (VERIFIED)
 Fill type with ANY texture via a track matte: an invisible `text` layer is the alpha
 matte, a texture layer shows only through the glyphs. **Oversize the texture past the
-frame** so drifting/scrolling never exposes an edge, and **animate the texture, not the
-word** — motion inside still letters is the designed look. Animating the *matte*
-(entrance scale/position) animates the visible glyph shapes.
+frame** so drifting never exposes an edge, and **animate the texture, not the
+word** — motion inside still letters is the designed look, and it is what keeps a locked
+logotype alive through a long hold ([craft.md](craft.md), *How much moves*). Animating the
+*matte* (entrance scale/position) animates the visible glyph shapes.
+⚠️ **Over a photographic plate, a band running level across every glyph gives the trick away** — it
+proves the fill is a rectangle behind a mask, not light on a surface. Drift the texture along the
+plate's key direction, generate it with that lighting in it, and add a `shadow` layer style pointing
+the same way.
 
-**Where textures come from — two sources, pick by kind:**
-- **Organic / photographic** (gold foil, marble, brushed metal, fire, watercolor, silk,
-  bokeh): **`strata generate image`** — prompt for a full-frame texture with no subject,
+**Where textures come from — pick by kind:**
+- **Organic / photographic** (gold foil, marble, brushed metal, fire, silk):
+  **`strata generate image`** — prompt for a full-frame texture with no subject,
   e.g. `strata generate image "seamless crumpled gold foil texture, full-frame, no
   objects, even lighting" --aspect 16:9`. Brand palettes via `--colors`.
 - **Geometric / exact** (linear gradients, stripes, checker, halftone dots): a tiny
-  generator script (computed pixels — see generative-fx.md for the PNG pattern).
+  generator script (computed pixels — generative-fx.md has the PNG pattern).
 
 ```json
 // 1) gradient fill, drifting
@@ -367,8 +371,8 @@ A wedge polygon mask whose sweep grows 0°→360° (compute the rim points; both
 ### 3D camera push-in
 The camera starts at **`−focal`** (623 for a 720-high comp at fov 60 — format.md, Camera) so
 the layer is true-size on frame 1, then dollies in. An anchored 3D layer's `position` is
-absolute, so it is written `[anchorX, anchorY, z]`; the unanchored alternative is no anchor
-and `position:[0,0,0]`.
+absolute, written `[anchorX, anchorY, z]`; the unanchored alternative is no anchor and
+`position:[0,0,0]`.
 ```json
 { "type": "camera", "fov": 60, "position": [640,360,-623],
   "animate": { "position": [{"t":0,"v":[640,360,-623],"ease":"inOutSine"},{"t":4,"v":[640,360,-300]}] } }
@@ -390,7 +394,7 @@ and `position:[0,0,0]`.
 ```
 
 ### Bounce drop + squash
-Anchor at the ball's **bottom** so the squash flattens onto the floor exactly at contact.
+Anchor at the ball's **bottom** so the squash flattens onto the floor at contact.
 ```json
 { "type": "solid", "color": "#22d3ee", "box": [580,0,120,120], "anchor": [640,120],
   "mask": { "ellipse": [640,60,60,60] },
@@ -548,7 +552,7 @@ A blurred copy of the bg, masked to the panel, under a translucent white solid.
 ```
 
 ### Long flat shadow
-Stack offset duplicates of the word in a dark colour behind the master (here generated in a loop — 20–30 copies stepping `+5,+5`).
+Stack offset duplicates of the word in a dark colour behind the master (generated in a loop — 20–30 copies stepping `+5,+5`).
 ```json
 { "type": "text", "text": "SHADOW", "font": "./font.ttf", "size": 150, "color": "#0a0f20", "box": [5,255,1280,200], "align": "center middle", "opacity": 0.9 }
 ```
@@ -560,10 +564,10 @@ Stack offset duplicates of the word in a dark colour behind the master (here gen
 
 ### Rich text — many styles in one block (VERIFIED)
 Weight and slant come from **font files** per span; `bold`/`italic`/`underline`/`highlight`
-flags do **not** render (verified by render — the flagged version came out in one weight with
-no underline and no highlight). And spans must be **contiguous over every character,
-spaces and punctuation included**: the renderer drops any character no span covers, so a
-recipe that skips the spaces renders "BolditaliccolourSIZE" with the tail of the sentence gone.
+flags do **not** render (verified: the flagged version came out in one weight, no underline,
+no highlight). Spans must be **contiguous over every character, spaces and punctuation
+included** — the renderer drops any character no span covers, so skipping the spaces renders
+"BolditaliccolourSIZE" with the tail of the sentence gone.
 ```json
 { "type": "text", "text": "Bold, italic, colour & SIZE - one block, many styles.",
   "font": "./font.ttf", "size": 58, "color": "#cfd6e6", "box": [120,250,1040,280], "align": "center middle", "leading": 1.3, "shrink": true,
@@ -576,11 +580,10 @@ recipe that skips the spaces renders "BolditaliccolourSIZE" with the tail of the
   ],
   "animate": { "opacity": [{"t":0,"v":0},{"t":0.6,"v":1,"ease":"outCubic"}] } }
 ```
-*(0+6+8+9+7+23 = 53 = the string length — no gaps. Underline, if the brief wants one: a thin `solid` under the span.
-Highlight: a `solid` behind the text layer.)*
+*(0+6+8+9+7+23 = 53 = the string length — no gaps.)*
 
 ### Easing comparison — one ease per row
-Build one row per ease so you can feel the difference side-by-side.
+One row per ease, so you can feel the difference side-by-side.
 ```json
 { "type": "solid", "color": "#a855f7", "box": [360,126,30,30], "mask": { "ellipse": [375,141,15,15] },
   "animate": { "position": [{"t":0.6,"v":[0,0],"ease":"outBounce"},{"t":2.6,"v":[820,0]}] } }
@@ -589,22 +592,22 @@ Build one row per ease so you can feel the difference side-by-side.
 
 ## 7. Data viz
 
-Rule: **author at the full/canonical state and animate the reveal** — a mask wipe in the growth direction. The number/shape carries the data; the animation only presents it (so it works when the API swaps in a different value).
+Rule: **author at the full/canonical state and animate the reveal** — a mask wipe in the growth direction. The number/shape carries the data; the animation only presents it, so it survives the API swapping in a different value.
 
 > ⚠️ **Personalised charts must be IMAGE layers, not these shapes.** The recipes below draw
 > charts/rings from native solids + masks — perfect for **static** data. But Idomoo replaces
-> media **by layer name**, so anything that changes per viewer (a donut of *their* savings, a
-> progress wheel of *their* completion) must be an `image` layer pointing at a **file that
-> actually exists** — generate it with `strata generate image` and give it a unique name.
-> A native-shape ring has nothing to swap, so every viewer sees the same numbers. Keep the
-> reveal animation (mask wipe / scale / opacity) — it still works on the replaced image.
+> media **by layer name**, so anything that changes per viewer (a donut of *their* savings)
+> must be an `image` layer pointing at a **file that actually exists** — generate it with
+> `strata generate image` and give it a unique name. A native-shape ring has nothing to swap,
+> so every viewer sees the same numbers. Keep the reveal animation (mask wipe / scale /
+> opacity) — it still works on the replaced image.
 > See [personalization.md](personalization.md).
 
 ### Count-up number — NATIVE, and safe for personalization (VERIFIED by render)
 The text animator's **`character_offset`** shifts every selected digit by N, **wrapping
 modulo 10** — so animating it **`0 → 10·k`** spins each digit k full turns and lands
-**exactly on the layer's own text**. That is what makes it personalization-safe: whatever
-value the API substitutes, the roll ends on it. Measured: `2400` with offset 0→20 showed
+**exactly on the layer's own text** — personalization-safe, because the roll ends on
+whatever value the API substitutes. Measured: `2400` with offset 0→20 showed
 `8066`, `1399`, … and ended on `2400`.
 ```json
 { "type": "text", "name": "kpi_value", "text": "2400", "font": "./font-bold.ttf", "size": 160, "color": "#fff",
@@ -623,18 +626,18 @@ Rules, each one measured:
 - **The final keyframe must be an exact multiple of 10**, or it lands on the wrong number.
 - **Digits only in the animated layer.** `case_and_digits` does **not** protect symbols here:
   `$1,280` rolled through `=6_735`, `{6%35` and ended on `"1*280`. Put currency, commas and
-  units in a **separate** text layer beside the digits.
+  units in a **separate** text layer.
 - **Never go negative** — a negative offset does not wrap, the glyph simply disappears.
 - `linear` / `outCubic` read as a roll; `outExpo` hits the end value in a few frames and then
-  sits — fine for a "snap to the number" but it is not a count.
+  sits — fine for a "snap to the number", but not a count.
 - **`character_value`** (with `character_range: full_unicode`) replaces each selected glyph
-  with a codepoint — animate 48→57 and an `A` becomes `0`…`9`. That is the scramble / decode
-  reveal: run it over the string, then let the real text show.
+  with a codepoint — animate 48→57 and an `A` becomes `0`…`9`: the scramble / decode reveal.
+  Run it over the string, then let the real text show.
 For a rolling **strip** (digits physically sliding) build the nested-comp odometer in
-video-styles.md instead; for a plain numeric count this animator is simpler and cheaper.
+video-styles.md; for a plain numeric count this animator is simpler and cheaper.
 
 ### Bar chart (mask wipe L→R)
-The bar solid is full width; a rect mask animates its width from 0 to full so it "grows".
+The bar solid is full width; a rect mask grows its width from 0 to full.
 ```json
 { "type": "solid", "name": "bar_a", "color": "#4cc9f0", "box": [120,300,700,48],
   "mask": { "rect": [120,300,0,48], "animate": { "shape": [ {"t":0,"v":{"rect":[120,300,0,48]}}, {"t":1,"v":{"rect":[120,300,560,48]},"ease":"outCubic"} ] } } }
@@ -659,7 +662,7 @@ A track solid + a fill solid whose width is masked open.
 ```
 
 ### Line-chart draw (path mask sweep)
-Draw a line by sweeping a rectangular mask across a pre-drawn line image/solid path.
+Sweep a rectangular mask across a pre-drawn line image/solid path.
 ```json
 { "type": "image", "name": "line_plot", "src": "./line.png", "box": [120,140,1040,440], "fit": "fit",
   "mask": { "rect": [120,140,0,440], "animate": { "shape": [ {"t":0,"v":{"rect":[120,140,0,440]}}, {"t":1.6,"v":{"rect":[120,140,1040,440]},"ease":"inOutSine"} ] } } }
@@ -669,7 +672,7 @@ Draw a line by sweeping a rectangular mask across a pre-drawn line image/solid p
 Give layers different z and drift the camera. **Far = POSITIVE z** (smaller), **near = negative
 z** (bigger); camera at `−focal` so z=0 is true size. Sizes follow `scale = focal/(z − z_cam)`
 (format.md, Camera) — so the bg at z=+400 with the camera at −623 renders at 623/1023 = 0.61×
-and must be oversized by 1/0.61 ≈ 1.65× to still fill the frame.
+and must be oversized by 1/0.61 ≈ 1.65× to fill the frame.
 ```json
 { "type": "camera", "name": "cam", "fov": 60, "animate": { "position": [ {"t":0,"v":[640,360,-623],"ease":"inOutSine"}, {"t":4,"v":[700,360,-560]} ] } },
 { "type": "image", "name": "bg_far",  "src": "./bg.jpg",  "box": [-420,-240,2120,1200], "is_3d": true, "position": [0,0,400] },
@@ -682,10 +685,6 @@ Draw order is still layer order, not z.)*
 
 ---
 
-Compose these, time them to the audio, keep one easing family per piece, and exit everything you enter.
-
----
-
 ## 8. Tracking — put text ON a surface, or make an element FOLLOW a subject
 
 `strata track` analyses footage and writes keyframes. Two modes, one command:
@@ -695,24 +694,22 @@ strata track shot.mp4 --comp 400x400          # SURFACE -> a corner_pin effect
 strata track shot.mp4 --point 640,355         # ELEMENT -> position keyframes
 ```
 
-**⚠️ This command is the ONLY way to track — NEVER track by hand.** Do not extract a few
-frames, eyeball the subject's position and interpolate keyframes yourself, and do not
-write a one-off tracker script: a hand-track drifts and jitters between the guessed
-points and the graphic reads pasted-on, every time. `strata track` measures **every**
-frame and smooths the path. If it reports a weak match (surface face-on score < ~0.45,
-point match < ~0.4), the fix is the **footage** — re-prompt/constrain the shot per
-"Generate the footage TO FIT the effect" below — never a manual fallback.
+**⚠️ This command is the ONLY way to track — NEVER track by hand.** Do not eyeball a few
+frames and interpolate keyframes, and do not write a one-off tracker script: a hand-track
+drifts and jitters between the guessed points and the graphic reads pasted-on, every time. `strata track` measures **every** frame and smooths the path. If it reports a
+weak match (surface face-on score < ~0.45, point match < ~0.4), the fix is the **footage** —
+re-prompt the shot per "Generate the footage TO FIT the effect" below — never a manual fallback.
 
 ### When to use it
 - **Surface mode** — the user wants text/a logo **on** a sign, screen, poster, billboard,
-  phone, wall or box, sitting in the scene with correct perspective. Also offer it
-  unprompted when their footage contains an obvious flat surface: *"want the headline
-  painted onto that sign?"*
+  phone or wall, sitting in the scene with correct perspective. Offer it unprompted when
+  their footage contains an obvious flat surface: *"want the headline painted onto that
+  sign?"*
 - **Point mode** — a label, callout, price tag, arrow or badge that **follows** a moving
-  subject (a plane, car, player, product). Offer it when footage has one clear subject.
+  subject (a plane, car, product). Offer it when footage has one clear subject.
 
 ### Surface mode — output and use
-Writes `{ effect: {...} }`. Paste that straight into a layer's `effects`:
+Writes `{ effect: {...} }` — paste it straight into a layer's `effects`:
 ```json
 "comps": { "face": { "width":400, "height":400, "layers":[
    { "type":"text","name":"pin_l1","text":"FRESH","font":"./bold.ttf","size":110,
@@ -723,15 +720,15 @@ Writes `{ effect: {...} }`. Paste that straight into a layer's `effects`:
     "effects":[ <paste effect here> ] } ]
 ```
 - ⚠️ **Must be a `comp`** (or `solid`). Corner pin is silently ignored on `text` and makes
-  an `image` vanish — see format.md.
-- **`blend:"multiply"`** makes it read as printed on the surface (grain and shading show
-  through) instead of pasted on top.
-- The CLI reports **how face-on the surface stays**; below ~0.45 it warns, because the pin
+  an `image` vanish — format.md.
+- **`blend:"multiply"`** reads as printed on the surface (grain and shading show through)
+  rather than pasted on top.
+- The CLI reports **how face-on the surface stays**; below ~0.45 it warns — the pin
   degenerates and the content bleeds off the edge.
 
 ### Point mode — output and use
-Writes `{ animate: { position: [...] } }` as **offsets from the tracked start point**.
-So the follower's **`box` sets where the label sits**, and the animation carries it:
+Writes `{ animate: { position: [...] } }` as **offsets from the tracked start point**, so
+the follower's **`box` sets where the label sits** and the animation carries it:
 ```json
 { "type":"solid","name":"cal_bg","color":"#0b1020","box":[790,360,330,86],"opacity":0.72,
   "animate": { "position": <paste keyframes> } },
@@ -745,13 +742,13 @@ per-frame search radius (keep it just above the subject's speed — cost grows f
 The CLI prints a **weakest-match** score; below ~0.4 the track slipped.
 
 ### ⚠️ Generate the footage TO FIT the effect
-If the effect is chosen first and I'm also generating the clip, I design the image **and**
-the motion prompt around it — this is what decides whether the effect works at all.
+If the effect is chosen first and I'm generating the clip, I design the image **and** the
+motion prompt around it — that decides whether the effect works at all.
 
 **Surface (corner pin):**
 - *Image prompt:* a **large blank rectangular** sign/screen at a **three-quarter angle**,
   **plain flat face**, contrasting border/frame, occupying a **big part of the frame**,
-  sharp focus. A blank face is what makes detection reliable *and* leaves room for the text.
+  sharp focus. A blank face makes detection reliable *and* leaves room for the text.
 - *Motion prompt:* **slow lateral dolly**, gentle push-in/out, or small handheld parallax;
   *"the sign stays fully in frame"*, *"no cuts"*. **Never ask for an orbit, arc or 360** —
   measured: dolly tracked **144/144 frames**, an orbit dropped to **78%** and the text bled
@@ -760,8 +757,8 @@ the motion prompt around it — this is what decides whether the effect works at
 
 **Point (follow):**
 - *Image prompt:* one **clear, high-contrast subject on a simple background** (a plane
-  against sky, a car on an empty road). The subject needs **visible structure** — matching
-  works on texture, so a flat featureless blob won't hold.
+  against sky). The subject needs **visible structure** — matching works on texture, so a
+  flat featureless blob won't hold.
 - *Motion prompt:* state the **displacement explicitly** — *"travels from the left edge to
   the right edge of frame, camera completely still"*. ⚠️ Image-to-video models tend to
   **scale and rotate the subject instead of translating it**: in testing, clips asked to
@@ -769,4 +766,4 @@ the motion prompt around it — this is what decides whether the effect works at
   it barely moved.
 
 Whichever mode, **match the scene fps to the clip's**, and verify with `strata preview`
-or a `snapshot` before committing to a full render.
+or a `snapshot` before a full render.

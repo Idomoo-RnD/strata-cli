@@ -29,28 +29,20 @@
 - **Variable-length templates**: every timing is relative to beats, not absolute, so longer VO or longer names stretch gracefully.
 
 ## 2. Web and HTML-native motion
-- **Transform and opacity only**: animate translate, scale, rotate, and opacity; animating layout properties (width, top, margin) forces reflow and stutters.
-- **Compositor layers**: promote animated elements sparingly; too many layers cost memory.
-- **Frame budget**: 16.7 ms per frame at 60 fps; heavier work drops frames visibly.
-- **Filter cost**: large blurs and CSS filters are expensive; pre-render or limit their area.
-- **Clip-path and SVG paths**: cheap masks and draw-on strokes.
-- **Variable fonts**: animate weight and width without swapping font files.
-- **Deterministic timing**: drive animation from a timeline, not frame callbacks, so renders match previews.
-- **Text fitting**: auto-fit dynamic text before animating; test the longest and shortest values.
-- **Asset weight**: compress images, prefer SVG for shapes, lazy-load heavy layers.
-- **Rendering parity**: what the browser shows and what the renderer captures must match; check fonts, blend modes, and filters in the render path.
-- **Region and flex layouts**: define regions first, then let content flex inside them; it prevents overlap when values change.
+
+Only for a web deliverable — VASCO renders server-side and none of this applies to a scene here.
+Animate transform and opacity, never layout properties (width, top, margin), which force reflow;
+keep large blurs and filters small in area or pre-render them; the frame budget is 16.7 ms per
+frame at 60 fps. Drive animation from a timeline rather than frame callbacks so renders match
+previews, auto-fit dynamic text before animating it and test the longest and shortest values, and
+check fonts, blend modes and filters in the render path so browser and renderer agree.
 
 ## 3. Accessibility and safety
-- **Reduced motion**: provide a variant with fades instead of moves and no parallax; honor the OS preference in web contexts.
-- **Flash limits**: no more than three flashes per second; avoid large high-contrast flicker (photosensitivity).
-- **Motion sickness**: limit zooms, parallax, and rolling cameras in long pieces; keep the horizon stable.
-- **Contrast**: text at least 4.5:1 against its background through the whole move, not only at rest - and over footage that means a scrim matched to the plate's brightness ([blueprints.md](../blueprints.md)), not a fixed opacity.
-- **Minimum text size**: about 4% of frame height on mobile for body, 6%+ for headlines; larger for broadcast.
-- **Captions**: burned-in or sidecar; same motion rules as titles; never over the lower UI band on social.
-- **Color-blind safety**: don't encode meaning in red vs green alone; add shape or label.
-- **Cognitive load**: one moving idea at a time; pause on anything that must be understood.
-- **Localization**: plan 30% text expansion, RTL mirroring of directions and staggers, script-appropriate fonts.
+- **Reduced motion**: a variant with fades instead of moves and no parallax; honor the OS preference in web contexts.
+- **Flash limits**: no more than three flashes per second; avoid large high-contrast flicker (photosensitivity). **Motion sickness**: limit zooms, parallax and rolling cameras in long pieces; keep the horizon stable.
+- **Contrast**: text at least 4.5:1 against its background through the whole move, not only at rest - over footage that means a scrim matched to the plate's brightness ([blueprints.md](../blueprints.md)), not a fixed opacity. **Minimum text size**: about 4% of frame height on mobile for body, 6%+ for headlines; larger for broadcast.
+- **Captions**: burned-in or sidecar; same motion rules as titles; never over the lower UI band on social. **Color-blind safety**: never encode meaning in red vs green alone; add shape or label.
+- **Cognitive load**: one moving idea at a time; pause on anything that must be understood. **Localization**: plan 30% text expansion, RTL mirroring of directions and staggers, script-appropriate fonts.
 
 ## 4. QA checklist
 
@@ -59,55 +51,41 @@
 > checklist in [motion-design.md](../motion-design.md). The **shipping** gate is the Definition of
 > Done in SKILL.md. Run all three; passing one does not imply the others.
 
-- **Overlap and collision**: no text over text, no element crossing another unintentionally on any frame.
-- **Cut-off and overflow**: dynamic text fits at its longest; nothing clipped by the frame or a container.
-- **Orphans and widows**: no lone trailing words; adjust copy or box.
-- **Popping**: nothing appears or disappears without an intro or outro (unless a deliberate cut-in on a beat).
-- **Jitter and shimmer**: no slow sub-pixel drifts on small text or thin lines.
-- **Easing consistency**: one easing system; flag any linear move that isn't a loop or a mechanical element.
-- **Anchor points**: scales and rotations pivot from the right place.
-- **Z-order flips**: stacking never changes without a reason.
-- **Timing sync**: text lands on VO words, hits on sounds, cuts on beats.
-- **Read time**: every text element survives the read-it-twice rule.
-- **Settle quality**: no move ends abruptly; the last 20-30% decelerates.
-- **Exit hygiene**: the frame is clean before the next hero arrives.
-- **Loop seams, first frame, last frame**: checked at 1x and frame-stepped.
-- **Safe areas and overlays**: nothing important under platform UI.
-- **Color and banding**: gradients dithered; blacks not crushed by accident.
-- **Audio**: levels, ducking, sync, no clipping.
-- **Variables**: for data-driven video, test minimum, maximum, empty, and absurd values - the longest name and the biggest number are what break a template. This is core to every Idomoo piece: [personalization.md](../personalization.md), and batch-render the edge rows with `render --data`.
-- **Watch tests**: 1x for rhythm, frame-step for errors, muted for story, phone for hierarchy.
+No text over text and nothing crossing another element unintentionally on any frame · dynamic text
+fits at its longest, nothing clipped by the frame or a container · no orphan trailing words ·
+nothing appears or disappears without an intro or outro, unless it is a deliberate cut-in on a beat
+· no sub-pixel drift or shimmer on small text and thin lines · one easing system, and any linear
+move that is not a loop or a mechanical element is flagged · scales and rotations pivot from the
+right anchor · stacking never changes without a reason · text lands on VO words, hits on sounds,
+cuts on beats · every text element survives the read-it-twice rule · no move ends abruptly, the last
+20-30% decelerates · the frame is clean before the next hero arrives · loop seams and the first and
+last frames checked at 1x and frame-stepped · nothing important under platform UI · gradients
+dithered, blacks not crushed by accident · audio levels, ducking, sync and no clipping · **for
+data-driven video, test minimum, maximum, empty and absurd values** - the longest name and the
+biggest number are what break a template, which is core to every Idomoo piece
+([personalization.md](../personalization.md)), and batch-render the edge rows with `render --data` ·
+**watch tests**: 1x for rhythm, frame-step for errors, muted for story, phone for hierarchy.
 
 ## 5. Anti-patterns (the most common mistakes)
 
 > These are **motion** anti-patterns. The **composition** defaults an agent falls into - scrims, rules under titles, side bars, effect stacks, decorative structure, the no-brand palettes - live in [anti-slop.md](../anti-slop.md), which is mandatory and is the only place that list is maintained.
 
-- **Linear easing** on entrances and exits.
-- **Everything moving at once**: no focal point.
-- **Over-animation**: motion that decorates instead of communicates.
-- **Inconsistent easing or durations** between similar elements.
-- **Text that moves while it should be read.**
-- **Overshoot on body text or data.**
-- **Unmotivated camera moves** and wandering parallax.
-- **Transitions that upstage content.**
-- **Elements popping in** with no entrance.
-- **Exits slower than entrances.**
-- **Too many typefaces, sizes, or colors** in one frame.
-- **Ambiguous z-order** and elements sliding through each other.
-- **Ignoring the first and last frames.**
-- **Dead holds** that look frozen rather than resting.
-- **Sound as an afterthought**; motion designed without the track.
-- **Designing only 16:9** and cropping to 9:16.
-- **Gradient banding, sub-pixel shimmer, and jitter** left unchecked.
-- **Templates that break** on long names or large numbers.
-- **Scale-from-zero entrances** for everything; start at 0.9-0.95 unless zero is the story.
+Linear easing on entrances and exits · everything moving at once, so no focal point ·
+over-animation that decorates instead of communicates · inconsistent easing or durations between
+similar elements · text that moves while it should be read · overshoot on body text or data ·
+unmotivated camera moves and wandering parallax · transitions that upstage content · elements
+popping in with no entrance · exits slower than entrances · too many typefaces, sizes or colors in
+one frame · ambiguous z-order and elements sliding through each other · ignoring the first and last
+frames · **dead holds that look frozen rather than resting** · sound as an afterthought · designing
+only 16:9 and cropping to 9:16 · gradient banding, sub-pixel shimmer and jitter left unchecked ·
+templates that break on long names or large numbers · scale-from-zero entrances for everything
+(start at 0.9-0.95 unless zero is the story).
 
 ## 6. Default numbers (starting points; tune to the brief)
 
 > These are general-industry starting points. **Where [motion-design.md](../motion-design.md) states a number for the same thing, that one wins** - it was measured on this engine. Use these for the things it does not cover.
 
-- Entrance 400-600 ms; UI micro 100-200 ms; hero 800-1500 ms. **Exit duration: use the ratio in [motion-design.md](../motion-design.md)**, not a fixed ms figure.
-- Stagger between siblings: see [motion-design.md](../motion-design.md). Within a text block the useful split is characters 15-40 ms, words 60-120 ms, lines 100-200 ms - map these to a per-character animator, not to separate layers.
+- Entrance 400-600 ms; UI micro 100-200 ms; hero 800-1500 ms. **Exit duration and sibling stagger: use the ratios in [motion-design.md](../motion-design.md)**, not a fixed ms figure. Within a text block the useful split is characters 15-40 ms, words 60-120 ms, lines 100-200 ms - map these to a per-character animator, not to separate layers.
 - Overshoot 5-10%; spring damping 0.7-0.9 for subtle, about 0.5 for playful.
 - Parallax ratios: back layers 0.1-0.6 of the camera move, front layers 1.1-1.5 - the wider end reads as drama, the narrow end as depth. (Section 2 of [02-choreography-space-camera.md](02-choreography-space-camera.md) quotes 10-30% / 100-150%; treat both as the same range expressed differently and pick one per project.)
 - Counter 1-2 s ease-out; progress fill 600-1200 ms.

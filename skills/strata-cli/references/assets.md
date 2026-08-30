@@ -89,22 +89,19 @@ is **image 0**, the 2nd **image 1**, etc. Cite the index in the prompt text:
 - *"using **image 0**'s art style, draw a dog"* — style transfer onto a new subject.
 - *"put the character from **image 1** into **image 0**'s scene"* — combine across references.
 
-References are passed in the **`images` array** of `generate-image` and cited **by index in
-the prompt**. (The API's separate `reference_image` param is *not* used — it routes to a
-different, sometimes-unpaid model.)
+References go in the **`images` array** of `generate-image`. (The API's separate
+`reference_image` param is *not* used — it routes to a different, sometimes-unpaid model.)
 
 **Verified behaviour (tested live):**
 - **Same person / character** — *"the same person as image 0, at a cafe with a laptop"*
   preserves her exact face, curly red hair and freckles in a brand-new pose and scene. Pass
-  the same reference into **every** image to keep a person, mascot, product or brand character
-  on-model across shots.
+  the same reference into **every** image to hold a character on-model across shots.
 - **Same art style** — *"in image 0's art style, draw a car"* transfers the reference's
   palette and linework to a different subject (a pastel thick-outline house → a matching car).
 - To draw a **new** subject rather than reproduce the reference's subject, say "image 0's
   **style/look**", not just "image 0".
 - **Multiple references compose** — pass several and combine them: *"the character from image 0
   in image 1's art style"*, *"image 0 and image 1 standing together"*.
-- Index maps to the `--reference` **order**: 1st `--reference` = image 0, 2nd = image 1.
 - Local **PNG/JPG/WebP** (auto-base64) and hosted URLs both work.
 
 Examples:
@@ -140,7 +137,7 @@ EXCLUSIVE** — the CLI rejects the combination before spending anything.
 | `--best` · `--model <id>` | the **standard** model instead of the default fast one (slower, but delivers every shot) · an explicit model id. Default is `dreamina-seedance-2-0-fast-260128`; `--best` is `dreamina-seedance-2-0-260128` — [video-generation.md](video-generation.md) |
 | `--resolution` | **clamped to 720p** — 720p is always the max |
 
-Reference the result as a `video` layer — and **ask for a clip at least as long as the slot it fills, plus about a second, then trim.** If the layer outlives its media the shot freezes on the last frame for the remainder (`playback_mode: "hold"`), and `loop` is worse: it visibly restarts. Neither is caught by `validate`, because the scene is structurally fine — the fix belongs here, at generation time ([video-generation.md](video-generation.md)).
+Reference the result as a `video` layer — and **ask for a clip at least as long as the slot it fills, plus about a second, then trim.** If the layer outlives its media the shot freezes on the last frame for the remainder (`playback_mode: "hold"`), and `loop` is worse: it visibly restarts. Neither is caught by `validate` — the fix belongs here, at generation time ([video-generation.md](video-generation.md)).
 
 ```bash
 strata generate image "hero shot" -o hero.png          # prints url:
@@ -154,9 +151,9 @@ shot-list structure, the identity lock, the `.jet` no-cuts rule, keyframes and c
 [video-generation-advanced.md](video-generation-advanced.md).
 
 ## `strata generate fastvideo <image> [flags]`  — the OLD image-to-video path
-Quick and cheap (~1–3 min), and **only for when fast mode is explicitly asked for**. It is a
-different, older endpoint — **not** a quality tier of `generate video`, which already runs on
-the fast Seedance model by default and is an unrelated thing.
+Quick and cheap (~1–3 min), and **only for when fast mode is explicitly asked for**. A
+different, older endpoint — **not** a quality tier of `generate video`, which already runs the
+fast Seedance model by default.
 
 Takes a hosted URL **or a local file path** (auto-base64), plus `--prompt "<motion>"`,
 `--duration`, `--ratio`. That is the whole surface: **an image is required** (no
@@ -186,8 +183,6 @@ model places each line against the picture and re-paces the delivery. The MP3 at
 seconds early and **no fixed offset fixes it**; you also get the voice twice. Details in
 [video-generation-advanced.md](video-generation-advanced.md).
 
-Pair the personalized value with the visual so it lands.
-
 ## `strata generate music "<prompt>" [--duration <sec>]`
 An instrumental track (default 30s). Reference as an `audio` layer at low `volume` with
 `ducking: true` so it sits under narration.
@@ -200,9 +195,7 @@ An instrumental track (default 30s). Reference as an `audio` layer at low `volum
 
 > **Upload only an asset we created ourselves that has no URL, and use the resulting URL
 > only as an input to `generate` (image/video/avatar) — nothing else.** (`strata captions`
-> uploads for itself when it must; that is the one other consumer, and it is inside the CLI.)
-
-Both halves are binding:
+> uploads for itself when it must — the one other consumer, inside the CLI.)
 
 - **What may be uploaded:** a file **we produced locally** (or one the user supplied) that
   **has no URL**. Never a generated asset — those already have one.
@@ -223,16 +216,14 @@ Upload only when **both** are true:
 2. it **has no URL** already.
 
 If it is not a generation input, it does not need a URL at all. **Scene assets are local
-paths** — images, MP4s, **`.jet` overlays**, fonts. The encoder reads their bytes at encode
-time and embeds them in the `.idm`, so a `.jet` from `matte`/`jet` is never uploaded; it is
-just a `src`.
+paths** — images, MP4s, **`.jet` overlays**, fonts — whose bytes the encoder embeds in the
+`.idm` at encode time, so a `.jet` from `matte`/`jet` is never uploaded; it is just a `src`.
 
 ### Most generation inputs already have a URL
 
 **Everything `strata generate` produces is already hosted and prints its URL.** Read it off
-the command's output and pass that string on. Uploading a generated file is always a
-mistake: it costs an extra request, and it creates a second, permanent, public copy of
-something that was already served.
+the output and pass that string on. Uploading a generated file is always a mistake: an extra
+request, and a second permanent public copy of something already served.
 
 ```
 ✅ saved C:\…\presenter.png
@@ -250,24 +241,22 @@ something that was already served.
 | Something **we built locally** and are using as a generation reference — a rendered animatic, an ffmpeg frame grab, a texture drawn by a script | ❌ | **yes** |
 | A `.jet`, or any other **scene asset** (`src`) | n/a — embedded in the `.idm` | **never** |
 
-The split is by **command**, not by luck — it is not "upload if the URL was missing":
+The split is by **command**, not by luck:
 
 | Returns a URL | Writes local files ONLY — never a URL |
 |---|---|
 | `generate image` · `video` · `avatar` · `narration` · `music` | `jet` · `matte` · `preview` · `compile` · `track` |
 | `render` (`video:` + `poster:`) | anything from ffmpeg or a throwaway script |
 
-Most of the right-hand column needs **no** URL, because its output is a scene asset that
-gets embedded (`jet`, `matte`, `compile`) or is local-only by nature (`preview`, `track`).
-They appear here only because *if* one of their outputs is later used as a generation
-reference, it will need uploading first.
+Most of the right-hand column needs **no** URL: its output is either a scene asset that gets
+embedded (`jet`, `matte`, `compile`) or local-only by nature (`preview`, `track`). It appears
+here only in case one of those outputs is later used as a generation reference.
 
-So the rule is: **capture the `url:` line when an asset is generated.** If a `generate`
-command did not print one, something failed — investigate, do not paper over it with an
-upload. Reach for `upload` only in the two cases that legitimately have no URL: **a file the
-user supplied**, or **something produced by a local-only command** (a `.jet` from `matte`, an
-ffmpeg frame grab or cut, a generated texture, a rendered animatic). Upload it once and reuse
-that URL.
+So: **capture the `url:` line when an asset is generated.** If a `generate` command did not
+print one, something failed — investigate, do not paper over it with an upload. Reach for
+`upload` only in the two cases that legitimately have no URL — **a file the user supplied**,
+or **something produced by a local-only command** (a `.jet` from `matte`, an ffmpeg frame
+grab or cut, a generated texture, a rendered animatic) — then reuse that URL.
 
 ### 🛑 TEMPORARY assets only — never persistent ones
 
@@ -279,26 +268,26 @@ project's files live.
 
 - **Scene assets — including every `.jet`.** A scene's `src` points at a **local file on
   disk**; the encoder reads the bytes at encode time and embeds them in the `.idm`. A `.jet`
-  alpha overlay, an MP4 background, a PNG, a font: all local, all embedded. Uploading them
-  and pointing `src` at a URL is wrong and gains nothing.
+  alpha overlay, an MP4 background, a PNG, a font: all local, all embedded. Pointing `src` at
+  a URL instead is wrong and gains nothing.
 - **Deliverables** — finished MP4s, posters, anything the user is meant to keep. Those live
   in the project folder (and rendered videos are already hosted by `render`).
 - **Brand assets** — a logo, a `.brand/` file, a font. Those belong in the repo.
 - **Anything long-lived or referenced later.** Treat every uploaded URL as throwaway: good
   for this API call, not something to build on.
 
-The irony is the point: the store itself is permanent and undeletable (below), so the
-discipline has to be yours. **Temporary use, permanent consequence** — upload the minimum,
-once, and only to feed a call that demands a URL.
+The store itself is permanent and undeletable (below), so the discipline has to be yours.
+**Temporary use, permanent consequence** — upload the minimum, once, and only to feed a call
+that demands a URL.
 
 ### When a URL is actually required
 
-Some endpoints take **only** a URL and reject base64 data-URIs — `generate avatar`'s image
-is the one in this CLI today, and **`generate video`'s media inputs** (`--first-frame`,
-`--last-frame`, `--ref-*`) are the other. `generate image --reference` and `generate
-fastvideo` do **not** need a URL at all — they accept a local path and encode it themselves,
-so never upload for their sake. And never upload for `generate video` either when the input
-came from a `generate`/`render` command: that already printed a `url:` — use it.
+Some endpoints take **only** a URL and reject base64 data-URIs: `generate avatar`'s image,
+and **`generate video`'s media inputs** (`--first-frame`, `--last-frame`, `--ref-*`).
+`generate image --reference` and `generate fastvideo` do **not** need a URL at all — they
+accept a local path and encode it themselves, so never upload for their sake. Nor for
+`generate video` when the input came from a `generate`/`render` command: that already printed
+a `url:` — use it.
 
 ```bash
 strata upload footage_the_client_sent.mp4
@@ -309,11 +298,11 @@ strata upload footage_the_client_sent.mp4
 ### ⚠ Public and permanent — which is why it is for temp use only
 
 The endpoint is unauthenticated, the object is `public-read`, and there is **no expiry and
-no delete**. Anything uploaded is world-readable forever — there is no way to take it back.
-Every needless upload is a permanent public artefact, so the bar is: *this call will not
-work without it.* **Never upload anything private,
-personal or client-confidential** — and never a viewer's personalized data. Say so when
-offering it; do not upload a user's file without asking.
+no delete**: anything uploaded is world-readable forever, with no way to take it back. Every
+needless upload is a permanent public artefact, so the bar is *this call will not work
+without it.* **Never upload anything private, personal or client-confidential** — and never a
+viewer's personalized data. Say so when offering it; do not upload a user's file without
+asking.
 
 ### The extension must match the bytes
 
@@ -419,7 +408,7 @@ cylinder/ellipse is usually enough).
 **Why it is more robust than any key:** outside the mask, both layers are the *identical*
 pixels — so a wrong mask edge is invisible. The edge only matters where the text actually
 passes behind the subject. That inverts the usual advice: **a generous, sloppy mask beats a
-tight one**, and it costs nothing to oversize it.
+tight one**.
 
 Use it when the subject is hard to key (frosted glass, warm-on-warm, a gold cap against a
 brown seamless) or when `matte` refuses because there is no person in frame. Its one limit:
@@ -454,8 +443,8 @@ on the CPU. On a 144-frame 1280×720 clip:
 
 **6.6× faster and 3× smaller** — so unless the subject fills the frame at full res, pass
 `--width 640` (or 720). An overlay is composited over a busy scene and usually scaled
-down anyway, so the resolution is rarely doing any work. This is the reliable lever: it
-shrinks every stage (decode → net → jet encode) and behaves the same on any machine.
+down anyway, so the resolution is rarely doing any work. It shrinks every stage
+(decode → net → jet encode) and behaves the same on any machine.
 
 `--threads N|auto` also exists (default **1**). Measured on a 32-core box it burns ~8× the
 CPU for an erratic wall-clock win — sometimes a loss — so it is opt-in, not default;
@@ -500,9 +489,6 @@ barely moved (centre drifted ~35px over 80 frames), and the "flight" was then fa
 translating the cut-out `position: [-260,380] -> [1540,265]`. On screen that reads as a
 paper plane sliding across the picture — no parallax, no perspective change, no banking.
 
-Compare the beach example above: the woman's walk is *inside* the matted clip, the layer
-never moves, and it looks filmed.
-
 **Image-to-video models frequently hover the subject rather than translate it.** After
 generating, verify it actually travelled — compare the subject between the first and last
 frames, or run `strata track --point x,y` and read the reported travel. If it barely moved,
@@ -511,8 +497,8 @@ the right edge, camera static"); never compensate by animating the layer.
 
 ### Text BEHIND the subject — the SAME clip, used twice
 
-**This is the single easiest thing to get wrong, so the rule is absolute: the background
-plate and the matted overlay must be THE SAME CLIP.** The subject is cut out of the very
+**The rule is absolute: the background plate and the matted overlay must be THE SAME
+CLIP.** The subject is cut out of the very
 frames it is sitting in, so it lines up perfectly and the text slides between the two
 copies.
 
@@ -535,11 +521,10 @@ Both video layers are **full frame at the same box**, and the `.jet` layer gets 
 ❌ **The failure to avoid: matting clip A and laying it over clip B.** That is not this
 effect — it is just an overlay of one video on another, the subject will not line up with
 anything behind it, and the "behind" illusion never happens. If the two `src` values are
-different clips, it is wrong. Same clip in, same clip matted, text in between.
+different clips, it is wrong.
 
 *(Layering an unrelated subject over a different background — a mascot, a logo sting, a
-product cut-out — is a perfectly good separate technique. It just is not "text behind the
-subject", and should not be confused with it.)*
+product cut-out — is a fine separate technique; it just is not this effect.)*
 
 **Judgement:** matting is excellent on clear subjects, decent edges, and is temporally
 stable (it's a video model, so edges don't crawl). For hero shots with fine flyaway hair or

@@ -2,14 +2,13 @@
 
 > ⛔ **A brand document overrides every style named here.** If `.brand/brand.md` exists it wins -
 > palette, typeface, type ramp, radii, shadows, motion language, pacing - always, silently, without
-> asking. A style contributes **structure and technique**; the brand owns the **atoms**.
-> See [brand.md](../brand.md).
+> asking. A style contributes **structure and technique**; the brand owns the **atoms**
+> ([brand.md](../brand.md)).
 >
-> **This file is the BREADTH index: one line per style, the look plus its signature motion cue.**
-> For the styles we have actually built and rendered, [video-styles.md](../video-styles.md) carries
-> the deep entry - shot grammar, cut rhythm and the measured tells. **Route here first to name the
-> look, then use that file to execute it**; only fall back to the one-liner below when it has no
-> deep entry. Neighbouring entries here are the place to borrow cues from.
+> **This is the BREADTH index: one line per style, the look plus its signature motion cue.** For the
+> styles we have built and rendered, [video-styles.md](../video-styles.md) carries the deep entry -
+> shot grammar, cut rhythm, measured tells. **Name the look here, then execute it there**; fall back
+> to the one-liner only where there is no deep entry, and borrow cues from neighbouring entries.
 
 ## Contents
 

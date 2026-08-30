@@ -31,15 +31,12 @@ Run these first; each one turns the request into a different job.
   [production bible](production-bible.md) before the first clip: one sheet and one canonical
   identity block per principal, reused byte-identical in every prompt.
 - **A · Layout and motion not dictated?** Then four references do most of the work of making the
-  piece *designed* rather than assembled: [anti-slop.md](anti-slop.md) (the defaults agent frames
-  fall into, and the test that catches them), [layouts.md](layouts.md) (the named frame layout and
-  the grid), [video-layouts.md](video-layouts.md) (video as a design element — footage in shapes,
-  type-as-window, split-screen, tracked graphics, subject cut-outs) and
-  [motion-design.md](motion-design.md) (custom easing, overshoot, offset/stagger, designed
-  transitions, camera — what makes motion read as After Effects rather than web animation). Without
-  them the default is a flat fade-and-slide slideshow, which is the failure this skill exists to
-  prevent. Pick a named layout, apply the motion techniques, and run the "web-animation tells"
-  checklist before shipping.
+  piece *designed* rather than assembled: [anti-slop.md](anti-slop.md),
+  [layouts.md](layouts.md), [video-layouts.md](video-layouts.md) and
+  [motion-design.md](motion-design.md). Without them the default is a flat fade-and-slide
+  slideshow at the middle of every range, which is the failure this skill exists to prevent. Pick
+  a named layout, apply the motion techniques, and run the "web-animation tells" checklist before
+  shipping.
 - **B · An edit, not a design job?** Footage handed over to cut, trim, join, crop/reframe, speed
   up, loop, mute or swap audio is mechanical: do it with ffmpeg per
   [video-editing.md](video-editing.md) and hand back an MP4 — no scene. Titles are text layers, so
@@ -63,14 +60,10 @@ Run these first; each one turns the request into a different job.
 
 ## Routing — which references matter for this brief
 
-`strata route "<the brief in a sentence>"` maps the brief's kind (TV ad, promo, explainer,
-personalized, presenter, supplied storyboard, edit, brand, Figma…) to the reference files written
-for that job — including the `editorial/` and `motion/` chapters — so the read list is a command
-output rather than a table to interpret. The same map is the *What to read for this brief* section in
-`SKILL.md`. Route a second time once the concept exists: a short brief cannot say "kinetic type",
-"music-led" or "thriller", but the direction chosen for it can, so re-run `strata route` on the
-brief plus the chosen direction before scene JSON and read whatever is new. (*Measured:* a "super
-AAA motion design" brief routed to *premium* only; the piece then became type-led and
+`strata route "<the brief in a sentence>"` prints the read list; the same map is *What to read for
+this brief* in `SKILL.md`. Run `strata route` a **second** time once the concept exists — a short brief cannot
+say "kinetic type", "music-led" or "thriller", but the direction chosen for it can. (*Measured:* a
+"super AAA motion design" brief routed to *premium* only; the piece then became type-led and
 `motion/03-typography.md` was never opened — the premium row now includes it, since premium
 pieces are so often carried by one word.)
 
@@ -94,16 +87,14 @@ plates, TTS, music), then every clip whose inputs exist, then only continuations
 scene while they render; a 10-scene piece is ~10 min in waves, ~60 serially
 ([assets.md](assets.md)). Parallel renders — and parallel `snapshot`s — need unique scene filenames: two jobs on one file collide in the exporter (error 3000).
 
-For each visual element decide: (a) is there a file, or should it be generated; (b) is it a
-background/full-frame plate, or an element that sits *over* other layers? Anything composited over
-another layer (plane, mascot, product cut-out, logo sting, person) needs alpha, so it must be a
-`.jet` — a format fact, not a style choice, and it applies only when a layer really does sit over
-another. A full-frame background, or footage that nothing overlaps, stays an ordinary MP4: `matte`
-is the slowest step in the pipeline and `.jet` is lossy, so a subject with nothing to composite
-against is not cut out (`strata matte clip.mp4` for ordinary footage, or generate it on a green
-screen and `strata jet --method chroma`); an `.mp4` used as an overlay arrives as an opaque
-rectangle. And (c) every image becomes a video unless it is an icon or logo. Ask about narration
-and music too. Text layers need a real `.ttf`/`.otf`.
+For each visual element decide: (a) is there a file, or should it be generated; (b) does it sit
+*over* another layer? Anything composited over another layer (plane, mascot, product cut-out, logo
+sting, person) needs alpha and must be a `.jet` — a format fact, not a style choice. A full-frame
+plate, or footage nothing overlaps, stays an ordinary MP4: `matte` is the slowest step in the
+pipeline and `.jet` is lossy, so nothing is cut out that has nothing to composite against
+(`strata matte clip.mp4`, or generate on green and `strata jet --method chroma`); an `.mp4` used as
+an overlay arrives as an opaque rectangle. And (c) every image becomes a video unless it is an icon
+or logo. Ask about narration and music too. Text layers need a real `.ttf`/`.otf`.
 
 ## 2. Storyboard and sign-off
 
@@ -122,7 +113,14 @@ the turn only when the deliverable exists or a real blocker needs the user.
 Apply the craft ([craft.md](craft.md)) to plan the piece. A storyboard that lets the user actually
 decide has:
 
-- **Title** and a one-line **style** (palette, motion feel, type).
+- **Title**, a one-line **style** (palette, motion feel, type, where the light comes from), and
+  **the four numbers** — the shot-length range (the shortest cut and the longest hold, each named
+  with the job that earns it, and the hold also with what keeps moving through it), motion energy, stillness ratio, and loudness as an integrated LUFS
+  target for where the piece will play plus the gap between its loudest and quietest beat
+  ([music.md](music.md), *Decide the mix*) — with the reference row they sit near and the one line
+  of *this* brief that puts them there (SKILL.md, *Place the piece on the range*). Written before
+  the shot list, because the shot list is derived from them, and decided here rather than inherited
+  from whatever the bed generated at.
 - **For premium work** (AAA, cinematic, broadcast, launch film, hero animation — or when the brief
   says "premium"): directions that differ in kind, styleframes for the hook, the hero moment and the
   end card, and a motion bible when the piece is big enough to need one. What stays still is decided
@@ -131,25 +129,25 @@ decide has:
   and the information-release plan (what the viewer knows before, during, after each beat) — from
   [editing-director.md](editing-director.md). One dominant mode, a modifier or two; a generic fast
   montage is what a piece becomes when nobody chose.
-- A **shot list** — `Time | Visual / Motion | Voiceover | Sound` — one row per shot (~2–4 s),
-  covering the full duration.
+- A **shot list** — `Time | Visual / Motion | Voiceover | Sound` — covering the full duration,
+  **one row per beat with the length that beat's job needs** — the mean falls out of the rows, it
+  does not generate them. Mark the declared hold — naming the motion that carries it, not just its length — and the declared
+  flashes, and read the durations
+  column before any JSON: rows all within a whisker of each other are one speed, whatever the mean.
 - **A layout sketch for the key frames** — a small ASCII wireframe showing where things sit, named
   from [layouts.md](layouts.md) (`hero-center`, `split-media-left`, `three-up`, `stat-hero`,
   `title-over-media`…). A shot list says what happens; only the sketch says what it will look like,
   so the user can move the logo or resize the stat for free, before any JSON.
 - **End frame** (logo/CTA text) and **motion notes** — transition timing ~300–500 ms, transform-based
-  (scale/position/opacity/masks), the intended feel, one dominant motion idea per shot, the
-  transition families in play, and the job of every move.
+  (scale/position/opacity/masks), the intended feel, how many motion ideas run per shot and how
+  many transition families are in play (both scale with the declared energy —
+  [craft.md](craft.md)), and the job of every move.
 
-When the framing could go more than one way, offer 2–3 layout options as side-by-side wireframes
-and let the user pick — people recognise the layout they want far better than they can describe
-it. Ask once, up front: "want me to show layout preview grids as I go?" — if yes, run
-`strata preview … --grid` at each key frame and show it before moving on.
-
-Whenever a layout is shown — wireframe, options, or a `preview` grid — ask in the same breath
-whether the user wants to lay it out themselves in `strata studio` (a local browser designer that
-writes a `*.guide.json` to author from). Launch it only on a yes, at the piece's real canvas:
-[layouts.md](layouts.md), *Hand the layout to the user*.
+When the framing could go more than one way, offer 2–3 layout options as side-by-side wireframes —
+people recognise the layout they want far better than they can describe it. Ask once, up front,
+whether to show `strata preview … --grid` at each key frame as you go. Whenever a layout is shown,
+offer `strata studio` in the same breath (a local browser designer writing a `*.guide.json` to
+author from); launch it only on a yes: [layouts.md](layouts.md), *Hand the layout to the user*.
 
 ## 2½. Style
 
@@ -188,11 +186,10 @@ has failed on a markdown storyboard in the same way (*measured*).
 ## 4. Preview
 
 Preview the layout locally before spending any render. `strata preview scene.json --at <sec>
---grid` draws a free, instant wireframe (every layer's box, the 12-column grid, title-safe and
-bottom safe line, thirds/centre). Look at it and fix the composition — balance (no dead third),
-alignment to the grid, one clear focal point, no overlaps, CTA on the safe line — and re-preview
+--grid` draws a free, instant wireframe (every box, the 12-column grid, title-safe and bottom safe
+line, thirds/centre). Fix the composition against [layouts.md](layouts.md)'s rules and re-preview
 each key shot (`--at`) until it reads right. This is where design gets fixed; renders are for
-confirming, not discovering. If the user asked for preview grids, show each one.
+confirming, not discovering.
 
 Preview draws boxes, not glyphs, so it cannot show where text sits *inside* its box — and vertical
 text anchors to the box bottom (`align "… top"` is not honoured; verified). Compute vertical
@@ -206,36 +203,33 @@ throwaway probe scene (which also litters the user's library).
 `strata validate scene.json` is free and offline: it names any bad key or layer, warns about the
 known exporter traps, flags composition tells (scrims under text, rules under titles, side bars,
 list markers, effect stacks — each naming its [anti-slop.md](anti-slop.md) pattern; fix them or say
-why the brief earns them), and with `--data rows.json` runs the localisation guard: per-row
-auto-fit shrink and per-row glyph coverage. Then `strata compile scene.json -o out.idm`.
+why the brief earns them, and check the scrim warning's two layers are ever on screen together),
+and with `--data rows.json` runs the localisation guard: per-row auto-fit shrink and per-row glyph
+coverage. Then `strata compile scene.json -o out.idm`.
 
 **Version the filename on every new cut — never overwrite the scene just rendered.** The scene's
 filename is what the user sees in their Idomoo library (the upload is named `basename(<scene>)`),
-and the MP4 takes its name from it too. Each round of edits gets its own file: `promo_v1.json` →
-`promo_v2.json` → `promo_final.json` (`_v3`, `_rc`, `_15s`, `_9x16` — whatever names the change).
-Keep the descriptive stem and add the version so the library sorts them together:
-`spring_sale_v1`, `spring_sale_v2`. Overwriting fills the library with identical names the user
-cannot tell apart, clobbers the previous MP4, and removes the way back to a cut they preferred.
-State the new filename when reporting a render.
+and the MP4 takes its name from it too. Keep the descriptive stem and add the version so the
+library sorts them together: `spring_sale_v1` → `spring_sale_v2` → `spring_sale_final` (`_rc`,
+`_15s`, `_9x16` — whatever names the change). Overwriting clobbers the previous MP4 and removes
+the way back to a cut the user preferred. State the new filename when reporting a render.
 
 **Version history is automatic — use it.** Every `compile`/`render` snapshots the scene into
-`.strata/versions/` beside it (unchanged content makes no new version), and every `.idm` produced
-carries an embedded version stamp (`strata.meta` — version, parent, scene hash; survives the Idomoo
-exporter, `strata inspect` prints it). So: (a) when the user asks to redo, iterate or "go back",
-run `strata versions <scene>` and name the version being continued from ("continuing from v4");
-(b) to restore one: `strata revert <scene> --to N` — the current state is snapshotted first, so
-revert never loses anything (with `-o other.json` it branches instead); (c) when handed a bare
-`.idm`, `strata inspect` tells exactly which version it is and what it descended from. A previous
-cut is never gone — check `strata versions` before telling a user an earlier version is
-unrecoverable. Details: [format.md](format.md).
+`.strata/versions/` beside it (unchanged content makes no new version), and every `.idm` carries an
+embedded version stamp (`strata.meta` — version, parent, scene hash; survives the Idomoo exporter,
+`strata inspect` prints it). So: on "redo / go back", run `strata versions <scene>` and name the
+version being continued from; to restore one, `strata revert <scene> --to N` snapshots the current
+state first, so revert never loses anything (`-o other.json` branches instead); and a bare `.idm`
+tells `strata inspect` which version it is and what it descended from. A previous cut is never gone
+— check `strata versions` before telling a user otherwise. Details: [format.md](format.md).
 
 ## 6. Render
 
 `strata render scene.json --library "<id>" -o out.mp4`.
 
 - **Library — ask before the first render, never pick one.** Renders land in the user's Idomoo
-  workspace and stay there. Run `strata library list`, offer reuse or create (`library create` is
-  get-or-create), persist the printed id, and pass that same `--library <id>` every time. `render`
+  workspace and stay there: run `strata library list`, offer reuse or create (`library create` is
+  get-or-create), persist the printed id, pass that same `--library <id>` every time. `render`
   refuses to guess: [commands.md](commands.md), *Libraries — ask, never pick*.
 - Renders take minutes — run them in the background and report the `video_url`/`poster_url`.
 - Only if the user asks for the scene to be **tagged** (a reusable template / catalog entry, not a
@@ -254,20 +248,21 @@ is the check *before* the render; after the first render, review the MP4 itself,
 strata review out.mp4 --scene scene.json [--reference ref.mp4] -o review/
 ```
 
-It detects cuts, writes a contact sheet, frames ±3 around every cut and at every settle, freeze
-frames, loudness, motion energy per shot, and a `report.md` with timecodes. Open the contact sheet
-and the report, watch the MP4 (with sound, and at phone size — `contact_phone.png` is the
-stricter proxy), and fix every must-fix it names, citing the timecode. review.md holds the critic's
-vocabulary — art direction, hierarchy, weight and easing, typography, editing, compositing, sound,
-originality, brand fidelity — for naming what is wrong. Compiling, validating, or using advanced
-features (3D, camera, `.jet`, occlusion) is never itself a reason to approve. When references
-exist, compare the render against their measured traits (`strata deconstruct`).
+It detects cuts, writes a contact sheet, frames ±3 around every cut and settle, freezes, loudness,
+motion energy per shot, and a timecoded `report.md`. Open it, watch the MP4 the four ways
+[review.md](review.md) names, put the measured tokens beside the four declared numbers, and fix
+every must-fix, citing the timecode. Compiling, validating, or using advanced features (3D,
+camera, `.jet`, occlusion) is never itself a reason to approve.
 
 Debug with `--vasco` or `strata inspect out.idm`.
 
 ## Definition of Done
 
 - The message lands in the first 3 seconds, every shot earns its place, and every move has a job.
+- **The render's measured shot-length range (`shortest`, `longest`, `rhythmRegularity`), energy,
+  stillness and loudness match the four declared numbers**, or the report says which one moved and
+  why. A piece that drifted back to the middle is not done, and neither is one that hit its average
+  by cutting every shot at it.
 - Text legible muted and inside the safe area — by placement, panel or grade, not by a scrim
   patched under it.
 - `validate` is clean, or each warning is justified in the report.

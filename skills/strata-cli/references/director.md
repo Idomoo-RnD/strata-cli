@@ -1,10 +1,9 @@
 # Director — the creative-direction pass for premium work
 
 **When:** the brief says AAA, premium, cinematic, broadcast, launch film, hero animation — or the
-client is one whose work is judged against agency motion design. **Before any scene JSON**, after
-intake and the brand check, alongside the storyboard (SKILL.md step 2). For ordinary pieces the
-storyboard's *Style* line and motion notes are enough; this pass is the extra rigour premium work
-earns, and it costs an hour of thinking, not a render.
+client's work is judged against agency motion design. **Before any scene JSON**, alongside the
+storyboard (SKILL.md step 2). Ordinary pieces need only the storyboard's *Style* line, the four
+numbers and the motion notes.
 
 The pass exists because quality is not activity. The failure it prevents is the over-directed
 piece: everything moves, everything has depth, every entrance overshoots, and the result reads as
@@ -33,9 +32,8 @@ Write it with the editorial contract ([editing-director.md](editing-director.md)
 information release, and the one dominant mode. The thesis is the promise in visual terms.
 
 **Then place the piece on six traits**, low to high, before any direction is drawn. Adjectives in a
-brief ("premium", "bold", "calm") are unusable until they are positions; these six are what the
-motion bible's numbers are derived from, and two pieces with the same thesis and different traits
-look nothing alike.
+brief ("premium", "bold", "calm") are unusable until they are positions; two pieces with the same
+thesis and different traits look nothing alike.
 
 | Trait | Low | High | What it decides |
 |---|---|---|---|
@@ -50,22 +48,26 @@ Write them as a line — *energy 3, weight 8, precision 9, warmth 4, density 2, 
 check every later decision against it. A move that contradicts the traits is off-direction even
 when it looks good on its own.
 
+**Energy and density are not adjectives; they are the four numbers** (SKILL.md, *Place the piece on
+the range*). Convert them before the bible: energy 1–2 is the quiet film — ~6 s mean shot, energy
+~1, stillness ~0.57, −28 LUFS; energy 9–10 is the action reel — ~2.5 s mean, energy ~11, stillness
+0, −14 LUFS; the cut-driven showreel runs 1.0 s shots at energy 1.5 and stillness 0.46, which is
+why cut rate and motion energy are **separate** numbers. Interpolate for the middle, and only after
+deciding the piece belongs there. Each of those shot lengths is a mean over a piece that swung hard
+inside it — convert to a range.
+
 ## 2. Reference analysis
 
-If the user supplied references (a campaign, a film, a competitor's spot, an AEPX or Lottie), or
-named one ("like the Apple launch films"), turn them into **measurable tokens before designing**:
+If the user supplied or named references, turn them into **measurable tokens before designing**:
 
 ```bash
 strata deconstruct reference.mp4 -o ref_tokens.json     # shot lengths, cut rhythm, motion energy per shot, palette, onsets, loudness
 ```
 
-Read the tokens, then add what the tool cannot measure — easing character (snap-and-settle vs
-drift), stagger feel, camera behaviour (locked / push / handheld), type rhythm (words per second,
-hold lengths), transition families, texture, sound grammar. For a named reference with no file,
-[reference-styles.md](reference-styles.md) has ~25 signatures already reduced to tokens. Record
-the tokens in the bible (§6) so "premium like X" becomes numbers the render is later compared
-against (`strata review --reference`).
-
+Read the tokens, then add what the tool cannot measure — easing character, stagger feel, camera
+behaviour, type rhythm, transition families, texture, sound grammar. For a named reference with no
+file, [reference-styles.md](reference-styles.md) has ~25 signatures already reduced to tokens.
+Record them in the bible (§6) so "premium like X" becomes numbers the render is compared against (`strata review --reference`).
 A reference is a **technique source, never a costume**: take its rhythm and restraint, not its
 palette or its mark ([video-styles.md](video-styles.md) rule 1; a brand overrides everything).
 
@@ -111,20 +113,18 @@ Two rules the profile enforces: **match relationships before isolated numbers** 
 focal order, amplitude hierarchy and contrast carry a look further than one exact duration), and
 **protect the reference's restraint** — the absence of motion, sound, texture or camera movement is
 evidence too, and the easiest thing to lose. Where VASCO has no native equivalent (true camera
-depth-of-field, displacement), choose deliberately between a pre-rendered alpha overlay, generated
-footage, a simpler native construction, or the AE exporter for exact reproduction — and record the
-trade-off in the *Known gap* column rather than pretending the feature exists.
+depth-of-field, displacement), name the substitute and the trade-off in the *Known gap* column
+rather than pretending the feature exists.
 
 ## 3. Three directions — genuinely different
 
-This is the step that most decides whether the piece is generic, and the reason is measurable: a
-model asked for one answer gives the most typical one, and asked for several distinct answers
-with a sense of how expected each is, it finds the ones it would otherwise not reach. So produce
-**three to five** directions that differ in *kind*, not in palette, and for each write a one-line
-**expectedness score, 1–5** — 1 is what any agent would make for this brief, 5 is a choice only
-this subject could produce. At least one direction must score 4 or 5, and the recommendation is
-not the safest one by default: recommend the direction with the best ratio of surprise to fit, and
-say why in one line. Three of the classic postures, to start from rather than to copy:
+The step that most decides whether the piece is generic, and the reason is measurable: a model
+asked for one answer gives the most typical one; asked for several distinct answers with a sense
+of how expected each is, it finds the ones it would otherwise not reach. So produce **three to
+five** directions that differ in *kind*, not in palette, each with a one-line **expectedness
+score, 1–5** (1 is what any agent would make for this brief, 5 only this subject could produce).
+At least one scores 4 or 5, and the recommendation is not the safest by default — recommend the
+best ratio of surprise to fit and say why. Three classic postures to start from:
 
 | Axis | Direction A | Direction B | Direction C |
 |---|---|---|---|
@@ -137,8 +137,12 @@ For each: the thesis restated in that posture, the signature device, the transit
 sound motif, the expectedness score, and **what it refuses to do**. The user picks; a direction
 the user did not see cannot be signed off.
 
-Most of the directions should include real stillness — if every one is "everything moves", the
-set has no range and the pass has not done its job.
+**Each direction carries its own four numbers, and the set must span** — at least 3× between the
+slowest and fastest mean shot, or 5× between the lowest and highest energy (the measured spread
+across world-class work is 6× and 10×). Three directions at one tempo in three palettes are one
+direction, and the pass has not done its job. At least one is built on real stillness. Each shot
+length is a range, and the directions differ in *what they hold*: the product in one, the face in
+another, nothing in a third.
 
 ## 4. Key styleframes
 
@@ -157,7 +161,8 @@ hierarchy.
 Rank every element in every shot:
 
 1. **The one thing that moves with intent** — the dominant motion idea of the shot (a reveal,
-   a push, a cascade). One per shot is the default because the eye can follow one.
+   a push, a cascade). One per shot at a middling declared energy, because the eye can follow one;
+   a high-energy piece runs several at once and that is what makes it high-energy.
 2. **Secondary motion** — follow-through, counter-motion, ambient drift at ≤ 30 % of the primary,
    on a softer curve ([motion-design.md](motion-design.md) §5, counter-motion table).
 3. **Still** — everything else. The wordmark that never moves. The CTA that lands and holds.
@@ -174,12 +179,13 @@ One page, written before the scene, pasted into the storyboard, obeyed by every 
 | Field | What it fixes | Example |
 |---|---|---|
 | **Focal order** | where the eye goes, per shot, in order | hero → headline → CTA |
+| **The four numbers** | the position on the range, declared and later measured — shot length as a range, each end with its job | 0.6 s (door-close cutaways) → 7.0 s (the hold on the maker's hands) · energy 1.1 · stillness 0.57 · −28 LUFS |
 | **Timing scale** | the piece's tempo family, in frames at the scene fps | snap 6 f · settle 12 f · phrase 36 f · hold 48 f |
 | **Easing family** | one entrance ease, one exit ease, one drift ease — and the overshoot policy | `outExpo` in · `[0.7,0,0.84,0]` out · `inOutSine` drift · overshoot 0 % (rigid) |
 | **Material logic** | what the things are made of, and what that does to inertia, deformation and settle | stone: heavy, no overshoot, long settle, dust on impact |
 | **Type behaviour** | how words arrive, how long they hold, how they leave; captions vs kinetic | per-word rise 26 px, hold 0.5 s + 0.3 s/word, exit 65 % of entrance |
 | **Camera rule** | locked, one push per shot, or one continuous move — and never what | locked; one 3 % push on the hero shot only |
-| **Transition palette** | the families in play, named — two is where most pieces sit | hard cut; mask-rect wipe from the outer edge |
+| **Transition palette** | the families in play, named — count scales with the declared energy | hard cut; mask-rect wipe from the outer edge |
 | **Sound motif** | the one SFX family, the bed's arc, the hit that lands the mark | oven-door thud on the wordmark; flour whoosh on wipes |
 | **Signature device** | the single bold idea the boldness is spent on | fire footage inside the word RYE |
 | **Forbidden moves** | what this piece will not do, so the temptation is pre-decided | no `outBack`, no crossfades, no glow, no camera drift on still frames, no scrims |
@@ -210,16 +216,15 @@ the pass it belongs to, not to a patch on top.
 
 - [ ] Thesis in one sentence, tied to the viewer promise
 - [ ] References deconstructed to tokens (or reference-styles.md used) — recorded in the bible
-- [ ] Three to five directions of different *kind*, each with an expectedness score, at least one scoring 4–5, one recommended
+- [ ] Three to five directions of different *kind*, each with its four numbers and an expectedness score; the set spans the range; at least one scores 4–5; one recommended
 - [ ] Three styleframes built as scenes and shown (hook, hero, end card)
 - [ ] Motion hierarchy per shot, with an explicit still list
 - [ ] The motion bible pasted into the storyboard — the fields the piece needs filled, the rest struck
 - [ ] Forbidden moves named before the first keyframe
-- [ ] **The highest-risk moments named, and prototyped first** — the shot most likely to fail
-      (a generated clip that must travel, a matte edge, a camera move through depth, a settle the
-      whole piece hangs on). Prove it at blocking, not after the finishing pass
-- [ ] **Acceptance criteria written for the critic** — what, specifically, the render must
-      demonstrate for this direction to have worked ("the wall separates into readable layers",
-      "the wordmark lands without overshoot", "the bed is audible on a phone"). The review scores
-      against these, not against taste
+- [ ] **The highest-risk moment prototyped first** — the shot most likely to fail (a generated clip
+      that must travel, a matte edge, a camera move through depth, a settle the piece hangs on).
+      Prove it at blocking, not after the finishing pass
+- [ ] **Acceptance criteria written for the critic** — what the render must demonstrate for this
+      direction to have worked ("the wordmark lands without overshoot", "the bed is audible on a
+      phone"), plus the four numbers. The review scores against these, not against taste
 - [ ] Sign-off on the direction and the frames before scene JSON

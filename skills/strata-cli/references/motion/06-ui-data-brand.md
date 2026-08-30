@@ -1,9 +1,8 @@
 # UI motion, data motion, brand motion systems
 
-> **This is the closest file in the atlas to what Idomoo actually sells.** A brand document
-> overrides every token suggestion here - [brand.md](../brand.md) - and the personalized-data
-> craft below is executed with layer-name keys and batch rows:
-> [personalization.md](../personalization.md).
+> **The closest file in the atlas to what Idomoo actually sells.** A brand document overrides every
+> token suggestion here - [brand.md](../brand.md) - and the personalized-data craft below is
+> executed with layer-name keys and batch rows: [personalization.md](../personalization.md).
 
 Contents: 1 UI and product motion · 2 Data and infographic motion · 3 Brand motion systems
 

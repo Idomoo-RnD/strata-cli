@@ -56,11 +56,11 @@ generate, and that goes in the storyboard as a named asset.)
 
 | File | Contains | Load when |
 |---|---|---|
-| [editing-grammar.md](editorial/editing-grammar.md) | the **six control dimensions** (shot density, information density, temporal compression, spatial continuity, POV restriction, sonic continuity), the editing languages, cut and transition vocabulary, sound–picture grammar, the **pacing-diagnosis table** (symptom → cause → intervention), review passes | any cut-logic, pacing, continuity, montage or "why does this feel flat" question |
-| [short-form-performance.md](editorial/short-form-performance.md) | commercials and branded film, product demo / direct response, trailers and teasers, music video, creator and podcast video, **vertical short-form** (hook → development → payoff → action/loop), platform recuts, the cross-platform matrix | promos, ads, social, anything with a CTA — most jobs |
-| [nonfiction-formats.md](editorial/nonfiction-formats.md) | factual-integrity rules, documentary, **interview / profile / testimonial**, news, **corporate / internal comms / education / explainer**, reality, **sports highlights**, multicam events | explainers, testimonials, internal comms, recaps, anything showing real people or real data |
-| [narrative-genres.md](editorial/narrative-genres.md) | the genre control matrix; drama, romance, comedy, action, thriller, horror, sci-fi/fantasy, musical, animation, experimental — each with default grammar, sound and rhythm, failure modes | as a **modifier** — a reveal with thriller information release, a promo with trailer escalation, comedy timing for a social spot |
-| [workflow-and-qa.md](editorial/workflow-and-qa.md) | editorial artefacts, footage intake, build passes, a style bible, giving and resolving cut notes, pacing evaluation, factual provenance QA, **accessibility as editorial design**, delivery QC | cutting or critiquing existing footage; any delivery with captions, flashing or rights questions |
+| [editing-grammar.md](editorial/editing-grammar.md) | the **six control dimensions**, the editing languages (continuity, montage, rhythmic, discontinuity, long-take, parallel), cut and transition vocabulary, sound–picture grammar, the **pacing-diagnosis table** | any cut-logic, pacing, continuity, montage or "why does this feel flat" question |
+| [short-form-performance.md](editorial/short-form-performance.md) | commercials, product demo / direct response, trailers, music video, creator video, **vertical short-form**, platform recuts | promos, ads, social, anything with a CTA — most jobs |
+| [nonfiction-formats.md](editorial/nonfiction-formats.md) | factual-integrity rules, documentary, **interview / testimonial**, news, **corporate / explainer**, **sports highlights**, multicam | explainers, testimonials, internal comms, recaps, anything showing real people or real data |
+| [narrative-genres.md](editorial/narrative-genres.md) | the genre control matrix — each genre's default grammar, sound, rhythm and failure modes | as a **modifier** — a reveal with thriller information release, a promo with trailer escalation, comedy timing for a social spot |
+| [workflow-and-qa.md](editorial/workflow-and-qa.md) | editorial artefacts, build passes, cut notes, factual provenance QA, **accessibility as editorial design**, delivery QC | cutting or critiquing existing footage; any delivery with captions, flashing or rights questions |
 | [research-sources.md](editorial/research-sources.md) | provenance for the five files above | when a rule here seems to conflict with something measured elsewhere — the measured fact wins |
 
 For hybrids choose **one dominant mode and at most two modifiers** — e.g. *product explainer +
@@ -76,8 +76,10 @@ trailer escalation + social cutdown*. Do not average every influence into a gene
    performance-, music- or observation-led: build around decisive visual and sonic events.
 4. **Map information release.** What the viewer knows before, during and after each beat. Hide
    information only when the experience benefits and the payoff is fair.
-5. **Design a rhythm curve.** Vary density, shot duration, movement and sonic intensity across
-   sections. Contrast and recovery; constant speed reads as flat.
+5. **Design a rhythm curve** across the declared range. Vary density, shot duration, movement and
+   sonic intensity across sections. Contrast and recovery; constant speed reads as flat, and a curve
+   that never leaves the middle of the range — or of its own — is constant speed by another name.
+   This curve, not the shot list, is where the holds are placed.
 6. **Apply a restrained grammar.** A small transition, sound, text and motion vocabulary; every
    recurring device has a meaning. (This is where [anti-slop.md](anti-slop.md) applies.)
 7. **Test the cut without polish.** A weak story cut must not be hidden with temp score, speed
@@ -115,6 +117,8 @@ Audience and viewing context:
 Runtime and deliverables:
 One-sentence viewer promise:
 Editorial thesis:
+Position on the range: shots __ s (shortest — the __) → __ s (the hold — on __, kept alive by __)
+· energy __ · stillness __ · __ LUFS — because …
 
 ## Rhythm arc
 | Section or time | Story job | Viewer state | Picture density | Sound strategy | Transition out |
@@ -147,8 +151,12 @@ jump cuts when they serve the established grammar.
 
 ## Non-negotiables
 
-- No universal average shot length. Pace depends on information, movement, performance, sound
-  and contrast — the six dimensions, not a number.
+- No universal average shot length — and no per-piece average either. Every piece declares its own
+  *range* in the storyboard before the shot list, with the job that earns its longest shot and the
+  job that earns its shortest (SKILL.md, *Place the piece on the range*). "It depends" is the reason
+  to choose, not a licence to skip choosing: pace depends on information, movement, performance,
+  sound and contrast — the six dimensions — and they do not point the same way in every shot, which
+  is why the answer is a range.
 - Retention is not nonstop stimulation; a genre is not a transition preset.
 - B-roll that only repeats the spoken words adds nothing — it must add evidence, context,
   counterpoint or emotion.

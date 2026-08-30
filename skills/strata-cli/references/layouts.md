@@ -2,10 +2,10 @@
 
 Blocks (`blocks.md`) are components; blueprints (`blueprints.md`) are whole-video
 structures. **This file is the frame level: where things sit.** Pick a named layout that
-matches the intent, then fill it — instead of inventing arbitrary boxes.
+matches the intent and fill it, instead of inventing arbitrary boxes.
 
-Always check the result with **`strata preview scene.json --at <sec> --grid`** (local
-wireframe, free) before rendering.
+Always check with **`strata preview scene.json --at <sec> --grid`** (local wireframe, free)
+before rendering.
 
 **Canvas size and generated media:** `generate image` is 1376×768 and `generate video` is
 1280×720, so a full-bleed generated plate in a 1920 comp is upscaled 1.5× — author at 1280×720
@@ -63,7 +63,7 @@ Column-span width = **`142·k − 24`**. So **3 col** = 402 · **4 col** = 544 �
 
 ## The other three canvases
 Every template in the reference corpus that shipped socially shipped **four** sizes. Author
-landscape first, then reflow (see *Reflow to vertical* below) — never letterbox.
+landscape first, then reflow (*Reflow to vertical* below) — never letterbox.
 
 | canvas | margin | content | columns | header band | body band | bottom safe line |
 |---|---|---|---|---|---|---|
@@ -72,7 +72,7 @@ landscape first, then reflow (see *Reflow to vertical* below) — never letterbo
 | **1080×1350** 4:5 | 72 | 936 | 6 @136 / 24 | 150–380 | 430–1120 | 1180–1250 |
 | **1080×1080** 1:1 | 72 | 936 | 6 @136 / 24 | 120–300 | 340–800 | 900–960 |
 
-For 9:16 and 4:5 keep text out of the **top 10% / bottom 15%** (platform UI chrome), and off the right-hand ~12% in the lower half (the Reels/TikTok button stack).
+For 9:16 and 4:5 keep text out of the **top 10% / bottom 15%** (platform UI chrome) and off the right-hand ~12% in the lower half (the Reels/TikTok button stack).
 
 ---
 
@@ -100,7 +100,7 @@ For 9:16 and 4:5 keep text out of the **top 10% / bottom 15%** (platform UI chro
 └────────────┴─────────────┘
 ```
 `media [0,0,960,1080] fit:fill` · `headline [1050,340,750,150]` · `body [1050,510,750,180]` ·
-`cta [1050,730,750,60]` (750 lands the copy exactly on the 1800 right margin). Mirror for split-media-right. Use for: product shots, demos, features.
+`cta [1050,730,750,60]` (750 lands the copy on the 1800 right margin). Mirror for split-media-right. Use for: product shots, demos, features.
 
 ### 3. three-up — three parallel points/stats
 ```
@@ -108,7 +108,7 @@ For 9:16 and 4:5 keep text out of the **top 10% / bottom 15%** (platform UI chro
 │ A │ B │ C │   header above, CTA on the safe line below
 └───┴───┴───┘
 ```
-Cards at `[120,470,544,360]`, `[688,470,544,360]`, `[1256,470,544,360]` — 544 is the **4-col span**, 24 gutter, and the third card ends exactly on the 1800 margin.
+Cards at `[120,470,544,360]`, `[688,470,544,360]`, `[1256,470,544,360]` — 544 is the **4-col span**, 24 gutter, and the third card ends on the 1800 margin.
 Value at card `+40,+90`; label at card `+40,+270`. Use for: benefits, stats, steps.
 **Two-up** variant: `[120,440,828,420]` and `[972,440,828,420]` (828 = 6-col span).
 **Lineup** variant (people): portrait tiles `[…,360,544,480]` with a name plate laid over the
@@ -136,7 +136,7 @@ label 28px baseline-aligned to the figure's bottom, hairline rules between the q
 └──────────────────────────┘
 ```
 `media [0,0,1920,1080] fit:fill` · `scrim [0,760,1920,320]` · `headline [120,820,1400,110]` ·
-`sub [120,940,1400,60]`. **Match the scrim to the footage brightness** (see blueprints.md).
+`sub [120,940,1400,60]`. **Match the scrim to the footage brightness** (blueprints.md).
 
 ### 6. quote-full — testimonial / pull quote
 `mark [120,280,120,120]` · `quote [120,400,1500,300]` (56–72px, leading 1.25) ·
@@ -167,12 +167,12 @@ The single most-used frame in event/conference work. Two forms.
 `role [120,745,820,44]` (24px, letterspaced, muted) · `theme [120,800,820,90]` (28px, ≤2 lines) ·
 `chip [120,930,300,56]`. Mirror for media-left.
 
-**(b) Over-footage form** — the name sits on the footage itself, bottom-left:
+**(b) Over-footage form** — the name sits on the footage, bottom-left:
 `first [120,760,1200,64]` · `surname [120,825,1200,130]` · `role chip [120,975,420,48]`.
 Add a 40%-height bottom scrim only if the footage is busy under the type.
 
-Rules: **surname 2–3× the first name**; never more than 4 lines of metadata; the accent colour
-goes on exactly one element (usually the role chip).
+Rules: **surname 2–3× the first name**; never more than 4 lines of metadata; the accent goes
+on one element (usually the role chip).
 
 ### 10. diagonal-split — footage one side, solid the other
 ```
@@ -202,7 +202,7 @@ Use for: openers, "what's in the event", sponsor/gallery walls, brand sizzles.
 ### 12. card-inset — a safe card over a busy background
 Background art (gradient, pattern, blobs) runs full bleed; **all content lives inside a card.**
 `card [80,60,1760,960]` radius 24 · content box `[160,140,1600,800]`.
-Inside the card, re-apply the normal grid (margin 80 from the card edge, not the frame).
+Inside the card, re-apply the grid (margin 80 from the card edge, not the frame).
 Use for: colourful/gradient brand systems where the background must not fight the copy.
 
 ### 13. product-card-split — the e-commerce frame
@@ -214,7 +214,7 @@ Use for: colourful/gradient brand systems where the background must not fight th
 │          │  [ORDER NOW]  │
 └──────────┴───────────────┘
 ```
-`frame rect [200,180,520,720]` (stroke 6, accent) · product cutout centred on it and allowed to
+`frame rect [200,180,520,720]` (stroke 6, accent) · product cutout centred on it, allowed to
 overlap its edges · `eyebrow [980,300,700,40]` · `old [980,350,300,44]` (muted) + a `strike [980,372,150,3]` solid bar across it — ⚠ the text
 `strikethrough` style does **not** render (format.md), so the bar is the only way ·
 `price [980,395,400,60]` · `name [980,470,760,90]` (56–64px) · `body [980,575,760,120]` (24px) ·
@@ -238,11 +238,11 @@ e.g. `OCT 15 · SAT 8PM · EVENT PLACE · THE TOPIC · THE INFO`.
 Keeps a frame feeling designed when the middle is just footage.
 
 ### 16. frame-chrome — the persistent HUD
-A tiny layer that never changes for the whole piece. It is what makes a set of frames read as
+A tiny layer that never changes for the whole piece — what makes a set of frames read as
 one system.
 `brand [120,60,300,40]` (top-left) · `menu/mark [1760,60,40,40]` (top-right) ·
 `caption [120,990,600,36]` (bottom-left, muted) · `index [1440,990,360,36]` right-aligned — the
-running counter `03/07`. Opacity 0.5–0.8, 18–20px. Never animate it between shots; let it sit.
+running counter `03/07`. Opacity 0.5–0.8, 18–20px. Never animate it between shots.
 
 ### 17. marker-headline — solid blocks behind each line
 ```
@@ -250,13 +250,13 @@ running counter `03/07`. Opacity 0.5–0.8, 18–20px. Never animate it between 
    ▉▉ Digital ▉▉▉
 ▉▉ Disruption ▉▉
 ```
-Each line gets its own solid block sized to the text + 24px horizontal padding, height
+Each line gets a solid block sized to the text + 24px horizontal padding, height
 `1.35 × size`, 12px vertical gap. Left edges **step**: 120 / 160 / 120. Text knocks out white.
 Use for: editorial/news-style titling over photography — it survives any background.
 
 ### 18. logo-wall — sponsors / partners / integrations
 3×2 outlined cells: x = `200, 740, 1280`, y = `380, 620`, each `440×200`, stroke 2 at 40%.
-Logo centred in the cell at ≤60% of the cell width; caption `[x,+210,440,30]`, 18px, centred.
+Logo centred at ≤60% of the cell width; caption `[x,+210,440,30]`, 18px, centred.
 Header above at `[0,240,1920,60] center`. Reveal in reading order, 100ms apart.
 
 ### 19. avatar-cluster — "15 speakers", many faces at once
@@ -297,7 +297,7 @@ Put it *behind* the media card, and keep real copy off its stems.
 ## Reflow to vertical (and square)
 The reference templates all reflow the **same frame**, they don't crop it:
 
-- **split-media → stacked.** Media takes the top ~55% full-width; the copy stack drops below it,
+- **split-media → stacked.** Media takes the top ~55% full-width; the copy stack drops below,
   still left-aligned, still on the margin.
 - **Corner chrome migrates.** The brand mark goes top-centre or top-left; the index/counter moves
   from bottom-right to directly under the copy.
@@ -311,36 +311,36 @@ The reference templates all reflow the **same frame**, they don't crop it:
 ---
 
 ## Rules that make any layout read as *designed*
-- **Snap to the grid.** Left edges share a column; widths are column spans. Arbitrary
+- **Snap to the grid.** Left edges share a column, widths are column spans; arbitrary
   numbers are the amateur tell.
-- **Use the whole frame.** No dead third — either vertically centre the cluster or run a
-  clear header / body / bottom-safe-line structure.
-- **One focal point per frame.** Size is hierarchy: the hero element should be ~2–3× the
-  next. If everything is medium, nothing reads.
+- **Use the whole frame.** No dead third — centre the cluster vertically, or run a clear
+  header / body / bottom-safe-line structure.
+- **One focal point per frame.** Size is hierarchy: the hero should be ~2–3× the next. If
+  everything is medium, nothing reads.
 - **Consistent gutters** (40–80). Uneven spacing looks accidental.
 - **Align, don't centre everything.** Left-aligned copy blocks read faster; reserve centring
   for hero/end frames.
-- **One accent colour, one job.** In every template that reads as professional, the accent lands
-  on exactly one thing per frame — the chip, the price, the button — never on three.
+- **One accent colour, one job.** In every professional-looking template the accent lands on
+  exactly one thing per frame — the chip, the price, the button — never three.
 - **Two type sizes are not a hierarchy.** Use three: display (90–140), body (24–30),
   meta (18–22, letterspaced, uppercase). Meta carries dates, roles, indices, URLs.
 - **Corner metadata is cheap polish.** A brand mark, a running index and a small caption
-  (layout #16) make an otherwise plain frame look like part of a system.
+  (layout #16) make a plain frame look like part of a system.
 - **Never overlap two text blocks** while both are visible (`validate` warns) — separate in
   space or stagger in time.
 - **Vertical text position is anchored at the box BOTTOM.** `align: "… top"` is not honoured —
-  the glyphs render where `bottom` would (verified). So when you place a row at a y-coordinate,
-  that coordinate is `box_y + box_h`, not the top of the type. Size text boxes to the copy
-  (~`1.3 × size` per line) and place them by their bottom edge, or use `"… middle"` with the box
-  centred on the target. Details + the measured numbers: [format.md](format.md).
+  the glyphs render where `bottom` would (verified). So a row's y-coordinate is
+  `box_y + box_h`, not the top of the type. Size text boxes to the copy (~`1.3 × size` per
+  line) and place them by their bottom edge, or use `"… middle"` with the box centred on the
+  target. Measured numbers: [format.md](format.md).
 - **Verify visually:** `strata preview --grid` → check balance/alignment → fix → only then
-  `snapshot`/`render`. ⚠ **`preview` draws BOXES, not glyphs** — so it cannot reveal where text
-  actually sits inside its box. Use `snapshot` for that.
+  `snapshot`/`render`. ⚠ **`preview` draws BOXES, not glyphs** — it cannot reveal where text
+  sits inside its box. Use `snapshot` for that.
 
 ---
 
 ## Letting the user lay it out — `strata studio`
-Whenever a layout is shown (wireframe, options, or a `preview` grid), offer it:
+**Every time** a layout is shown (wireframe sketch, options, or a `preview` grid), offer it:
 *"want to lay it out yourself in the studio, or shall I go with this?"*
 
 ```bash
@@ -349,11 +349,9 @@ strata studio --width 1080 --height 1350      # 4:5 feed post
 strata studio --width 1080 --height 1080      # square
 strata studio scene.json                      # re-open a scene to nudge its boxes
 ```
-**Always pass the piece's real canvas** (or a scene, which carries its own size). The studio
-fits any aspect to the window, snaps to the same 12-column grid used here, and writes a
-`*.guide.json` whose boxes are ready to author from directly.
+The studio fits any aspect to the window and snaps to the same 12-column grid used here.
 
 ## Hand the layout to the user — `strata studio`
 
-**Every time I show a layout — the wireframe sketch, layout options, or a `preview` grid — I ask in the same breath: "want to lay it out yourself in the studio, or shall I go with this?"** `strata studio` opens a local browser designer (offline, 127.0.0.1) where they drag and annotate named areas per scene on the same 12-column grid, set roles/colours/notes, and press Save to write a `*.guide.json`. I then **author from those boxes as given** rather than re-inventing the layout. **I always launch it at the user's actual canvas** — `strata studio --width 1080 --height 1920` for a vertical piece, `--width 1080 --height 1080` for square — or pass an existing `scene.json` so it picks the size up automatically; it is **not** 16:9 unless the piece is. I can also re-open a scene I already wrote (`strata studio scene.json`) so they nudge my boxes instead of describing the fix in words. (It runs a local server and waits for Save — I only launch it once they say yes, never in an automated run.)
+`strata studio` opens a local browser designer (offline, 127.0.0.1) where they drag and annotate named areas per scene, set roles/colours/notes, and press Save. I then **author from those boxes as given**, not re-inventing the layout. Launch it at the user's real canvas (`strata studio --width 1080 --height 1920`, or `--width 1080 --height 1080` for square) or on an existing `scene.json`; it is **not** 16:9 unless the piece is. Re-opening a scene I already wrote (`strata studio scene.json`) lets them nudge my boxes rather than describe the fix in words. It runs a local server and waits for Save, so I only launch it once they say yes, never in an automated run.
 

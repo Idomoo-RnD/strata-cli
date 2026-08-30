@@ -2,7 +2,7 @@
 
 > Adjectives to parameters for THIS engine is the emotion-to-motion table in
 > [motion-design.md](../motion-design.md). Music and VO are generated and spotted with
-> [music.md](../music.md); read real beat onsets with `strata beats`
+> [music.md](../music.md); read beat onsets with `strata beats`
 > ([generative-fx.md](../generative-fx.md)) and speech timings with `strata captions`
 > ([captions.md](../captions.md)) - never eyeball either.
 
@@ -47,7 +47,7 @@ Contents: 1 Story structure · 2 Pacing and editing · 3 Sound and music · 4 Em
 - **Micro-pacing**: inside one beat, the hierarchy of entrances creates its own rhythm.
 
 ## 3. Sound and music
-- **Audio-first**: lock music and VO before animating; motion follows sound.
+- **Audio-first**: lock the mix target, then music and VO, before animating; motion follows sound.
 - **Beat grid**: mark downbeats and accents on the timeline; key events land on them.
 - **Hit points**: mark every impact, swell, and transient; each gets a visual response.
 - **Beat math**: frames per beat = fps × 60 ÷ BPM (25 fps at 120 BPM = 12.5 frames).
@@ -64,7 +64,7 @@ Contents: 1 Story structure · 2 Pacing and editing · 3 Sound and music · 4 Em
 - **Loopable music** for loopable motion; match loop points exactly.
 - **Foley for materials**: paper, glass, metal sounds sell the material of a 2D element.
 - **Spatial audio cues**: pan sound with the object's position.
-- **Loudness targets**: streaming -14 LUFS, broadcast -23 LUFS; true peak under -1 dB.
+- **Loudness targets**: streaming -14 LUFS, broadcast -23 LUFS; true peak under -1 dB. Pick one, and the loud/quiet gap, before the bed exists - [music.md](../music.md), *Decide the mix*.
 - **Captions and mute-first**: design for muted autoplay; burn-in captions with the same motion rules as titles.
 - **Pre-roll and tail**: a few frames of sound before the first visual and a tail after the last keep the piece from feeling clipped.
 

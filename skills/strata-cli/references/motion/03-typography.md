@@ -1,9 +1,9 @@
 # Typography in motion (kinetic type)
 
-> Executed with **per-character/word text animators** (`based_on`, `shape`, `character_offset`)
-> and real box/align rules - [format.md](../format.md) and [motion-design.md](../motion-design.md).
-> ⚠ Vertical text anchors to the **bottom** of its box and digits wrap mod 10 in a count-up; both
-> are measured facts in format.md that no amount of craft here overrides.
+> Executed with **per-character/word text animators** (`based_on`, `shape`, `character_offset`) and
+> real box/align rules - [format.md](../format.md) and [motion-design.md](../motion-design.md).
+> ⚠ Vertical text anchors to the **bottom** of its box and digits wrap mod 10 in a count-up - both
+> measured facts in format.md that no craft here overrides.
 
 ## Contents
 

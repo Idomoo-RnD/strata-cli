@@ -2,13 +2,11 @@
 
 **Mandatory. I read this before every storyboard and run its check before every render.**
 
-Agent-composed frames cluster around a small set of moves that appear **regardless of
-subject**. Each is legitimate for some briefs. **None is legitimate as a reflex.** This file
-is the one place that names them, so the list is maintained here and echoed elsewhere only
-as a link.
-
-The failure is not technical — the frame renders, the text is legible, nothing is broken. It
-is that the frame could have come from any brief. That is what a viewer reads as "AI".
+Agent-composed work clusters around a small set of moves — and a single tempo — that appear
+**regardless of subject**. Each is legitimate for some briefs. **None is legitimate as a
+reflex.** The failure is not technical: the frame renders, the text is legible, nothing is
+broken. It is that the piece could have come from any brief. That is what a viewer reads as
+"AI". This file is the one place the patterns are named.
 
 ---
 
@@ -32,21 +30,17 @@ I do not spend that freedom on a default.
 ## The test (run at storyboard time, per element)
 
 For every decorative or structural element in the frame — anything that is not the
-subject, the copy, or the media — ask:
+subject, the copy, or the media — **and for every number that sets the piece's tempo** — ask:
 
 > **Would I have produced this for any similar brief?**
 
-If yes, it is a default. Cut it, or replace it with a choice that comes from *this*
-subject's own world — its materials, instruments, vernacular — and say what I changed and
-why. A bakery promo, a fintech explainer and a sports hype reel must not share furniture.
+If yes, it is a default. Cut it, or replace it with a choice from *this* subject's own
+world — its materials, instruments, vernacular — and say what changed. A bakery promo, a
+fintech explainer and a sports hype reel must not share furniture. Then two disciplines:
 
-Then two disciplines from the studio floor:
-
-- **Spend boldness in one place.** One signature element per piece — the thing it will be
-  remembered by. Everything around it stays quiet. Two signatures cancel each other.
-- **Remove one thing before rendering.** Look at the snapshot and take one element away.
-  If the frame still reads, it was decoration. Keep going until removing the next thing
-  would hurt it.
+- **Spend boldness in one place.** One signature element per piece. Two cancel each other.
+- **Remove one thing before rendering.** Take an element out of the snapshot; if the frame
+  still reads, it was decoration. Keep going until the next removal would hurt.
 
 ---
 
@@ -54,6 +48,32 @@ Then two disciplines from the studio floor:
 
 Named so they can be pointed at in a review. Each entry: the tell → why it reads as
 generated → what to do instead.
+
+### The tempo (the pattern that costs the most)
+
+- **The middle of the range.** Shots around 2.5 s, moderate motion, some stillness, a mix that
+  lands near −17 LUFS — on every brief, whatever the brief was (the measurements are in SKILL.md,
+  *Place the piece on the range*). The most reliable tell there is, because it is what every unset
+  default adds up to, and it survives a frame that passes every other check on this page. The fix
+  is not "be more extreme" — it is to declare the position before the shot list and hit it. The
+  middle is a legitimate answer, once.
+- **Every piece a mix.** A little stillness *and* a little energy in everything, because both are
+  "good craft". A quiet film measured stillness 0.57, an action reel 0.00; neither hedged.
+- **One speed inside the piece.** Every shot the length of every other — the middle of the range one
+  level down, and what a declared *mean* produces when treated as a value to hit everywhere. *When
+  every shot gets the same time, none of them is the point: four hero layers, no hero.* Measured:
+  our best piece ran 0.32–2.16 s, 6.8:1, regularity 0.37, where ten seconds of reference showreel
+  runs 0.08–3.80 s, 47.5:1 and 0.03. Not fixed by bolting on a long shot and a short one: hold the
+  shot carrying the idea, cut the transits before the eye settles.
+- **The frozen payoff — the tell the range fix creates.** The one shot the piece is about, given the
+  length it deserves and then nothing to do: a locked frame, or one gradient decaying to a dead
+  frame at the cut. Measured: stillness 0.88 on our hold against 0.16 on the reference film's long
+  takes and 0.53 on a locked logotype that at least kept its fill scrolling — that logotype's piece
+  won, ours lost. **The end card is where it happens most:** our 30 s ad ended on 4.12 s of static
+  wordmark, the product absent, 95 of its 98 frames below 0.5 frame-to-frame difference where the
+  reference showreel's longest hold has none. Every
+  declared hold names what moves through it; a hold that names nothing is dead air with a long
+  duration on it.
 
 ### Text backing
 
@@ -90,7 +110,14 @@ generated → what to do instead.
   Grain belongs to a chosen analogue look ([video-styles.md](video-styles.md)); a vignette to
   a shot that needs the eye pulled in.
 - **Stacking them** — glow + flare + grain + vignette + scrim on one frame is *the*
-  generated look. **At most one atmospheric effect per piece**, and it is the signature.
+  generated look. **At most one atmospheric effect per piece**, and it is the signature —
+  unless the piece declared a maximal position and says so in the bible, in which case the
+  stack is the look and every element in it is named.
+- **The flat frame** — every authored surface a single fill with a hard edge, type at 100 %
+  white over whatever is behind it, one grade across the whole piece. This is the default
+  with no name, and it is what the last three pieces from this skill did. Light has a
+  direction, type has a depth in the frame, the look changes between beats
+  ([craft.md](craft.md), *Depth, light & atmosphere*).
 
 ### Structure as decoration
 
@@ -101,8 +128,8 @@ generated → what to do instead.
   process or a timeline where order carries meaning.
 - **Icon tile above heading** — the small rounded-square icon container over every feature
   card. The universal feature-card template.
-- **Identical card grids** — same-sized cards, icon + heading + text, repeated. Vary size,
-  treatment or rhythm so the hierarchy is visible.
+- **Identical card grids** — same-sized cards, icon + heading + text, repeated. Vary size or
+  treatment so the hierarchy is visible.
 
 ### Colour when no brand exists
 
@@ -138,32 +165,37 @@ place, the season, the medium — and name why.
 
 If two or more are true of a frame, it will read as generated. Fix before spending a render.
 
-**`strata validate` runs the mechanical half of this list for me.** It reads the scene's
-geometry and warns — naming the pattern and this file — on a box-shaped scrim under text, a
-rule under a title, a side colour bar on a panel, three-or-more identical list markers,
-stacked atmospheric effects, and bullet glyphs in copy. A `.brand/brand.md` beside the scene
-exempts the scrim warning, because a brand can own one. **The warnings are the checklist
-firing, not noise**: I fix each one or say in my report why the brief earns it. What validate
-cannot see — eyebrow labels, numbered markers in text, the no-brand palettes, buzzwords — I
-still check by eye against the list above.
+**`strata validate` runs the mechanical half for me** — it warns, naming the pattern and this
+file, on a box-shaped scrim under text, a rule under a title, a side colour bar, three-or-more
+identical list markers, stacked atmospheric effects and bullet glyphs. A `.brand/brand.md` beside
+the scene exempts the scrim warning, because a brand can own one. **The warnings are the checklist
+firing, not noise**: I fix each or say why the brief earns it. *Measured:* **the scrim check has no
+time awareness** — it pairs a text layer with any solid behind its box, including one that is never
+on screen at the same time, so check the two layers' `start`/`duration` before removing anything.
+What validate cannot see — the flat frame, eyebrow labels, numbered markers, the no-brand palettes,
+buzzwords — I check by eye.
 
 - [ ] Text sits on a box-shaped scrim that is not part of the layout
 - [ ] There is a rule under a title that separates nothing
 - [ ] A card or lower-third has a side colour bar the brand did not ask for
 - [ ] More than one atmospheric effect (glow / flare / grain / vignette) is on the frame
+- [ ] Every authored surface is one flat value — no falloff, no gradient, no shadow where planes meet
+- [ ] Type is the same colour and opacity on every plate, and nothing ever passes in front of it
 - [ ] A label, number or icon sits above a heading without carrying information
 - [ ] The palette is cream+terracotta or black+one-neon with no brand behind it
 - [ ] A decorative element would survive unchanged in a different brief
 - [ ] Nothing was removed after the first snapshot
+- [ ] The four numbers were never declared — or were declared and the render missed them
+- [ ] Every shot is about as long as every other, or the longest is one nothing asked to be held
+- [ ] The held shot (the end card included) has nothing moving, or stops changing before the cut
+- [ ] The wordmark has no contact shadow, or its fill band runs level across every letter
 
 ---
 
 ## Where the rest of the skill points here
 
-[SKILL.md](../SKILL.md) Part 2 carries the short form and the mandatory read. The blocks in
-[blocks.md](blocks.md) ship **without** accent bars for this reason. The underline
-workaround in [format.md](format.md) and the rule-wipe recipe in [recipes.md](recipes.md)
-carry a one-line echo. The finish pass in [motion-design.md](motion-design.md) is
-subtractive for this reason. The atlas anti-pattern list in
-[motion/09-production-qa.md](motion/09-production-qa.md) defers here. **Add new patterns to
+[SKILL.md](../SKILL.md), [craft.md](craft.md), [blocks.md](blocks.md) (which ships without
+accent bars for this reason), [format.md](format.md), [recipes.md](recipes.md),
+[motion-design.md](motion-design.md) and
+[motion/09-production-qa.md](motion/09-production-qa.md) all defer here. **Add new patterns to
 this file only** — everywhere else links.

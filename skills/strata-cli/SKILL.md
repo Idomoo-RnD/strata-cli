@@ -9,16 +9,17 @@ The job is a piece of motion design a good studio would put its name on — stor
 composed, with motion that has a reason. VASCO is a real 3D motion-design engine: 3D layers with
 depth, a moving camera, masks, effects, per-character text animators, a keyframe tween engine.
 
-This file is the shape of a job and the map to the rest. The full workflow is
-[workflow.md](references/workflow.md), the craft is [craft.md](references/craft.md), the syntax is
-[format.md](references/format.md), the patterns are [recipes.md](references/recipes.md), the
-commands are [commands.md](references/commands.md).
+This file is the shape of a job and the map to the rest: workflow
+[workflow.md](references/workflow.md) · craft [craft.md](references/craft.md) · syntax
+[format.md](references/format.md) · patterns [recipes.md](references/recipes.md) · commands
+[commands.md](references/commands.md).
 
 ## Contents
 
 - [Quick start](#quick-start)
 - [What to read for this brief](#what-to-read-for-this-brief)
 - [What is law and what is yours](#what-is-law-and-what-is-yours)
+- [Place the piece on the range](#place-the-piece-on-the-range)
 - [Before authoring — four checks](#before-authoring--four-checks)
 - [The shape of a job](#the-shape-of-a-job)
 - [The traps that cost a render](#the-traps-that-cost-a-render)
@@ -60,8 +61,8 @@ personalized row), and a brief can match several:
 
 | The brief is… | Written for it |
 |---|---|
-| a **TV / broadcast ad, promo, launch, sale, hero film** | `editing-director.md`, `editorial/short-form-performance.md`, `editorial/editing-grammar.md`, `blueprints.md`, `video-styles.md`, `video-prompts.md`, `motion/04-transitions.md`, `motion/07-narrative-sound-emotion.md` |
-| **social / vertical / UGC / trailer-style** | `editing-director.md`, `editorial/short-form-performance.md`, `blueprints.md`, `video-styles.md`, `motion/04-transitions.md` |
+| a **TV / broadcast ad, promo, launch, sale, hero film** | `editing-director.md`, `editorial/short-form-performance.md`, `editorial/editing-grammar.md`, `blueprints.md`, `video-styles.md`, `video-prompts.md`, `motion/04-transitions.md`, `motion/07-narrative-sound-emotion.md`, `music.md` |
+| **social / vertical / UGC / trailer-style** | `editing-director.md`, `editorial/short-form-performance.md`, `blueprints.md`, `video-styles.md`, `motion/04-transitions.md`, `music.md` |
 | an **explainer, tutorial, testimonial, internal comms, recap, sports** | `editing-director.md`, `editorial/nonfiction-formats.md`, `editorial/editing-grammar.md`, `blueprints.md`, `motion/07-narrative-sound-emotion.md` |
 | **personalized / data-driven / a chart or a stat** | `personalization.md`, `motion/06-ui-data-brand.md`, `editorial/nonfiction-formats.md` (data is a claim) |
 | a **presenter, spokesperson, talking head, dialogue** | `avatar.md`, `video-generation-advanced.md`, `production-bible.md`, `captions.md` |
@@ -93,17 +94,86 @@ the measurement is written next to it. Follow them exactly; they are not taste.
 
 **Everything else is a default, and you are expected to have a better idea.** The craft references
 describe what produces good work when nobody has a stronger one — read time, transition families,
-one atmospheric effect, two typefaces. They are the floor, not the ceiling. Where the brief leaves
-an axis free, make the choice a strong director would make *for this subject*, and break any craft
-default when you can say why in one line on the storyboard. The failure this skill exists to
-prevent is the generic piece — the frame that would fit any brief — and a rule followed without a
-reason produces that as reliably as no rule at all. The brief's own words always win over both.
+one atmospheric effect, two typefaces. Every one of them is written for the *middle* of the range
+below and scales with the position the piece declares; they are the floor, not the ceiling. Where
+the brief leaves an axis free, make the choice a strong director would make *for this subject*,
+and break any craft default when you can say why in one line on the storyboard. The failure this
+skill exists to prevent is the generic piece — the frame that would fit any brief — and a rule
+followed without a reason produces that as reliably as no rule at all. The brief's own words
+always win over both.
+
+## Place the piece on the range
+
+World-class work is not one tempo. `strata deconstruct` on reference video:
+
+| Reference | Shots | Mean shot | Energy | Stillness | Loudness |
+|---|---|---|---|---|---|
+| showreel, 10 s | 10 | 1.00 s | 1.49 | 0.46 | −9.0 LUFS |
+| film, quiet | 5 | 6.00 s | 1.06 | 0.57 | −28.0 LUFS |
+| film, action | 12 | 2.50 s | 11.43 | 0.00 | −14.0 LUFS |
+
+Energy spans 10×, mean shot length 6×, stillness 0.57 to nothing. The middle of that spread is a
+position to take on purpose; it is also where a piece lands when nobody takes one — our last three
+measured 2.31 / 10.00 / 2.50 s mean shot, energy 3.25 / 1.31 / 2.61 and −16.9 / −18.7 / −16.8 LUFS:
+three briefs, one band on every axis.
+
+**A mean is itself a middle.** The same spread runs *inside* a piece, and an average is how a piece
+ends up cutting everything at that average. Ten seconds of each:
+
+| Ten seconds of | Shots | Shortest → longest | Longest ÷ shortest | Rhythm regularity |
+|---|---|---|---|---|
+| reference showreel | 10 | 0.08 s → 3.80 s | 47.5:1 | 0.03 |
+| reference film | 12 | — | 3.1:1 | 0.65 |
+| ours, told to average 0.8 s | 12 | 0.32 s → 2.16 s | 6.8:1 | 0.37 |
+
+A two-frame flash and a four-second hold in the same ten seconds; ours had one speed — four hero
+layers, no hero.
+
+So **name four numbers in the storyboard, above the shot list, before any shot exists**: the
+**shot-length range** — the shortest cut and the longest hold, **and the job that earns each** —
+plus motion energy, stillness ratio and loudness (an integrated LUFS target for where the piece will
+actually play, plus the gap between its loudest and quietest beat,
+[music.md](references/music.md)). Name the shot that will be longest and what it carries; name the
+shortest and what those are — a transit, an impact, a beat, an item the viewer only has to register.
+A hold is time the viewer is allowed to look at the thing the piece is about, a flash is time the
+piece refuses to give, and shots with neither job are the middle and should be the *fewest*.
+
+**A hold is a shot the camera stays on, not a shot that stops.** The reference film's long takes —
+4.04 s and 5.96 s — measure stillness **0.16**; its showreel 0.46; a locked logotype that kept a
+fill scrolling inside the letters, 0.53. Ours, told to hold the payoff, came back at **0.88** —
+4.2 s whose only change was a light gradient decaying to a dead frame — and a blind critic said it
+*"plays its only card at 02:12 and has 7.8 s with nothing left to say."* It lost to the version it
+was meant to beat. Frame by frame the gap is starker: **the showreel's longest hold has ZERO frames
+whose frame-to-frame difference falls below 0.5** (mean 2.99 across the hold), and the film
+reference the same — a world-class long take is a slow move that lasts, not a static frame that
+lasts. Our 30 s ad: 133 of 138 frames on the hero shot and 95 of 98 on the end card below 0.5,
+**9.9 of its last 12.2 s effectively a still**, motion by thirds 4.16 / 6.90 / 0.71. The cheapest
+thing that makes a hold behave like the reference is a **continuous slow push — 2–3 % across the
+whole length of the hold** — and **an end card is a hold like any other**: the last shot, the frame
+the viewer leaves on, the place agents stop trying. So every declared hold, the end card included,
+names beside its length **what keeps moving through it**: per-frame animation on the elements, a
+slow camera push, a fill animating under a mask or matte while the shapes stay put, a grade or
+light shifting across a surface, secondary motion still settling after the primary landed, or
+generated footage that is itself moving. A hold that names nothing is a freeze, and the fix is to
+give the shot something to do, never to shorten it — the range and the frozen frame are two
+failures and both must clear.
+
+Say which row it sits near and what in *this* brief puts it there, then build to it: the
+shot list is beats with a length each, not a runtime divided by an average. **The range follows the
+material, and the ratio is a symptom, not a target** — one continuous idea earns a narrow range and
+says so, transits and impacts earn a wide one, both reference rows are world-class, and a ratio
+reached by padding one shot and clipping another is one uniform cut with two outliers glued on.
+`strata review` compares the render against the declared numbers exactly as it does against a
+supplied reference ([review.md](references/review.md)), reads `shortest`, `longest` and
+`rhythmRegularity` against the declared range, and checks the longest shot is the one you said
+would carry the idea. Landing in the middle having declared an extreme — or on one speed having
+declared a range — is a must-fix, not a taste difference.
 
 ## Before authoring — four checks
 
 Each one changes what the job is. Details and the traps of each: [workflow.md](references/workflow.md).
 
-- **Material supplied?** (storyboard, script, PDF, URL, sheets, footage, a voice) → read
+- **Material supplied?** (storyboard, script, PDF, URL, sheets, footage, a voice) →
   [intake.md](references/intake.md) first; the material *is* the brief, and a supplied storyboard is
   executed, not redesigned. Recurring person, product or set → the
   [production bible](references/production-bible.md) before the first clip.
@@ -122,12 +192,12 @@ the MP4. Every step in full, with the commands and the measurements behind it:
 1. **Assets.** Every clip at least as long as its slot plus ~1 s (a short clip freezes on its last
    frame); generate in waves in the background; anything composited *over* another layer is a
    `.jet`, full-frame plates stay MP4; every image becomes a video unless it is an icon or logo.
-2. **Storyboard, then sign-off, before any scene JSON.** A direction the user has seen, a shot
-   list, a layout sketch of the key frames, the end frame, and what stays still. Two or three
-   layout options when the framing could go more than one way — people recognise the layout they
-   want faster than they can describe it. Unattended run: decide in the user's place, record it in
-   `decisions.md`, and continue. Premium work gets the direction pass in
-   [director.md](references/director.md).
+2. **Storyboard, then sign-off, before any scene JSON.** The four numbers above, a direction the
+   user has seen, a shot list built to the declared range, a layout sketch of the key frames, the
+   end frame, what stays still, and where the light comes from. Two or three layout options when
+   the framing could go more than one way — people recognise the layout they want faster than they
+   can describe it. Unattended: decide in the user's place, record it in `decisions.md`, continue.
+   Premium work gets the direction pass in [director.md](references/director.md).
 3. **Scene JSON.** Written with the file-writing tool (a heredoc breaks on the first apostrophe),
    to a named layout on the grid, from recipes and blocks rather than from scratch, unique name on
    every layer. Block first, then primary motion, then secondary, then finishing — decoration
@@ -185,33 +255,33 @@ what they know; the engine files are read for what they forbid.
 
 | File | What it holds |
 |---|---|
-| [workflow.md](references/workflow.md) | the seven steps in full — the four checks, assets in waves, the storyboard format, hand-write vs generate, preview, versioning, libraries, the review, the Definition of Done |
-| [craft.md](references/craft.md) | the craft — story and shots, composition, occlusion, tracking, 3D and camera, motion principles, kinetic type, transitions, atmosphere, rhythm and sound, polish, design and layout |
-| [director.md](references/director.md) | the creative-direction pass for premium work — thesis and the six traits, reference analysis, directions that differ in kind, styleframes, the still list, the motion bible |
-| [anti-slop.md](references/anti-slop.md) | the defaults agent-composed frames fall into regardless of subject, the per-element test, and the composition-tells list `validate` checks |
-| [layouts.md](references/layouts.md) | named frame layouts (hero-center, split-media, three-up, stat-hero, title-over-media, quote, list-reveal, lower-third) and the grid; handing the layout to the user in `strata studio` |
-| [video-layouts.md](references/video-layouts.md) | composing *with* video — footage in shapes, type-as-window, split-screen, device frames, PiP, subject cut-outs, occlusion builds |
-| [motion-design.md](references/motion-design.md) | the ten techniques with real keys — custom easing, overshoot + settle, stagger, anticipation, follow-through, motion blur, designed transitions, camera; emotion → motion and material → easing tables |
-| [editing-director.md](references/editing-director.md) | the editorial layer — viewer promise, information release, the six control dimensions, the cut-decision gate; routes into `editorial/` |
-| [review.md](references/review.md) | the critic pass on the rendered MP4 — `strata review`, the viewings, the nine categories and what a must-fix looks like; known false positives |
-| [blueprints.md](references/blueprints.md) | whole-video structures by type — product launch, explainer, social promo, data story, logo reveal, app showcase |
-| [video-styles.md](references/video-styles.md) | 50 kinds of video, each with its shot grammar, stagger/easing values and tells; technique only — a brand overrides every style |
-| [reference-styles.md](references/reference-styles.md) | "make it feel like X" — ~25 films, directors and campaigns as measurable motion signatures; a reference is a technique source, never a costume |
-| [motion-atlas.md](references/motion-atlas.md) | the vocabulary — ~700 named motion concepts; where it and motion-design.md give a number for the same thing, motion-design.md wins |
+| [workflow.md](references/workflow.md) | the seven steps in full, each with the measurement behind it, and the Definition of Done |
+| [craft.md](references/craft.md) | the craft — story and shots, composition, 3D and camera, kinetic type, transitions, atmosphere, rhythm and sound |
+| [director.md](references/director.md) | the creative-direction pass for premium work — thesis, six traits, directions that differ in kind, styleframes, the still list, the motion bible |
+| [anti-slop.md](references/anti-slop.md) | the defaults agent work falls into regardless of subject, the per-element test, the tells `validate` checks |
+| [layouts.md](references/layouts.md) | the named frame layouts and the grid; handing the layout to the user in `strata studio` |
+| [video-layouts.md](references/video-layouts.md) | composing *with* video — footage in shapes, type-as-window, split-screen, PiP, cut-outs, occlusion builds |
+| [motion-design.md](references/motion-design.md) | the ten techniques with real keys; emotion → motion and material → easing tables |
+| [editing-director.md](references/editing-director.md) | the editorial layer — viewer promise, information release, the cut-decision gate; routes into `editorial/` |
+| [review.md](references/review.md) | the critic pass on the rendered MP4 — the viewings, the nine categories, the known false positives |
+| [blueprints.md](references/blueprints.md) | whole-video structures by type, rescaled to the declared shot-length range |
+| [video-styles.md](references/video-styles.md) | 50 kinds of video with their shot grammar and tells; technique only — a brand overrides every style |
+| [reference-styles.md](references/reference-styles.md) | "make it feel like X" — ~25 films, directors and campaigns as measurable signatures; a technique source, never a costume |
+| [motion-atlas.md](references/motion-atlas.md) | ~700 named motion concepts; where it and motion-design.md disagree on a number, motion-design.md wins |
 
 **Making assets**
 
 | File | What it holds |
 |---|---|
-| [assets.md](references/assets.md) | generating media — images with references, image-to-video, narration, music, avatars, `.jet` and matte, upload, waves |
-| [video-generation.md](references/video-generation.md) | prompting `generate video` — the five modes, the model table (fast is the default, `--best` for the full model), the frames-vs-references rule, clip length |
-| [video-generation-advanced.md](references/video-generation-advanced.md) | reference images for consistency, reference video for a camera plan, reference audio and dialogue, sketch animatics |
-| [video-prompts.md](references/video-prompts.md) | the prompt cookbook — a worked, measured prompt per kind of clip; keep the skeleton, swap the subject |
-| [production-bible.md](references/production-bible.md) | consistency across clips — principals ranked, one sheet each, the identity block ×3, one voice per speaker, per-clip verification |
-| [avatar.md](references/avatar.md) | a talking presenter from a still and audio — the decision between routes, then the mechanics |
-| [music.md](references/music.md) | prompting `generate music` — tag + genre + mood + instruments + BPM, the arc, ducking, SFX |
-| [captions.md](references/captions.md) | speech timing from audio or video — `strata captions` writes `{t0,t1,text}` cues (segment-level, not per-word) for caption bars, VO timing, checking a clip said its line |
-| [generative-fx.md](references/generative-fx.md) | beat-syncing with `strata beats`, generator scripts for overlays, audio-reactive graphics |
+| [assets.md](references/assets.md) | generating media — images, image-to-video, narration, music, avatars, `.jet` and matte, upload, waves |
+| [video-generation.md](references/video-generation.md) | prompting `generate video` — the five modes, the model table, the frames-vs-references rule, clip length |
+| [video-generation-advanced.md](references/video-generation-advanced.md) | reference images, reference video for a camera plan, reference audio and dialogue, sketch animatics |
+| [video-prompts.md](references/video-prompts.md) | the cookbook — a worked, measured prompt per kind of clip; keep the skeleton, swap the subject |
+| [production-bible.md](references/production-bible.md) | consistency across clips — one sheet per principal, the identity block ×3, per-clip verification |
+| [avatar.md](references/avatar.md) | a talking presenter from a still and audio — the route decision, then the mechanics |
+| [music.md](references/music.md) | the mix decision — the LUFS target for where it plays and the range inside the piece; then prompting `generate music` — the tag string, the arc, ducking, SFX |
+| [captions.md](references/captions.md) | `strata captions` — speech timing from audio or video as `{t0,t1,text}` cues (segment-level, not per-word) |
+| [generative-fx.md](references/generative-fx.md) | beat-syncing with `strata beats`, generator scripts, audio-reactive graphics |
 | [intake.md](references/intake.md) | reading supplied material into a shot table and executing it |
 | [video-editing.md](references/video-editing.md) | ffmpeg edits — trim, concat, reframe, speed, audio strip/replace, fades, loops; keeping the audio track |
 | [brand.md](references/brand.md) | capturing a visual identity as `.brand/brand.md` and authoring from it |
@@ -234,18 +304,18 @@ brief kind; read a chapter when its question is in front of you.
 
 | File | What it holds |
 |---|---|
-| [motion/01-foundations.md](references/motion/01-foundations.md) | animation principles, timing and spacing, easing families, physics and weight, rhythm |
-| [motion/02-choreography-space-camera.md](references/motion/02-choreography-space-camera.md) | staging and focal control, composition in motion, depth, camera language |
-| [motion/03-typography.md](references/motion/03-typography.md) | entrance and exit patterns for type, numbers in type, multilingual and RTL |
-| [motion/04-transitions.md](references/motion/04-transitions.md) | cuts, dissolves, wipes, motion-driven and textural transitions, a transition system |
-| [motion/05-shape-effects-texture.md](references/motion/05-shape-effects-texture.md) | shape and form, masks and mattes, optical effects, particles, colour and light, materials |
-| [motion/06-ui-data-brand.md](references/motion/06-ui-data-brand.md) | UI and product motion, data and infographic motion (honesty rules), brand motion systems |
-| [motion/07-narrative-sound-emotion.md](references/motion/07-narrative-sound-emotion.md) | story structure for motion, pacing, sound and music, emotion → motion parameters |
-| [motion/08-styles-index.md](references/motion/08-styles-index.md) | the 77-entry style index — graphic, retro, illustration, digital, genre conventions |
-| [motion/09-production-qa.md](references/motion/09-production-qa.md) | formats and baselines, accessibility and safety, the QA list, default numbers |
-| [editorial/editing-grammar.md](references/editorial/editing-grammar.md) | the six control dimensions of pace, editing languages, cut and transition vocabulary, pacing diagnosis |
-| [editorial/short-form-performance.md](references/editorial/short-form-performance.md) | promos, ads, trailers, social — objective-specific editing, hooks, CTA dwell, failure modes |
-| [editorial/nonfiction-formats.md](references/editorial/nonfiction-formats.md) | explainers, testimonials, corporate, sports; factual integrity for real people and real data |
-| [editorial/narrative-genres.md](references/editorial/narrative-genres.md) | genre as a modifier — thriller information release, trailer escalation, comedy timing, documentary restraint |
-| [editorial/workflow-and-qa.md](references/editorial/workflow-and-qa.md) | the editorial workflow, captions, flashing, rights, review passes on a cut |
-| [editorial/research-sources.md](references/editorial/research-sources.md) | where the editorial rules come from; when one conflicts with a measured engine fact, the measured fact wins |
+| [motion/01-foundations.md](references/motion/01-foundations.md) | principles, timing and spacing, easing families, physics and weight, rhythm |
+| [motion/02-choreography-space-camera.md](references/motion/02-choreography-space-camera.md) | staging, focal control, depth, camera language |
+| [motion/03-typography.md](references/motion/03-typography.md) | type entrances and exits, numbers, multilingual and RTL |
+| [motion/04-transitions.md](references/motion/04-transitions.md) | cuts, dissolves, wipes, motion-driven and textural transitions |
+| [motion/05-shape-effects-texture.md](references/motion/05-shape-effects-texture.md) | shape, masks and mattes, optical effects, particles, light, materials |
+| [motion/06-ui-data-brand.md](references/motion/06-ui-data-brand.md) | UI and product motion, data motion (honesty rules), brand motion systems |
+| [motion/07-narrative-sound-emotion.md](references/motion/07-narrative-sound-emotion.md) | story structure, pacing, sound and music, emotion → motion parameters |
+| [motion/08-styles-index.md](references/motion/08-styles-index.md) | the 77-entry style index |
+| [motion/09-production-qa.md](references/motion/09-production-qa.md) | formats, accessibility and safety, the QA list, default numbers |
+| [editorial/editing-grammar.md](references/editorial/editing-grammar.md) | the six control dimensions of pace, editing languages, cut vocabulary, pacing diagnosis |
+| [editorial/short-form-performance.md](references/editorial/short-form-performance.md) | promos, ads, trailers, social — hooks, CTA dwell, failure modes |
+| [editorial/nonfiction-formats.md](references/editorial/nonfiction-formats.md) | explainers, testimonials, corporate, sports; factual integrity |
+| [editorial/narrative-genres.md](references/editorial/narrative-genres.md) | genre as a modifier — thriller release, trailer escalation, comedy timing, documentary restraint |
+| [editorial/workflow-and-qa.md](references/editorial/workflow-and-qa.md) | the editorial workflow, captions, flashing, rights, review passes |
+| [editorial/research-sources.md](references/editorial/research-sources.md) | where the editorial rules come from; a measured engine fact beats any of them |

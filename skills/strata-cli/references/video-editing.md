@@ -1,12 +1,12 @@
 # Editing existing video — cut, join, crop, retime with ffmpeg
 
 Sometimes the user doesn't want a designed piece: they hand over an MP4 and say *"trim the
-first 3 seconds"*, *"make this 9:16"*, *"stitch these together"*, *"drop the audio"*. That
-is a **mechanical edit**, and the tool is **ffmpeg** — not a scene.
+first 3 seconds"* or *"make this 9:16"*. That is a **mechanical edit**, and the tool is
+**ffmpeg** — not a scene.
 
-This file is the **mechanical** half. The **editorial** half — which cut, why, and in what order,
-when the user hands over footage and says *"make this better"* or *"cut it down for social"* —
-is [editing-director.md](editing-director.md); read it first, then come back here for the commands.
+This file is the **mechanical** half. The **editorial** half — which cut, why, in what order,
+when the user says *"make this better"* — is [editing-director.md](editing-director.md);
+read it first, then come back here for the commands.
 
 **The split that decides everything:**
 - **Mechanical** (trim/join/crop/speed/audio/format) → **ffmpeg**, output an MP4, done.
@@ -15,11 +15,11 @@ is [editing-director.md](editing-director.md); read it first, then come back her
 
 ❗ **I don't burn graphics in with ffmpeg** when the piece is a designed video. `drawtext`
 has no easing, no per-character animation, no masks, no motion blur — it looks like a
-watermark. Text belongs in the scene. (Exception: a quick throwaway label the user
-explicitly asks to burn into a raw clip.)
+watermark. (Exception: a quick throwaway label the user explicitly asks to burn into a raw
+clip.)
 
 ⚠️ **ffmpeg must be on PATH** — same dependency as `jet`/`matte`/`track`/`beats`. If it's
-missing, say so instead of failing cryptically.
+missing, say so rather than failing cryptically.
 
 ---
 
@@ -42,22 +42,22 @@ missing, say so instead of failing cryptically.
 ## The three rules that prevent most damage
 
 **1. Copy when you can, re-encode when you must.** `-c copy` is instant and lossless but
-can only cut on **keyframes**, so the cut may land up to a GOP early (~1–2s). Frame-exact
-cuts need a re-encode.
+cuts only on **keyframes**, so it may land up to a GOP early (~1–2s). Frame-exact cuts need
+a re-encode.
 ```bash
 ffmpeg -ss 3 -i in.mp4 -c copy out.mp4                     # fast, keyframe-aligned
 ffmpeg -ss 3 -i in.mp4 -c:v libx264 -crf 18 -c:a aac out.mp4   # frame-exact
 ```
-**2. One pass, not five.** Every re-encode loses quality. Chain filters into a single
-command rather than trimming → cropping → scaling as three files. If an intermediate is
-unavoidable, use `-crf 16` so generation loss stays invisible.
+**2. One pass, not five.** Every re-encode loses quality: chain filters into one command
+instead of trimming → cropping → scaling as three files. If an intermediate is unavoidable,
+`-crf 16` keeps generation loss invisible.
 
 **3. 🔊 KEEP THE AUDIO. The first `-map` you write silently drops it.**
-This is the most repeated mistake in this whole file, and it costs the most: an AI clip's
-audio — lip-synced dialogue, sound design, room tone — **cannot be re-cut back in**. Losing
-it means re-generating the clip (3–9 minutes), not re-running the trim.
+The most repeated mistake in this file, and the costliest: an AI clip's audio — lip-synced
+dialogue, sound design, room tone — **cannot be re-cut back in**. Losing it means
+re-generating the clip (3–9 minutes), not re-running the trim.
 
-*Measured* on a Seedance clip with an AAC track, running the exact commands in this file:
+*Measured* on a Seedance clip with an AAC track, running the exact commands here:
 
 | pattern | audio |
 |---|---|
@@ -67,9 +67,9 @@ it means re-generating the clip (3–9 minutes), not re-running the trim.
 | **anything with `-map`** | ❌ **GONE** |
 | `-an` | ❌ gone (that is its job) |
 
-ffmpeg auto-selects the best audio stream **until you write a single `-map`** — at that point
-automatic selection switches off for every stream type, and video-only mapping throws the
-audio away without a word. So **whenever a command contains `-map`, it needs an audio map too**:
+ffmpeg auto-selects the best audio stream **until you write a single `-map`** — then automatic
+selection switches off for every stream type, and video-only mapping throws the audio away
+without a word. So **any command containing `-map` needs an audio map too**:
 
 ```bash
 -map "[v]" -map 0:a -c:a copy          # filtered video, original audio passed through
@@ -81,7 +81,7 @@ audio away without a word. So **whenever a command contains `-map`, it needs an 
 ffprobe -v error -show_entries stream=codec_type,duration -of csv=p=0 out.mp4
 ```
 Two lines (`video,…` and `audio,…`) with **matching durations**. One line means the audio is
-gone; mismatched durations mean it will drift. *Measured:* a correct 3 s trim reports
+gone; mismatched durations mean drift. *Measured:* a correct 3 s trim reports
 `video,3.000000  audio,3.000000`.
 
 ## Trim & cut
@@ -94,7 +94,7 @@ ffmpeg -ss 3 -i in.mp4 -to 8 -c:v libx264 -crf 18 -c:a aac out.mp4
 ffmpeg -i in.mp4 -t $(echo "$DUR - 2" | bc) -c:v libx264 -crf 18 out.mp4
 ```
 `-ss` **before** `-i` seeks fast (keyframe-accurate); **after** `-i` decodes and is
-frame-accurate but slow. With a re-encode, before-`-i` is accurate enough and much faster.
+frame-accurate but slow. With a re-encode, before-`-i` is accurate enough and far faster.
 
 ## Join / concat
 **Same codec, size and fps** → the concat demuxer, no re-encode:
@@ -105,13 +105,13 @@ ffmpeg -f concat -safe 0 -i list.txt -c copy out.mp4
 
 > ⛔ **Never stitch more than ~3 AAC segments this way — the audio drifts against the video.**
 > Every AAC segment carries **encoder priming** (~20–30 ms of padding) that a stream copy keeps
-> as real samples, so the audio track grows by that much **per join** while the video does not.
-> It is silent, it is progressive, and it only becomes audible late in the piece.
+> as real samples, so the audio grows by that much **per join** while the video does not. It
+> is silent and progressive, and only becomes audible late in the piece.
 > *Measured:* 15 concatenated segments gave **30.93 s of audio against 30.50 s of video —
-> 0.43 s of lag by the end**. The two-clip example below shows the same defect in miniature.
+> 0.43 s of lag by the end**.
 >
 > **For any multi-segment piece, build the audio ONCE, not per segment.** Either assemble the
-> full track from the sources as WAV and encode it a single time —
+> full track from the sources as WAV and encode it once —
 >
 > ```bash
 > # decode each segment's audio to raw PCM, join, encode once, mux against the video
@@ -120,14 +120,14 @@ ffmpeg -f concat -safe 0 -i list.txt -c copy out.mp4
 > ffmpeg -i full_v.mp4 -i full.wav -c:v copy -c:a aac -b:a 192k -shortest out.mp4
 > ```
 >
-> — or use the **concat filter** (below), which decodes and re-encodes in one pass and so has
-> no per-segment padding to accumulate. Check the result every time:
+> — or use the **concat filter** (below), which decodes and re-encodes in one pass, so there
+> is no per-segment padding to accumulate. Check every time:
 > `ffprobe -v error -show_entries stream=codec_type,duration -of csv=p=0 out.mp4` — **the two
-> durations must match**. A WAV target is exact: 30.5 s at 48 kHz is 1,464,000 samples, and you
-> can assert it.
+> durations must match**. A WAV target is exact: 30.5 s at 48 kHz is 1,464,000 samples —
+> assert it.
 
-**Different codecs/sizes/fps** → normalise in one filter graph (this is the usual case for
-clips from different sources):
+**Different codecs/sizes/fps** → normalise in one filter graph (the usual case for clips
+from different sources):
 ```bash
 # ⚠ a=0 + -map "[v]" DROPS THE AUDIO OF BOTH CLIPS. Only use this for silent sources.
 ffmpeg -i a.mp4 -i b.mp4 -filter_complex \
@@ -138,9 +138,9 @@ ffmpeg -i a.mp4 -i b.mp4 -filter_complex \
 **If either clip has audio — which any AI clip generated with `--audio` does — normalise the
 audio too and concat with `a=1`.** Verified on two Seedance clips: 4.04s + 5.04s -> 9.12s
 video / 9.13s audio. ⚠ Read those numbers carefully: the inputs sum to **9.08 s**, so even
-here the output is long and the **audio is 10 ms longer than the video**. At two segments that
-is inaudible; it is the same per-join padding that reaches 0.43 s by fifteen (box above).
-Always compare the two durations rather than trusting the sum.
+here the output is long and the **audio is 10 ms longer than the video** — inaudible at two
+segments, but the same per-join padding that reaches 0.43 s by fifteen (box above). Always
+compare the two durations rather than trusting the sum.
 ```bash
 ffmpeg -i a.mp4 -i b.mp4 -filter_complex \
  "[0:v]scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:-1:-1,fps=25,setsar=1[v0]; \
@@ -167,8 +167,8 @@ ffmpeg -i in.mp4 -filter_complex \
 ffmpeg -i in.mp4 -vf "scale=1080:-1,pad=1080:1920:0:(oh-ih)/2:0x0E1220" -c:v libx264 -crf 18 out.mp4
 ```
 **Pick by content:** a centred subject → crop. Wide action or on-screen text → blur-fill or
-brand letterbox, or the important half leaves the frame. **Check a frame afterwards** — a
-crop that decapitates the subject is the classic failure.
+brand letterbox, or the important half leaves frame. **Check a frame afterwards** — a crop
+that decapitates the subject is the classic failure.
 
 ## Speed & retime
 
@@ -176,14 +176,14 @@ crop that decapitates the subject is the classic failure.
 "0:1.0, 2.0:0.25, 3.2:1.0"` splits at the keyframes, motion-interpolates any segment below
 0.5× (the difference between slow motion and a slideshow), tempo-adjusts the audio through
 the ramp (or `--mute`), and asserts the output duration. Hand-built ramps hit the `-t` trap
-and the `-map` audio drop every time — that is why the command exists. A ramp is an
-**impact beat**: real speed into the hit, slow through it, back out.
+and the `-map` audio drop every time. A ramp is an **impact beat**: real speed into the hit,
+slow through it, back out.
 
 ⛔ **A retime is for a slow-motion beat the storyboard asked for — never to make a short clip
 fit a long scene.** A 15 s clip in a 17 s scene is covered with **more shots of the same subject**
-(a companion clip from a reference frame) or **extended** off its last frame, not stretched:
+(a companion clip from a reference frame) or **extended** off its last frame:
 [video-generation.md](video-generation.md#a-clip-must-be--its-scene-slot--a-short-one-freezes-and-is-never-stretched).
-Stretched footage is the most visible amateur tell in a finished piece.
+Stretched footage is the most visible amateur tell there is.
 
 ```bash
 ffmpeg -i in.mp4 -filter_complex "[0:v]setpts=0.5*PTS[v];[0:a]atempo=2.0[a]" -map "[v]" -map "[a]" out.mp4  # 2× faster
@@ -191,12 +191,11 @@ ffmpeg -i in.mp4 -filter:v "setpts=2.0*PTS" -an out.mp4        # 2× slower, sil
 ffmpeg -i in.mp4 -vf "fps=25" -c:v libx264 -crf 18 out.mp4     # conform fps
 ```
 `atempo` only handles 0.5–2.0 per instance — chain it for more. Slowing below ~0.5×
-without interpolation stutters; there's no frame interpolation here (a RIFE-class tool
-would be needed).
+stutters; there is no frame interpolation here (a RIFE-class tool would be needed).
 
 ⚠ **Never combine `-t` with a `setpts` stretch — `-t` cuts the OUTPUT, after the stretch.**
-You ask for a slow-down to fill *N* seconds, `-t` then truncates the stretched result back to
-its old length and you are short. *Measured:* an end-card retime that should have produced
+Ask for a slow-down to fill *N* seconds and `-t` truncates the stretched result back to its
+old length — you come up short. *Measured:* an end-card retime that should have produced
 **105 frames returned 79**. Drop `-t` entirely and let the filter define the length — add
 `fps=24` so the output has real frames at the scene's rate rather than stretched timestamps:
 
@@ -208,7 +207,7 @@ ffprobe -v error -count_frames -select_streams v -show_entries stream=nb_read_fr
 ```
 
 Compute the factor from **frames you want ÷ frames you have**, then verify the count — a
-retime that silently lands short desyncs everything downstream of it.
+retime that silently lands short desyncs everything downstream.
 
 ## Audio
 ```bash
@@ -220,9 +219,9 @@ ffmpeg -i in.mp4 -af "afade=t=in:d=0.5,afade=t=out:st=9.5:d=0.5" -c:v copy out.m
 ```
 
 ## Grade & match — the look is built here, not in the scene
-The engine has **no colour correction** (its only effects are blur, layer styles and corner
-pin), so exposure matching and any grade happen in ffmpeg **before** the clip becomes a layer.
-All verified, all keep the audio (`-c:a copy`):
+The engine has **no colour correction** (only blur, layer styles and corner pin), so exposure
+matching and any grade happen in ffmpeg **before** the clip becomes a layer. All verified,
+all keep the audio (`-c:a copy`):
 ```bash
 # lift / contrast / saturation — the everyday match between two clips
 ffmpeg -i in.mp4 -vf "eq=contrast=1.08:brightness=0.02:saturation=0.85" -c:v libx264 -crf 18 -c:a copy out.mp4
@@ -234,11 +233,11 @@ ffmpeg -i in.mp4 -vf "curves=preset=vintage" -c:v libx264 -crf 18 -c:a copy out.
 ffmpeg -i in.mp4 -vf "hue=s=0.7,eq=gamma=0.95" -c:v libx264 -crf 18 -c:a copy out.mp4
 ffmpeg -i in.mp4 -vf "lut3d=brand.cube" -c:v libx264 -crf 18 -c:a copy out.mp4
 ```
-**Matching two clips for a split or grid:** probe both (`signalstats` or just a frame of each
-side by side), bring the darker one up with `eq=brightness` first, then saturation, then a
-single shared `curves`/LUT on both so they share a "film stock". Grade **once**, in the same
-pass as the trim/reframe (rule 2). In the scene, the remaining look tools are overlay solids
-with blend modes, a vignette mask, and a grain `.jet` — motion-design.md, finish pass.
+**Matching two clips for a split or grid:** probe both (`signalstats`, or a frame of each side
+by side), lift the darker one with `eq=brightness` first, then saturation, then one shared
+`curves`/LUT on both so they share a "film stock". Grade **once**, in the same pass as the
+trim/reframe (rule 2). In the scene the remaining look tools are overlay solids with blend
+modes, a vignette mask, and a grain `.jet` — motion-design.md, finish pass.
 
 ## Fades, stills, loops
 ```bash
@@ -255,13 +254,13 @@ ffmpeg -i in.mp4 -filter_complex \
   [0:a]asplit[c][d];[d]areverse[ar];[c][ar]concat=n=2:v=0:a=1[aout]" \
  -map "[v]" -map "[aout]" loop.mp4
 ```
-An **honest loop** is either a palindrome or a clip whose first and last frames already
+An **honest loop** is a palindrome, or a clip whose first and last frames already
 match — repeating an arbitrary clip shows a hard jump and reads cheap.
 
 ## Colour — `strata grade`
 
 Clips from different `generate` calls do not match each other, and none match a brand.
-Grade them instead of hiding it with grain:
+Grade them rather than hiding it with grain:
 
 ```bash
 strata grade clip_b.mp4 --match clip_a.mp4 -o clip_b_graded.mp4   # histogram-match to a reference
@@ -286,20 +285,19 @@ ffprobe -v error -select_streams v:0 \
 ffprobe -v error -show_entries stream=codec_type,duration -of csv=p=0 out.mp4
 ```
 Then **look at the result**: pull a contact strip (above) and check it. An edit that
-"succeeded" with exit code 0 can still be cropped wrong, stretched, or **silent**. Re-probe the
-output to confirm dimensions/fps/duration are what was asked for.
+"succeeded" with exit code 0 can still be cropped wrong, stretched, or **silent**. Re-probe
+the output for dimensions/fps/duration.
 
 ## Output rules for anything going into a scene or Idomoo
 - **H.264 in MP4, `-pix_fmt yuv420p`** — the API takes `mp4/jpg/png` media only.
 - **Even dimensions** — odd width/height fails H.264. Force it:
   `-vf "scale=trunc(iw/2)*2:trunc(ih/2)*2"`.
-- **Match the scene's fps** (`fps=<scene fps>`) — a mismatch drifts audio sync and makes
-  beat-locked motion land late.
+- **Match the scene's fps** (`fps=<scene fps>`) — a mismatch drifts audio sync and lands
+  beat-locked motion late.
 - `-movflags +faststart` for anything played over the web.
 - **MP4 has no alpha.** A cut-out that composites over other layers must become a **`.jet`**
-  (`strata matte` / `strata jet`) — see [assets.md](assets.md).
-- **Audio still present?** `ffprobe` the output before handing it on — see rule 3. A clip
-  whose dialogue or sound design was dropped has to be **re-generated**, not re-trimmed.
+  (`strata matte` / `strata jet`) — [assets.md](assets.md).
+- **Audio still present?** `ffprobe` the output before handing it on — see rule 3.
 - Keep `-crf` 16–20 for intermediates; the cloud render re-encodes anyway.
 
 ## Recipes for common asks

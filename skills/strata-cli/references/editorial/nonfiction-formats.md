@@ -1,12 +1,12 @@
 # Nonfiction and factual formats
 
-> **Engine anchors.** Corporate, explainer, testimonial and sports-highlight work is most of
-> what this skill builds - the blueprints for those are in [blueprints.md](../blueprints.md)
-> and the talking-head path is [avatar.md](../avatar.md). The factual-integrity rules below
-> apply with full force to **personalized** video: a viewer's own data on screen is a claim,
-> and [personalization.md](../personalization.md) is how it gets there truthfully.
+> **Engine anchors.** Corporate, explainer, testimonial and sports-highlight work is most of what
+> this skill builds - blueprints in [blueprints.md](../blueprints.md), the talking-head path in
+> [avatar.md](../avatar.md). The factual-integrity rules below apply in full to **personalized**
+> video: a viewer's own data on screen is a claim, and
+> [personalization.md](../personalization.md) is how it gets there truthfully.
 
-Nonfiction editing creates structure and meaning from reality, but formal freedom does not permit false implication. Treat chronology, quotation, archive, reaction, sound, labels, and consent as editorial material with ethical consequences.
+Nonfiction editing makes structure and meaning from reality, but formal freedom does not permit false implication. Chronology, quotation, archive, reaction, sound, labels and consent are editorial material with ethical consequences — treat each as such.
 
 ## Contents
 
@@ -24,13 +24,13 @@ Nonfiction editing creates structure and meaning from reality, but formal freedo
 
 - Keep a provenance record for interviews, archive, user-generated material, documents, graphics, music, and generated media.
 - Distinguish what the material shows from what the narration or participants claim.
-- Do not rearrange shots, reactions, or sound so that unrelated events appear causally connected or simultaneous.
+- Do not rearrange shots, reactions, or sound so unrelated events appear causally connected or simultaneous.
 - Do not build a sentence, answer, or emotional response the participant did not make.
-- Removing pauses, repetitions, or verbal clutter is acceptable only when meaning, emphasis, uncertainty, and character remain accurate for the format's standards.
+- Remove pauses, repetitions, or verbal clutter only when meaning, emphasis, uncertainty, and character remain accurate for the format's standards.
 - Label reenactments, illustrative stock, simulations, composites, and generated imagery when viewers could mistake them for evidence.
-- Preserve enough context around consequential quotations that the speaker's meaning is not inverted or materially distorted.
-- When compressing chronology, disclose or signal it if the compression changes how responsibility, cause, risk, or sequence would be understood.
-- Treat music, slow motion, grading, and sound design as arguments. In sensitive factual work, ask what they make the audience believe—not only what they make the audience feel.
+- Preserve enough context around consequential quotations that the speaker's meaning is not inverted or distorted.
+- When compressing chronology, disclose or signal it if that changes how responsibility, cause, risk, or sequence would be understood.
+- Treat music, slow motion, grading and sound design as arguments; in sensitive factual work ask what they make the audience believe, not only feel.
 - Escalate disputed facts, high-risk allegations, vulnerable participants, privacy, fair use, and rights questions for editorial or legal review.
 
 ## Documentary
@@ -57,19 +57,19 @@ Nonfiction editing creates structure and meaning from reality, but formal freedo
 4. Create a factual chronology separate from the dramatic order.
 5. Identify the film's central question and the change in the audience's understanding.
 6. Make a paper/radio edit with claim-evidence links before using archive as visual cover.
-7. Build scenes in which interview, observation, archive, documents, and sound interact rather than one layer merely illustrating another.
+7. Build scenes in which interview, observation, archive, documents, and sound interact rather than one layer illustrating another.
 8. Audit the cut against raw context, participant welfare, and source provenance before lock.
 
-Documentary structure is often written in the edit. That increases, rather than reduces, the editor's responsibility to maintain traceable evidence.
+Documentary structure is often written in the edit. That increases, not reduces, the editor's responsibility to maintain traceable evidence.
 
 ### Interview and archive relationship
 
 - Let archive act as evidence, scene, counterpoint, contradiction, atmosphere, or historical voice.
-- Avoid saying a thing in interview and immediately showing the identical thing as generic illustration unless verification is the point.
+- Avoid saying a thing in interview and immediately showing it as generic illustration unless verification is the point.
 - Allow strong archive to play with its original sound when it can carry the scene.
 - Use current interviews over archive when reflection adds perspective; return on-camera when face, hesitation, contradiction, or present-tense relationship matters.
 - Distinguish the date and source of archive when viewers might confuse periods or events.
-- Treat contemporary reactions cut against past statements cautiously; the juxtaposition creates an argument even without narration.
+- Treat contemporary reactions cut against past statements cautiously; the juxtaposition argues even without narration.
 
 ### Ethical review questions
 
@@ -77,20 +77,15 @@ Documentary structure is often written in the edit. That increases, rather than 
 - Was consent specific enough for the final context, especially when the story changed during post?
 - Does the cut preserve dignity without sanitizing relevant truth?
 - Are vulnerable people exposed by image, voice, metadata, location, or surrounding context?
-- Could music, reaction order, or omission cause the audience to judge a person for something that did not occur as shown?
+- Could music, reaction order, or omission make the audience judge a person for something that did not occur as shown?
 - Have participants' safety, privacy, and material consequences been considered beyond a signed release?
 - Does the film distinguish certainty, allegation, inference, memory, and unknowns?
 
-Participant review is not automatically editorial veto. Decide the review scope, purpose, and authority transparently with the production.
+Participant review is not editorial veto. Decide review scope, purpose, and authority transparently with the production.
 
 ### Failure modes
 
-- Starting to cut before material is sufficiently logged to know what exists
-- Building a predetermined argument and searching only for confirming images
-- Using archive to wallpaper interview edits
-- Treating emotional truth as permission to alter factual chronology
-- Excessive score that predetermines moral judgment
-- Making every participant speak in the same polished cadence
+cutting before material is logged well enough to know what exists · building a predetermined argument and searching only for confirming images · using archive to wallpaper interview edits · treating emotional truth as permission to alter factual chronology · excessive score that predetermines moral judgment · making every participant speak in the same polished cadence.
 
 ## Interview, profile, and testimonial video
 
@@ -102,14 +97,14 @@ Participant review is not automatically editorial veto. Decide the review scope,
 - Structure by thought: context, tension, discovery, evidence, change, reflection, next step.
 - Prefer specific nouns, actions, sensory details, decisions, and consequences over general praise.
 - Remove repeated setup but preserve qualifiers that affect accuracy.
-- Use the interviewer's question only when it adds necessary context, relationship, or accountability; otherwise create a self-contained answer without changing meaning.
+- Use the interviewer's question only when it adds context, relationship or accountability; otherwise build a self-contained answer without changing meaning.
 - Maintain a source map for every excerpt.
 
 ### Picture strategy
 
 - Stay on the speaker for identity, vulnerability, humor, hesitation, and consequential claims.
 - Use B-roll for proof, process, place, scale, contrast, passage of time, or emotional counterpoint.
-- Do not cover every internal dialogue edit. Visible jump cuts can be honest and energetic in creator formats; split edits and motivated B-roll may better suit premium profiles.
+- Do not cover every internal dialogue edit: visible jump cuts are honest and energetic in creator formats, while split edits and motivated B-roll suit premium profiles.
 - Use punch-ins only within source resolution and when the scale change has a point.
 - Keep lower thirds long enough to read; do not compete with captions or critical imagery.
 
@@ -135,10 +130,10 @@ Participant review is not automatically editorial veto. Decide the review scope,
 ### News package grammar
 
 - Open with the newest consequential fact or scene, not generic atmosphere.
-- Use narration to connect verified facts; use soundbites for authority, testimony, expertise, dispute, or direct experience.
+- Use narration to connect verified facts; soundbites for authority, testimony, expertise, dispute, or direct experience.
 - Identify who, where, and when early enough to prevent mistaken inference.
-- Keep natural sound attached to its contemporaneous image unless an explicitly permitted newsroom convention applies.
-- Do not internally edit a quotation in ways prohibited by the applicable newsroom policy. At minimum, never alter meaning.
+- Keep natural sound attached to its contemporaneous image unless a permitted newsroom convention applies.
+- Do not internally edit a quotation in ways the applicable newsroom policy prohibits. At minimum, never alter meaning.
 - Avoid generic file footage that could be mistaken for the reported event or unfairly associate pictured people with wrongdoing.
 - Label file footage, archive dates, locations, translations, verification status, simulations, and reconstructions when relevant.
 - Use music sparingly or not at all in hard news; it can editorialize fact, urgency, grief, or blame.
@@ -154,12 +149,7 @@ Participant review is not automatically editorial veto. Decide the review scope,
 
 ### Failure modes
 
-- Chronology compression that changes perceived cause
-- Reaction shots from another moment used to imply response
-- Tight audio edits that change certainty or emphasis
-- Stock or archive presented without temporal context
-- Emotional music used to replace evidence
-- Headlines or captions that overstate the spoken report
+chronology compression that changes perceived cause · reaction shots from another moment used to imply response · tight audio edits that change certainty or emphasis · stock or archive presented without temporal context · emotional music used to replace evidence · headlines or captions that overstate the spoken report.
 
 ## Corporate, internal communication, education, and explainer
 
@@ -176,33 +166,29 @@ Name the required outcome as one of:
 - Adopt a behavior
 - Trust a strategy or leader
 
-The edit should make that outcome observable. A polished montage is not proof of comprehension.
+The edit should make that outcome observable; a polished montage is not proof of comprehension.
 
 ### Default grammar
 
 - Build a clean radio edit: problem, relevance, model or steps, demonstration/evidence, recap, action.
 - Segment complex material into chapters or visible state changes.
-- Align picture and words semantically, but avoid reading identical paragraphs on screen while narration repeats them.
+- Align picture and words semantically, but avoid identical paragraphs on screen while narration repeats them.
 - Use diagrams, highlights, cursor emphasis, and inserts at the instant they become useful.
 - For procedures, preserve causality and do not skip a step the learner must perform.
 - Give charts, equations, names, URLs, and decisions enough dwell time to process.
-- Use chapter cards and summaries as memory support, not as decorative interruptions.
+- Use chapter cards and summaries as memory support, not decorative interruptions.
 - Integrate description of critical visual information into narration where practical.
 
 ### Executive or culture video
 
 - Preserve natural leadership cadence while removing genuine redundancy.
-- Use employees, operations, product, and customers as evidence, not as generic corporate wallpaper.
+- Use employees, operations, product, and customers as evidence, not corporate wallpaper.
 - Let visual polish match organizational reality; overproduced sentiment can reduce trust.
 - Clarify the requested action and who owns it before the ending.
 
 ### Failure modes
 
-- Dense narration, captions, graphics, and B-roll competing simultaneously
-- Rapid edits that feel energetic but reduce learning
-- Abstract stock footage replacing concrete evidence
-- Acronyms and internal language left unexplained
-- A CTA card that appears too briefly to read or remember
+dense narration, captions, graphics, and B-roll competing simultaneously · rapid edits that feel energetic but reduce learning · abstract stock footage replacing concrete evidence · acronyms and internal language left unexplained · A CTA card that appears too briefly to read or remember.
 
 ## Reality, competition, and unscripted entertainment
 
@@ -212,25 +198,22 @@ The edit should make that outcome observable. A polished montage is not proof of
 
 - Establish rules, stakes, participants, resources, and spatial layout before compressing action.
 - Track each character's goal, knowledge, alliance, and reversal.
-- Use interview/confessional material to add point of view, strategy, contradiction, or reflection—not merely restate visible action.
+- Use interview/confessional material to add point of view, strategy, contradiction, or reflection—not to restate visible action.
 - In competitions, preserve the rule-changing action and enough process to understand why the outcome matters.
 - Build suspense from genuine uncertainty and available reactions.
 - Use recaps only when needed for memory across episode or commercial breaks.
-- Design act-outs around a real unresolved question, not a misleading false cliffhanger.
+- Design act-outs around a real unresolved question, not a false cliffhanger.
 
 ### Integrity constraints
 
 - Do not create a "frankenbite" that changes what a participant said.
 - Do not use a reaction from another context to imply a materially different response.
-- Do not reorder competition events in a way that changes perceived performance, fairness, or result.
+- Do not reorder competition events so that perceived performance, fairness, or result changes.
 - If pickups or reenactments are part of the format, follow production disclosure and standards.
 
 ### Failure modes
 
-- Repeating the same premise in scene, confessional, recap, and narrator
-- Hiding rules to manufacture confusion
-- Music telegraphing heroes and villains before behavior earns it
-- Constant reaction cutting that prevents viewers from seeing the event
+repeating the same premise in scene, confessional, recap, and narrator · hiding rules to manufacture confusion · music telegraphing heroes and villains before behavior earns it · constant reaction cutting that prevents viewers from seeing the event.
 
 ## Sports highlights, sports documentary, and sports narrative
 
@@ -249,9 +232,9 @@ The edit should make that outcome observable. A polished montage is not proof of
 ### Sports documentary or series
 
 - Build the game as a story: expectation, tactical problem, adaptation, turning point, consequence.
-- Characterize through choices and behavior rather than only interview description.
+- Characterize through choices and behavior, not only interview description.
 - Search archive beyond goals and wins: preparation, failure, waiting, conflict, crowd, staff, family, body language, and environment.
-- Let stretches of play unfold when the audience must experience the sport rather than receive a result montage.
+- Let stretches of play unfold when the audience must experience the sport, not receive a result montage.
 - Use isolated sound, fan voices, and local atmosphere to put the audience inside the event.
 - Slow motion can reveal mechanics, risk, or emotion; it should not falsely imply duration or significance in journalistic contexts.
 
@@ -261,11 +244,7 @@ Use the narrative-genre guidance too. The decisive play should resolve a charact
 
 ### Failure modes
 
-- Showing only outcomes without the choices that produced them
-- Sacrificing rules and score context for visual speed
-- Moving crowd or participant reactions to create false chronology
-- Repetitive slow motion that drains urgency
-- Generic triumph music flattening uncertainty and loss
+showing only outcomes without the choices that produced them · sacrificing rules and score context for visual speed · moving crowd or participant reactions to create false chronology · repetitive slow motion that drains urgency · generic triumph music flattening uncertainty and loss.
 
 ## Multicamera talks, concerts, ceremonies, and live events
 
@@ -277,7 +256,7 @@ Use the narrative-genre guidance too. The decisive play should resolve a charact
 - For panels, preserve conversational turn-taking and listening; use wides for overlap or group response.
 - For concerts, map song form and feature the source of each audible instrument or vocal at meaningful moments.
 - Use audience reactions as atmosphere and consequence only when contemporaneous and representative.
-- Reserve crane, wide, or beauty shots for scale, phrase boundaries, applause, entrances, and exits; do not abandon important performance detail merely for variety.
+- Reserve crane, wide, or beauty shots for scale, phrase boundaries, applause, entrances, and exits; do not abandon important performance detail for variety.
 - In ceremonies, prioritize identity, order, and irreplaceable moments over visual novelty.
 
 ## Nonfiction review audit
@@ -296,4 +275,4 @@ Before lock, review every consequential sequence with this table:
 | Are disputed claims attributed and responses represented? | Fact-check and editorial sign-off |
 | Are rights and licenses traceable? | Cue sheet and archive log |
 
-If the truthful version is less dramatic, keep the truthful version and redesign the surrounding structure.
+If the truthful version is less dramatic, keep it and redesign the surrounding structure.

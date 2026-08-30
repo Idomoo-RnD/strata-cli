@@ -287,7 +287,10 @@ Verified by render. Give each comp the duration it must cover (usually the scene
 its layer, so a mask can never act as a fixed window over a moving layer. To reveal part of
 something that moves (a rolling odometer strip, a sliding strip of thumbnails), put the moving
 layer **inside a comp the size of the window** and place that comp — the comp edge does the
-clipping. (A static track-matte layer also works.)
+clipping. (A static track-matte layer also works.) ⚠️ **The max 1920/axis applies to sub-comps
+too** — a `1920×2800` strip comp is rejected by the schema, so this only works while the moving
+strip stays under 1920 px on its long axis. For anything longer use the static track-matte, or
+cycle a short strip (reset and re-fill it) instead of building the full length.
 
 ⚠️ **Unique layer names — duplicate names across sub-comps crash the render (error 3000).** The exporter keys layers (especially text placeholders) by name **globally**. Two layers sharing a name in different sub-comps — e.g. a `card` sub-comp reused with its text layer named `label` each time — collide and the render fails 3000 (it compiles/validates fine locally). The compiler **auto-uniquifies** duplicates at compile time (`label`→`label_2`, …) and prints what it renamed, so scenes render; still, author distinct, meaningful names so personalization keys stay predictable.
 

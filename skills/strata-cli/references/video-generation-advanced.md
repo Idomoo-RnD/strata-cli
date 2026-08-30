@@ -9,8 +9,7 @@ combined with `--first-frame` / `--last-frame`. Attaching any reference makes a 
 instant `422`. Want a reference look *and* a controlled start frame? Generate the
 reference-driven clip first, then chain off its last frame.
 
-*(None of this applies to `strata generate fastvideo`, which takes one image and a motion
-line — no references, no shot list, no audio. See the end of this file.)*
+*(None of this applies to `strata generate fastvideo` — see the end of this file.)*
 
 ---
 
@@ -56,16 +55,15 @@ line — no references, no shot list, no audio. See the end of this file.)*
 | `--ref-audio` | **`[Audio 1]`, `[Audio 2]`** — *square* brackets | ≤ 3 |
 
 Numbering is **1-based, in the order the flags appear on the command line**. Mixing the
-bracket styles up means the reference is silently never cited — the model still generates,
-it just ignores what you attached.
+bracket styles up means the reference is silently never cited: the model still generates, it
+just ignores what you attached.
 
 ---
 
 ## `--ref-image` — carry a character, a product or a world across clips
 
 Attach images that steer subject and style, and address them as `[Image N]`. This is how you
-put **your** character in **your** location without owning a single frame of the result — the
-most powerful mode for branded and series work.
+put **your** character in **your** location without owning a single frame of the result.
 
 ```bash
 strata generate video "<prompt citing [Image 1] and [Image 2]>" \
@@ -75,8 +73,8 @@ strata generate video "<prompt citing [Image 1] and [Image 2]>" \
 
 ### Give every image an explicit JOB
 
-Do not attach images and hope. Name each one, say what it governs, and list the specific
-invariants — the same discipline as the identity lock:
+Name each one, say what it governs, and list its invariants — the same discipline as the
+identity lock:
 
 ```text
 [Image 1] is the CHARACTER SHEET and is the definitive reference for the boy in every
@@ -94,14 +92,14 @@ the set, the palette and the lighting in every single shot.
 ```
 
 Then keep citing them **inside the shots** — "the boy from [Image 1] small in the frame",
-"straight down the alley of [Image 2]" — and restate both in the Static Description. Same
-rule as always: **state it three times**.
+"straight down the alley of [Image 2]" — and restate both in the Static Description:
+**state it three times**.
 
 ### Build the reference images for the job
 
 - **Character** → a proper **model sheet**: the same character in front, three-quarter, side
   and back views on one flat grey background, same ground line, plus a couple of expression
-  heads. Give the model every angle it needs rather than one pose.
+  heads — every angle it needs, not one pose.
 - **Location** → a clean **plate with NO PEOPLE in it**. Put `ABSOLUTELY NO PEOPLE, no
   characters, no figures anywhere in the frame` in the image prompt — a stray figure in the
   plate will fight the character you are inserting.
@@ -133,8 +131,7 @@ Character sheet + location plate, 5-shot prompt, 12 s, 720p, 16:9, `--audio`:
   `adaptive` here.
 - A reference with a **real face, a logo or a real product** → expect `--realistic-human` (the
   CLI auto-retries and says so).
-- References give you *who and what*. They do **not** give you an exact opening frame — that is
-  `--first-frame`, and you cannot have both.
+- References give you *who and what*, never an exact opening frame.
 
 ### Checklist
 
@@ -179,9 +176,8 @@ different structure. Only the subject and the location change; the shot flow is
 The first two cuts came back **frame-identical**, while subject and location changed completely.
 
 Upload the footage first if it has no URL (`strata upload clip.mp4`). *Measured:* a reference
-video is exempt from the privacy pre-filter — a clip full of photoreal people, including a
-face close-up, was accepted with no flag. (Passing `--realistic-human` with only `--ref-video`
-is a hard error.)
+video is exempt from the privacy pre-filter — photoreal people, including a face close-up,
+were accepted with no flag. (`--realistic-human` with only `--ref-video` is a hard error.)
 
 ### Use 2 — block the shot yourself with a grey-box animatic
 
@@ -223,8 +219,7 @@ labels, no plain background in the output.
 ### The strongest combination: sheets + plate + sketch
 
 References compose. Character sheet as `[Image 1]`, location plate as `[Image 2]`, animatic as
-`<Video_1>`: the images say **who and where**, the video says **how it is shot**. That is the
-most control this API offers.
+`<Video_1>`: the images say **who and where**, the video says **how it is shot**.
 
 *Measured* on a 10 s street-crossing sketch: character came off the sheet (glasses, hoodie,
 sneakers, backpack), world came off the plate (zebra stripes, pedestrian light, bus shelter,
@@ -273,8 +268,8 @@ shopfronts), and the first cut matched at **3.500 s exactly**.
 
 Attach up to **3** tracks and address them as `[Audio 1]`, `[Audio 2]`, … The model
 **lip-syncs a character to a recording you supply**, so you control the voice instead of
-accepting whatever it invents. This is what makes branded spokes-characters and real dialogue
-possible.
+accepting whatever it invents — which is what makes branded spokes-characters and real
+dialogue possible.
 
 > ⛔ **Audio never travels alone — it needs a visual reference to attach the voice to.**
 > *Measured 2026-08-25:* `--ref-audio` with no `--ref-image`/`--ref-video` is rejected —
@@ -353,18 +348,17 @@ re-performance.
 This is the general rule for **any clip in which someone speaks** — whether the voice came from
 `--ref-audio`, from a `{line}` in a plain text-to-video prompt, from an avatar, or from the user's
 own footage: the clip's audio is the performance. Generating a narration of the same words and
-laying it on top cannot sync, for the reason measured below.
+laying it on top cannot sync.
 
 Once a TTS track has been used as `--ref-audio`, **the generated clip's own audio is the
-deliverable.** Put that clip in the scene with its audio intact. Do **not** add the original
-`.mp3` as a separate `audio` layer on top — it cannot be made to sync, and doubling it means
-two voices.
+deliverable.** Put that clip in the scene with its audio intact and do **not** add the
+original `.mp3` as a separate `audio` layer — doubling it means two voices.
 
-Look at where the speech actually lands in the numbers above: **1.3 s, 3.8 s and 6.3 s into
-the clips** — never at 0. The model places each line against the picture it generated and
-paces the delivery to the performance, so the words sit at a different time inside the clip
-than they do in the source file. Laying the `.mp3` at `t=0` is seconds early, and **no fixed
-offset repairs it**, because the internal pacing is re-timed too, not just shifted.
+The speech lands **1.3 s, 3.8 s and 6.3 s into the clips** — never at 0. The model places each
+line against the picture it generated and paces the delivery to the performance, so the words
+sit at a different time inside the clip than in the source file. Laying the `.mp3` at `t=0` is
+seconds early, and **no fixed offset repairs it**, because the internal pacing is re-timed
+too, not just shifted.
 
 So:
 
@@ -411,8 +405,8 @@ Both make a person talk. They are not interchangeable:
 | **non-personalized presenter** | a talking still — fine for a fixed plate or a quick cut | ✅ **the default** — a directed, filmed shot |
 | cost | one still + one call | a character sheet, TTS, and a 3–9 min generation |
 
-**Presenter, spokesperson, host, testimonial → `generate video --ref-image --ref-audio`** (the
-filmed one is the default). **Personalized, or the user wants a fixed plate / a quick cut →
+**Presenter, spokesperson, host, testimonial → `generate video --ref-image --ref-audio`.**
+**Personalized, or the user wants a fixed plate / a quick cut →
 `generate avatar`.** State the route and its trade-off in the storyboard either way — the full
 decision lives in [avatar.md](avatar.md).
 
@@ -422,7 +416,7 @@ decision lives in [avatar.md](avatar.md).
 
 The same input, the other job: attach a music track and the model **cuts and moves to it**.
 This is the strongest way to get a beat-locked clip without post — the edit points come out
-already on the music. Four moves, in this order, and every one is load-bearing:
+already on the music. Four moves, in this order, every one load-bearing:
 
 1. **Assign the job up front, before anything else:** `Use [Audio 1] as the music track for
    the entire video, and choreograph everything to it.`
@@ -438,8 +432,8 @@ already on the music. Four moves, in this order, and every one is load-bearing:
 
 The last shot should **land with the music's closing phrase** — say so — or the clip ends
 mid-bar. The rest of the prompt is the ordinary anatomy: identity lock ×3, double-contrast
-shots, `Static Description:`. Worked in full on a tai-chi piece in the prompt reference this
-file's anatomy comes from; the measured result was the "super good" one.
+shots, `Static Description:`. Worked in full on a tai-chi piece — the measured result was the
+"super good" one.
 
 When the music is *yours to place* rather than the model's to cut to — a VASCO scene with a
 bed under it — do the opposite: generate **without** a track and cut in the scene on
@@ -457,9 +451,8 @@ CAPS** and the **five shots** that express it.
 > `taichi_B` — about CIRCLES and ROTATION (orbit arc, spiral turn, rim light from behind)
 > `taichi_C` — about RISING and OPENING (bird's-eye opener, arms unfold, camera cranes up)
 
-Same seed across the series if you want the look to hold even tighter (`--seed`). A series
-whose prompts differ in more than the theme and the shots drifts — the identical skeleton is
-what makes three clips look like they came from one shoot.
+Same seed across the series if you want the look to hold even tighter (`--seed`). The
+identical skeleton is what makes three clips look like they came from one shoot.
 
 ## `strata sketch` — author the camera plan as a 3D animatic
 
@@ -505,11 +498,10 @@ strata generate video "<the real content>" --ref-video <that url> --duration 12 
   — `[[timeSeconds, [x,y,z]], …]`, interpolated. Y is up; put a standing figure at y ≈ half
   its height.
 - Labels render as **small 2D screen-space text** so the model reads the blocking, and are
-  dropped rather than smeared when a subject is too far away. Keep them **short and generic** —
-  they can burn into the output as on-screen text (above).
+  dropped rather than smeared when a subject is too far away. Keep them **short and generic**
+  (above).
 - Solid shaded blocks, no wireframe — deliberately. *Measured:* a wireframe animatic **leaked
   its wireframe look into the generated video**; solid blocks do not.
-- Keep camera heights **believable** — extreme positions get moderated.
 - `--html` writes an interactive page for eyeballing the blocking before you render;
   `--frames` dumps the PNG sequence.
 
@@ -572,8 +564,8 @@ changed or continued — is this the tool.
 
 ### Editing — change one thing, freeze everything else
 
-*Measured, and the strongest result in the whole test suite.* Source: a studio watch clip.
-Instruction: brushed steel → polished gold, change nothing else.
+*Measured.* Source: a studio watch clip. Instruction: brushed steel → polished gold, change
+nothing else.
 
 | At | Source | Edited |
 |---|---|---|
@@ -623,7 +615,7 @@ resolving back to one as she exited frame. The continuation was otherwise correc
 So identity is **not** guaranteed through a large action:
 
 - **Continuity of a PERSON matters → chain on `--last-frame-out`**, which gave a pixel-exact
-  handoff with no duplication. It carries only one frame, but it carries it perfectly.
+  handoff with no duplication.
 - **Reference-video extension** carries the whole clip's motion, grade and feel — use it when
   the *look* must continue and the action is small.
 - The duplication appeared during the **largest movement**. If you must extend a person shot,
@@ -660,11 +652,8 @@ So identity is **not** guaranteed through a large action:
 ## What `generate fastvideo` cannot do
 
 `strata generate fastvideo <image>` is the OLD image-to-video path, used **only when fast mode
-is explicitly asked for**. Nothing on this page applies to it: no references of any kind, no
+is explicitly asked for**. Nothing on this page applies to it: no references, no
 `[Image N]` / `<Video_1>` citations, no keyframes, no `--audio`, no `--last-frame-out`, no
-`--realistic-human`, and no shot list — it takes one image plus a short motion line and
-animates it. It does accept a **local file** (auto-encoded), unlike `generate video`.
-
-Because it produces a single continuous move with no cuts, it is safe for a `.jet` overlay
-clip — but it gives you no control over the matte-friendliness of the shot, which the source
-image has to carry instead.
+`--realistic-human`, no shot list — just one image plus a short motion line. It does accept a
+**local file** (auto-encoded), unlike `generate video`, and being a single continuous move
+with no cuts it is safe for a `.jet` overlay clip ([video-generation.md](video-generation.md)).

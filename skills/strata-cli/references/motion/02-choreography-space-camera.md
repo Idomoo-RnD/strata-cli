@@ -2,9 +2,8 @@
 
 > **Engine anchors.** Where things sit on the canvas - grid, margins, safe lines - is
 > [layouts.md](../layouts.md) and [video-layouts.md](../video-layouts.md). The VASCO camera is an
-> **exact pinhole with a measured calibration**, and negative z moves a layer TOWARD the camera:
-> read [format.md](../format.md) before writing any 3D or camera keyframe, or the shot comes out
-> the wrong size. The craft below is what to do once those are right.
+> **exact pinhole with a measured calibration** and negative z moves a layer TOWARD it: read
+> [format.md](../format.md) before any 3D or camera keyframe, or the shot comes out the wrong size.
 
 Contents: 1 Staging and focal control · 2 Composition in motion · 3 Depth and dimensionality · 4 Camera language
 

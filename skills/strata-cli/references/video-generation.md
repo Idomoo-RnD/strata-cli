@@ -55,8 +55,8 @@ References, dialogue, animatics and editing are in
 ## 🚫 The one hard rule: frames and references are mutually exclusive
 
 **`--first-frame` / `--last-frame` can NEVER be combined with `--ref-image`, `--ref-video`
-or `--ref-audio`** — not one of them, in any combination. The CLI blocks it before spending
-anything; the API returns a `422`.
+or `--ref-audio`** — in any combination. The CLI blocks it before spending anything; the API
+returns a `422`.
 
 So decide before you write the prompt:
 
@@ -109,14 +109,12 @@ interiors, landscapes and face-free images are unaffected either way.
 
 `--first-frame`, `--last-frame` and every `--ref-*` take **URLs**; base64 data-URIs are
 rejected. Most assets already have one — every `strata generate` command prints a hosted
-`url:`, and so does `strata render`. **Use that string; never re-upload a generated asset** —
-it wastes a request and leaves a duplicate permanent public copy.
+`url:`, and so does `strata render`. **Use that string; never re-upload a generated asset.**
 
 `strata upload <file>` is only for an input with no URL at all: the user's own footage, or
 something we rendered locally (a `strata sketch` animatic, an ffmpeg frame grab). *Measured:*
-`t.idomoo.com` URLs are accepted for both image and video references. Scene assets — including
-`.jet` overlays — are never uploaded; they are local paths embedded in the `.idm`. See
-[assets.md](assets.md).
+`t.idomoo.com` URLs are accepted for both image and video references. Scene assets are never
+uploaded — see [assets.md](assets.md).
 
 ## Parameters
 
@@ -131,7 +129,7 @@ something we rendered locally (a `strata sketch` animatic, an ffmpeg frame grab)
 | `--best` | the **standard** model instead of the default fast one: slower, but it delivers every shot asked for. Pass it when the storyboard needs all its shots (`--fast` still parses and is now a no-op — fast is the default) |
 | `--resolution` | **clamped to 720p — always, never more.** That cap is why fast is the default: full resolution is the only thing the standard model buys above it |
 
-Generation takes **3–9 minutes**. Run it in the background and report the URL — and when a job has several clips, launch every independent one **at once** and build the scene while they render ([assets.md](assets.md), *Generate in waves*).
+Generation takes **3–9 minutes**. Run it in the background and report the URL; when a job has several clips, launch every independent one **at once** and build the scene while they render ([assets.md](assets.md), *Generate in waves*).
 
 ### Which model runs — fast is the default
 
@@ -141,17 +139,15 @@ Generation takes **3–9 minutes**. Run it in the background and report the URL 
 | `--best` | `dreamina-seedance-2-0-260128` | when the storyboard needs **every shot to land**: the fast model's one measured cost is shot count (a 5-shot ask returned 4) |
 | `--model <id>` | any id the account has activated | an explicit override, only when asked for. An unactivated id fails with *"account has not activated the model"* — say so rather than retrying |
 
-720p is the ceiling in every case, so the standard model buys nothing but shot reliability here.
-`--fast` still parses and does nothing (fast is already the default). Every other measured number
-on this page was taken on the standard model; shot delivery is the only figure the fast model
-changes.
+Every other measured number on this page was taken on the standard model; shot delivery is the
+only figure the fast model changes.
 
 ### 🔊 A clip generated with `--audio` must keep its audio downstream
 
 Sound design and lip-synced dialogue are generated **into the clip** — they are not a
 separate track you can re-attach. If a trim, reframe, retime or concat drops the audio, the
-fix is **re-generating the whole clip (3–9 minutes)**, not re-running the edit. That is why
-this is worth checking every single time.
+fix is **re-generating the whole clip (3–9 minutes)**, not re-running the edit — so check
+every single time.
 
 The trap is one flag: **ffmpeg keeps audio automatically until the command contains a
 `-map`** — then it keeps only what you map, and video-only mapping discards the audio
@@ -188,7 +184,7 @@ Physical detail, never adjectives:
 > dark indigo jeans, small speckled cream mug in her right hand.
 
 Then repeat the invariants **inside the close-up shot** and **again in the Static
-Description**. Three statements. Never assume the model remembers.
+Description**. Never assume the model remembers.
 
 ### 4. Location — one paragraph with depth
 A foreground plane, the subject, and a background that falls away. Name the light source and
@@ -210,8 +206,7 @@ Add a hold on the face shot: *"hold this shot long enough to clearly read her fa
 
 > ⚠️ **Montage verbs cut the clip even when there is no shot list.** *"Cut to"*, *"then we
 > see"*, *"meanwhile"*, *"next"*, *"later"*, *"intercut"* are read as edit instructions
-> **wherever they appear** — including in plain prose you never intended as an edit.
-> *Measured:* a prose brief with no `Shot N:` and no `Cut.`, containing only "We see her
+> **wherever they appear**. *Measured:* a prose brief with no `Shot N:` and no `Cut.`, containing only "We see her
 > unlock the door. Cut to her flipping the sign." returned **3 hard cuts in a 5 s clip**
 > (scene scores 0.47 / 0.60 / 0.65). Describe **one continuous action** instead — *"she
 > unlocks the door, crosses to the counter and starts the machine"*. And whenever a clip is
@@ -298,12 +293,11 @@ No music. No speech. Slow, unhurried pacing throughout.
 ## ⛔ Clips destined for a `.jet` alpha overlay — NO shots, NO cuts
 
 When the clip will be matted (`strata matte` → `.jet`) to sit as a transparent overlay, the
-shot-list approach is **wrong** and produces an unusable matte. This is a hard rule.
+shot-list approach is **wrong** and produces an unusable matte.
 
 **Generate ONE continuous shot.** Say it explicitly — `ONE single continuous shot, no cuts.`
 — and drop `Shot N:` / `Cut.` / "five distinct shots" entirely. Keep `Style & Mood:`, the
-identity lock, `Static Description:` and the physical motion description; only the shot list
-goes.
+identity lock, `Static Description:` and the physical motion description.
 
 **Why cuts break matting.** Background removal runs **per frame with temporal smoothing** —
 each frame's matte is informed by its neighbours — and a hard cut is a discontinuity it
@@ -344,8 +338,7 @@ mechanics and [video-layouts.md](video-layouts.md) for composing an alpha overla
 
 *Measured:* **`--first-frame` is literal.** Video frame 0 *is* the source image — same pose,
 same composition, same light. So write **Shot 1 to begin on it** ("begin exactly on the first
-frame and bring it to life") rather than describing a different opening. You are animating
-that frame, not being inspired by it.
+frame and bring it to life") rather than describing a different opening.
 
 ⚠ **Anything outside the source frame is invented.** *Measured:* a wide push-back moved the
 window to centre frame, added furniture that was never there, and rendered the character
@@ -378,15 +371,14 @@ strata generate image "The SAME character as image 0 … <the END pose>" --refer
 *Measured:* `--reference` held the character exactly — same eyes, freckles, curls, wardrobe
 and mug — while changing the pose from three-quarters-to-camera to profile.
 
-**The prompt is ONE continuous move, not a shot list.** This is the one place the shot-list
-structure does not apply:
+**The prompt is ONE continuous move, not a shot list:**
 
 1. `Style & Mood:` and the CAPS theme as usual.
 2. Identity lock referencing **both** frames: *"the character in the FIRST FRAME and the LAST
    FRAME … identical throughout."*
 3. **State it plainly: "ONE single continuous shot, no cuts."** *Measured:* honoured exactly.
-4. Describe the motion **physically, in order** — what starts, what moves, what the hands do,
-   what the light does, how it settles — naming the ends explicitly: *"She begins exactly as
+4. Describe the motion **physically, in order** — what starts, what moves, what the light
+   does, how it settles — naming the ends explicitly: *"She begins exactly as
    in the first frame … she ends exactly as in the last frame."*
 5. `Static Description:` and `Audio:` as usual.
 
@@ -398,8 +390,7 @@ hand, free hand rising to the frame, curls settling.
 **Notes.** Keep it **short** — 5 s is plenty for one gesture; a long duration just invents
 filler between two fixed poses. The real-face rule applies to **both** images. Aspect still
 snaps. And this is the cleanest way to build a controlled sequence: author frames A, B, C as
-images and interpolate A→B, B→C — every clip boundary is then a frame you chose, which is
-stronger than chaining, where the boundary is wherever the model happened to end.
+images and interpolate A→B, B→C — every clip boundary is then a frame you chose.
 
 ## Locking the camera — in the prompt, not the flag
 
@@ -449,8 +440,8 @@ re-establishes it**. *Measured:* a base clip of heavy rain with six umbrella-car
 pedestrians, chained on `--last-frame-out`; the continuation described only the character's
 action. The wet street and its reflections survived — **the rain and every umbrella
 vanished**. Re-stating the ambient line brought both back from the identical first frame. So
-restate the **weather and the background life** in every continuation, not just the set: it is
-the Static Description's missing third column, and it fails silently mid-sequence.
+restate the **weather and the background life** in every continuation, not just the set — the
+Static Description's missing third column, and it fails silently mid-sequence.
 
 ⚠ **One duplicate frame at every seam** — clip N's last frame *is* clip N+1's first frame
 (*measured:* mean pixel difference 3.27/255, the same image differing only by compression). At
@@ -465,8 +456,8 @@ ffmpeg -i clip_01.mp4 -i clip_02.mp4 -filter_complex \
   -c:a aac -b:a 192k -y joined.mp4
 ```
 
-⚠ **Audio does not chain** — each clip gets its own track, so ambience restarts at every join.
-Video continuity does not buy audio continuity. For a multi-clip piece, generate without
+⚠ **Audio does not chain** — each clip gets its own track, so ambience restarts at every join;
+video continuity does not buy audio continuity. For a multi-clip piece, generate without
 `--audio` and lay one continuous bed over the join.
 
 ⛔ **And past ~3 clips, never `-c copy` the audio together** — each AAC segment's encoder
@@ -490,17 +481,17 @@ about a second of margin, and trim the excess.** Footage is cheap to trim and im
 lengthen honestly. A `video` layer whose media runs out before its slot ends does **not** clear
 the frame — it holds the last frame, so the shot freezes for the remainder while the scene keeps
 running (set `loop` instead and it visibly jumps back to frame one, which reads worse). Either
-way the piece dies mid-scene, and nothing in `validate` catches it because the scene is
-structurally fine. When a slot is 6 s, ask the model for 8.
+way the piece dies mid-scene, and nothing in `validate` catches it — the scene is structurally
+fine. When a slot is 6 s, ask the model for 8.
 
 If it happens anyway: the scene is 17 s, the clip came back 15 s. **Do not retime the clip to
 fit.** Slowing
-footage to fill time is the single most visible amateur tell in a finished piece: motion
+footage to fill time is the most visible amateur tell in a finished piece: motion
 goes syrupy, the model's already-slow pacing becomes glacial, and a talking or sound-designed
 clip loses its audio sync. A retime is for a *deliberate* slow-motion beat the storyboard
 asked for, never for arithmetic.
 
-**Cover the gap with new footage.** Two ways, both keeping the piece alive:
+**Cover the gap with new footage.** Two ways:
 
 1. **A companion clip of the same subject — more shots, not more seconds.** Pull a reference
    frame from the clip you have (`ffmpeg -ss <t> -i clip.mp4 -frames:v 1 ref.png` →
@@ -508,12 +499,11 @@ asked for, never for arithmetic.
    place** — a close-up, a wide, an insert — using that frame as `--ref-image` (or as
    `--first-frame` if you want it to begin exactly there). Now the long scene is *covered*:
    cut between the original and the companion, and the 17 s reads as an edit, not a hold.
-   This is the better answer almost always — a scene that is too long for one shot was
-   asking for coverage anyway.
+   Almost always the better answer: a scene too long for one shot was asking for coverage.
 2. **Extend the take** — chain off `--last-frame-out` (above) when the scene genuinely needs
    the *same* shot to continue: a walk that must reach the door, a pour that must finish.
 
-And the two tools that make this cheap: `strata captions` / `strata beats` tell you where
+Two tools make this cheap: `strata captions` / `strata beats` tell you where
 the edit points are, and the editorial layer ([editing-director.md](editing-director.md))
 says *which* shots a scene needs — a scene's job, not its length, decides the coverage.
 
@@ -529,9 +519,8 @@ The same rule in the other direction: a clip **longer** than its scene is trimme
 | **the fast model** (`generate video`, the **default**) | the same command and all its modes, on the fast Seedance model. ~1.5× quicker, and it rejects anything above 720p outright (`400 InvalidParameter`) — irrelevant, because output is clamped to 720p always. *Measured:* it delivered 4 of 5 requested shots, so a piece that needs every shot passes `--best` |
 | **`generate fastvideo <image>`** | a **different, older endpoint**. One image + a motion line → a clip |
 
-**"Fast mode" means `generate fastvideo`**, and it is used **only when the user or a workflow
-explicitly asks for it**. It is not a quality tier of `generate video` and not something to
-reach for on your own initiative.
+**"Fast mode" means `generate fastvideo`**, used **only when the user or a workflow explicitly
+asks for it** — never on your own initiative.
 
 What `fastvideo` cannot do: no text-to-video (an image is required), no keyframes, no
 references of any kind, no `--audio`, no `--last-frame-out`, no `--realistic-human`, and no
