@@ -74,7 +74,7 @@ A still PNG (async, ~10–20s).
 | `--aspect` | `16:9 4:3 3:4 1:1 9:16 21:9` (default `1:1`). Match the comp (e.g. `9:16` for vertical). |
 | `--colors "#hex,#hex"` | brand palette to bias the result |
 | `--reference <img\|url>` | **reference image(s)** — repeatable (and comma-splittable); each a local file or URL |
-| `-o <file>` / `--out-dir <dir>` | output path / folder (default `./strata_assets/`) |
+| `-o <file>` / `--out-dir <dir>` | output path / folder (default `./strata_assets/`). **A relative path resolves against the shell's working directory, not the project folder** — generations launched in waves from a backgrounded or parallel shell can inherit a different cwd and land somewhere else entirely. Pass an absolute path when generating in waves, and read the `✅ saved <path>` line: it is always absolute, so it tells you where the file really went |
 
 ### Reference images — art style, characters, composition (the important part)
 Reference images steer the result toward a **look**, a **character**, a **logo**, or a
