@@ -7,7 +7,6 @@ is a good moment — and come back to a step when it is in front of you.
 ## Contents
 
 - [The four checks that change what the job is](#the-four-checks-that-change-what-the-job-is)
-- [Routing — which references matter for this brief](#routing--which-references-matter-for-this-brief)
 - [1. Assets](#1-assets)
 - [2. Storyboard and sign-off](#2-storyboard-and-sign-off)
 - [2½. Style](#2-style)
@@ -57,15 +56,6 @@ Run these first; each one turns the request into a different job.
   repeated names (`Rectangle 1`, `Text`) crash the render, so every layer gets a unique name. Then
   compare `strata preview --grid` against the Figma screenshot before rendering, and author motion
   on top — an imported frame is a layout, not a video.
-
-## Routing — which references matter for this brief
-
-`strata route "<the brief in a sentence>"` prints the read list; the same map is *What to read for
-this brief* in `SKILL.md`. Run `strata route` a **second** time once the concept exists — a short brief cannot
-say "kinetic type", "music-led" or "thriller", but the direction chosen for it can. (*Measured:* a
-"super AAA motion design" brief routed to *premium* only; the piece then became type-led and
-`motion/03-typography.md` was never opened — the premium row now includes it, since premium
-pieces are so often carried by one word.)
 
 ## 1. Assets
 
