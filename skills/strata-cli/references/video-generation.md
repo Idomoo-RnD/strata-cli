@@ -142,6 +142,19 @@ Generation takes **3–9 minutes**. Run it in the background and report the URL;
 Every other measured number on this page was taken on the standard model; shot delivery is the
 only figure the fast model changes.
 
+### 🏷 Generated footage arrives wearing brand marks, and a negative prompt does not stop it
+
+*Measured across three runs:* a Nike-style swoosh on a shoe despite `no logos, no symbols
+anywhere`; a New Balance "N" and Adidas stripes on two clips in one run despite the same negative.
+The model has seen a lot of sportswear and puts marks back on the thing it is drawing. Two
+consequences. **Check every generated clip at full resolution, not on the contact sheet** — a
+320 px tile hides a logo completely, which is how all three shipped into a cut before being caught.
+And **re-prompting is more reliable than a longer negative list**: frame the mark out of shot (the
+side panel, the chest, the tongue of the shoe) or move the camera, because asking for its absence
+keeps the object in the model's attention. This bites hardest on apparel, footwear, cars and
+laptops, and it applies to a piece for *any* client — a competitor's mark in a spec ad is worse
+than no mark at all.
+
 ### 🔊 A clip generated with `--audio` must keep its audio downstream
 
 Sound design and lip-synced dialogue are generated **into the clip** — they are not a
