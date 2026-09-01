@@ -104,8 +104,19 @@ beat with no bed and no SFX is the cheapest contrast in the piece, marked planne
 or the review reads it as a silence gap; and **ask the generator for the dynamics** in the prompt as
 a timeline, free and sometimes honoured, never assumed (below).
 
-`strata review` reads both back: integrated LUFS against the target, loudness range against the
-gap ([review.md](review.md)).
+**Measure the gap as short-term LUFS at two named timecodes, not as LRA.** EBU loudness range gates
+at −20 LU relative to the programme level, so it *discards* the quiet beat that gives a piece its
+contrast: taking a beat further down can leave LRA unchanged or make it smaller, which reads as
+having made the mix flatter when it was made deeper. Declare the gap as two measurements — the
+loudest beat and the quietest, each at a timecode — and check them directly:
+
+```bash
+# short-term LUFS around one beat: trim to it, then read the Summary block
+ffmpeg -hide_banner -ss <t> -t 3 -i out.mp4 -af ebur128 -f null - 2>&1 | grep -A6 Summary:
+```
+
+`strata review` reads integrated LUFS against the target and prints loudness range, which stays a
+useful sanity number — it just is not the gap ([review.md](review.md)).
 
 ## Video-specific craft — this is where a track earns its place
 - **`generate music` does not reliably honour an arc — build it yourself.** *Measured:* "90 BPM,
