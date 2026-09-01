@@ -17,6 +17,8 @@ Contents: 1 UI and product motion · 2 Data and infographic motion · 3 Brand mo
 - **Gesture-driven motion**: motion tracks the finger 1:1, then settles with a spring on release.
 - **Interruptible and redirectable**: a new tap redirects mid-animation without restart.
 - **Feedback**: ripple from the touch point, pulse, color flash, haptic pairing.
+- **Cloning**: the new object splits *out of* the element that made it — an item flying from the row into the cart, a toast peeling off the button. It shows origin, so the viewer never has to work out where a thing came from.
+- **Obscuration**: blur or dim what is not in focus rather than removing it, so the context stays legible behind a modal or a callout and the return has somewhere to go.
 - **Loaders**: spinner (indeterminate), progress bar (determinate), skeleton shimmer (structure first), dots, branded loader.
 - **Perceived performance**: skeletons and optimistic updates make waits feel shorter.
 - **Success and error**: a check draws on success; a shake (3 oscillations, ~300 ms) on error; color confirms.

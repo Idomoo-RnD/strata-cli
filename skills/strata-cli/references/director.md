@@ -64,6 +64,11 @@ If the user supplied or named references, turn them into **measurable tokens bef
 strata deconstruct reference.mp4 -o ref_tokens.json     # shot lengths, cut rhythm, motion energy per shot, palette, onsets, loudness
 ```
 
+**When there is no reference, gather before choosing.** Collect a fixed number per axis — say six
+each for palette, light, texture and type — *then* pick. A fixed count forces the search past the
+first idea, which is the one every brief produces; picking as you go stops at whatever arrived
+first. Name what each one contributes, and the ones you reject are as useful as the ones you keep.
+
 Read the tokens, then add what the tool cannot measure — easing character, stagger feel, camera
 behaviour, type rhythm, transition families, texture, sound grammar. For a named reference with no
 file, [reference-styles.md](reference-styles.md) has ~25 signatures already reduced to tokens.
