@@ -61,17 +61,16 @@ generated → what to do instead.
   "good craft". A quiet film measured stillness 0.57, an action reel 0.00; neither hedged.
 - **One speed inside the piece.** Every shot the length of every other — the middle of the range one
   level down, and what a declared *mean* produces when treated as a value to hit everywhere. *When
-  every shot gets the same time, none of them is the point: four hero layers, no hero.* Measured:
-  our best piece ran 0.32–2.16 s, 6.8:1, regularity 0.37, where ten seconds of reference showreel
+  every shot gets the same time, none of them is the point: four hero layers, no hero.* The tell is
+  a narrow spread — 0.32–2.16 s, 6.8:1, regularity 0.37 — where ten seconds of reference showreel
   runs 0.08–3.80 s, 47.5:1 and 0.03. Not fixed by bolting on a long shot and a short one: hold the
   shot carrying the idea, cut the transits before the eye settles.
 - **The frozen payoff — the tell the range fix creates.** The one shot the piece is about, given the
   length it deserves and then nothing to do: a locked frame, or one gradient decaying to a dead
   frame at the cut. Measured: stillness 0.88 on our hold against 0.16 on the reference film's long
-  takes and 0.53 on a locked logotype that at least kept its fill scrolling — that logotype's piece
-  won, ours lost. **The end card is where it happens most:** our 30 s ad ended on 4.12 s of static
-  wordmark, the product absent, 95 of its 98 frames below 0.5 frame-to-frame difference where the
-  reference showreel's longest hold has none. Every
+  takes and 0.53 on a locked logotype that at least kept its fill scrolling. **The end card is where
+  it happens most:** 4 s of static wordmark with the product absent measures 95 of 98 frames below
+  0.5 frame-to-frame difference, where the reference showreel's longest hold has none. Every
   declared hold names what moves through it; a hold that names nothing is dead air with a long
   duration on it.
 

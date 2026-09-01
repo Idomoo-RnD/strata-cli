@@ -106,8 +106,8 @@ storyboard is cheap, re-rendering a finished video is not. Revise it with them f
 have been a question, write the storyboard and a short `decisions.md` recording every choice made in
 the user's place, and carry on. The checks that are not about taste — validate, preview, review —
 still apply in full. **Never end a turn on a promise.** Nobody is watching, so a turn that ends on
-"waiting for the snapshots" or "I'll render next" blocks the job until someone notices (*measured:*
-a 30 s ad stalled twice this way, once on a background waiter that never woke the agent). Run
+"waiting for the snapshots" or "I'll render next" blocks the job until someone notices — and a
+backgrounded waiter does not wake you, so it stalls indefinitely. Run
 long steps in the foreground with a long timeout, or poll them yourself in the same turn, and end
 the turn only when the deliverable exists or a real blocker needs the user.
 

@@ -127,9 +127,9 @@ World-class work is not one tempo. `strata deconstruct` on reference video:
 | film, action | 12 | 2.50 s | 11.43 | 0.00 | −14.0 LUFS |
 
 Energy spans 10×, mean shot length 6×, stillness 0.57 to nothing. The middle of that spread is a
-position to take on purpose; it is also where a piece lands when nobody takes one — our last three
-measured 2.31 / 10.00 / 2.50 s mean shot, energy 3.25 / 1.31 / 2.61 and −16.9 / −18.7 / −16.8 LUFS:
-three briefs, one band on every axis.
+position to take on purpose; it is also where a piece lands when nobody takes one. The signature of
+not choosing: unrelated briefs coming back inside one narrow band on every axis at once — mean shot
+2.3–2.5 s, energy 2.6–3.3, −17 to −19 LUFS — whatever each was actually asking for.
 
 **A mean is itself a middle.** The same spread runs *inside* a piece, and an average is how a piece
 ends up cutting everything at that average. Ten seconds of each:
@@ -140,8 +140,8 @@ ends up cutting everything at that average. Ten seconds of each:
 | reference film | 12 | — | 3.1:1 | 0.65 |
 | ours, told to average 0.8 s | 12 | 0.32 s → 2.16 s | 6.8:1 | 0.37 |
 
-A two-frame flash and a four-second hold in the same ten seconds; ours had one speed — four hero
-layers, no hero.
+A two-frame flash and a four-second hold in the same ten seconds. Cutting everything at the mean is
+the same failure one level down: four hero layers, no hero.
 
 So **name four numbers in the storyboard, above the shot list, before any shot exists**: the
 **shot-length range** — the shortest cut and the longest hold, **and the job that earns each** —
@@ -154,10 +154,10 @@ piece refuses to give, and shots with neither job are the middle and should be t
 
 **A hold is a shot the camera stays on, not a shot that stops.** The reference film's long takes —
 4.04 s and 5.96 s — measure stillness **0.16**; its showreel 0.46; a locked logotype that kept a
-fill scrolling inside the letters, 0.53. Ours, told to hold the payoff, came back at **0.88** —
-4.2 s whose only change was a light gradient decaying to a dead frame — and a blind critic said it
-*"plays its only card at 02:12 and has 7.8 s with nothing left to say."* It lost to the version it
-was meant to beat. Frame by frame the gap is starker: **the showreel's longest hold has ZERO frames
+fill scrolling inside the letters, 0.53. A hold told to carry the payoff and given nothing to do
+measures **0.88** — 4.2 s whose only change is a light gradient decaying to a dead frame, a piece
+that plays its one card early and has nothing left to say. Frame by frame the gap is starker:
+**the showreel's longest hold has ZERO frames
 whose frame-to-frame difference falls below 0.5** (mean 2.99 across the hold), and the film
 reference the same — a world-class long take is a slow move that lasts, not a static frame that
 lasts. Our 30 s ad: 133 of 138 frames on the hero shot and 95 of 98 on the end card below 0.5,

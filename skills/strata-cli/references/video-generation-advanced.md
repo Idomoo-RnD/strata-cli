@@ -239,7 +239,7 @@ shopfronts), and the first cut matched at **3.500 s exactly**.
   *subject* of the shot; in the establishing wide the crossing came back empty in the
   foreground with figures far down the street. Do not rely on the animatic to place extras.
 - **Cut timing drifts on later cuts.** The first cut matched exactly in every test; the last
-  cut was 0.6 s early in one run and 1.1 s late in another. **Trust cut 1; treat the rest as
+  cut lands anywhere from 0.6 s early to 1.1 s late. **Trust cut 1; treat the rest as
   approximate.**
 - **Sprite labels can leak as on-screen TEXT.** *Measured:* a 5 s run rendered the word `KERB`
   onto the asphalt despite "no text on screen" in the Static Description — the same sketch at

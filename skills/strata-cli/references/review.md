@@ -211,9 +211,9 @@ clip until the ratio clears. A narrow range on a piece that declared one is not 
 **Then check the hold is alive** — a right range and a dead hero shot are two separate failures and
 a piece can pass one and fail the other. Read stillness and energy *inside* the longest shot, look
 for the motion the storyboard named there, and **count its frames whose frame-to-frame difference
-falls below 0.5**: the reference's longest hold has none, ours had 133 of 138 on the hero shot and
-95 of 98 on the end card (SKILL.md, *Place the piece on the range*). Read the profile by thirds —
-ours collapsed 4.16 / 6.90 / 0.71, a piece that stops trying at the end — and **check the last shot
+falls below 0.5**: a reference long take has none, a dead hold runs 133 of 138 on a hero shot or
+95 of 98 on an end card (SKILL.md, *Place the piece on the range*). Read the profile by thirds — a
+collapse like 4.16 / 6.90 / 0.71 is a piece that stops trying at the end — and **check the last shot
 explicitly**, because the end card is a hold and is where this is missed. The fix is motion inside
 the shot, never a shorter shot.
 
