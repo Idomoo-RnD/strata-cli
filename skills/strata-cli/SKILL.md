@@ -162,8 +162,8 @@ whose frame-to-frame difference falls below 0.5** (mean 2.99 across the hold), a
 reference the same — a world-class long take is a slow move that lasts, not a static frame that
 lasts. Our 30 s ad: 133 of 138 frames on the hero shot and 95 of 98 on the end card below 0.5,
 **9.9 of its last 12.2 s effectively a still**, motion by thirds 4.16 / 6.90 / 0.71. The cheapest
-thing that makes a hold behave like the reference is a **continuous slow push — 2–3 % across the
-whole length of the hold** — and **an end card is a hold like any other**: the last shot, the frame
+thing that makes a hold behave like the reference is a **continuous slow push, sized in pixels per
+frame rather than percent** (below) — and **an end card is a hold like any other**: the last shot, the frame
 the viewer leaves on, the place agents stop trying. So every declared hold, the end card included,
 names beside its length **what keeps moving through it**: per-frame animation on the elements, a
 slow camera push, a fill animating under a mask or matte while the shapes stay put, a grade or
