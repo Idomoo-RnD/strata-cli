@@ -24,7 +24,7 @@ bends.
 | **Bond / Saul Bass titles** | flat graphic silhouettes, bold two-colour geometry, shapes that become scenes, music-locked | kinetic-typography + shape morph |
 | **The Social Network / Fincher** | locked or dolly-only camera, cold grade, tabular numerals, cuts on information not emotion | data-driven + cool-clean grade |
 | **Super Bowl ad (celebrity spot)** | star close-up early, joke structure (setup shot / turn shot / payoff shot), product only in the last 20% | before-after + testimonial structure |
-| **Old spice / absurdist ad** | single continuous impossible shot, deadpan presenter to camera, props enter frame not cuts | one-take prompts + avatar |
+| **Old Spice / absurdist ad** | single continuous impossible shot, deadpan presenter to camera, props enter frame not cuts | one-take prompts + avatar |
 | **TikTok native** | jump cuts on the beat of speech, text chunks timed to what is said, camera never still but never smooth | vertical social hook + captions timing |
 | **NFL/ESPN broadcast package** | metallic extruded type, light sweeps, hard wipes with SFX on every transition | extruded-title block + sting |
 | **Terrence Malick** | handheld drift toward light, sun flare through subjects, whispered fragments, cuts mid-motion | establishing + warm-film grade |

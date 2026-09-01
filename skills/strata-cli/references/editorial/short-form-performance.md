@@ -279,5 +279,5 @@ An adaptation succeeds when it preserves the source's truth and identity while b
 - Are claims and demonstrations accurate?
 - Does the edit work at intended display size and listening context?
 - Are captions, safe zones, contrast, and CTA dwell usable?
-- Is music and archive cleared for the specific organic, paid, commercial, or broadcast use?
+- Are music and archive cleared for the specific organic, paid, commercial, or broadcast use?
 - Do variants test distinct hypotheses rather than cosmetic differences?

@@ -28,7 +28,7 @@ $ strata captions ./talk.mp4 -o cues.json
 
 ## Contents
 
-- [⚠️ SEGMENT timings, not per-word](#segment-timings-not-per-word)
+- [⚠️ SEGMENT timings, not per-word](#️-segment-timings-not-per-word)
 - [It takes VIDEO directly](#it-takes-video-directly)
 - [Any source works — the hosting is handled](#any-source-works--the-hosting-is-handled)
 - [Typical uses](#typical-uses)

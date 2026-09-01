@@ -1,6 +1,6 @@
 # Recipe library — drop-in keyframe patterns
 
-43 recipes in the **compact scene format**. Each snippet is one or a few layers: paste into a scene's `layers`, swap the font/box/colours, tune the timing. Times are **seconds**; coordinates assume a **1280×720** comp — for the 1920×1080 grid in layouts.md multiply every box, size and distance by **1.5**. The craft theory (shots, easing, 3D/camera, rhythm) lives in SKILL.md.
+51 recipes in the **compact scene format**. Each snippet is one or a few layers: paste into a scene's `layers`, swap the font/box/colours, tune the timing. Times are **seconds**; coordinates assume a **1280×720** comp — for the 1920×1080 grid in layouts.md multiply every box, size and distance by **1.5**. The craft theory (shots, easing, 3D/camera, rhythm) lives in [craft.md](craft.md).
 
 **Conventions used below**
 - `"./font.ttf"` — any real `.ttf`/`.otf`. `"./image.jpg"` — your media.
@@ -71,7 +71,7 @@
   - [When to use it](#when-to-use-it)
   - [Surface mode — output and use](#surface-mode--output-and-use)
   - [Point mode — output and use](#point-mode--output-and-use)
-  - [⚠️ Generate the footage TO FIT the effect](#generate-the-footage-to-fit-the-effect)
+  - [⚠️ Generate the footage TO FIT the effect](#️-generate-the-footage-to-fit-the-effect)
 
 
 ---

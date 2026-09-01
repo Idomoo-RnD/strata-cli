@@ -15,7 +15,7 @@ reference-driven clip first, then chain off its last frame.
 
 ## Contents
 
-- [🔑 How to address a reference — get this wrong and it is never cited](#how-to-address-a-reference--get-this-wrong-and-it-is-never-cited)
+- [🔑 How to address a reference — get this wrong and it is never cited](#-how-to-address-a-reference--get-this-wrong-and-it-is-never-cited)
 - [`--ref-image` — carry a character, a product or a world across clips](#--ref-image--carry-a-character-a-product-or-a-world-across-clips)
   - [Give every image an explicit JOB](#give-every-image-an-explicit-job)
   - [Build the reference images for the job](#build-the-reference-images-for-the-job)
@@ -26,23 +26,23 @@ reference-driven clip first, then chain off its last frame.
   - [Use 1 — mimic footage the user gave you](#use-1--mimic-footage-the-user-gave-you)
   - [Use 2 — block the shot yourself with a grey-box animatic](#use-2--block-the-shot-yourself-with-a-grey-box-animatic)
   - [The strongest combination: sheets + plate + sketch](#the-strongest-combination-sheets--plate--sketch)
-  - [⚠ What does NOT transfer cleanly](#what-does-not-transfer-cleanly)
-  - [Checklist](#checklist)
+  - [⚠ What does NOT transfer cleanly](#-what-does-not-transfer-cleanly)
+  - [Checklist](#checklist-1)
 - [`--ref-audio` — characters that speak YOUR audio](#--ref-audio--characters-that-speak-your-audio)
   - [One speaker — say all three things, or it narrates instead of acting](#one-speaker--say-all-three-things-or-it-narrates-instead-of-acting)
   - [Two speakers — nail the roles down BEFORE the shot list](#two-speakers--nail-the-roles-down-before-the-shot-list)
   - [Verify the voice actually landed — don't trust your ears](#verify-the-voice-actually-landed--dont-trust-your-ears)
-  - [🔇 NEVER lay the source TTS over the generated clip — use the CLIP'S audio](#never-lay-the-source-tts-over-the-generated-clip--use-the-clips-audio)
+  - [🔇 NEVER lay the source TTS over the generated clip — use the CLIP'S audio](#-never-lay-the-source-tts-over-the-generated-clip--use-the-clips-audio)
   - [Notes and checklist](#notes-and-checklist)
   - […or use `generate avatar` instead — the decision](#or-use-generate-avatar-instead--the-decision)
   - [`--ref-audio` with MUSIC — choreograph the clip to a track](#--ref-audio-with-music--choreograph-the-clip-to-a-track)
   - [A series — same skeleton, swap the theme](#a-series--same-skeleton-swap-the-theme)
 - [`strata sketch` — author the camera plan as a 3D animatic](#strata-sketch--author-the-camera-plan-as-a-3d-animatic)
 - [Editing and extension — ⚠ LAST RESORT](#editing-and-extension---last-resort)
-  - [🛑 Reach for these LAST](#reach-for-these-last)
+  - [🛑 Reach for these LAST](#-reach-for-these-last)
   - [Editing — change one thing, freeze everything else](#editing--change-one-thing-freeze-everything-else)
   - [Extension — the next N seconds of the same take](#extension--the-next-n-seconds-of-the-same-take)
-  - [Checklist](#checklist)
+  - [Checklist](#checklist-2)
 - [Choosing a mode](#choosing-a-mode)
 - [What `generate fastvideo` cannot do](#what-generate-fastvideo-cannot-do)
 
@@ -340,7 +340,7 @@ ffmpeg -i out.mp4 -f s16le -ac 1 -ar 16000 v.raw   # then slide t over v, best n
 
 *Measured:* one speaker **0.73**; dialogue **0.80** (boy, at 3.8 s) and **0.90** (vendor, at
 6.3 s) — each inside their own close-up, so the assignment worked. It never reaches 1.0
-because `--audio` mixes ambience underneath: **>0.75 means it is your recording**, not a
+because `--audio` mixes ambience underneath: **>0.7 means it is your recording**, not a
 re-performance.
 
 ### 🔇 NEVER lay the source TTS over the generated clip — use the CLIP'S audio
@@ -390,7 +390,7 @@ scene* — never both.
 - [ ] For dialogue: "never speak at the same time", and each shot states who is silent
 - [ ] `Audio:` says what sits underneath, and "No other voices"
 - [ ] Clip length ≈ speech length + setup; ≤4 shots
-- [ ] Voice presence verified by envelope correlation (>0.75)
+- [ ] Voice presence verified by envelope correlation (>0.7)
 
 ### …or use `generate avatar` instead — the decision
 
@@ -400,7 +400,7 @@ Both make a person talk. They are not interchangeable:
 |---|---|---|
 | what it is | ONE still, lip-synced to an exact track — a presenter holding a pose | a character who **acts**: moves through a scene, multiple shots, two speakers |
 | framing | fixed by the still | the model composes shots |
-| verbatim script | ✅ the track IS the audio | ✅ lip-synced to your TTS (verify >0.75) |
+| verbatim script | ✅ the track IS the audio | ✅ lip-synced to your TTS (verify >0.7) |
 | **personalized scenes** | ✅ **the right answer** — a stable presenter plate is what Idomoo swaps by layer name | ⚠ a re-generated performance is not a swappable plate |
 | **non-personalized presenter** | a talking still — fine for a fixed plate or a quick cut | ✅ **the default** — a directed, filmed shot |
 | cost | one still + one call | a character sheet, TTS, and a 3–9 min generation |

@@ -66,7 +66,7 @@
 
 ## 3. Craft rules for kinetic typography
 - **One idea per beat**: one phrase on screen at a time.
-- **Read time floor**: (words ÷ 3) seconds plus a 0.5 s hold; at minimum twice through.
+- **Read time floor**: ~0.5 s + ~0.3 s/word ([motion-design.md](../motion-design.md) has the canonical formula); at minimum twice through.
 - **Move or read, not both**: text is read when still; motion bridges still states.
 - **Emphasis tools**: size, weight, color, and an extra beat of hold; never all at once.
 - **Hierarchy in time**: headline first, support second, detail third.

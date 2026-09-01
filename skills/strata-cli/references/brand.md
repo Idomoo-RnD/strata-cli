@@ -17,7 +17,7 @@ Two jobs, both in this file: **§A build it** · **§B use it**.
 
 - [When to build one — I offer it, I don't wait to be asked](#when-to-build-one--i-offer-it-i-dont-wait-to-be-asked)
 - [Step 1 — Inventory every input, then actually look at it](#step-1--inventory-every-input-then-actually-look-at-it)
-- [Step 1½ — After Effects files: the richest brand source](#step-1½--after-effects-files-the-richest-brand-source)
+- [Step 1½ — After Effects files: the richest brand source](#step-1--after-effects-files-the-richest-brand-source)
 - [Step 2 — Fill the template (§C below), obeying the strata traps](#step-2--fill-the-template-c-below-obeying-the-strata-traps)
 - [Step 3 — Say what I could not know](#step-3--say-what-i-could-not-know)
 - [Step 4 — Show it and get sign-off](#step-4--show-it-and-get-sign-off)

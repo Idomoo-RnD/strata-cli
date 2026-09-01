@@ -8,7 +8,7 @@ built and rendered as a real scene, so the techniques below are measured, not im
 
 ## Contents
 
-- [🔴 Read these two rules before using anything here](#read-these-two-rules-before-using-anything-here)
+- [🔴 Read these two rules before using anything here](#-read-these-two-rules-before-using-anything-here)
 - [Pick a style](#pick-a-style)
 - [A · Footage the user supplies](#a--footage-the-user-supplies)
 - [B · Generated footage](#b--generated-footage)
@@ -18,7 +18,7 @@ built and rendered as a real scene, so the techniques below are measured, not im
 - [F · Style-forward](#f--style-forward)
 - [G · Pure motion design (no footage at all)](#g--pure-motion-design-no-footage-at-all)
 - [Cross-cutting motion vocabulary](#cross-cutting-motion-vocabulary)
-- [⚠ Engine gotchas these styles hit](#engine-gotchas-these-styles-hit)
+- [⚠ Engine gotchas these styles hit](#-engine-gotchas-these-styles-hit)
 
 ## 🔴 Read these two rules before using anything here
 

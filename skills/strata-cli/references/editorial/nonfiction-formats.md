@@ -188,7 +188,7 @@ The edit should make that outcome observable; a polished montage is not proof of
 
 ### Failure modes
 
-dense narration, captions, graphics, and B-roll competing simultaneously · rapid edits that feel energetic but reduce learning · abstract stock footage replacing concrete evidence · acronyms and internal language left unexplained · A CTA card that appears too briefly to read or remember.
+dense narration, captions, graphics, and B-roll competing simultaneously · rapid edits that feel energetic but reduce learning · abstract stock footage replacing concrete evidence · acronyms and internal language left unexplained · a CTA card that appears too briefly to read or remember.
 
 ## Reality, competition, and unscripted entertainment
 

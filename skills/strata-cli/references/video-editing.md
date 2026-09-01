@@ -182,7 +182,7 @@ slow through it, back out.
 ⛔ **A retime is for a slow-motion beat the storyboard asked for — never to make a short clip
 fit a long scene.** A 15 s clip in a 17 s scene is covered with **more shots of the same subject**
 (a companion clip from a reference frame) or **extended** off its last frame:
-[video-generation.md](video-generation.md#a-clip-must-be--its-scene-slot--a-short-one-freezes-and-is-never-stretched).
+[video-generation.md](video-generation.md#-a-clip-must-be--its-scene-slot--a-short-one-freezes-and-is-never-stretched).
 Stretched footage is the most visible amateur tell there is.
 
 ```bash

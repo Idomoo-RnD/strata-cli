@@ -34,7 +34,7 @@ A name/title strip for the bottom-left. Solid bar + two text lines. **Ships with
   { "type": "text", "name": "lt_title", "text": "Head of Design", "font": "./font.ttf", "size": 26, "color": "#9aa3bf", "box": [28, 92, 580, 36], "align": "left middle" }
 ] } }
 ```
-Instance (note `position` is a **delta from the box**, not absolute — rise 60px → settle): `{ "type":"comp","comp":"lower_third","name":"lt_inst","box":[120,860,760,150],"start":1,"duration":4,"animate":{"position":[{"t":0,"v":[0,60],"ease":"outCubic"},{"t":0.5,"v":[0,0]}],"opacity":[{"t":0,"v":0},{"t":0.4,"v":1},{"t":3.6,"v":1},{"t":4,"v":0}]} }`
+Instance (note `position` is a **delta from the box**, not absolute — rise 60px → settle): `{ "type":"comp","comp":"lower_third","name":"lt_inst","box":[120,530,760,150],"start":1,"duration":4,"animate":{"position":[{"t":0,"v":[0,60],"ease":"outCubic"},{"t":0.5,"v":[0,0]}],"opacity":[{"t":0,"v":0},{"t":0.4,"v":1},{"t":3.6,"v":1},{"t":4,"v":0}]} }`
 
 ### extruded-title
 3D type faked as 11 z-stepped text copies (darker to the rear) under the scene camera —
@@ -111,6 +111,6 @@ lines — **never `"… top"`**: vertical `top` is ignored and the text drops to
 ```
 
 ## Using a block well
-- Give the instance a deliberate **entrance** (rise+fade, scale-in) and **exit**; hold long enough to read (Part 1 "let it breathe").
+- Give the instance a deliberate **entrance** (rise+fade, scale-in) and **exit**; hold long enough to read ([craft.md](craft.md), "Rhythm & continuity").
 - Reskin to brand: swap colours, fonts, and the accent. Keep ≤2 typefaces.
 - Stack blocks for layouts (a `device-frame` beside a `stat-card`); see [blueprints.md](blueprints.md) for whole-video assemblies.

@@ -96,8 +96,9 @@ settling title reads premium and cannot be faked in a 2D web timeline. Give laye
 Every entrance in a piece shares the **same curve and timing family**; exits share another.
 Random transitions per shot read as a template grab-bag. Pick one entrance ease (e.g. `outExpo`
 ~450ms), one exit, one transition type, and repeat them — consistency *is* the design.
-**Limits that hold across every style:** one dominant motion idea per shot (a push *or* a
-reveal *or* a cascade — not all three), and at most **two transition families** in a piece.
+**Limits that hold at the middle of the range** (craft.md scales them with the declared
+energy): one dominant motion idea per shot (a push *or* a reveal *or* a cascade — not all
+three), and at most **two transition families** in a piece.
 For premium work these come from the motion bible ([director.md](director.md)), written before
 the scene.
 

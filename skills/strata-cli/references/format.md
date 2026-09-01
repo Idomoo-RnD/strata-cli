@@ -24,8 +24,8 @@ Compiled by `strata compile <scene.json>` into VASCO, schema-validated, then enc
 - [Personalization — design for replaceable elements](#personalization--design-for-replaceable-elements)
 - [Graphs & charts — dynamic images](#graphs--charts--dynamic-images)
 - [Unpacking and repacking an existing `.idm`](#unpacking-and-repacking-an-existing-idm)
-  - [⛔ Two assets with IDENTICAL BYTES crash the exporter (error 3000)](#two-assets-with-identical-bytes-crash-the-exporter-error-3000)
-  - [⚠️ The encoder stores only an asset's BASENAME](#the-encoder-stores-only-an-assets-basename)
+  - [⛔ Two assets with IDENTICAL BYTES crash the exporter (error 3000)](#-two-assets-with-identical-bytes-crash-the-exporter-error-3000)
+  - [⚠️ The encoder stores only an asset's BASENAME](#️-the-encoder-stores-only-an-assets-basename)
 - [Raw VASCO passthrough](#raw-vasco-passthrough)
 
 
@@ -279,7 +279,7 @@ Define under scene `comps`, instantiate with a comp layer; reuse freely:
 If a sub-comp contains a comp layer referencing another sub-comp, declare the referenced one **earlier** in `comps`.
 
 ⚠️ **Set `duration` on EVERY sub-comp.** A comp with no `duration` defaults to **100 frames
-(~4.2s at 24fps)** regardless of how long the scene is — so in a 10s scene its content simply
+(4s at the default 25fps)** regardless of how long the scene is — so in a 10s scene its content simply
 **stops part-way through and the comp goes blank**, with no warning and no compile error.
 Verified by render. Give each comp the duration it must cover (usually the scene's).
 
@@ -292,7 +292,7 @@ too** — a `1920×2800` strip comp is rejected by the schema, so this only work
 strip stays under 1920 px on its long axis. For anything longer use the static track-matte, or
 cycle a short strip (reset and re-fill it) instead of building the full length.
 
-⚠️ **Unique layer names — duplicate names across sub-comps crash the render (error 3000).** The exporter keys layers (especially text placeholders) by name **globally**. Two layers sharing a name in different sub-comps — e.g. a `card` sub-comp reused with its text layer named `label` each time — collide and the render fails 3000 (it compiles/validates fine locally). The compiler **auto-uniquifies** duplicates at compile time (`label`→`label_2`, …) and prints what it renamed, so scenes render; still, author distinct, meaningful names so personalization keys stay predictable.
+⚠️ **Unique layer names — duplicate names across sub-comps used to crash the render (error 3000).** The exporter keys layers (especially text placeholders) by name **globally**. Two layers sharing a name in different sub-comps — e.g. a `card` sub-comp reused with its text layer named `label` each time — collide, and the render used to fail 3000 (while compiling/validating fine locally). The compiler **auto-uniquifies** duplicates at compile time (`label`→`label_2`, …) and prints what it renamed, so scenes render; still, author distinct, meaningful names so personalization keys stay predictable.
 
 ## Camera
 
@@ -329,7 +329,7 @@ scale  = focal / (z_layer - z_camera)            # on-screen size ÷ box size
 | 720  | focal **623** | 514 | 360 |
 | 1080 | focal **935** | 771 | 540 |
 
-Three consequences, each of which the docs used to get wrong:
+Four consequences, each of which the docs used to get wrong:
 
 1. **A layer at `z = 0` renders at its box size ONLY when the camera sits at `z = -focal`.**
    Camera at `[960,540,-1200]` with the default fov 90 (focal 540) renders every z=0 layer at

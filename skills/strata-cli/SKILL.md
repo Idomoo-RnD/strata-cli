@@ -238,7 +238,8 @@ behind each, is [traps.md](references/traps.md) — read it before the first com
   hold a close-up on the mouth. A bare `--ref-audio` is refused by the server.
 - **References are cited by index, with a job.** `--ref-image` order = `[Image 1]`, `[Image 2]`…
   (`generate image --reference` counts from `image 0`); each gets a JOB line, the identity block is
-  restated ×3, ≤4 references, and frames and references never mix (server 422).
+  restated ×3, ≤9 images (the shot budget drops to ≤4 per 12 s once references ride along), and
+  frames and references never mix (server 422).
 - **A clip shorter than its slot freezes** on its last frame, and `validate` cannot see it —
   generate longer and trim; a short clip is covered with more shots, never stretched.
 - **Editing an AI clip with audio: the first `-map` silently drops the track** — pair every
@@ -247,8 +248,9 @@ behind each, is [traps.md](references/traps.md) — read it before the first com
   offset; with an anchor it is the absolute pivot point. `validate` warns on the tell-tale.
 - **Overlay video needs alpha → `.jet`, never `.mp4`**; the plate and its matted overlay are the
   same clip; the `.jet` fps must match the scene; any video input needs ffmpeg installed.
-- **Personalised data visuals must be real image files** — or `strata chart` layers, whose value
-  labels personalise while heights are baked (per-viewer heights = one scene per row).
+- **Personalised data visuals are `strata chart` layers or real image files** — `chart bars`
+  emits named layers whose heights grow from `--data` per viewer; `chart donut`'s sweep is baked
+  (its value text personalises); chart types the tool does not emit are swapped image files.
 - **Layer names unique across the whole scene** — the exporter keys by name globally; the compiler
   auto-renames duplicates, which silently changes the personalization key.
 - **Fonts must cover every glyph** (`strata glyphs`) — a missing glyph is tofu or a cloud-render
@@ -335,7 +337,7 @@ brief kind; read a chapter when its question is in front of you.
 | [motion/07-narrative-sound-emotion.md](references/motion/07-narrative-sound-emotion.md) | story structure, pacing, sound and music, emotion → motion parameters |
 | [motion/08-styles-index.md](references/motion/08-styles-index.md) | the 77-entry style index |
 | [motion/09-production-qa.md](references/motion/09-production-qa.md) | formats, accessibility and safety, the QA list, default numbers |
-| [editorial/editing-grammar.md](references/editorial/editing-grammar.md) | the six control dimensions of pace, editing languages, cut vocabulary, pacing diagnosis |
+| [editorial/editing-grammar.md](references/editorial/editing-grammar.md) | the six control dimensions, editing languages, cut vocabulary, pacing diagnosis |
 | [editorial/short-form-performance.md](references/editorial/short-form-performance.md) | promos, ads, trailers, social — hooks, CTA dwell, failure modes |
 | [editorial/nonfiction-formats.md](references/editorial/nonfiction-formats.md) | explainers, testimonials, corporate, sports; factual integrity |
 | [editorial/narrative-genres.md](references/editorial/narrative-genres.md) | genre as a modifier — thriller release, trailer escalation, comedy timing, documentary restraint |

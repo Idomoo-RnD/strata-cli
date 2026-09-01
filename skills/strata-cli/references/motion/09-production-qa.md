@@ -87,7 +87,7 @@ templates that break on long names or large numbers · scale-from-zero entrances
 
 - Entrance 400-600 ms; UI micro 100-200 ms; hero 800-1500 ms. **Exit duration and sibling stagger: use the ratios in [motion-design.md](../motion-design.md)**, not a fixed ms figure. Within a text block the useful split is characters 15-40 ms, words 60-120 ms, lines 100-200 ms - map these to a per-character animator, not to separate layers.
 - Overshoot 5-10%; spring damping 0.7-0.9 for subtle, about 0.5 for playful.
-- Parallax ratios: back layers 0.1-0.6 of the camera move, front layers 1.1-1.5 - the wider end reads as drama, the narrow end as depth. (Section 2 of [02-choreography-space-camera.md](02-choreography-space-camera.md) quotes 10-30% / 100-150%; treat both as the same range expressed differently and pick one per project.)
+- Parallax ratios: back layers 0.1-0.6 of the camera move, front layers 1.1-1.5 - the wider end reads as drama, the narrow end as depth. (Section 3 of [02-choreography-space-camera.md](02-choreography-space-camera.md) quotes 10-30% / 100-150% — a narrower cut of the same idea; pick one range per project and stay inside it.)
 - Counter 1-2 s ease-out; progress fill 600-1200 ms.
 - Camera push 2-6 s ease-in-out; handheld noise under 1-2% of frame.
 - Transitions 8-20 frames; hero transitions 20-40 frames.

@@ -126,7 +126,8 @@ gap ([review.md](review.md)).
 - **Under a voiceover:** always `VocalType: Instrumental`, ask for a *"sparse mid-range, no
   busy melody"* so it doesn't fight speech, and reference it as
   `{ "type": "audio", "src": "./track.wav", "volume": -10, "ducking": true }`. Around −6 to
-  −12 dB with `ducking: true` is the working range.
+  −12 dB with `ducking: true` is the working range (the mix table below settles on −10 to −12
+  when a VO sits on top).
 - **Length:** generate **slightly longer than the video** and cut to length (ffmpeg trim + `afade`
   out — [video-editing.md](video-editing.md)); an exact-fit request ends abruptly. With narration,
   its returned duration is the target.

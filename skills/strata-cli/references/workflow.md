@@ -54,7 +54,8 @@ Run these first; each one turns the request into a different job.
   canvas-absolute (subtract the frame origin) and web-sized (one uniform scale factor, never stretch
   x and y differently); `"font": "Inter"` does not compile (fonts are real `.ttf`/`.otf` paths);
   icons, vectors and gradients are exported to PNG; `visible:false` nodes are skipped; Figma's
-  repeated names (`Rectangle 1`, `Text`) crash the render, so every layer gets a unique name. Then
+  repeated names (`Rectangle 1`, `Text`) collide — the compiler auto-renames them, silently
+  changing the replacement keys — so every layer gets a unique name. Then
   compare `strata preview --grid` against the Figma screenshot before rendering, and author motion
   on top — an imported frame is a layout, not a video.
 
