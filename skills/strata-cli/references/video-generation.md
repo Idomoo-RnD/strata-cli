@@ -144,16 +144,12 @@ only figure the fast model changes.
 
 ### 🏷 Generated footage arrives wearing brand marks, and a negative prompt does not stop it
 
-*Measured across three runs:* a Nike-style swoosh on a shoe despite `no logos, no symbols
-anywhere`; a New Balance "N" and Adidas stripes on two clips in one run despite the same negative.
-The model has seen a lot of sportswear and puts marks back on the thing it is drawing. Two
-consequences. **Check every generated clip at full resolution, not on the contact sheet** — a
-320 px tile hides a logo completely, which is how all three shipped into a cut before being caught.
-And **re-prompting is more reliable than a longer negative list**: frame the mark out of shot (the
-side panel, the chest, the tongue of the shoe) or move the camera, because asking for its absence
-keeps the object in the model's attention. This bites hardest on apparel, footwear, cars and
-laptops, and it applies to a piece for *any* client — a competitor's mark in a spec ad is worse
-than no mark at all.
+Apparel, footwear, cars and laptops come back carrying logos and stripes even when the prompt
+forbids them — asking for a mark's absence keeps the object in the model's attention. So **check
+every clip at full resolution**: a 320 px contact-sheet tile hides a logo completely, and that is
+how one reaches a cut. And **re-frame rather than lengthen the negative list** — put the mark out
+of shot (the side panel, the chest, the tongue of the shoe) or move the camera. A competitor's mark
+is worse than no mark at all, whoever the piece is for.
 
 ### 🔊 A clip generated with `--audio` must keep its audio downstream
 
