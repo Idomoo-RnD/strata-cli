@@ -262,6 +262,14 @@ behind each, is [traps.md](references/traps.md) — read it before the first com
 
 ## References
 
+**A question mid-job?** [INDEX.md](references/INDEX.md) is one line per file saying what it *owns*
+and the questions it answers, written in the words a question arrives in —
+`grep -i "green screen" INDEX.md` returns the row and the filename together. Use it when routing
+has already run and you need one specific answer; the table below is the same library by subject.
+*(Measured: ranking these files by how often a phrase appears finds the owning file first only 3
+times in 12 — several files discuss a topic, one settles it, and match count cannot tell them
+apart.)*
+
 Every file below ships with this skill; each is one hop from here. The craft files are read for
 what they know; the engine files are read for what they forbid.
 
