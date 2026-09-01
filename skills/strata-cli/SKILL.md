@@ -46,6 +46,20 @@ Renders take minutes — run them in the background. Every command takes `--json
 `strata route "<brief>"` prints this list for a brief; the list is here too, so it holds
 whether or not the command was run. Paths are relative to `references/`.
 
+**The string you pass is your reconstruction of the job, not a quote of the request.** Matching is
+by keyword, so name the **kind**, the **length** and the **bar** — the words a user rarely says.
+*Measured:* seven of ten realistic requests name no kind at all.
+
+```bash
+strata route "a nice video for our app"                                    # no kind — 13 files
+strata route "a 30s product demo for our app, premium cinematic, music-led" # 5 kinds — 29 files
+```
+
+Same job. The second reaches the director pass, the typography and transition chapters, `beats`
+and `music.md`; the first reaches none of them. When no kind matches, route says so and adds the
+three files that help you choose one — that is an answer, not a failure, and the kind you then
+pick is worth routing a second time.
+
 **Every piece, before the storyboard:**
 - `craft.md` — how a good video is made; the defaults and their reasons
 - `traps.md` — the engine facts that produce a wrong video with a clean compile
