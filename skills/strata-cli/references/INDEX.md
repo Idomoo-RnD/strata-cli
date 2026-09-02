@@ -10,12 +10,15 @@ keying and same-clip occlusion. **Answers** is written in the words a question a
 are often not the words the file uses.
 
 If two rows look plausible, the one whose **Owns** matches your question is the one to open.
+*Measured:* ranking the reference files by how often a phrase appears finds the owning file first
+only 3 times in 12 — several files discuss a topic, one settles it, and match count cannot tell
+them apart; grepping this index finds it 14 of 14.
 
 ## Making the piece
 
 | File | Owns | Answers |
 |---|---|---|
-| [craft.md](craft.md) | how a good video is made: shots, composition, motion principles, rhythm, polish | how long should a shot be · what makes this look cheap · shot sizes · where do I put things · does this move need a reason · pacing · read time · when to hold · light and depth · one atmospheric effect |
+| [craft.md](craft.md) | how a good video is made: shots, composition, motion principles, rhythm, polish | how long should a shot be · what makes this look cheap · shot sizes · where do I put things · does this move need a reason · pacing · read time · when to hold · light and depth · one atmospheric effect · flash frame · flash cut · overshoot |
 | [workflow.md](workflow.md) | the seven steps end to end, and the Definition of Done | what do I do next · what order · when do I get sign-off · am I finished · what counts as done · unattended run · never end on a promise |
 | [director.md](director.md) | the creative-direction pass for premium work | how do I make this AAA · thesis · three directions · styleframes · motion bible · what stays still · forbidden moves · expectedness · how do I not make the obvious thing |
 | [anti-slop.md](anti-slop.md) | the defaults agent-made frames fall into, and the test that catches them | why does this look generic · looks AI-made · looks like a template · scrim · accent bar · eyebrow label · 01/02/03 · cream and terracotta · what should I remove |
@@ -24,22 +27,22 @@ If two rows look plausible, the one whose **Owns** matches your question is the 
 | [motion-design.md](motion-design.md) | the ten techniques with real keys, and the emotion/material tables | how should this move · easing · overshoot · stagger · anticipation · follow through · motion blur · what curve · make it feel heavy or playful · web animation tells |
 | [editing-director.md](editing-director.md) | the editorial contract and why this cut, here, now | why this cut · pacing · information release · viewer promise · dominant mode · montage · does the edit have a shape |
 | [blueprints.md](blueprints.md) | whole-video structures by type | what structure · beat sheet · shot count · how do I lay out 30 seconds · product launch · explainer · data story · logo reveal |
-| [video-styles.md](video-styles.md) | 50 kinds of video with their shot grammar and tells | make it like a TikTok · a sale ad · a luxury spot · what kind of video is this · which style · construction of a look |
-| [reference-styles.md](reference-styles.md) | "make it feel like X" reduced to measurable signatures | feel like Apple · like Nike · in the style of a film or director · copy this campaign · what makes that look work |
+| [video-styles.md](video-styles.md) | 50 kinds of video with their shot grammar and tells — technique only, a brand overrides every style | make it like a TikTok · a sale ad · a luxury spot · what kind of video is this · which style · construction of a look |
+| [reference-styles.md](reference-styles.md) | "make it feel like X" — ~25 films, directors and campaigns reduced to measurable signatures; a technique source, never a costume | feel like Apple · like Nike · in the style of a film or director · copy this campaign · what makes that look work |
 | [motion-atlas.md](motion-atlas.md) | ~700 named motion concepts as vocabulary | what is this move called · name for this effect · give me options · a word for what I want (numbers here lose to motion-design.md) |
 
 ## Making assets
 
 | File | Owns | Answers |
 |---|---|---|
-| [assets.md](assets.md) | generating media, and the **matte / chroma-key / same-clip** decision for cut-outs | transparent overlay · remove the background · cut out a subject · green screen · alpha · knock out · `.jet` · which generate command · generate in waves · upload a file · make an image move |
-| [video-generation.md](video-generation.md) | prompting `generate video`: five modes, the model table, clip length | how do I prompt a clip · text to video · image to video · first frame · last frame · the clip is too short · it froze · which model · how long should I ask for · frames and references |
+| [assets.md](assets.md) | generating media, the **drawn-or-generated** rule (a device, prop, icon or texture is a `generate image` asset; shapes are for simple geometry), and the **matte / chroma-key / same-clip** decision for cut-outs | draw it or generate it · a phone · a device · a prop · an icon · a product image · cut out a still · transparent overlay · remove the background · cut out a subject · green screen · alpha · knock out · `.jet` · which generate command · generate in waves · upload a file · make an image move |
+| [video-generation.md](video-generation.md) | prompting `generate video`: five modes, the model table, clip length | how do I prompt a clip · text to video · image to video · first frame · last frame · the clip is too short · it froze · which model · how long should I ask for · frames and references · 24 fps · clip fps · what it actually does |
 | [video-generation-advanced.md](video-generation-advanced.md) | references for consistency, camera plans, dialogue, sketch animatics | same character twice · same product every shot · copy a camera move · make them speak · lip sync · reference audio · an animatic to drive the camera |
 | [video-prompts.md](video-prompts.md) | a worked, measured prompt for each kind of clip | give me a prompt · what do I write · product hero prompt · food · a person walking · b-roll · why did my clip come back wrong |
 | [production-bible.md](production-bible.md) | consistency across clips: sheets, the identity block, verification | the character keeps changing · same face · same shoe · consistent cast · continuity across shots |
 | [avatar.md](avatar.md) | building a talking presenter, and which route to take | talking head · presenter · spokesperson · avatar · someone speaking to camera · which is better, avatar or generated clip |
-| [music.md](music.md) | the mix decision (LUFS target, loud-to-quiet range) and prompting `generate music` | how loud · LUFS · the mix · make a track · BPM · the bed sounds generic · the music dies at the end · SFX · a whoosh · sound design levels |
-| [captions.md](captions.md) | speech timing from audio or video as cues | when are the words said · subtitles · caption timing · sync text to voice · did the clip say the line · transcribe |
+| [music.md](music.md) | the mix decision (LUFS target, loud-to-quiet range) and prompting `generate music` | how loud · loudness · LUFS · loud/quiet gap · the mix · make a track · BPM · the bed sounds generic · the music dies at the end · SFX · a whoosh · sound design levels · what it actually does |
+| [captions.md](captions.md) | `strata captions` — speech timing from audio or video as `{t0,t1,text}` cues (segment-level, not per-word) | when are the words said · subtitles · caption timing · sync text to voice · did the clip say the line · transcribe |
 | [generative-fx.md](generative-fx.md) | beat-sync, generator scripts, audio-reactive graphics | cut to the beat · sync to music · onsets · particles · confetti · light leaks · make it react to audio · draw a path |
 | [intake.md](intake.md) | turning supplied material into a shot table and executing it | they sent a storyboard · a script · a PDF · a shot list · footage · what do I do with what they gave me |
 | [video-editing.md](video-editing.md) | ffmpeg edits on finished footage | trim · cut · join · concat · reframe to vertical · speed up · slow motion · loop · strip audio · replace audio · the audio disappeared |
@@ -50,14 +53,14 @@ If two rows look plausible, the one whose **Owns** matches your question is the 
 
 | File | Owns | Answers |
 |---|---|---|
-| [traps.md](traps.md) | every trap that yields a *wrong video* with a clean compile | it rendered wrong but compiled fine · two voices · the audio vanished · an opaque rectangle · duplicate layer names · tofu · the shot froze · error 3000 |
-| [format.md](format.md) | the scene format: every key the engine accepts | what keys can I use · syntax · is this a real property · 3D · camera · masks · track matte · layer styles · sub-comps · rich text · does this key exist |
+| [traps.md](traps.md) | every trap that yields a *wrong video* with a clean compile | it rendered wrong but compiled fine · letters show then animate one by one · letter-by-letter reveal · two voices · the audio vanished · an opaque rectangle · duplicate layer names · tofu · the shot froze · clip shorter than its slot · offset_frame · trim a clip inside the scene · 24 fps clips in a 25 fps scene · error 3000 · Scene exporter error |
+| [format.md](format.md) | the scene format: every key the engine accepts; per-character animators — a reveal pins `end` at 1 | what keys can I use · syntax · text animator · ranges · reveal letter by letter · word by word · start and end of a range · is this a real property · 3D · camera · masks · track matte · layer styles · sub-comps · rich text · does this key exist · offset_frame · trim a clip inside the scene · clip shorter than its slot |
 | [recipes.md](recipes.md) | engine-correct patterns to copy | how do I build X · kinetic text · a number counting up · count up · counter · a wipe · a reveal · textured type · depth of field · corner pin · a chart |
 | [blocks.md](blocks.md) | reusable sub-comp blocks via `strata add` | lower third · stat card · end card · logo sting · device frame · quote card · search bar · a component I shouldn't build twice |
-| [commands.md](commands.md) | the CLI: setup, every command, flags, exit codes | which command · what flags · how do I install · exit codes · what does this command do · libraries |
-| [personalization.md](personalization.md) | one template → many videos | per viewer · each customer · their name · batch · rows · data-driven · swap media per person · charts per viewer |
+| [commands.md](commands.md) | the CLI: setup, every command in one line, libraries, flags, exit codes; every command answers `--help` | which command · what flags · how do I install · exit codes · what does this command do · libraries |
+| [personalization.md](personalization.md) | one template → many videos: placeholder naming, `--emit-timeline` for the contract, `render --data rows.json` for the batch, charts per viewer | per viewer · each customer · their name · batch · rows · data-driven · swap media per person · charts per viewer |
 | [review.md](review.md) | the critic pass on the rendered MP4, and the tool's false positives | is it good · is it done · how do I judge this · the review says freeze but it moves · the numbers look wrong · what counts as a must-fix |
-| [tagging.md](tagging.md) | the `--tags` manifest for reusable scenes | tag a scene · make a template · catalog entry · what tags exist |
+| [tagging.md](tagging.md) | the `--tags` manifest for reusable scenes — two closed vocabularies; only when the user asks | tag a scene · make a template · catalog entry · what tags exist |
 
 ## Chapters — `motion/` is the animation textbook, `editorial/` the editing one
 

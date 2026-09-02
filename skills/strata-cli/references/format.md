@@ -138,7 +138,7 @@ Position/scale/rotation compose to the VASCO 4×4 `transform` as `T(position)·R
 ```
 
 - `font` (required): path to .ttf/.otf — deduped into the asset table.
-- ⚠️ **The font MUST contain a glyph for every character in `text` (and every `styles` span).** The IDM only embeds the glyphs the font actually has — a character the font is missing renders as a blank/tofu box or **crashes the cloud render (error 3000)**. `validate`/`compile` now **auto-check coverage** and ⚠ name the exact missing characters (incl. emoji), so I fix them before rendering. **Verify glyph coverage before the final compile**, especially for anything beyond plain A–Z/0–9: accented/non-Latin letters (é ñ ü 你好 العربية), currency (€ £ ₪ ₹), punctuation people paste in (curly quotes “ ” ‘ ’, en/em dashes – —, ellipsis …), symbols (™ © ® • → ✓ ★), and emoji. Many basic fonts (Arial, and even the bundled DejaVuSans for non-Latin scripts) lack these. Options, best first: (1) pick/generate a font that covers the script — e.g. a Noto family for the target language; (2) for a styled span, point that span's `font` at a font that has the glyph; (3) substitute an ASCII equivalent the font has (`->` for →, straight `"` for “”, `...` for …). When in doubt, run the glyph check below.
+- ⚠️ **The font MUST contain a glyph for every character in `text` (and every `styles` span).** The IDM only embeds the glyphs the font actually has — a character the font is missing renders as a blank/tofu box or **crashes the cloud render (error 3000 — a generic code, [traps.md](traps.md#error-3000-is-a-generic-exporter-code))**. `validate`/`compile` now **auto-check coverage** and ⚠ name the exact missing characters (incl. emoji), so I fix them before rendering. **Verify glyph coverage before the final compile**, especially for anything beyond plain A–Z/0–9: accented/non-Latin letters (é ñ ü 你好 العربية), currency (€ £ ₪ ₹), punctuation people paste in (curly quotes “ ” ‘ ’, en/em dashes – —, ellipsis …), symbols (™ © ® • → ✓ ★), and emoji. Many basic fonts (Arial, and even the bundled DejaVuSans for non-Latin scripts) lack these. Options, best first: (1) pick/generate a font that covers the script — e.g. a Noto family for the target language; (2) for a styled span, point that span's `font` at a font that has the glyph; (3) substitute an ASCII equivalent the font has (`->` for →, straight `"` for “”, `...` for …). When in doubt, run the glyph check below.
 - **Check coverage with the CLI** — no snippet needed:
   ```bash
   strata glyphs ./font.ttf "Your exact text — €49, “smart”, → ✓"   # one font vs some copy
@@ -186,16 +186,17 @@ Position/scale/rotation compose to the VASCO 4×4 `transform` as `T(position)·R
   - **Bold / italic:** point the span's `font` at a real **bold/italic font file** (e.g. `./Inter-Bold.ttf`). The boolean `bold`/`italic` flags do **not** synthesize a weight/slant in the renderer — they are no-ops without a variant font.
   - **`underline` / `strikethrough` / `highlight` do NOT render** in the current engine — don't rely on them. For an underline, draw a thin `solid` bar under the text; for highlight, place a `solid` (or a rounded image) behind the text layer. **And ask whether the title needs one at all** — a rule under a lone heading separates nothing and is one of the commonest agent tells; prefer weight, size or colour ([anti-slop.md](anti-slop.md)). Draw it when the brief asks.
   - **Non-ASCII spans — handled automatically.** `start`/`length` are authored in **characters**; the exporter indexes by **UTF-8 byte**, so multi-byte chars (`×`, `€`, `–`, accents, CJK, emoji) used to crash export. The compiler now converts span offsets to byte offsets at compile time, so styled non-ASCII text renders correctly — no workaround needed.
-- **Per-character animators** (After-Effects-style): `"animators": [...]` — raw VASCO `IdmTextAnimator` objects, but `color` accepts hex and any object may carry `animate`. Example, words fading in one by one:
+- **Per-character animators** (After-Effects-style): `"animators": [...]` — raw VASCO `IdmTextAnimator` objects, but `color` accepts hex and any object may carry `animate`. Example, words rising in one by one:
 
 ```json
 "animators": [{
   "opacity": 0, "position": [0, 40, 0],
-  "ranges": [{ "based_on": "words", "shape": "ramp_up",
-    "animate": { "start": [{"t":0,"v":0},{"t":2,"v":1,"ease":"outQuad"}],
-                 "end":   [{"t":0,"v":0.25},{"t":2,"v":1.25}] } }]
+  "ranges": [{ "based_on": "words", "shape": "square", "end": 1,
+    "animate": { "start": [{"t":0,"v":0},{"t":2,"v":1,"ease":"outQuad"}] } }]
 }]
 ```
+
+⛔ **A reveal pins `end` at 1 and sweeps `start`; a window that moves (`start` 0→1 *and* `end` 0.25→1.25) is not a reveal.** The offsets (`opacity: 0`, the drop) apply only to the *selected* units, and everything outside the selection sits at its base state — visible. With a moving window the whole word is on screen from the first frame and each unit goes dark and pops back as the window passes over it. *Measured* on a render of the two side by side, same 0.29→0.90 s timing: the window version shows "OTCH" before its first keyframe and knocks letters out one at a time; the pinned version shows nothing, then N, O, T, C, H in order. The state before the first keyframe is the first keyframe's value (the tween holds it), so with `end: 1` a late first keyframe is simply "all hidden" — with a window it is "one unit hidden, the rest showing". A moving window is right only for an effect that passes *through* the string (a wave, a shimmer) where the base state is the resting look ([recipes.md](recipes.md), *Wave*). `validate` warns on a hiding animator whose `start` and `end` both move.
 
 Animator offsets (`opacity`, `position`, `scale`, `rotation`, `color`, `tracking`, `skew`, **`character_offset`** — shift digits/letters by N, wraps mod 10 for digits, negative = glyph vanishes; **`character_value`** — replace with a codepoint, needs `character_range: full_unicode`; both verified, see recipes.md "Count-up") apply to the characters selected by `ranges`; animate the range `start`/`end`/`offset` to sweep the selection. Range options: `based_on` (`characters` `characters_excluding_spaces` `words` `lines`), `mode`, `shape` (`square ramp_up ramp_down triangle round smooth`), `units`, `randomize_order`.
 
@@ -240,6 +241,8 @@ the line grows from, so prove the layout against a long RTL value, not just the 
 ```
 
 `loop: true|false` → `playback_mode` loop/cut (or pass `playback_mode`: `cut loop hold`). Extensions sniffed: png/jpg/jpeg/webp/bmp/gif/tif → image; mp4/mov/avi/webm/mkv/m4v → video.
+
+`offset_frame` (integer, default 0) is the **trim-in**: the layer's media starts that many frames into its source, counted in **comp frames** at the comp's `fps` (25 by default). It is passed through verbatim — no seconds-to-frames conversion — so write frames, not seconds (2 s at 25 fps = `offset_frame: 50`). The schema puts it on media, solid, text and composition layers, never on audio (below). It shortens what a clip can cover: **`offset_frame + slot frames ≤ clip frames`**, or the shot freezes on its last frame — the arithmetic and the 24 fps clip against a 25 fps comp are in [traps.md](traps.md).
 
 **Don't loop a clip to fill time.** A clip that restarts mid-scene reads as a glitchy GIF — the visible jump back to frame one looks cheap. Prefer to size the scene to the clip, or when one clip ends **cut/transition to a different shot** rather than replaying the same one. Use `playback_mode: "hold"` to freeze on the last frame instead of looping, and reserve `loop: true` for genuinely seamless ambient textures (subtle particles, gradients).
 
@@ -292,7 +295,7 @@ too** — a `1920×2800` strip comp is rejected by the schema, so this only work
 strip stays under 1920 px on its long axis. For anything longer use the static track-matte, or
 cycle a short strip (reset and re-fill it) instead of building the full length.
 
-⚠️ **Unique layer names — duplicate names across sub-comps used to crash the render (error 3000).** The exporter keys layers (especially text placeholders) by name **globally**. Two layers sharing a name in different sub-comps — e.g. a `card` sub-comp reused with its text layer named `label` each time — collide, and the render used to fail 3000 (while compiling/validating fine locally). The compiler **auto-uniquifies** duplicates at compile time (`label`→`label_2`, …) and prints what it renamed, so scenes render; still, author distinct, meaningful names so personalization keys stay predictable.
+⚠️ **Unique layer names — duplicate names across sub-comps used to crash the render (error 3000 — a generic code, [traps.md](traps.md#error-3000-is-a-generic-exporter-code)).** The exporter keys layers (especially text placeholders) by name **globally**. Two layers sharing a name in different sub-comps — e.g. a `card` sub-comp reused with its text layer named `label` each time — collide, and the render used to fail 3000 (while compiling/validating fine locally). The compiler **auto-uniquifies** duplicates at compile time (`label`→`label_2`, …) and prints what it renamed, so scenes render; still, author distinct, meaningful names so personalization keys stay predictable.
 
 ## Camera
 
@@ -468,7 +471,7 @@ carrying an animation you do not want to disturb.
 ## Masks
 
 ```json
-"mask": { "rect": [0, 500, 1280, 140], "feather": 12 }                  // single shape
+"mask": { "rect": [0, 500, 1280, 140], "feather": 12 }                  // single shape — feather renders (measured: 60 → a ~120 px ramp, 255 to 0, at 1280×720)
 "mask": { "rect": [88, 516, 322, 74], "radius": 37 }                    // rounded rect
 "mask": { "rect": [88, 516, 322, 74], "radius": 999 }                   // pill (radius clamps to h/2)
 "mask": { "rect": [0, 0, 400, 300], "radius": [24, 24, 0, 0] }          // per-corner [tl,tr,br,bl]
@@ -567,7 +570,8 @@ names nothing and reads like a corrupt scene. The same 6 assets with all-distinc
 exported fine. **The compiler now dedupes assets by content hash**, so the same file reused
 under two names collapses to one id — the crash is gone and the `.idm` shrinks (measured:
 4,189,841 → 3,812,502 bytes). Worth knowing when reading someone else's `.idm`, or if you
-ever build one outside this CLI.
+ever build one outside this CLI. The other three causes of the same code:
+[traps.md](traps.md#error-3000-is-a-generic-exporter-code).
 
 ### ⚠️ The encoder stores only an asset's BASENAME
 

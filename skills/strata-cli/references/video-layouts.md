@@ -63,9 +63,12 @@ carries TEXTURES instead of footage** — gradient fills, scrolling stripes, gol
 verified recipes in [recipes.md](recipes.md) §1 "Textured text".
 
 ### 4. Device / phone / browser frame
-Product UI or a clip sitting inside a device. A frame PNG (transparent screen area) on top of a
-`video` boxed to the screen rectangle; animate a slow push or a scroll of the inner content.
-See the `device-frame` block in `blocks.md`. Keeps app demos from floating in the void.
+Product UI or a clip sitting inside a device. The device is a **generated image** — `generate image`
+on chroma green, keyed to a PNG with alpha ([assets.md](assets.md), *Drawn or generated?*) — on
+top of a `video` or the UI layers boxed to its screen rectangle; animate a slow push, a parallax
+drift or a scroll of the inner content. The `device-frame` block in `blocks.md` gives the slot
+geometry; its panels stand in for the device only in an abstract frame. Keeps app demos from
+floating in the void — and from reading as a diagram of a phone.
 
 ### 5. Picture-in-picture / inset
 A small `video` over a full-frame `video` — a speaker over their screen-share, a reaction over

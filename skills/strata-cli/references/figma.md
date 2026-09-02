@@ -127,7 +127,8 @@ preview; if the stack looks inverted, reverse it.
 ## 8. Names — this one breaks renders
 Figma trees are full of `Rectangle 1`, `Text`, `Frame 2`, and repeated component instances.
 strata requires **globally unique layer names**: the exporter keys layers by name, and
-duplicates crash the render (error 3000). The compiler auto-uniquifies as a safety net, but
+duplicates crash the render (error 3000 — a generic exporter code with four known causes,
+[traps.md](traps.md#error-3000-is-a-generic-exporter-code)). The compiler auto-uniquifies as a safety net, but
 then personalization keys become unpredictable.
 
 **On import, rename everything meaningfully and uniquely** — prefix by section:

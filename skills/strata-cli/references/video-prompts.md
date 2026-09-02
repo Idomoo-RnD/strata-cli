@@ -179,4 +179,5 @@ shot ending `Cut on the beat.`, the last landing on the closing phrase.
 Not a kind of video — the way any of the above gets longer. `--last-frame-out` → upload →
 `--first-frame`, restating the identity lock, the Static Description **and the ambient
 events** ([video-generation.md](video-generation.md), Chaining). A clip that came back
-short is covered with a companion clip, never stretched.
+short is covered with a companion clip, never stretched — the model's measured contract (24 fps,
+720p, the filter, brand marks) is [one table](video-generation.md#what-generate-video-actually-does--measured).

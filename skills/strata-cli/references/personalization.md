@@ -31,7 +31,8 @@ The engine lays RTL out correctly on its own ([format.md](format.md)) — the ri
 
 - the line now grows from the **right**, so a left-anchored box leaves a hole on one side and
   overflows on the other — right-align the slot, and put its **right** edge on the grid line;
-- the font must carry the script, or the render **crashes** (error 3000) rather than looking
+- the font must carry the script, or the render **crashes** (error 3000 — a generic code,
+  [traps.md](traps.md#error-3000-is-a-generic-exporter-code)) rather than looking
   wrong — run `strata glyphs` against a real sample value, not the English one;
 - prices, dates and Latin brand names stay LTR inside the RTL line, which is correct;
 - mixed audiences mean the SAME template may receive both — so test both extremes, and prefer

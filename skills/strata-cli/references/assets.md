@@ -19,6 +19,7 @@ local input needs `strata upload` first (the CLI says so rather than publishing 
 ## Contents
 
 - [Source resolution vs canvas — read before choosing the comp size (MEASURED)](#source-resolution-vs-canvas--read-before-choosing-the-comp-size-measured)
+- [Drawn or generated? — a physical thing is an image, a shape is for simple geometry](#drawn-or-generated--a-physical-thing-is-an-image-a-shape-is-for-simple-geometry)
 - [`strata generate image "<prompt>" [flags]`](#strata-generate-image-prompt-flags)
   - [Reference images — art style, characters, composition (the important part)](#reference-images--art-style-characters-composition-the-important-part)
 - [`strata generate video "<prompt>" [flags]`](#strata-generate-video-prompt-flags)
@@ -65,6 +66,32 @@ Author around it:
   Ken-Burns the frame ends at 1.65×, and softness reads as "AI footage" faster than anything.
 - Match `--aspect` / `--ratio` to the **slot**, not the comp — a 9:16 slot in a 16:9 frame
   wants a 9:16 asset, so none of the resolution is cropped away.
+
+## Drawn or generated? — a physical thing is an image, a shape is for simple geometry
+
+`generate image` is a strong model; use it for anything that has a surface in the real world.
+**Shapes (`solid`, masks, vector paths) are for simple geometry** — panels, bands, rules, grids,
+abstract marks, UI chrome, colour fields — and for nothing a viewer would recognise as an object.
+
+| the element is… | build it as |
+|---|---|
+| a device (phone, laptop, watch), a product, a prop, a package, a vehicle, food, a plant, anything held or set down | **`generate image`**, keyed to alpha, placed as an `image` layer with layer-level motion (the route below) — never a stack of rounded solids |
+| an icon, an illustration, a badge, a sticker, a texture, a material, a photographic backdrop | **`generate image`** — icons and flat graphics may stay stills, the one exception to *every image becomes a video* |
+| the UI on a device's screen, a chart, a counter, the copy | **scene layers** (text, `strata chart`, blocks) inside the device's screen rectangle — that is what animates and personalises |
+| a panel, a band, a rule, a grid, a shape wipe, an abstract mark, a colour field | **shapes** |
+
+A drawn phone is eleven rounded solids and reads as a diagram; a generated one has bezel, glass,
+reflection and weight, and the UI still sits on it as layers. The cost is one wave (~10–20 s per
+image, in parallel with the clips), so the choice is never "shapes because generating is slow".
+
+**The cut-out route for a still** — `matte` is people-only, so an object is keyed, not matted:
+
+1. Generate it on a flat chroma-green backdrop, and say so in the prompt:
+   `strata generate image "<the thing>, front view, studio product lighting, on a flat solid chroma green background, no shadow on the background" --aspect 3:4 -o ./assets/phone_green.png`
+2. Key it to a PNG with alpha (no `strata` command needed for a still):
+   `ffmpeg -i ./assets/phone_green.png -vf "chromakey=0x00B140:0.15:0.05,despill=type=green" -c:v png ./assets/phone.png`
+   — `similarity` 0.10–0.20 opens the key, `blend` 0.02–0.08 softens the edge, `despill` removes the green fringe. *Measured* on a generated phone (prompt as above, 896×1200): the model returned a flat, even green with no shadow, and `chromakey=0x00B140:0.15:0.05` gave a matte with alpha 0 across the whole backdrop and 255 across the whole phone — a hard, clean edge, 22.6 % coverage, nothing to choke or feather. Check yours: `ffmpeg -i phone.png -vf alphaextract alpha.png` and look; the matte must be solid inside and clean outside.
+3. Place it: `{ "type": "image", "src": "./assets/phone.png", "fit": "contain", … }` and give it life at the **layer level** — a ≈1 px/frame drift, parallax against the plate, a slow scale ([craft.md](craft.md), *A held shot still moves*); its screen rectangle holds the UI layers. A `.jet` is needed only when the object itself must move as footage — then generate a clip on green and `strata jet --key` it (the table under *Alpha overlays*).
 
 ## `strata generate image "<prompt>" [flags]`
 A still PNG (async, ~10–20s).
@@ -120,7 +147,10 @@ keyframe interpolation · `--ref-*` = reference-driven · a source clip in `--re
 editing/extension.
 
 🚫 **`--first-frame`/`--last-frame` and `--ref-image`/`--ref-video`/`--ref-audio` are MUTUALLY
-EXCLUSIVE** — the CLI rejects the combination before spending anything.
+EXCLUSIVE** — the CLI rejects the combination before spending anything. Everything measured
+about the model — 24 fps output against a 25 fps scene default, the 720p clamp, the privacy
+filter, brand marks, never stretched — is one table:
+[video-generation.md](video-generation.md#what-generate-video-actually-does--measured).
 
 | flag | meaning |
 |---|---|
@@ -137,7 +167,7 @@ EXCLUSIVE** — the CLI rejects the combination before spending anything.
 | `--best` · `--model <id>` | the **standard** model instead of the default fast one (slower, but delivers every shot) · an explicit model id. Default is `dreamina-seedance-2-0-fast-260128`; `--best` is `dreamina-seedance-2-0-260128` — [video-generation.md](video-generation.md) |
 | `--resolution` | **clamped to 720p** — 720p is always the max |
 
-Reference the result as a `video` layer — and **ask for a clip at least as long as the slot it fills, plus about a second, then trim.** If the layer outlives its media the shot freezes on the last frame for the remainder (`playback_mode: "hold"`), and `loop` is worse: it visibly restarts. Neither is caught by `validate` — the fix belongs here, at generation time ([video-generation.md](video-generation.md)).
+Reference the result as a `video` layer — and **ask for a clip at least as long as the slot it fills, plus about a second, then trim.** A layer that outlives its media freezes on its last frame (`playback_mode: "hold"`; `loop` visibly restarts, which is worse) and `validate` cannot see it — the fix belongs here, at generation time ([video-generation.md](video-generation.md)).
 
 ```bash
 strata generate image "hero shot" -o hero.png          # prints url:
@@ -185,7 +215,9 @@ seconds early and **no fixed offset fixes it**; you also get the voice twice. De
 
 ## `strata generate music "<prompt>" [--duration <sec>]`
 An instrumental track (default 30s). Reference as an `audio` layer at low `volume` with
-`ducking: true` so it sits under narration.
+`ducking: true` so it sits under narration. What the model actually delivers — 0 dBFS, BPM
+not honoured, a decaying tail, no loop — is one table:
+[music.md](music.md#what-generate-music-actually-does--measured).
 
 ---
 
@@ -350,6 +382,7 @@ the layout. The clips land into a scene that is already built — never sit and 
 - **Unique filenames for parallel renders.** *Measured:* five renders of files all named
   `scene.json` into one library failed with error 3000 (upload filename collision); unique
   names (`scene_a.json`, `scene_b.json`, or the versioned `promo_v3.json`) fixed every one.
+  3000 is a generic exporter code with four known causes — [traps.md](traps.md#error-3000-is-a-generic-exporter-code).
 - **Verify each result before it feeds the next wave** — a wave-2 clip is checked against
   its storyboard row and sheet ([production-bible.md](production-bible.md)) before a wave-3
   continuation is built on it; a bad input propagates.
@@ -372,8 +405,9 @@ still in: a static photo in a motion-design piece reads as a slideshow.
 
 ⚠ Never both: `--first-frame` and `--ref-*` are mutually exclusive.
 
-**The only exception is a genuine icon / logo / flat UI graphic**, where motion would look
-wrong — **and a PERSONALIZED media slot**, which must stay an `image` layer because the API
+**The only exceptions are a genuine icon / logo / flat UI graphic**, where motion would look
+wrong, **a keyed cut-out prop or device** that gets its life at the layer level (*Drawn or
+generated?*, above) — **and a PERSONALIZED media slot**, which must stay an `image` layer because the API
 substitutes a still per viewer: give it layer-level motion (Ken-Burns on an anchored, `fit:"fill"`
 layer). For a fixed image, Ken-Burns is the fallback only when image-to-video is unavailable.
 
@@ -423,13 +457,14 @@ If the subject moves or turns, animate the mask loosely (a few keyframes) or dri
 |---|---|---|
 | **A PERSON in ordinary footage, no green screen** (on a beach, in an office…) — also works on cartoon/stylized characters | `strata matte clip.mp4 -o subject.jet` | **removes the background automatically** (AI video matting, runs locally on CPU). ⚠ **People only** — see the row below. First run downloads a ~14 MB model into `~/.strata/models/`. |
 | **A PRODUCT, object, logo or landscape** | ❌ **not `matte`** — re-generate the clip on a green backdrop and use `--method chroma`, or key a uniform background with `--key`, or use same-source occlusion (below) | `matte` runs Robust Video Matting, trained on **people**. On a product it finds no subject and the CLI now stops with `no subject found`. *Measured coverage:* cartoon character 46.8%, person close-up 23.9%, person in wide shots 8.9%, **perfume bottle 0.00%** |
-| **Green/blue screen footage** | `strata jet clip.mp4 --key 0,177,64 --method chroma -o o.jet` | add `--choke 1 --feather 1` to trim a colour fringe. If the result still carries a faint green wash over the whole subject (*measured* on a generated green-plate product clip), key with ffmpeg instead — `ffmpeg -i clip.mp4 -vf "chromakey=0x4CA86A:0.12:0.05,despill=type=green" frames/%04d.png` — and encode from the PNG sequence: `strata jet frames --fps <clip fps> -o o.jet`. The PNGs carry real alpha, so `jet` keys nothing and the wash is gone |
+| **Green/blue screen footage** | `strata jet clip.mp4 --key 0,177,64 --method chroma -o o.jet` | `--choke N` erodes the matte by N px (negative dilates; default 0) and `--feather N` blurs its edge by N px (default 0) — add `--choke 1 --feather 1` to trim a colour fringe. If the result still carries a faint green wash over the whole subject (*measured* on a generated green-plate product clip), key with ffmpeg instead — `ffmpeg -i clip.mp4 -vf "chromakey=0x4CA86A:0.12:0.05,despill=type=green" frames/%04d.png` — and encode from the PNG sequence: `strata jet frames --fps <clip fps> -o o.jet`. The PNGs carry real alpha, so `jet` keys nothing and the wash is gone |
 | **A solid white/black background** | `strata jet clip.mp4 --key 255,255,255 -o o.jet` | `distance` method is the default |
 | **A PNG sequence that already has alpha** (AE/Blender/Nuke/Resolve export, or roto) | `strata jet ./frames --fps 24 -o o.jet` | **best quality — no keying at all.** The frames' own alpha is used automatically; only pass `--key` if you actually want a colour keyed |
 | **A still image I generated** | `strata generate image …` → `strata generate video "<motion>" --first-frame <its url>` (**ONE continuous shot, no cuts** — see [video-generation.md](video-generation.md)) → then one of the rows above | a generated still becomes a clip first; ask for a **solid green background** in the prompt if you intend to key it |
 
 `--width N` downscales an oversized overlay — a 960×960 source rarely needs full
-resolution, and it cuts the `.jet` size a lot. Any **video** input needs `ffmpeg` on PATH
+resolution, and it cuts the `.jet` size a lot. `--choke N` / `--feather N` (px, default 0)
+tighten and soften a keyed edge; they do nothing on a PNG sequence with its own alpha. Any **video** input needs `ffmpeg` on PATH
 (it decodes the clip); a PNG sequence needs nothing.
 
 ### `matte` is slow — halve the width first (MEASURED)

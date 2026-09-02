@@ -69,8 +69,11 @@ landscape first, then reflow (*Reflow to vertical* below) — never letterbox.
 |---|---|---|---|---|---|---|
 | **1920×1080** 16:9 | 120 | 1680 | 12 @118 / 24 | 120–360 | 420–830 | 950–990 |
 | **1080×1920** 9:16 | 72 | 936 | 6 @136 / 24 | 160–460 | 560–1500 | 1690–1770 |
+| **720×1280** 9:16 (the 1080×1920 grid × 2/3) | 48 | 624 | 6 @91 / 16 (626 — trim the last column by 2 px) | 107–307 | 373–1000 | 1127–1180 |
 | **1080×1350** 4:5 | 72 | 936 | 6 @136 / 24 | 150–380 | 430–1120 | 1180–1250 |
 | **1080×1080** 1:1 | 72 | 936 | 6 @136 / 24 | 120–300 | 340–800 | 900–960 |
+
+**Which 9:16 canvas:** author at **720×1280** when generated footage fills the frame — it is the clip's native size, and a 1080×1920 comp would upscale it 1.5× before any push-in; author at 1080×1920 when the piece is graphics-led and footage sits in a slot ([assets.md](assets.md), *Source resolution*).
 
 For 9:16 and 4:5 keep text out of the **top 10% / bottom 15%** (platform UI chrome) and off the right-hand ~12% in the lower half (the Reels/TikTok button stack).
 

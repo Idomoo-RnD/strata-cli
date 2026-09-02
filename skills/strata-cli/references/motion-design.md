@@ -165,7 +165,7 @@ The hero moves; something else moves *against* it at a fraction of the speed:
 | lifts (y up) | shadow spreads + softens | 20–30% |
 
 ### Shot structure
-Setup **20–30%** (elements enter) → action **30–40%** (the hero moment) → resolution
+Setup **20–30% of the shot** (elements enter) → action **30–40%** (the hero moment) → resolution
 **30–40%** (settle, secondary reactions). Then leave **3–5f of stillness** before the next
 move. That pause is what makes the next beat land.
 

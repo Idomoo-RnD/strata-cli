@@ -20,7 +20,8 @@ is a good moment — and come back to a step when it is in front of you.
 
 ## The four checks that change what the job is
 
-Run these first; each one turns the request into a different job.
+Run these first; each one turns the request into a different job (the one-line version is in
+[SKILL.md](../SKILL.md#before-authoring--four-checks)).
 
 - **A0 · Material supplied?** A storyboard image, a script, a shot list, reference sheets, footage,
   a voice — read [intake.md](intake.md) first and treat that material as the brief. Transcribe it
@@ -75,18 +76,18 @@ identity blocks, [production-bible.md](production-bible.md) — and every genera
 cites them.
 
 **Clip length is decided here, not fixed later.** Every clip must be at least as long as the scene
-slot it fills — generate it longer and trim, never shorter. A `video` layer that runs out before
-its slot does not stop being on screen: it holds its last frame, so the shot freezes for the
-remainder and the piece dies mid-scene (with `loop` it visibly restarts instead, which is worse).
-Size each clip from the storyboard's slot plus ~1 s of margin, and when one still comes back
-shorter than its scene it is never retimed to fit — cover the scene with more shots of the same
-subject (a companion clip from a reference frame) or extend off the last frame
-([video-generation.md](video-generation.md)); a longer one is trimmed, never sped up.
+slot it fills — size it from the storyboard's slot plus ~1 s of margin, generate longer and trim,
+never shorter: a `video` layer that runs out holds its last frame and the shot freezes. One that
+still comes back short is covered with more shots or extended off its last frame, never retimed;
+a longer one is trimmed, never sped up. The measured contract, the `offset_frame` arithmetic and
+the 24 fps clip against the 25 fps scene default:
+[video-generation.md](video-generation.md#what-generate-video-actually-does--measured) and
+[traps.md](traps.md).
 
 **Generate in waves, in the background** — every asset with no unmet dependency at once (sheets,
 plates, TTS, music), then every clip whose inputs exist, then only continuations — and author the
 scene while they render; a 10-scene piece is ~10 min in waves, ~60 serially
-([assets.md](assets.md)). Parallel renders — and parallel `snapshot`s — need unique scene filenames: two jobs on one file collide in the exporter (error 3000).
+([assets.md](assets.md)). Parallel renders — and parallel `snapshot`s — need unique scene filenames: two jobs on one file collide in the exporter (error 3000 — a generic code, [traps.md](traps.md#error-3000-is-a-generic-exporter-code)).
 
 For each visual element decide: (a) is there a file, or should it be generated; (b) does it sit
 *over* another layer? Anything composited over another layer (plane, mascot, product cut-out, logo
@@ -105,7 +106,11 @@ storyboard is cheap, re-rendering a finished video is not. Revise it with them f
 **No user available?** In an automated or unattended run, do not stall: make each call that would
 have been a question, write the storyboard and a short `decisions.md` recording every choice made in
 the user's place, and carry on. The checks that are not about taste — validate, preview, review —
-still apply in full. **Never end a turn on a promise.** Nobody is watching, so a turn that ends on
+still apply in full. A `.idm-library` file in the project is the persisted library id from
+`library create` — a convention of this skill, not something the CLI reads: when it exists the run
+passes its id as `--library` on every `render` and `snapshot` without asking (`render` logs
+`Reusing library <id>`); without it a non-interactive `render` fails with the library list rather
+than picking one ([commands.md](commands.md), *Libraries*). **Never end a turn on a promise.** Nobody is watching, so a turn that ends on
 "waiting for the snapshots" or "I'll render next" blocks the job until someone notices — and a
 backgrounded waiter does not wake you, so it stalls indefinitely. Run
 long steps in the foreground with a long timeout, or poll them yourself in the same turn, and end
@@ -192,6 +197,8 @@ line, thirds/centre). Fix the composition against [layouts.md](layouts.md)'s rul
 each key shot (`--at`) until it reads right. This is where design gets fixed; renders are for
 confirming, not discovering.
 
+`strata preview` draws layer boxes, not masks, and only the comp given with `--comp` (the main comp
+by default) — a scene built from masks previews as blank rectangles; use `snapshot` to see the frame.
 Preview draws boxes, not glyphs, so it cannot show where text sits *inside* its box — and vertical
 text anchors to the box bottom (`align "… top"` is not honoured; verified). Compute vertical
 positions from `box_y + box_h`, and confirm real type placement with a cheap snapshot —
@@ -233,6 +240,18 @@ tells `strata inspect` which version it is and what it descended from. A previou
   get-or-create), persist the printed id, pass that same `--library <id>` every time. `render`
   refuses to guess: [commands.md](commands.md), *Libraries — ask, never pick*.
 - Renders take minutes — run them in the background and report the `video_url`/`poster_url`.
+- **Two full renders per piece: the first to review, the second to ship.** A render is not a way
+  to find out what the scene does; that is what the steps before it are for — `validate`, the
+  `--grid` preview at every key frame, a `snapshot` at the first, middle and last frame of every
+  declared hold, and, for the riskiest hold, one **probe** render of that shot alone
+  (`duration` cut to ≤ 5 s) measured with `strata review` before the full piece is spent. After
+  the first full render, `review` names every must-fix; **fix all of them in one revision pass**,
+  not one class per render, then render the second and ship it. A third full render is not a
+  fix loop, it is a finding: the plan or the skill was wrong somewhere, so stop, write what and
+  why in `decisions.md`, and re-plan before spending it. *Measured:* an unattended run that
+  treated render-and-review as its debugger spent **six** full renders and 44 of its 83 minutes
+  in that loop, on faults every one of which a snapshot, a probe or a defined number would have
+  caught first.
 - Only if the user asks for the scene to be **tagged** (a reusable template / catalog entry, not a
   one-off): add `--tags manifest.json` here and on `compile`, after reading
   [tagging.md](tagging.md). The manifest rides inside the `.idm`, so the library copy is

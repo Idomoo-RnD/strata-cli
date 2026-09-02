@@ -79,7 +79,7 @@ A logo image that scales/fades in over a solid; hold then settle.
 ```
 
 ### device-frame
-A phone/screen frame to hold a product shot (image or video) — colour panels + a media slot.
+A phone/screen frame to hold a product shot (image or video) — colour panels + a media slot. The panels are a **placeholder for the device, not the device**: a phone the viewer is meant to see is a generated image keyed to alpha, with this block's media slot as its screen ([assets.md](assets.md), *Drawn or generated?*). Use the bare panels only for an abstract or diagrammatic frame.
 ```json
 "comps": { "device_frame": { "width": 520, "height": 900, "duration": 6, "layers": [
   { "type": "solid", "name": "df_body", "color": "#111418", "box": [0, 0, 520, 900] },

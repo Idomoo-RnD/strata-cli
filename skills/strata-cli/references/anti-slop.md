@@ -144,7 +144,8 @@ place, the season, the medium — and name why.
 ### Motion
 
 - **`outBack` / `outElastic` on body text or data.** Overshoot belongs to toys, mascots and
-  deliberately playful brands. Text and numbers land clean.
+  deliberately playful brands — and there once, on the hero, at the brand's stated 10–20 % of
+  the move ([craft.md](craft.md), *Polish*, has the allowance). Text and numbers land clean.
 - **Everything pulses / breathes.** Ambient motion on one thing keeps the frame alive; on
   everything it reads as nervous. The "web-animation tells" checklist in
   [motion-design.md](motion-design.md) covers the rest of motion slop — this file covers

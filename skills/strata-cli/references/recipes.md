@@ -100,10 +100,10 @@ Per-span `color`/`size`/`tracking` plus a word-by-word rise-and-fade. **Spans mu
     { "start": 11, "length": 4, "color": "#4cc9f0" }
   ],
   "animators": [{ "opacity": 0, "position": [0,60,0],
-    "ranges": [{ "based_on": "words", "shape": "ramp_up",
-      "animate": { "start": [{"t":0,"v":0},{"t":1.6,"v":1,"ease":"outCubic"}],
-                   "end":   [{"t":0,"v":0.34},{"t":1.6,"v":1.34}] } }] }] }
+    "ranges": [{ "based_on": "words", "shape": "square", "end": 1,
+      "animate": { "start": [{"t":0,"v":0},{"t":1.6,"v":1,"ease":"outCubic"}] } }] }] }
 ```
+*(`end` is pinned at 1 — every word not yet reached stays selected, so hidden. Animating `end` alongside `start` makes a travelling window, and the words outside it show from frame one: [format.md](format.md), Per-character animators.)*
 *(Fake underline: a thin `solid` bar under the box — only when the brief asks ([anti-slop.md](anti-slop.md)). Fake highlight: a `solid` behind the text layer.)*
 
 ### Typewriter with a caret that follows the text

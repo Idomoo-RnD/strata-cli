@@ -62,7 +62,10 @@ The tool finds what a machine can find; the critic still watches. Four viewings,
 Every category gets **pass** or **must-fix** — not a score out of ten; an 8 is not a decision. A
 must-fix carries a timecode, a frame reference and the rule it breaks. The ladder below calibrates
 the word "pass" and is not averaged: a category passes only at the middle column, and the right
-column is what the piece is aiming at.
+column is what the piece is aiming at. Twelve rows, nine categories: **Editing** is calibrated on
+four rows (story, temporal composition, editing/transitions, camera/space), **Art direction** on
+*brief/brand/reference fit*, and every other category on the row of its own name — a category
+passes only when each of its rows sits in the middle column.
 
 | | Functional (not a pass) | Premium (the pass line) | Exceptional |
 |---|---|---|---|
@@ -152,21 +155,35 @@ quietly destroy, which is what makes the second render comparable to the first.
 
 ### Known false positives — check the frames before believing the metric
 
-Every number in the report is computed on the **whole frame**, from tiny greyscale frames. Three
-consequences, each measured on a real render:
+The report carries two kinds of motion number, from tiny greyscale frames (64×36). `energy` and
+`stillness` are **whole-frame means** — comparable with the reference tokens and the declared
+range. `energyMax` and `stillnessLocal` are the **busiest of nine cells** in a 3×3 grid over the
+same frame, and freezes are decided on the cells: a shot is frozen only when *no* cell moves, and
+every freeze names its busiest cell. The consequences, each measured on a real render:
 
-- **A small-area move reads as a freeze.** A 0.68 s grind that moved ~10 % of the frame was
-  reported as frozen. If a freeze is flagged where something *is* moving, open the frames either
-  side and compare — a real freeze is identical pixels, not low energy.
-- **A large-area low-amplitude move also reads as a freeze** — the opposite failure, and the more
-  dangerous one, because holds are sent toward exactly this kind of motion. *Measured:* a light
-  shaft crossing the whole frame came back **93 % still**. Stillness and energy both under-register
-  a gentle wash over a wide area, so on a hold whose life is light, grade or drifting texture the
-  metric can neither clear nor condemn it — step its first, middle and last frames. Low stillness
-  proves life there; high stillness does not prove death.
-- **Shots shorter than ~0.3 s are merged into their neighbour.** A declared two-frame flash may
-  never appear in `shots.lengths`, and `shortest` then reads longer than the cut is. Verify a flash
-  on its `cut_NN.png` frames; never lengthen a correct flash to make the list agree.
+- **A small-area move is invisible to the whole-frame mean, not to the cells.** A 0.68 s grind
+  that moved ~10 % of the frame reads as near-frozen on `energy` and alive on `energyMax`; a
+  knockout fill moving 22 grey levels in one cell is a `stillnessLocal` of 0 under a `stillness`
+  near 1. Read the pair together: a hold whose one moving element sits in a cell clears on the
+  local number, and a whole-frame freeze verdict on it is wrong. A real freeze is identical pixels
+  in every cell, not low mean energy.
+- **A large-area low-amplitude move can still read as still on both numbers** — the more
+  dangerous failure, because holds are sent toward exactly this kind of motion. *Measured:* a light
+  shaft crossing the whole frame came back **93 % still** on the mean, and a wash spread across
+  several cells can keep every cell under the local threshold too. On a hold whose life is light,
+  grade or drifting texture, step its first, middle and last frames. Low stillness proves life
+  there; high stillness does not prove death.
+- **Flashes are shots, marked `flash` in the table (under 0.3 s), and dark-to-dark cuts are
+  detected** on a contrast-normalised difference. The price: **a bright transient inside a shot —
+  a lightning strike, a hard flash-to-white — is counted as a cut**, because at this scale it is the
+  same signal as an authored flash frame and no rule separates them without losing real cuts.
+  When the cut count runs one over the shot list, check the `cut_NN.png` frames for a flash that
+  is the same shot on both sides; never lengthen a correct flash to make the list agree.
+- **A cut confined to part of the frame is found on the cells** (a dark plate cutting under a
+  static title: whole-frame change 13, one cell 117), so the count no longer merges those. What
+  it still cannot find is **a whip-pan or any motion transition** — the change ramps over a dozen
+  frames instead of stepping, so there is no discontinuity to detect. A shot boundary made by
+  motion is counted from the storyboard, not from the tool, and `longest` is read with that in mind.
 - **A settle can be reported as "bounce or overrun" when the energy is the NEXT element.** The
   check reads energy after the keyframe, and cannot tell whose energy it is. `outExpo` and
   `outCubic` cannot overshoot at all, so a bounce verdict on one of those is always something else
@@ -187,12 +204,27 @@ consequences, each measured on a real render:
 
 - Every must-fix goes back to the **pass it belongs to** (blocking / primary / secondary /
   finishing — [director.md](director.md) §7), never a patch on top.
-- Re-render, re-run `strata review`, re-watch the four ways. A piece ships when **no must-fix
-  remains** — not when the count went down. Versioned filename on every revision (`_v2`, `_v3`);
-  the report names the version reviewed.
-- Two identical must-fixes on consecutive renders mean the approach is wrong, not the value.
+- **One revision pass, then the second render ships.** Fix *every* must-fix the first review
+  named — all classes at once, each in the pass that owns it — re-render, re-run `strata review`,
+  re-watch the four ways. A piece ships when **no must-fix remains** — not when the count went
+  down. Versioned filename on the revision (`_v2`); the report names the version reviewed.
+- **A third full render (`_v3`) is a finding, not a fix.** Two full renders is the budget
+  ([workflow.md](workflow.md), *Render*); if the second review still names a must-fix, the plan or
+  the skill was wrong: record what and why in `decisions.md`, fix the cause (a probe render of the
+  one shot, a snapshot, a re-planned hold), and only then spend a render. Two identical must-fixes
+  on consecutive renders mean the approach is wrong, not the value.
 
 ## 7. Comparing against the declared position
+
+**What the two motion numbers are.** `energy` is the mean absolute frame-to-frame change in
+grey levels, measured on a 64×36 downscale of the whole frame, cut frames excluded; `stillness`
+is the share of those frames whose change is under 1. The scale, from the references and the
+tool's own thresholds: **0 frozen · under 1 counts as still · ≈1.5 a gentle drift** (the showreel
+measures 1.49, the quiet film 1.06) **· ≈5 busy · ≈11 action** (the film's action reel 11.43).
+`energyMax` and `stillnessLocal` are the same two on the busiest of nine cells. Declare energy and
+stillness on this scale, from `strata deconstruct` on a reference or a probe render — never by
+interpolating a table by feel: *measured*, a piece declared 1.9 / 0.34 that way and rendered at
+0.51 / 0.92 first time.
 
 **Every piece gets this comparison, reference or not.** The storyboard's four numbers are the
 target; the report's tokens are the measurement. Open the review with a two-column table —

@@ -21,10 +21,28 @@ strata generate video "<prompt>" [--first-frame <url>] [--last-frame <url>]
 References, dialogue, animatics and editing are in
 **[video-generation-advanced.md](video-generation-advanced.md)**.
 
+## What `generate video` actually does — measured
+
+The contract Seedance delivers, with the workaround beside each line. The sections below hold
+the detail; this table is what to plan on.
+
+| Measured | Workaround |
+|---|---|
+| **Clips return at 24 fps** — every clip is `h264 / 1280×720 / yuv420p / 24 fps` (+ `aac / 44100 / stereo` with `--audio`), while the scene default is **25** (`"fps": 25`, [format.md](format.md), *Scene*) | for a footage-led piece set the comp `fps` to 24 so clip frames map 1:1; at 25 the encoder resamples (24 into 25 repeats about one frame a second), acceptable for a graphics-led piece with a clip in a slot. A `.jet` from a clip is built `--fps 24` and must match the comp ([traps.md](traps.md)) |
+| **720p clamp** — output is 1280×720 always; the fast model refuses anything above (`400 InvalidParameter`), the standard model delivers no more | author full-bleed footage at 1280×720 / 720×1280; in a 1920 comp keep generated media in a slot ≤ native size ([assets.md](assets.md), *Source resolution*) |
+| **Frames and references are mutually exclusive** — `--first-frame`/`--last-frame` with any `--ref-*` is blocked by the CLI; the API answers `422` | reference-driven first, then chain off its last frame when an exact frame is needed |
+| **A privacy pre-filter rejects photoreal faces — AI-generated ones too** (`InputImageSensitiveContentDetected.PrivacyInformation`); logos and real products trip it as well; video inputs are exempt | `--realistic-human` — the CLI retries once with it automatically and says `realistic_human was applied` |
+| **Brand marks appear despite negative prompts** — apparel, footwear, cars and laptops come back with logos and stripes | re-frame the mark out of shot; check every clip at full resolution, never on a 320 px tile |
+| **A clip is never stretched to its slot** — media that runs out holds its last frame (`hold`) or restarts (`loop`); `validate` cannot see it | ask for the slot + ~1 s and trim; a short clip is covered with more shots or chained, never retimed (*A clip must be ≥ its slot*, below; the `offset_frame` arithmetic is in [traps.md](traps.md)) |
+| **4–15 s, and the model paces the cut itself** — 5 shots in 12 s came back 1.38 / 2.21 / 1.96 / 3.33 / 3.22 s; the fast model delivered 4 of 5 | budget ~5 shots per 12 s (≤4 with references); `--best` when every shot must land; chain past 15 s |
+| **3–9 minutes per clip** | generate in waves, in the background — every clip with no unmet dependency at once — and build the scene meanwhile ([assets.md](assets.md), *Generate in waves*) |
+| `adaptive` ratio snaps to the nearest standard ratio and crops (1376×768 → 1280×720); `--camera-fixed` is rejected on every task type | set `--ratio` explicitly; lock the camera in the prompt |
+
 ---
 
 ## Contents
 
+- [What `generate video` actually does — measured](#what-generate-video-actually-does--measured)
 - [🚫 The one hard rule: frames and references are mutually exclusive](#-the-one-hard-rule-frames-and-references-are-mutually-exclusive)
 - [🟢 `--realistic-human` — the answer to content rejections](#---realistic-human--the-answer-to-content-rejections)
 - [Media inputs are URLs](#media-inputs-are-urls)
@@ -73,14 +91,10 @@ Need both? Generate the reference-driven clip first, then **chain** off its last
 Registers the input images in the Vault Asset Library before dispatch so photorealistic
 people pass the privacy pre-filter; the registered assets are deleted when the task ends.
 
-**The CLI applies it automatically** when a call is rejected on content grounds and the
-inputs qualify — it retries once and tells you (`realistic_human was applied`). Pass
-`--realistic-human` explicitly when you already know you need it.
-
-Set it (or expect the auto-retry) whenever an input image contains **realistic humans** (any
-recognisable human face), **branded content** (logos, real products, brand marks), or whenever
-a call returned a content/privacy/harmful error — this flag is the first fix, not a prompt
-rewrite. The rejection looks like:
+**The CLI applies it automatically** on a content rejection when the inputs qualify — one retry,
+announced as `realistic_human was applied`. Pass it explicitly for **realistic humans** (any
+recognisable face), **branded content** (logos, real products, brand marks), or after any
+content/privacy/harmful error — the first fix, not a prompt rewrite. The rejection looks like:
 
 ```
 Seedance API 400: InputImageSensitiveContentDetected.PrivacyInformation
@@ -121,13 +135,13 @@ uploaded — see [assets.md](assets.md).
 | Flag | Notes |
 |---|---|
 | `--duration` | 4–15 s, default 5 |
-| `--ratio` | `16:9` `9:16` `1:1` `4:3` `3:4` `21:9` `adaptive`. *Measured:* `adaptive` snaps to the nearest standard ratio and crops (1376×768 → 1280×720) — it does **not** preserve an unusual source aspect. With references there is nothing to infer from, so **set it explicitly** |
+| `--ratio` | `16:9` `9:16` `1:1` `4:3` `3:4` `21:9` `adaptive`. `adaptive` snaps to the nearest standard ratio and crops (*What it actually does*, above) — it does **not** preserve an unusual source aspect; with references there is nothing to infer from, so **set it explicitly** |
 | `--seed` | reproducibility; keep it fixed across a series |
 | `--camera-fixed` | ⛔ **rejected by the current model on every task type** (*measured:* t2v, i2v and r2v all answer `camera_fixed … must be empty`; the CLI now refuses it before spending the request). **Lock the camera in the prompt instead** — see *Locking the camera* below |
 | `--audio` | native synced audio. *Measured:* real AAC 44.1 kHz stereo. ⚠ **Anything you do to this clip afterwards must keep that track** — see below |
 | `--last-frame-out <file>` | saves the last frame for chaining. **Do it now** — the URL is signed and expires in 24 h |
 | `--best` | the **standard** model instead of the default fast one: slower, but it delivers every shot asked for. Pass it when the storyboard needs all its shots (`--fast` still parses and is now a no-op — fast is the default) |
-| `--resolution` | **clamped to 720p — always, never more.** That cap is why fast is the default: full resolution is the only thing the standard model buys above it |
+| `--resolution` | **clamped to 720p — always, never more** (*What it actually does*, above). That cap is why fast is the default: full resolution is the only thing the standard model buys above it |
 
 Generation takes **3–9 minutes**. Run it in the background and report the URL; when a job has several clips, launch every independent one **at once** and build the scene while they render ([assets.md](assets.md), *Generate in waves*).
 
@@ -135,7 +149,7 @@ Generation takes **3–9 minutes**. Run it in the background and report the URL;
 
 | | Model id | When |
 |---|---|---|
-| **default** | `dreamina-seedance-2-0-fast-260128` | every call. ~1.5× quicker, and it refuses anything above 720p — which costs nothing, because output is clamped to **720p always** |
+| **default** | `dreamina-seedance-2-0-fast-260128` | every call. ~1.5× quicker; its refusal of anything above 720p costs nothing, because output is clamped to **720p always** |
 | `--best` | `dreamina-seedance-2-0-260128` | when the storyboard needs **every shot to land**: the fast model's one measured cost is shot count (a 5-shot ask returned 4) |
 | `--model <id>` | any id the account has activated | an explicit override, only when asked for. An unactivated id fails with *"account has not activated the model"* — say so rather than retrying |
 
@@ -144,12 +158,12 @@ only figure the fast model changes.
 
 ### 🏷 Generated footage arrives wearing brand marks, and a negative prompt does not stop it
 
-Apparel, footwear, cars and laptops come back carrying logos and stripes even when the prompt
-forbids them — asking for a mark's absence keeps the object in the model's attention. So **check
-every clip at full resolution**: a 320 px contact-sheet tile hides a logo completely, and that is
-how one reaches a cut. And **re-frame rather than lengthen the negative list** — put the mark out
-of shot (the side panel, the chest, the tongue of the shoe) or move the camera. A competitor's mark
-is worse than no mark at all, whoever the piece is for.
+Asking for a mark's absence keeps the object in the model's attention, so apparel, footwear, cars
+and laptops come back carrying logos and stripes regardless. **Check every clip at full
+resolution** — a 320 px contact-sheet tile hides a logo completely, and that is how one reaches a
+cut — and **re-frame rather than lengthen the negative list**: put the mark out of shot (the side
+panel, the chest, the tongue of the shoe) or move the camera. A competitor's mark is worse than no
+mark at all, whoever the piece is for.
 
 ### 🔊 A clip generated with `--audio` must keep its audio downstream
 
@@ -487,11 +501,9 @@ They compose: author the key moments as frames, chain to cover the ground betwee
 
 **First, the rule that prevents it: ask for a clip at least as long as the slot it fills, plus
 about a second of margin, and trim the excess.** Footage is cheap to trim and impossible to
-lengthen honestly. A `video` layer whose media runs out before its slot ends does **not** clear
-the frame — it holds the last frame, so the shot freezes for the remainder while the scene keeps
-running (set `loop` instead and it visibly jumps back to frame one, which reads worse). Either
-way the piece dies mid-scene, and nothing in `validate` catches it — the scene is structurally
-fine. When a slot is 6 s, ask the model for 8.
+lengthen honestly. A `video` layer whose media runs out holds its last frame for the remainder
+(`loop` jumps back to frame one instead, which reads worse); the scene is structurally fine, so
+nothing in `validate` catches it. When a slot is 6 s, ask the model for 8.
 
 If it happens anyway: the scene is 17 s, the clip came back 15 s. **Do not retime the clip to
 fit.** Slowing
@@ -525,7 +537,7 @@ The same rule in the other direction: a clip **longer** than its scene is trimme
 
 | | What it is |
 |---|---|
-| **the fast model** (`generate video`, the **default**) | the same command and all its modes, on the fast Seedance model. ~1.5× quicker, and it rejects anything above 720p outright (`400 InvalidParameter`) — irrelevant, because output is clamped to 720p always. *Measured:* it delivered 4 of 5 requested shots, so a piece that needs every shot passes `--best` |
+| **the fast model** (`generate video`, the **default**) | the same command and all its modes, on the fast Seedance model. ~1.5× quicker; it rejects anything above 720p (`400 InvalidParameter`), which is irrelevant under the 720p clamp. *Measured:* 4 of 5 requested shots delivered, so a piece that needs every shot passes `--best` |
 | **`generate fastvideo <image>`** | a **different, older endpoint**. One image + a motion line → a clip |
 
 **"Fast mode" means `generate fastvideo`**, used **only when the user or a workflow explicitly
