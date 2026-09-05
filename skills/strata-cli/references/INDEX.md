@@ -19,7 +19,7 @@ them apart; grepping this index finds it 14 of 14.
 | File | Owns | Answers |
 |---|---|---|
 | [craft.md](craft.md) | how a good video is made: shots, composition, motion principles, rhythm, polish | how long should a shot be · what makes this look cheap · shot sizes · where do I put things · does this move need a reason · pacing · read time · when to hold · light and depth · one atmospheric effect · flash frame · flash cut · overshoot |
-| [workflow.md](workflow.md) | the seven steps end to end, and the Definition of Done | what do I do next · what order · when do I get sign-off · am I finished · what counts as done · unattended run · never end on a promise |
+| [workflow.md](workflow.md) | the seven steps end to end, the Definition of Done, and the brief as the routing artifact (`strata brief init`, `strata prefs`, `strata recipe`) | what do I do next · what order · BRIEF.md · write the brief · what did the user already answer · remember my library · a series · start from the last piece · when do I get sign-off · am I finished · what counts as done · unattended run · two renders · never end on a promise |
 | [director.md](director.md) | the creative-direction pass for premium work | how do I make this AAA · thesis · three directions · styleframes · motion bible · what stays still · forbidden moves · expectedness · how do I not make the obvious thing |
 | [anti-slop.md](anti-slop.md) | the defaults agent-made frames fall into, and the test that catches them | why does this look generic · looks AI-made · looks like a template · scrim · accent bar · eyebrow label · 01/02/03 · cream and terracotta · what should I remove |
 | [layouts.md](layouts.md) | named frame layouts and the 12-column grid | where do I put the text · composition · hero-center · split screen · thirds · safe area · dead space · lower band · let the user lay it out |
@@ -30,6 +30,27 @@ them apart; grepping this index finds it 14 of 14.
 | [video-styles.md](video-styles.md) | 50 kinds of video with their shot grammar and tells — technique only, a brand overrides every style | make it like a TikTok · a sale ad · a luxury spot · what kind of video is this · which style · construction of a look |
 | [reference-styles.md](reference-styles.md) | "make it feel like X" — ~25 films, directors and campaigns reduced to measurable signatures; a technique source, never a costume | feel like Apple · like Nike · in the style of a film or director · copy this campaign · what makes that look work |
 | [motion-atlas.md](motion-atlas.md) | ~700 named motion concepts as vocabulary | what is this move called · name for this effect · give me options · a word for what I want (numbers here lose to motion-design.md) |
+
+## Routes — one page per kind of brief
+
+| File | Owns | Answers |
+|---|---|---|
+| [routes/supplied-material.md](routes/supplied-material.md) | the landing page for supplied material: questions, range, reading order, done-when | a storyboard · a script · a shot list · a PDF · a deck · reference sheets · the client's footage · a voice sample · "here is" · "attached" |
+| [routes/tv-ad.md](routes/tv-ad.md) | the landing page for a TV / broadcast ad, promo, launch: questions, range, reading order, done-when | TV · commercial · spot · advert · promo · launch · sale · hero film · campaign · landing page · keynote · booth · :30 |
+| [routes/social.md](routes/social.md) | the landing page for social / vertical / UGC / trailer: questions, range, reading order, done-when | social · TikTok · reels · shorts · vertical · 9:16 · UGC · trailer · teaser · hook |
+| [routes/explainer.md](routes/explainer.md) | the landing page for an explainer / testimonial / internal / recap: questions, range, reading order, done-when | explainer · tutorial · how-to · testimonial · case study · internal comms · onboarding · recap · highlights · demo · feature tour |
+| [routes/personalized.md](routes/personalized.md) | the landing page for personalized / data-driven: questions, range, reading order, done-when | personalized · per viewer · each customer · their name · their stats · chart · graph · dashboard · KPI · batch · rows |
+| [routes/presenter.md](routes/presenter.md) | the landing page for a presenter / dialogue: questions, range, reading order, done-when | presenter · spokesperson · talking head · host · avatar · dialogue · speaks · voice-over · narration · lip-sync |
+| [routes/logo-ident.md](routes/logo-ident.md) | the landing page for a logo sting / ident / product hero: questions, range, reading order, done-when | logo · sting · ident · bumper · intro · opener · title sequence · product · packshot · unboxing · reveal |
+| [routes/kinetic-type.md](routes/kinetic-type.md) | the landing page for kinetic type / captions: questions, range, reading order, done-when | kinetic · typographic · type-led · text-heavy · captions · subtitles · lyric · quote · headline |
+| [routes/music-led.md](routes/music-led.md) | the landing page for music-led / beat-synced: questions, range, reading order, done-when | music · beat · BPM · track · song · audio-reactive · visualiser · rhythm · soundtrack |
+| [routes/genre.md](routes/genre.md) | the landing page for a genre feel: questions, range, reading order, done-when | thriller · comedy · documentary · noir · horror · drama · epic · heist · western · sci-fi |
+| [routes/feel-like.md](routes/feel-like.md) | the landing page for "make it feel like X": questions, range, reading order, done-when | feel like · looks like · in the style of · inspired by · a reference film or campaign · like Apple · like Nike · like Kubrick |
+| [routes/premium.md](routes/premium.md) | the landing page for premium / cinematic: questions, range, reading order, done-when | premium · AAA · cinematic · broadcast quality · high-end · luxury · launch film · film-grade · flagship |
+| [routes/generated-clips.md](routes/generated-clips.md) | the landing page for generated video clips: questions, range, reading order, done-when | generate · generated · AI footage · text-to-video · image-to-video · b-roll · footage of · a clip of |
+| [routes/footage-edit.md](routes/footage-edit.md) | the landing page for an edit of supplied footage: questions, range, reading order, done-when | trim · cut down · join · concat · reframe · crop · speed ramp · slow-mo · mute · swap the audio · re-edit |
+| [routes/brand.md](routes/brand.md) | the landing page for brand: questions, range, reading order, done-when | brand · branded · on-brand · style guide · brand book · like the last one · a series · our colours · our fonts |
+| [routes/figma.md](routes/figma.md) | the landing page for Figma: questions, range, reading order, done-when | Figma |
 
 ## Making assets
 
@@ -57,7 +78,7 @@ them apart; grepping this index finds it 14 of 14.
 | [format.md](format.md) | the scene format: every key the engine accepts; per-character animators — a reveal pins `end` at 1 | what keys can I use · syntax · text animator · ranges · reveal letter by letter · word by word · start and end of a range · is this a real property · 3D · camera · masks · track matte · layer styles · sub-comps · rich text · does this key exist · offset_frame · trim a clip inside the scene · clip shorter than its slot |
 | [recipes.md](recipes.md) | engine-correct patterns to copy | how do I build X · kinetic text · a number counting up · count up · counter · a wipe · a reveal · textured type · depth of field · corner pin · a chart |
 | [blocks.md](blocks.md) | reusable sub-comp blocks via `strata add` | lower third · stat card · end card · logo sting · device frame · quote card · search bar · a component I shouldn't build twice |
-| [commands.md](commands.md) | the CLI: setup, every command in one line, libraries, flags, exit codes; every command answers `--help` | which command · what flags · how do I install · exit codes · what does this command do · libraries |
+| [commands.md](commands.md) | the CLI: setup, every command in one line (`brief`, `route`, `prefs`, `recipe` included), libraries, flags, exit codes; every command answers `--help` | which command · prefs · preferences · recipe · brief init · which library does render use · what flags · how do I install · exit codes · what does this command do · libraries |
 | [personalization.md](personalization.md) | one template → many videos: placeholder naming, `--emit-timeline` for the contract, `render --data rows.json` for the batch, charts per viewer | per viewer · each customer · their name · batch · rows · data-driven · swap media per person · charts per viewer |
 | [review.md](review.md) | the critic pass on the rendered MP4, and the tool's false positives | is it good · is it done · how do I judge this · the review says freeze but it moves · the numbers look wrong · what counts as a must-fix |
 | [tagging.md](tagging.md) | the `--tags` manifest for reusable scenes — two closed vocabularies; only when the user asks | tag a scene · make a template · catalog entry · what tags exist |

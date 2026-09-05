@@ -62,12 +62,38 @@ Run these first; each one turns the request into a different job (the one-line v
 
 ## Routing — which references matter for this brief
 
-`strata route "<the brief in a sentence>"` prints the read list; the same map is *What to read for
-this brief* in `SKILL.md`. Run `strata route` a **second** time once the concept exists — a short brief cannot
-say "kinetic type", "music-led" or "thriller", but the direction chosen for it can. (*Measured:* a
+**Write the brief first, then route the brief.** `strata brief init "<the request, verbatim>"`
+writes `BRIEF.md` — the one artifact every later step reads: the request as the user said it, the
+reconstruction line routing matches on, the four numbers still to declare, the constraints
+(material, brand, recipe, library, attended or not, the render budget) and the read list. Fill its
+blanks before the storyboard; an unattended run decides them and records the reason in
+`decisions.md`. It is written once and **amended** as the direction adds a kind — never rewritten
+— and re-routed with `strata route BRIEF.md`, which matches on the reconstruction line, not the
+whole file. A brief kept in one place is what lets a reviewer, a second render, or the next piece
+in the series answer "what was this supposed to be?" without re-reading the conversation.
+
+`strata route "<the brief in a sentence>"` (or `strata route BRIEF.md`) prints the read list; the
+same map is *What to read for this brief* in `SKILL.md`. **Each matched kind's group opens with its
+route page**, `routes/<kind>.md` — the landing for that kind: what it is, what to settle before
+the storyboard, where it sits on the range, the files in reading order with what to take from
+each, the kind's traps as pointers, and the acceptance test. Read the page, then the files it
+points at. Run `strata route` a **second** time once the concept exists — a short brief cannot say
+"kinetic type", "music-led" or "thriller", but the direction chosen for it can. (*Measured:* a
 "super AAA motion design" brief routed to *premium* only; the piece then became type-led and
 `motion/03-typography.md` was never opened — the premium row now includes it, since premium
 pieces are so often carried by one word.)
+
+**Before asking the user anything, check what they already answered.** `strata prefs list` holds
+the answers that repeat across projects — library, aspect, fps, loudness target, attended or
+unattended, a brand document, a voice, the working music prompt, the render budget — recorded
+with `strata prefs set <key> <value>` the moment a user gives one. `brief init` fills the brief
+from them; `render` falls back to the `library` preference when neither `--library` nor a project
+`.idm-library` names one. A preference the user set is not a guess; a question they have already
+answered is not asked again. **A piece in a series starts from the last one:** `strata recipe save
+<name> --from <that project>` keeps its brief, storyboard, decisions and brand document by name;
+`strata recipe use <name> --into <new project>` copies them into `.recipe/<name>/` (and installs
+the brand document when the new project has none) to read before the storyboard. A recipe fills
+answers, not approvals — the storyboard still gets its sign-off, and `BRIEF.md` names the recipe.
 
 ## 1. Assets
 
@@ -106,11 +132,12 @@ storyboard is cheap, re-rendering a finished video is not. Revise it with them f
 **No user available?** In an automated or unattended run, do not stall: make each call that would
 have been a question, write the storyboard and a short `decisions.md` recording every choice made in
 the user's place, and carry on. The checks that are not about taste — validate, preview, review —
-still apply in full. A `.idm-library` file in the project is the persisted library id from
-`library create` — a convention of this skill, not something the CLI reads: when it exists the run
-passes its id as `--library` on every `render` and `snapshot` without asking (`render` logs
-`Reusing library <id>`); without it a non-interactive `render` fails with the library list rather
-than picking one ([commands.md](commands.md), *Libraries*). **Never end a turn on a promise.** Nobody is watching, so a turn that ends on
+still apply in full. The library comes from a choice the user already made, in this order:
+`--library`, a `.idm-library` file in the project (the persisted id from `library create`, which
+`render` and `snapshot` now read on their own and log `library <id> from <file>`), then the
+`library` preference (`strata prefs`); with none of the three a non-interactive `render` fails
+with the library list rather than picking one ([commands.md](commands.md), *Libraries*).
+**Never end a turn on a promise.** Nobody is watching, so a turn that ends on
 "waiting for the snapshots" or "I'll render next" blocks the job until someone notices — and a
 backgrounded waiter does not wake you, so it stalls indefinitely. Run
 long steps in the foreground with a long timeout, or poll them yourself in the same turn, and end
@@ -292,4 +319,9 @@ Debug with `--vasco` or `strata inspect out.idm`.
 - Clips outlast their slots; nothing loops to fill time; motion blur on every moving layer and
   `"motion_blur": true` on every animated camera; settles land; cuts sit on the audio.
 - `strata review` run on the final MP4 and every must-fix fixed.
-- The scene filename is versioned and the library id was the user's choice.
+- The scene filename is versioned and the library id was the user's choice (`--library`, the
+  project's `.idm-library`, or the recorded `library` preference).
+- `BRIEF.md` exists with no blank left in it, names every kind the piece became, and the review's
+  four measured numbers are read against the four it declares. Answers the user gave that will
+  repeat (library, aspect, loudness, attended or not, brand, voice) were recorded with
+  `strata prefs set`; a piece that opens a series was saved with `strata recipe save`.

@@ -8,12 +8,12 @@ description: Makes motion-design videos with the strata CLI — scene JSON compi
 The job is a piece of motion design a good studio would put its name on — story-driven,
 composed, with motion that has a reason. VASCO is a real 3D motion-design engine: 3D layers with
 depth, a moving camera, masks, effects, per-character text animators, a keyframe tween engine.
-This file is the shape of a job and the map to the rest.
 
 ## Quick start
 
 ```bash
-strata route "<the brief in a sentence>"        # the read list below, for this brief
+strata brief init "<the request, verbatim>"     # BRIEF.md — the artifact every step reads; prefs fill it
+strata route BRIEF.md                           # the read list below; each kind opens with routes/<kind>.md
 #   ... storyboard, sign-off, then author the scene JSON ...
 strata preview scene_v1.json --at 2 --grid      # free wireframe; fix composition here
 strata validate scene_v1.json                   # offline: bad keys, traps, composition tells
@@ -26,55 +26,45 @@ Renders take minutes — background them. Every command takes `--json` and `--he
 
 ## What to read for this brief
 
-`strata route "<brief>"` prints this list; it is here too, so it holds without the command.
-Paths are relative to `references/`. **The string you pass is
-your reconstruction of the job, not a quote of the request** — matching is by keyword, so name the
-**kind**, the **length** and the **bar**, the words a user rarely says (*measured:* seven of ten
-requests name no kind):
-
-```bash
-strata route "a nice video for our app"                                    # no kind — 13 files
-strata route "a 30s product demo for our app, premium cinematic, music-led" # 5 kinds — 29 files
-```
+`strata route BRIEF.md` (or `strata route "<brief>"`) prints this list; it is here too, so it holds
+without the command. Paths are relative to `references/`. **Routing matches the brief's reconstruction line, not the user's
+words** — matching is by keyword, so that line names the **kind**, the **length** and the **bar**,
+the words a user rarely says (*measured:* seven of ten requests name no kind).
 
 <!-- route-table:begin — generated from src/route.mjs by scripts/sync-route-table.mjs; edit route.mjs, not this -->
-**Every piece, before the storyboard** (`strata route` prints these first, with these roles):
+**Every piece, before the storyboard:**
 - `workflow.md` — the seven steps, the Definition of Done, the unattended-run rules
 - `craft.md` — how a good video is made; the defaults and their reasons
 - `traps.md` — the engine facts that produce a wrong video with a clean compile
 - `format.md` — the scene syntax — every key the engine accepts; open before the storyboard
 - `commands.md` — the CLI — every command, its flags and exit codes
 
-**Any piece whose layout and motion are yours to decide** (the user did not dictate them):
-- `anti-slop.md` — the defaults agent-composed frames fall into, and the test that catches them
-- `layouts.md` — the named frame layouts and the grid
-- `video-layouts.md` — composing *with* video rather than full-bleed clip + caption
-- `motion-design.md` — the techniques that make motion read as designed, with real keys
+**Any piece whose layout and motion are yours to decide:**
+`anti-slop.md` · `layouts.md` · `video-layouts.md` · `motion-design.md` — what makes a frame designed rather than assembled.
 
-**Then by the kind of brief** — a menu, not a reading list: rows add up (a personalized TV ad gets
-the TV-ad row and the personalized row), and a file is opened when its subject comes up in the piece.
+**Then by the kind of brief** — a menu, not a reading list; rows add up. The first file in a row is
+the kind's route page: read it, then what it points at.
 
 | The brief is… | Written for it |
 |---|---|
-| **supplied material (storyboard, script, PDF, URL, sheets, footage, voice)** | `intake.md`, `production-bible.md`, `video-generation.md`, `video-generation-advanced.md`; `intake.md` first |
-| **a TV / broadcast ad, promo, launch, sale, hero film** | `editing-director.md`, `editorial/short-form-performance.md`, `editorial/editing-grammar.md`, `blueprints.md`, `video-styles.md`, `video-prompts.md`, `assets.md`, `motion/04-transitions.md`, `motion/07-narrative-sound-emotion.md`, `music.md` |
-| **social / vertical / UGC / trailer-style** | `editing-director.md`, `editorial/short-form-performance.md`, `blueprints.md`, `video-styles.md`, `motion/04-transitions.md`, `music.md` |
-| **an explainer, tutorial, testimonial, internal comms, recap, sports** | `editing-director.md`, `editorial/nonfiction-formats.md`, `editorial/editing-grammar.md`, `blueprints.md`, `motion/07-narrative-sound-emotion.md` |
-| **personalized / data-driven / a chart or a stat** | `personalization.md`, `motion/06-ui-data-brand.md`, `editorial/nonfiction-formats.md`; data is a claim |
-| **a presenter, spokesperson, talking head, dialogue** | `avatar.md`, `video-generation-advanced.md`, `production-bible.md`, `captions.md` |
-| **a logo sting, brand ident, product hero** | `blueprints.md`, `video-styles.md`, `assets.md`, `motion/05-shape-effects-texture.md`, `motion/06-ui-data-brand.md`, `recipes.md` |
-| **kinetic type / typographic / captions-heavy** | `motion/03-typography.md`, `recipes.md`, `layouts.md` |
-| **music-led / beat-synced / audio-reactive** | `generative-fx.md`, `music.md`, `motion/07-narrative-sound-emotion.md`, `motion/04-transitions.md` |
-| **a genre feel (thriller, comedy, trailer, documentary)** | `editorial/narrative-genres.md`, `reference-styles.md`, `motion/08-styles-index.md` |
-| **"make it feel like X" (a film, director, campaign)** | `reference-styles.md`, `motion/08-styles-index.md`; `strata deconstruct` on any supplied clip |
-| **premium / AAA / cinematic / broadcast quality (in addition to the kind above)** | `director.md`, `motion/01-foundations.md`, `motion/02-choreography-space-camera.md`, `motion/03-typography.md`, `motion/09-production-qa.md` |
-| **any generated video clip** | `video-generation.md`, `video-prompts.md`; consistent cast → `production-bible.md` |
-| **an edit of supplied footage (cut, join, reframe, retime)** | `video-editing.md`, `editorial/workflow-and-qa.md` |
-| **brand material supplied, "on brand", a series** | `brand.md` |
-| **Figma** | `figma.md` |
+| **supplied material (storyboard, script, PDF, URL, sheets, footage, voice)** | `routes/supplied-material.md`, `intake.md`, `production-bible.md`, `video-generation.md`, `video-generation-advanced.md`; `intake.md` first |
+| **a TV / broadcast ad, promo, launch, sale, hero film** | `routes/tv-ad.md`, `editing-director.md`, `editorial/short-form-performance.md`, `editorial/editing-grammar.md`, `blueprints.md`, `video-styles.md`, `video-prompts.md`, `assets.md`, `motion/04-transitions.md`, `motion/07-narrative-sound-emotion.md`, `music.md` |
+| **social / vertical / UGC / trailer-style** | `routes/social.md`, `editing-director.md`, `editorial/short-form-performance.md`, `blueprints.md`, `video-styles.md`, `motion/04-transitions.md`, `music.md` |
+| **an explainer, tutorial, testimonial, internal comms, recap, sports** | `routes/explainer.md`, `editing-director.md`, `editorial/nonfiction-formats.md`, `editorial/editing-grammar.md`, `blueprints.md`, `motion/07-narrative-sound-emotion.md` |
+| **personalized / data-driven / a chart or a stat** | `routes/personalized.md`, `personalization.md`, `motion/06-ui-data-brand.md`, `editorial/nonfiction-formats.md`; data is a claim |
+| **a presenter, spokesperson, talking head, dialogue** | `routes/presenter.md`, `avatar.md`, `video-generation-advanced.md`, `production-bible.md`, `captions.md` |
+| **a logo sting, brand ident, product hero** | `routes/logo-ident.md`, `blueprints.md`, `video-styles.md`, `assets.md`, `motion/05-shape-effects-texture.md`, `motion/06-ui-data-brand.md`, `recipes.md` |
+| **kinetic type / typographic / captions-heavy** | `routes/kinetic-type.md`, `motion/03-typography.md`, `recipes.md`, `layouts.md` |
+| **music-led / beat-synced / audio-reactive** | `routes/music-led.md`, `generative-fx.md`, `music.md`, `motion/07-narrative-sound-emotion.md`, `motion/04-transitions.md` |
+| **a genre feel (thriller, comedy, trailer, documentary)** | `routes/genre.md`, `editorial/narrative-genres.md`, `reference-styles.md`, `motion/08-styles-index.md` |
+| **"make it feel like X" (a film, director, campaign)** | `routes/feel-like.md`, `reference-styles.md`, `motion/08-styles-index.md`; `strata deconstruct` on any supplied clip |
+| **premium / AAA / cinematic / broadcast quality (in addition to the kind above)** | `routes/premium.md`, `director.md`, `motion/01-foundations.md`, `motion/02-choreography-space-camera.md`, `motion/03-typography.md`, `motion/09-production-qa.md` |
+| **any generated video clip** | `routes/generated-clips.md`, `video-generation.md`, `video-prompts.md`; consistent cast → `production-bible.md` |
+| **an edit of supplied footage (cut, join, reframe, retime)** | `routes/footage-edit.md`, `video-editing.md`, `editorial/workflow-and-qa.md` |
+| **brand material supplied, "on brand", a series** | `routes/brand.md`, `brand.md` |
+| **Figma** | `routes/figma.md`, `figma.md` |
 
-**No kind matched?** route says so and adds `blueprints.md`, `video-styles.md`, `editing-director.md` — the files that
-help you choose one. That is an answer, not a failure; the kind you then pick is worth routing again.
+**No kind matched?** route adds `blueprints.md`, `video-styles.md`, `editing-director.md` — the files that help you choose one; then route again.
 
 **After the first render, every piece:** `review.md`, `motion/09-production-qa.md`, `editorial/workflow-and-qa.md`.
 <!-- route-table:end -->
@@ -173,11 +163,13 @@ piece is good:
    every image becomes a video unless it is an icon, logo or keyed cut-out. **A device, prop,
    product, icon or texture is a `generate image` asset; shapes are for simple geometry**
    (assets.md, *Drawn or generated?*).
-2. **Storyboard, then sign-off, before any scene JSON.** The four numbers above, a direction the
-   user has seen, a shot list built to the declared range, a layout sketch of the key frames, the
-   end frame, what stays still, where the light comes from. Two or three layout options when the
-   framing could go either way. Unattended: decide in the user's place, record it in `decisions.md`, continue. Premium work
-   gets the direction pass in [director.md](references/director.md).
+2. **Storyboard, then sign-off, before any scene JSON.** `BRIEF.md` filled first (`strata prefs`
+   holds answers the user gave before; a series starts from `strata recipe`). Then the four numbers
+   above, a direction the user has seen, a shot list built to the declared range, a layout sketch
+   of the key frames, the end frame, what stays still, where the light comes from. Two or three
+   layout options when the framing could go either way. Unattended: decide in the user's place,
+   record it in `decisions.md`, continue. Premium work gets the direction pass in
+   [director.md](references/director.md).
 3. **Scene JSON.** Written with the file-writing tool (a heredoc breaks on the first apostrophe),
    to a named layout on the grid, from recipes and blocks rather than from scratch, unique name on
    every layer. Block, then primary motion, then secondary, then finishing — decoration creeps in
