@@ -168,7 +168,10 @@ any visual layer, text included.
 ended (a stinger cut from the outgoing clip's next frames) · `.volume(db)` (not animatable)
 `.ducking(b)` → sidechain · `.fov(deg)` ·
 `.push(fromZ, toZ, { delay, over, ease, at })` — camera z toward the subject is more negative; true
-size at z = −focal (−623 at 720p / fov 60), [format.md](format.md)
+size at z = −focal, and **focal follows the frame's height, not "720p"**: `(height/2)/tan(fov/2)` =
+623 for a 720-tall frame at fov 60, **1108 for a 9:16 720×1280 frame**. `.push('focal', '+10%')`
+parks at −focal for this comp and pushes 10 % closer; `cam.focal()` and `focalFor(height, fov)`
+give the number ([format.md](format.md), the pinhole)
 
 **`check()`** returns `{ errors, warnings, json, doc }`: compile errors and schema violations (a typo
 in a raw key), renamed names, a clip shorter than its slot. In the CLI it runs in-process; a file run

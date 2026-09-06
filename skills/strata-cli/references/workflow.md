@@ -110,6 +110,13 @@ the 24 fps clip against the 25 fps scene default:
 [video-generation.md](video-generation.md#what-generate-video-actually-does--measured) and
 [traps.md](traps.md).
 
+**Measure every clip the moment it lands.** `strata deconstruct <clip> --json` on each generated
+clip, before the storyboard commits to it: a clip that came back static despite the camera move in
+its prompt (*measured:* five of thirteen in one piece, one at stillness 1.00) is re-prompted now,
+not discovered on the first full render — and the clip's `motion.thirds` say where its liveliest
+window is, which is where the slot's `offset_frame` starts ([craft.md](craft.md), *A clip has a
+liveliest window*).
+
 **Generate in waves, in the background** — every asset with no unmet dependency at once (sheets,
 plates, TTS, music), then every clip whose inputs exist, then only continuations — and author the
 scene while they render; a 10-scene piece is ~10 min in waves, ~60 serially

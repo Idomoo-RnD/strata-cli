@@ -25,9 +25,10 @@ s.text('title', 'NOTCH', { font, size: 150, color: '#EFEAE0' })
 
 **A sheen through a wordmark (light on the letters, not over the frame)**
 ```js
-const mark = s.text('mark', 'NINE BAR', { font, size: 118, color: '#EFEAE0' }).box(60, 560, 600, 130).align('center middle').at(14.5).until(20)
+const mark = s.text('mark', 'NINE BAR', { font, size: 118, color: '#CBBCA4' }).box(60, 560, 600, 130).align('center middle').at(14.5).until(20)
     .reveal({ by: 'characters', over: 0.6 });
 mark.sheen({ direction: 'right', over: 2.2, delay: 1.0, opacity: 0.4 });    // a hidden twin is the matte; the glow cannot leave the glyphs
+// the type needs headroom: a screen sheen cannot brighten near-white — #CBBCA4, not #EFEAE0 (check() warns)
 ```
 A pool of light over a plate is matted to the plate the same way: `s.solid('pool', '#D9A441').box(…).blend('screen').blur(70).opacity(0.3).matte(plate).move(…)`.
 
@@ -84,7 +85,7 @@ A person or product cut out of footage is a `.jet` from `strata matte` / `strata
 
 **A camera push with correct depth**
 ```js
-s.camera('cam').fov(60).position([640, 360, -623]).push(-623, -560, { over: 5 });        // 720p, fov 60: true size at z = −623
+s.camera('cam').fov(60).push('focal', '+10%', { over: 5 });        // parks at −focal for THIS frame height (623 at 720 tall, 1108 at 1280 tall) and pushes 10 % closer
 s.text('deep', 'BEHIND', { font, size: 120 }).box(0, 300, 1280, 140).align('center middle').is3d().anchor([640, 370]).position([640, 370, 200]);
 ```
 Negative z is toward the camera; depth goes on `position` z with an anchor set
