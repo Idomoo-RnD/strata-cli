@@ -25,7 +25,7 @@ sections below are the craft; this is the contract to plan on.
 | Measured | Workaround |
 |---|---|
 | **Output is 44.1 kHz stereo WAV** at exactly the `--duration` asked — WAV bytes whatever the `-o` name | keep `.wav`, or convert with ffmpeg (above) |
-| **0.0 dBFS, no headroom.** VASCO sums audio layers with no bus limiter; the encoder pins a hot mix near −0.5 dBFS and leaves a quieter one quieter | `loudnorm` the bed to its place under the VO **before import**; layer `volume` is balance, not a route to a level (*Decide the mix*) |
+| **The level a take arrives at is not fixed — measure it.** *Measured:* takes at **0.0 dBFS with no headroom**, and another at **≈−3 dBFS true peak / −24.9 LUFS**. VASCO sums audio layers with no bus limiter; the encoder pins a hot mix near −0.5 dBFS and leaves a quieter one quieter | read the returned file (`ffmpeg -i bed.wav -af ebur128 -f null -`), then `loudnorm` it to its place under the VO **before import**; layer `volume` is balance, not a route to a level (*Decide the mix*) |
 | **BPM is not honoured** — 90 BPM requested came back at ~129; 78 came back at 136 | state a BPM anyway (vague tempo is worse), then read the real onsets with `strata beats` and cut to those |
 | **Arc:** intros and hard stops are honoured; a **mid-track breakdown never** (two attempts, two tracks). A timeline was honoured once; two later second-by-second timelines came back **loudest at t = 0, decaying monotonically** (one to −75 dB) | write the timeline — free, sometimes honoured — and never plan the edit on it; rebuild the arc in ffmpeg (sections, levels, cross-fades) and re-run `strata beats` on the cut track |
 | **The last ~20 % of a bed decays toward silence** — an exact-fit request ends before the picture does | generate ~20 % longer than the video, trim to length, `afade` the tail |
@@ -103,8 +103,9 @@ this skill, on three unrelated briefs, came back at −16.9, −18.7 and −16.8
 A piece that ignores its delivery spec is wrong however good it sounds, and −9 is not a number to
 copy off a reel mastered for a stage.
 
-**How much of the level the scene can set — measured.** Generated audio arrives at **0.0 dBFS with
-no headroom**; VASCO **sums the audio layers with no bus limiter** and cannot keyframe `volume`
+**How much of the level the scene can set — measured.** What a take arrives at varies and must be
+read, not assumed: *measured*, takes at **0.0 dBFS with no headroom** and another at **≈−3 dBFS
+true peak / −24.9 LUFS integrated**. VASCO **sums the audio layers with no bus limiter** and cannot keyframe `volume`
 (below), so the layer dB are balance, not a route to a target — three "sensible" levels simply add
 up. The encoder holds a **ceiling near −0.5 dBFS** that a hot mix pins against, while a quieter mix
 does come out quieter (*measured* true peaks: −0.44, −0.50, −1.01, −1.07, −1.13, −1.83, −1.87). A
@@ -184,9 +185,17 @@ and a hit at `start: 4` landed at 2.0 s peak and 4.0 s onset):
 { "type": "audio", "name": "sfx_whoosh", "src": "./whoosh.wav", "start": 1.0, "volume": -6 },
 { "type": "audio", "name": "sfx_hit",    "src": "./hit.wav",    "start": 4.0, "volume": -3 }
 ```
-Vocabulary: **whoosh** on a move or transition (start it ~0.15 s *before* the cut so the peak lands
-on it) · **hit / impact** on a logo land or hard cut · **riser** into the climax, ending on the
-downbeat · **tick** on UI and counters · **shimmer** on a reveal. One family per piece, 4–8 uses.
+**Spot a whoosh by its own peak, not by a rule of thumb.** A rising SFX peaks late — *measured:* a
+2 s whoosh peaks at ~60 % of its length, so ~1.15 s in — and `start` places its **first** frame, so
+the layer starts at `cut − peak`, roughly **1.2 s before the cut for a 2 s whoosh**, not 0.15 s.
+Find the peak instead of assuming it:
+`ffprobe -v error -f lavfi -i "amovie=whoosh.wav,astats=metadata=1:reset=1" -show_entries frame_tags=lavfi.astats.Overall.RMS_level -of csv=p=0`
+— the loudest frame's index over the frame rate is the offset to subtract. A front-loaded **hit** or
+**impact** peaks at its start, so `start` *is* the cut.
+
+Vocabulary: **whoosh** on a move or transition · **hit / impact** on a logo land or hard cut ·
+**riser** into the climax, ending on the downbeat · **tick** on UI and counters · **shimmer** on a
+reveal. One family per piece, 4–8 uses.
 
 **Levels (dBFS, `volume`):** VO **0** · bed **−10 to −12** with `ducking: true` · SFX **−3 to
 −8** (a hit louder than a whoosh) · never more than two SFX overlapping. These are *balance between
