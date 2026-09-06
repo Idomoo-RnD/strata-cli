@@ -12,34 +12,34 @@ depth, a moving camera, masks, effects, per-character text animators, a keyframe
 ## Quick start
 
 ```bash
-strata brief init "<the request, verbatim>"     # BRIEF.md — the artifact every step reads; prefs fill it
+strata brief init "<the request, verbatim>"     # BRIEF.md — what every step reads
 strata route BRIEF.md                           # the read list below; each kind opens with routes/<kind>.md
-#   ... storyboard, sign-off, then author the scene JSON ...
-strata preview scene_v1.json --at 2 --grid      # free wireframe; fix composition here
-strata validate scene_v1.json                   # offline: bad keys, traps, composition tells
-strata compile  scene_v1.json -o scene_v1.idm
-strata render   scene_v1.json --library <id> -o scene_v1.mp4     # ask which library first
+strata js init                                  # the scene as a program (scene-js.md)
+#   ... storyboard, sign-off, then author scene_v1.mjs ...
+strata preview scene_v1.mjs --at 2 --grid       # runs the file; free wireframe
+strata validate scene_v1.mjs                    # offline: bad keys, traps, composition tells
+strata compile  scene_v1.mjs -o scene_v1.idm
+strata render   scene_v1.mjs --library <id> -o scene_v1.mp4      # ask which library first
 strata review   scene_v1.mp4 --scene scene_v1.json -o review/    # cuts, freezes, loudness, timecoded
 ```
 
-Renders take minutes — background them. Every command takes `--json` and `--help`.
-
 ## What to read for this brief
 
-`strata route BRIEF.md` (or `strata route "<brief>"`) prints this list; it is here too, so it holds
-without the command. Paths are relative to `references/`. **Routing matches the brief's reconstruction line, not the user's
+`strata route BRIEF.md` (or `strata route "<brief>"`) prints this list; it is here too in case it
+is not run. Paths are relative to `references/`. **Routing matches the brief's reconstruction line, not the user's
 words** — matching is by keyword, so that line names the **kind**, the **length** and the **bar**,
-the words a user rarely says (*measured:* seven of ten requests name no kind).
+words a user rarely says (*measured:* seven of ten name no kind).
 
 <!-- route-table:begin — generated from src/route.mjs by scripts/sync-route-table.mjs; edit route.mjs, not this -->
 **Every piece, before the storyboard:**
 - `workflow.md` — the seven steps, the Definition of Done, the unattended-run rules
 - `craft.md` — how a good video is made; the defaults and their reasons
 - `traps.md` — the engine facts that produce a wrong video with a clean compile
-- `format.md` — the scene syntax — every key the engine accepts; open before the storyboard
+- `format.md` — the scene syntax — every key the engine accepts
+- `scene-js.md` — the scene as a program: scene_v1.mjs and the builder
 - `commands.md` — the CLI — every command, its flags and exit codes
 
-**Any piece whose layout and motion are yours to decide:**
+**When layout and motion are yours to decide:**
 `anti-slop.md` · `layouts.md` · `video-layouts.md` · `motion-design.md` — what makes a frame designed rather than assembled.
 
 **Then by the kind of brief** — a menu, not a reading list; rows add up. The first file in a row is
@@ -64,7 +64,7 @@ the kind's route page: read it, then what it points at.
 | **brand material supplied, "on brand", a series** | `routes/brand.md`, `brand.md` |
 | **Figma** | `routes/figma.md`, `figma.md` |
 
-**No kind matched?** route adds `blueprints.md`, `video-styles.md`, `editing-director.md` — the files that help you choose one; then route again.
+**No kind matched?** route adds `blueprints.md`, `video-styles.md`, `editing-director.md` to help you choose one; route again.
 
 **After the first render, every piece:** `review.md`, `motion/09-production-qa.md`, `editorial/workflow-and-qa.md`.
 <!-- route-table:end -->
@@ -170,10 +170,10 @@ piece is good:
    layout options when the framing could go either way. Unattended: decide in the user's place,
    record it in `decisions.md`, continue. Premium work gets the direction pass in
    [director.md](references/director.md).
-3. **Scene JSON.** Written with the file-writing tool (a heredoc breaks on the first apostrophe),
-   to a named layout on the grid, from recipes and blocks rather than from scratch, unique name on
-   every layer. Block, then primary motion, then secondary, then finishing — decoration creeps in
-   when the order is mixed.
+3. **The scene file** — `scene_v1.mjs` with the builder (scene-js.md), or JSON for a handful of
+   layers — written with the file-writing tool (a heredoc breaks on the first apostrophe), to a
+   named layout on the grid, from recipes and blocks rather than from scratch. Block, then primary
+   motion, then secondary, then finishing — decoration creeps in when the order is mixed.
 4. **Preview** with `--grid` at every key frame; composition is fixed here. It draws boxes, not
    glyphs or masks, and only the comp named with `--comp` — `snapshot --at <sec>` proves the frame.
 5. **Validate**, read every `⚠` line, then compile. A new filename for every new cut

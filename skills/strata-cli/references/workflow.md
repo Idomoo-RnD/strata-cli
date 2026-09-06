@@ -202,15 +202,19 @@ inventing coordinates; reuse blocks (`strata add <block>`, [blocks.md](blocks.md
 [blueprint](blueprints.md) for the video type instead of building from scratch; a unique name on
 every layer; iterate the timeline.
 
-**Hand-write vs generate.** Scene JSON is written by hand by default — it stays the readable
-source of truth. Reach for a generator script when the scene contains computed or heavily repeated
-values (polygon paths, keyframes snapped to `strata beats` onsets, per-glyph offsets, big grids of
-near-identical layers, audio-envelope arrays) — code gets that math right where hand-typing
-silently doesn't. A script for a simple scene (a handful of layers with hand-picked boxes) is
-overengineering. Mixed scenes can mix: hand-write the scene, generate just the computed part (a
-path, a keyframe list) and paste it in.
+**The scene is a program when it has arithmetic, repetition or a beat grid — which is most
+pieces.** `strata js init` writes the builder beside the project; the scene is `scene_v1.mjs`
+([scene-js.md](scene-js.md)) and every command runs it (`strata validate scene_v1.mjs` writes
+`scene_v1.json` and continues) — nothing to install, the binary executes the file. Relative time
+(`after(title, 0.2)`, `beats[8]`, `.until(next.start)`), loops for the repeated layers, functions
+for the reusable ones, and the traps the builder compiles away (unique names, camera motion blur,
+sub-comp duration, the reveal that is not a window, a clip short of its slot). Hand-written scene
+JSON stays right for a handful of layers with hand-picked boxes — a logo sting, an end card — and
+is what `studio` and `inspect` hand back; do not keep both as sources, pick one per piece and
+version that file. Code gets the math right where hand-typing silently doesn't: keyframes snapped
+to onsets, per-glyph offsets, grids of near-identical layers, envelope arrays.
 
-**Write scene JSON with the file-writing tool, never through a shell heredoc.** Real copy contains
+**Write the scene file — `.mjs` or JSON — with the file-writing tool, never through a shell heredoc.** Real copy contains
 apostrophes, `$`, backticks and backslashes — *measured:* a heredoc broke on the apostrophe in
 `BIG JOE'S` and silently produced malformed JSON. The shell is not a text editor; the same applies
 to any file longer than a few lines — a storyboard, `decisions.md`, a prompt file — a quoted heredoc
