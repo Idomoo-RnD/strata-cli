@@ -174,15 +174,14 @@ piece is good:
    to a named layout on the grid, from recipes and blocks rather than from scratch, unique name on
    every layer. Block, then primary motion, then secondary, then finishing — decoration creeps in
    when the order is mixed.
-4. **Preview** with `--grid` at every key frame; composition is fixed here. It draws boxes, not
-   glyphs or masks, and only the comp named with `--comp` — `snapshot --at <sec>` proves the frame.
+4. **Preview** with `--grid` at every key frame; composition is fixed here. It draws boxes, masks
+   and transforms, not glyphs, and only the comp named `--comp`; `snapshot --at <sec>` proves a frame.
 5. **Validate**, read every `⚠` line, then compile. A new filename for every new cut
    (`promo_v1` → `promo_v2`) — it is what the user sees in their library.
 6. **Render** into a library the user chose — ask, never pick.
-7. **Review the MP4**, not the poster: `strata review`, then fix every must-fix it names in one
-   pass. **Two full renders per piece** — the first to review, the second to ship; a third means
-   the plan was wrong (workflow.md). A piece ships when nothing a viewer would notice
-   is left, not when it compiles.
+7. **Review the MP4**, not the poster: **one** `strata review`, every must-fix it named fixed in
+   one pass, then the second render ships. **Two renders per piece.** The second review verifies
+   that list, never opens a new one; other notes go to `decisions.md`, not a render (review.md §6).
 
 ## The traps that cost a render
 

@@ -280,7 +280,9 @@ tells `strata inspect` which version it is and what it descended from. A previou
   declared hold, and, for the riskiest hold, one **probe** render of that shot alone
   (`duration` cut to ≤ 5 s) measured with `strata review` before the full piece is spent. After
   the first full render, `review` names every must-fix; **fix all of them in one revision pass**,
-  not one class per render, then render the second and ship it. A third full render is not a
+  not one class per render, then render the second and ship it. The second review **verifies that
+  list** rather than starting a fresh hunt — a piece this dense will always surface something new,
+  so "ship when nothing is left" never terminates while "ship when the list is fixed" does. A third full render is not a
   fix loop, it is a finding: the plan or the skill was wrong somewhere, so stop, write what and
   why in `decisions.md`, and re-plan before spending it. *Measured:* an unattended run that
   treated render-and-review as its debugger spent **six** full renders and 44 of its 83 minutes
@@ -328,7 +330,10 @@ Debug with `--vasco` or `strata inspect out.idm`.
   personalization key, so the scene is fixed rather than the rename accepted.
 - Clips outlast their slots; nothing loops to fill time; motion blur on every moving layer and
   `"motion_blur": true` on every animated camera; settles land; cuts sit on the audio.
-- `strata review` run on the final MP4 and every must-fix fixed.
+- `strata review` run on the final MP4 and every must-fix from **that one review** fixed in a
+  single pass. The second review verifies that list and ships; it does not open a new hunt, and
+  notes that are not must-fixes are recorded in `decisions.md` rather than re-rendered
+  ([review.md](review.md), *One review, one fix pass*).
 - The scene filename is versioned and the library id was the user's choice (`--library`, the
   project's `.idm-library`, or the recorded `library` preference).
 - `BRIEF.md` exists with no blank left in it, names every kind the piece became, and the review's

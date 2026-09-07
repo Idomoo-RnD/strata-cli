@@ -15,7 +15,7 @@ the watched video is.
 - [3. The nine categories — pass or must-fix](#3-the-nine-categories--pass-or-must-fix)
 - [4. Evidence rules](#4-evidence-rules)
 - [5. Reading the report](#5-reading-the-report)
-- [6. Revise until clean](#6-revise-until-clean)
+- [6. One review, one fix pass](#6-one-review-one-fix-pass--that-is-the-whole-budget)
 - [7. Comparing against the declared position](#7-comparing-against-the-declared-position)
 
 ## 1. Run the tool
@@ -233,19 +233,44 @@ every freeze names its busiest cell. The consequences, each measured on a real r
   390–430 px. Copy that fails the tile may still pass on the device — check at true width before
   calling type a must-fix, and never the other way round (passing the tile is a real pass).
 
-## 6. Revise until clean
+## 6. One review, one fix pass — that is the whole budget
+
+**Render #1 → one review → ONE consolidated fix pass → render #2 → ship.** That is the loop, and
+it does not have a third turn. *Measured:* an unattended run that used render-and-review as its
+debugger spent **six full renders and 44 of its 83 minutes** in that loop, on faults a snapshot, a
+probe or a declared number would each have caught for free.
+
+**The second review VERIFIES the first review's list. It does not hunt.** Re-run `strata review`,
+check the named must-fixes are gone, confirm the four numbers still match, and ship. Opening a
+fresh nine-category pass on render #2 is how one review becomes five: every render of a piece this
+dense will surface something new, so a rule that says "ship when nothing is left" never terminates.
+Ship when **the list you already wrote is fixed**.
 
 - Every must-fix goes back to the **pass it belongs to** (blocking / primary / secondary /
-  finishing — [director.md](director.md) §7), never a patch on top.
-- **One revision pass, then the second render ships.** Fix *every* must-fix the first review
-  named — all classes at once, each in the pass that owns it — re-render, re-run `strata review`,
-  re-watch the four ways. A piece ships when **no must-fix remains** — not when the count went
-  down. Versioned filename on the revision (`_v2`); the report names the version reviewed.
-- **A third full render (`_v3`) is a finding, not a fix.** Two full renders is the budget
-  ([workflow.md](workflow.md), *Render*); if the second review still names a must-fix, the plan or
-  the skill was wrong: record what and why in `decisions.md`, fix the cause (a probe render of the
-  one shot, a snapshot, a re-planned hold), and only then spend a render. Two identical must-fixes
-  on consecutive renders mean the approach is wrong, not the value.
+  finishing — [director.md](director.md) §7), never a patch on top. Fix *every* must-fix the first
+  review named — all classes at once, each in the pass that owns it — then render the second.
+  Versioned filename on the revision (`_v2`); the report names the version reviewed.
+- **The must-fix bar is narrow, and everything else is recorded rather than re-rendered.** A
+  must-fix is: wrong or missing copy · text illegible muted or outside the safe area · a freeze,
+  a frozen hold or a clip that ran out · a cut that contradicts the shot list · loudness or true
+  peak outside the declared spec · a brand atom broken · a personalization key that will not swap.
+  Anything else — a hold that could breathe more, a curve that could be steeper, a palette that
+  could be braver — is a **note**: write it in `decisions.md` as accepted with its reason, and
+  hand it to the user with the file. Notes are not lost; they are just not worth a render.
+- **Never re-generate a clip for a note.** A clip costs 3–9 minutes, so regeneration is only for a
+  shot that is *wrong, missing or illegal* — never for taste. A note about a clip is covered in
+  the edit (trim, reframe, grade, cover with another shot) or handed over as a note.
+- **A finding a free check could have caught is a process failure, not a revision.** Before
+  render #1: `validate` clean, `preview --grid` at every key beat (it draws masks and transforms
+  now, so a draw-on and an array are visible), a `snapshot` at the first, middle and last frame of
+  every declared hold, `strata glyphs` on the real copy, the ease warnings read, and for the
+  riskiest hold one **probe** render of that shot alone (`duration` ≤ 5 s). Those are free or
+  cheap; a full render spent to learn what they would have said is the loop starting.
+- **If review #2 still names a must-fix**, that is a finding about the plan, not a licence for
+  a third full render (`_v3`): write what and why in `decisions.md`, and deliver unless it is genuinely
+  delivery-blocking (wrong copy, unreadable type, broken audio, a freeze). When it is blocking, the
+  next spend is a **probe render of that one shot**, not another full piece. Two identical
+  must-fixes on consecutive renders mean the approach is wrong, not the value.
 
 ## 7. Comparing against the declared position
 
