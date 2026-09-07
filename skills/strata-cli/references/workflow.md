@@ -296,7 +296,10 @@ tells `strata inspect` which version it is and what it descended from. A previou
 A poster frame proves composition; it proves nothing about time.
 `strata snapshot scene.json --library <id>` (a fast poster-only frame, cheaper than a full MP4)
 is the check *before* the render; after the first render, review the MP4 itself, per
-[review.md](review.md):
+[review.md](review.md). **Motion is judged on a filmstrip of consecutive frames, never on
+stills** — spacing on the strip is velocity, and anything smaller than a few per cent of the
+frame has to be cropped and scaled up to be seen at all ([review.md](review.md), *Motion is
+judged on a filmstrip*):
 
 ```bash
 strata review out.mp4 --scene scene.json [--reference ref.mp4] -o review/

@@ -15,9 +15,9 @@ Compiled by `strata compile <scene.json>` into VASCO, schema-validated, then enc
 - [Sub-compositions](#sub-compositions)
 - [Camera](#camera)
   - [The camera is an exact pinhole — here is the calibration (MEASURED)](#the-camera-is-an-exact-pinhole--here-is-the-calibration-measured)
-- [Tween engine (`animate`)](#tween-engine-animate)
+- [Tween engine (`animate`)](#tween-engine-animate) — incl. [custom easing](#custom-easing--four-forms-and-a-name-for-each) and [audio-driven channels](#audio-driven-channels--a-property-that-follows-the-music)
 - [Effects](#effects)
-- [Masks](#masks)
+- [Masks](#masks) — incl. [strokes and draw-on](#strokes-and-draw-on--stroke--trim) and [repeat](#repeat--one-object-a-step-a-stagger)
 - [Track mattes](#track-mattes)
 - [Colors](#colors)
 - [Generating assets (Idomoo AI API)](#generating-assets-idomoo-ai-api)
@@ -281,6 +281,20 @@ Define under scene `comps`, instantiate with a comp layer; reuse freely:
 
 If a sub-comp contains a comp layer referencing another sub-comp, declare the referenced one **earlier** in `comps`.
 
+**A sub-comp IS a group — that is how parenting works here.** There is no `parent` property on a
+layer: the comp layer is the handle, and its `position`, `scale`, `rotation`, `anchor`, `opacity`
+and timing carry everything inside. So "these layers move as one" means putting them in a comp and
+animating the comp layer **once**; a null object is that comp layer, and it needs nothing else to
+exist. *Measured by render:* a four-part callout (panel, rule, two text layers) inside one
+`300×90` comp, with a single `position` animation on the comp layer, travelled 440 px right and
+180 px up with every part still in register — one animation, not four.
+
+Two consequences worth stating: **hand-syncing the same keyframes onto several layers is always
+the wrong answer** (the copies drift apart on the next revision, and a re-track or a retime means
+editing all of them — [traps.md](traps.md)), and **a per-layer parent chain does not exist** — no
+child inheriting only rotation, no parent-of-a-parent. Nest comps instead: a comp inside a comp is
+a group inside a group, which covers the cases a chain would.
+
 ⚠️ **Set `duration` on EVERY sub-comp.** A comp with no `duration` defaults to **100 frames
 (4s at the default 25fps)** regardless of how long the scene is — so in a 10s scene its content simply
 **stops part-way through and the comp goes blank**, with no warning and no compile error.
@@ -380,6 +394,84 @@ Each channel is a keyframe array; the CLI bakes per-frame values at comp fps ove
 - `ease` shapes the segment *leaving* that keyframe; if omitted, the next keyframe's ease applies; else linear. `hold` freezes until the next keyframe.
 - Easings: `linear`, `hold`, `in|out|inOut` + `Quad Cubic Quart Quint Sine Expo Circ Back Elastic Bounce` (any of `outCubic` / `ease-out-cubic` / `easeOutCubic` spellings), or cubic-bezier `[x1,y1,x2,y2]`.
 - Before the first / after the last keyframe the value clamps.
+
+### Custom easing — four forms, and a name for each
+
+A preset is a starting point, not the ceiling. Any keyframe's `ease` takes:
+
+| form | example | what only this can do |
+|---|---|---|
+| a preset name | `"outCubic"` | the 33 named curves above |
+| a **cubic-bezier** | `[0.34, 1.56, 0.64, 1]` | any two-handle curve, and **y outside 0–1 is real overshoot or anticipation** — *measured through the baker:* `[0.34,1.56,0.64,1]` peaks at **1.087**, `[0.5,-0.6,0.5,1.6]` dips to **−0.088** before it moves |
+| an **arbitrary curve** | `{ "points": [[0,0],[0.18,0.62],[0.45,0.66],[1,1]] }` | a move that **hesitates** — two handles cannot express it. *Measured:* 0.635 at a quarter of the segment, still 0.675 at half, then clean to 1. Points are `[x,y]` with x ascending; interpolation is monotone, so it never wobbles between the points you gave |
+| a **spring** | `"spring(180, 12)"` — stiffness, damping, optional mass | a decaying oscillation with a real settle, which no bezier can express. *Measured:* `spring(180,12)` peaks at 1.197 and settles at **0.92 s**; `spring(90,6)` peaks at 1.344 and settles at **1.88 s** |
+
+⚠ **A spring's length is a RESULT, not an input.** It is sampled in real seconds over the
+segment between its keyframe and the next, so a spring that needs longer than that segment gets
+**cut off and snapped** to the keyframe value. *Measured:* `spring(90, 6)` in a 0.60 s segment is
+**6.9 % short of target when the segment ends** and **±12.0 % of its swing never plays**.
+`compile` and `validate` print exactly that, naming the ease — read it, then lengthen the segment,
+raise the damping, or raise the stiffness. A spring in a long enough segment says nothing.
+
+**`eases` — name a curve once, per scene.** A scene-level map resolves by name wherever an ease is
+written, so a brand's motion is shared by name instead of by copied numbers ([brand.md](brand.md)):
+
+```json
+{ "width": 1080, "height": 1080, "fps": 25, "duration": 7,
+  "eases": {
+    "brandIn":  [0.2, 0.9, 0.1, 1],
+    "hesitate": { "points": [[0,0],[0.18,0.62],[0.45,0.66],[1,1]] },
+    "pop":      "spring(180, 12)"
+  },
+  "layers": [
+    { "type": "solid", "name": "chip", "box": [0,0,40,40], "anchor": [20,20],
+      "animate": { "position": [ {"t":0.5,"v":[170,360],"ease":"brandIn"}, {"t":2.1,"v":[900,360]} ] } }
+  ] }
+```
+
+A token may hold any of the four forms, or another token's name. A token **shadows a preset of the
+same name**, so a scene can redefine `out` for itself; a cycle is named rather than hanging. `eases`
+is compiler sugar and never reaches the VASCO document.
+
+### Audio-driven channels — a property that follows the music
+
+A channel may be an **object instead of a keyframe list**, and the compiler bakes one value per
+frame from an audio envelope. This is the answer to "make it react to the track" — and the only
+way, since audio `volume` itself cannot be keyframed (see *Audio* below).
+
+```json
+"animate": { "scale": { "audio": "./bed.beats.json", "band": "low",
+                        "range": [[1,1],[1,14]], "attack": 0.02, "release": 0.18,
+                        "gate": 0.12, "gain": 1.4, "offset": 0 } }
+```
+
+| key | meaning |
+|---|---|
+| `audio` | a `.beats.json` from `strata beats <audio> --fps <comp fps> --bands 12` (**preferred** — `compile` then needs no ffmpeg), or an audio file, which is decoded on the spot and does need ffmpeg |
+| `band` | `0…N-1`, or `"low"` / `"mid"` / `"high"` (the lower, middle, upper third of the bands, averaged), or `"rms"` / omitted for overall level, or **`"auto"`** on a layer with `repeat` — each copy reads its own index, which is how one layer becomes a spectrum analyser |
+| `range` | `[atSilence, atFull]` — numbers, or vectors like `[[1,1],[1,14]]` so `position` and `scale` work. Default `[0,1]` |
+| `attack` · `release` | seconds; asymmetric follower, fast rise and slow fall. Defaults `0.02` / `0.18` — *measured* across 12 bands, they cut mean frame-to-frame change from **0.1006 to 0.0588 (42 % less jitter)** without softening the hits. Set both to `0` for the raw envelope |
+| `gate` | ignore below this level, so silence sits still at `range[0]` |
+| `gain` | multiply before clamping — lift a quiet band to the top of its range |
+| `offset` | seconds; shift the reaction earlier (negative) or later |
+
+Two behaviours worth knowing. **The envelope is read at COMP time, not layer time** — a layer
+entering at 4 s reacts to what the track is doing at 4 s, because the music does not restart for
+it. And **bands are already normalised per band** by `strata beats`, so a treble band reaches the
+top of its range as readily as the kick does ([generative-fx.md](generative-fx.md), §3, has the
+measurement that forced this).
+
+A twelve-bar analyser, whole:
+
+```json
+{ "type": "solid", "name": "bar", "color": "#4FB6C4", "box": [150,700,40,200], "anchor": [170,900],
+  "repeat": { "count": 12, "step": { "position": [68,0] } },
+  "animate": { "scale": { "audio": "./bed.beats.json", "band": "auto", "range": [[1,0.004],[1,1]] } } }
+```
+
+⚠ With an `anchor` set, `position` is the absolute point the anchor lands on, so `repeat`'s
+position step counts **from the anchor** — that is handled, but it is why an anchored array's
+`step` values are offsets from the anchor rather than from the box.
 
 Channels on layers:
 
@@ -485,7 +577,65 @@ carrying an animation you do not want to disturb.
 ] }
 ```
 
-Shapes: `rect [x,y,w,h]` (+ optional `radius`: a number, or `[tl,tr,br,bl]`; each clamps to half the shorter side, so a big number gives a pill — this is how rounded cards, pills and CTA buttons are made) · `ellipse [cx,cy,rx,ry]` · `path [[x,y],...]` (`closed` defaults true) · `shape` = raw VASCO commands (`move_to`/`line_to` 2 values, `quadratic_to` 4, `cubic_to` 6). Mask blend modes: `none add subtract intersect lighten darken difference`. Shape keyframes interpolate (morph) when both ends have the same structure.
+Shapes: `rect [x,y,w,h]` (+ optional `radius`: a number, or `[tl,tr,br,bl]`; each clamps to half the shorter side, so a big number gives a pill — this is how rounded cards, pills and CTA buttons are made) · `ellipse [cx,cy,rx,ry]` · `path [[x,y],...]` (`closed` defaults true) — or the same `path` key as an **SVG `d` string** (`M L H V C S Q T A Z` and their relative forms; arcs included) · `shape` = raw VASCO commands (`move_to`/`line_to` 2 values, `quadratic_to` 4, `cubic_to` 6). Mask blend modes: `none add subtract intersect lighten darken difference`. Shape keyframes interpolate (morph) when both ends have the same structure.
+
+### Strokes and draw-on — `stroke` + `trim`
+
+There is **no shape layer** in VASCO (layers are only `solid · text · media · audio · camera ·
+composition`), so a vector element is a **solid masked to the shape**, and a *stroke* is a solid
+masked by the **outline of a path**. `stroke` on a mask does that outlining; `trim` cuts the path
+to a fraction of its length, and a keyframed `trim` is a draw-on:
+
+```json
+{ "type": "solid", "color": "#F4B23F", "box": [0,0,1080,1080],
+  "mask": { "path": "M120 700 C360 300 760 940 980 470", "stroke": 14, "cap": "round",
+            "trim": { "end": [ {"t":1.2,"v":0,"ease":"out"}, {"t":3.0,"v":1} ] } } }
+```
+
+`stroke` is the width in px · `cap` is `butt` (default) or `round` · `trim` takes `start`, `end`
+and `offset` (fractions 0–1), each a number or a keyframe list. `offset` slides the drawn window
+along the path and **wraps on a closed path**, which is how a ring dash orbits. A closed path
+drawn all the way round is built as a **ring** — two closed loops, no caps — because an
+out-and-back outline crosses itself at the seam and the fill rule punches a hole there
+(*measured:* a dark notch at 12 o'clock on a 10 px ring until the ring case was added).
+
+Because the trim is baked per frame from the path itself, the stroke follows the curve exactly;
+it is not an interpolation between two sampled outlines. Everything a draw-on needs is therefore
+in the scene: no asset, live colour (so it personalises), no fps coupling, and the authored
+coordinates render where they were written. **This is the route for any solid-colour line work** —
+underlines, progress rings, signatures, route lines, logo draw-ons, animated diagrams.
+`.jet` remains the route for soft edges, gradients, textured strokes and particles
+([traps.md](traps.md), [assets.md](assets.md)).
+
+`strata preview` shows this without a render: it expands `repeat`, puts each layer through its
+transform at that moment, and draws a **mask as its own outline** — a draw-on appears as the line
+drawn so far (the legend says `stroke 14px 50%`), not as the full-frame box its solid sits on.
+
+*Measured, same 5 s 1080² scene both ways* — three strokes plus a 24-tick array as masks vs as
+`strata path` overlays: **1,368 KB `.idm` against 4,620 KB**, the curve drawn at its authored
+span (120→980 authored, 116→984 measured) against **200→896** for the `.jet` (which rescales the
+artwork to the canvas), a hard mask edge against DCT softening and a grey fringe, and 2 assets
+against 5. Render time was the same within a few seconds.
+
+### Repeat — one object, a step, a stagger
+
+`repeat` on any layer expands at **compile time**, before validation and preview, so the scene
+that renders is the layers you can count:
+
+```json
+{ "type": "solid", "name": "tick", "color": "#39424F", "box": [538,168,4,18], "anchor": [540,540],
+  "repeat": { "count": 24, "step": { "rotation": 15 }, "stagger": 0.03 },
+  "animate": { "scale": [ {"t":0.15,"v":[0,0],"ease":"out"}, {"t":0.45,"v":[1,1]} ] } }
+```
+
+`count` 1–500 (an integer; anything else is refused rather than authoring 40,000 layers) ·
+`step` on `position` `rotation` `scale` `opacity` `anchor`, added `k` times to copy `k` (and added
+to that channel's keyframe *values* when it is animated) · `stagger` seconds, which delays each
+copy's **animation** — with nothing animated it delays the layer itself · `from` shifts the
+starting index. Copies are named `tick_01 … tick_24`, so `--data` can still address one.
+Rotation steps orbit the layer's `anchor`, which is what makes radial arrays, tick scales,
+equaliser bars and dot fields one object instead of two dozen that drift apart on the next
+revision.
 
 ## Track mattes
 

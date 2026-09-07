@@ -98,17 +98,29 @@ Then: `strata jet frames --fps 24 -o fx.jet` and in the scene
 `strata beats music.mp3 --fps <scene fps> --bands 12` adds:
 
 ```json
-"envelope": { "fps": 24, "frames": 288, "rms": [0.02, 0.31, …],
-              "bands": [[…], …12 arrays…], "band_freqs": [55, 86, …] }
+"envelope": { "fps": 24, "frames": 288, "rms": [0.02, 0.31, …], "rms_peak": 0.48,
+              "bands": [[…], …12 arrays…], "band_freqs": [55, 86, …], "band_peaks": [0.31, …] }
 ```
 
-Two ways to use it:
+**Every band is normalised by its own peak**, which is what makes a 12-band analyser readable:
+bass carries far more energy than treble, so a shared gain pins the low bars and flattens the
+high ones. *Measured* on a 120 BPM electronic track before this was fixed: **96 % of frames
+pinned at exactly 1.000 in the 55 Hz band** (81 % at 84 Hz, 60 % at 129 Hz) while the 6 kHz band
+never passed **0.116** — three dead bars and eight dead bars. After: every band pinned on ≤2 % of
+frames, means 0.31–0.48. `band_peaks` is the raw magnitude each band was divided by, so a quiet
+band that has been scaled up is still identifiable.
+
+Three ways to use it, cheapest first:
+- **Drive a property straight from the scene** — an `animate` channel takes
+  `{ "audio": "./bed.beats.json", "band": …, "range": […] }` and the compiler bakes one value
+  per frame ([format.md](format.md), *Audio-driven channels*). With `repeat` and
+  `"band": "auto"`, a 12-bar spectrum analyser is one layer. This is the default answer now.
 - **Drawn visualizer** — in a generator (§2), bar `b`'s height at frame `f` is
-  `envelope.bands[b][f] · maxH`. The CLI already applies fast-attack/slow-decay smoothing,
-  so bars look alive, not jittery. Encode → `.jet`, place as a strip in the layout.
-- **Baked keyframes** — map `rms[f]` onto any channel as per-frame keyframes: a logo that
-  breathes with the track (`scale: 1 + rms[f]·0.15`), a glow whose opacity follows the
-  music. One keyframe per frame is fine — VASCO bakes per-frame arrays anyway.
+  `envelope.bands[b][f] · maxH`. Worth it only when the bars need what a solid cannot do:
+  gradients along their length, glow, texture, thousands of particles. Encode → `.jet`.
+- **Baked keyframes by hand** — map `rms[f]` onto a channel yourself (`scale: 1 + rms[f]·0.15`
+  for a logo that breathes with the track). Only for a mapping the driver does not express: a
+  threshold that switches a colour, a counter that increments on each onset.
 
 ---
 

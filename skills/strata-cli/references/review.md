@@ -11,7 +11,7 @@ the watched video is.
 ## Contents
 
 - [1. Run the tool](#1-run-the-tool)
-- [2. Watch it four ways](#2-watch-it-four-ways)
+- [2. Watch it four ways](#2-watch-it-four-ways) — incl. [motion is judged on a filmstrip](#motion-is-judged-on-a-filmstrip-never-on-single-frames)
 - [3. The nine categories — pass or must-fix](#3-the-nine-categories--pass-or-must-fix)
 - [4. Evidence rules](#4-evidence-rules)
 - [5. Reading the report](#5-reading-the-report)
@@ -56,6 +56,39 @@ The tool finds what a machine can find; the critic still watches. Four viewings,
 4. **Frame-stepped around every cut and settle** (`cut_NN.png`, `settle_NN.png`). Does the join
    carry a shape or vector across, or jump? Does the element ease to rest, stop dead or bounce?
    Is motion blur on the fast frames?
+
+### Motion is judged on a FILMSTRIP, never on single frames
+
+A poster frame proves a layout; it says nothing about motion. A strip of consecutive frames does,
+because **spacing on the strip IS velocity**: even gaps are linear, bunched gaps are an ease,
+identical frames are a freeze, and a smeared frame is motion blur doing its job. `review` writes
+strips for cuts and settles; anything else — a draw-on, a drift, a spring, a parallax, an
+audio-driven bar, a hold that must stay alive — needs one made on the spot. Three shapes, and the
+third is the one that gets skipped:
+
+```bash
+# a WINDOW at full frame rate: every frame of 0.8 s from t=1.2, one row
+ffmpeg -v error -y -ss 1.2 -t 0.8 -i out.mp4 -vf "fps=25,scale=200:-2,tile=20x1:padding=2:margin=2" -frames:v 1 strip.png
+
+# a LONGER window, every 3rd frame — a whole move on one row without 75 tiles
+ffmpeg -v error -y -ss 0.5 -t 3 -i out.mp4 -vf "select='not(mod(n\,3))',scale=200:-2,tile=25x1:padding=2:margin=2" -frames:v 1 strip.png
+
+# a CROPPED ZOOM on the element that moves — crop first, then scale up, nearest-neighbour
+ffmpeg -v error -y -ss 1.2 -t 0.6 -i out.mp4 -vf "crop=260:260:410:230,fps=25,scale=160:160:flags=neighbor,tile=15x1:padding=2:margin=2" -frames:v 1 zoom.png
+```
+
+**Crop when the moving thing is small.** A 1080-wide frame in a 200 px tile is a 5.4× reduction: a
+14 px stroke is under 3 px there, and a lilac cast, a DCT fringe or a 1 px jitter is invisible.
+Crop to the element and scale up with `flags=neighbor` so you see pixels rather than a guess —
+that is how the mask-versus-`.jet` edge difference and a ring's seam notch were both found, and
+both were invisible at contact-sheet size.
+
+**Pick the window from the data, not by eye.** `review.json` carries `perSec` (motion energy per
+second), `perSecMax` (the busiest cell's, which is what catches one small layer moving),
+`shots`, `freezes` and `cuts` — strip the second with the highest `perSecMax` to check the
+piece's busiest moment, and the longest run of low `perSec` to check a hold is alive rather than
+frozen. Name the timecode next to every strip in the findings, so a claim is checkable:
+`ffmpeg -ss <t>` and the tile index give it exactly.
 
 ## 3. The nine categories — pass or must-fix
 

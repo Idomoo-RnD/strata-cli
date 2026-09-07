@@ -17,14 +17,14 @@
 
 ## 1. Shape and form
 - **Shape morph**: interpolate one path into another; match point counts; complex morphs need intermediate poses.
-- **Path trim (stroke draw)**: reveal a line from 0 to 100%; icons, diagrams, signatures, routes.
-- **Dash offset**: dashes travel along a path; flow, data transfer, marching ants.
-- **Offset path (grow and shrink)**: inflate or deflate a shape; pulsing rings, outlines.
+- **Path trim (stroke draw)**: reveal a line from 0 to 100%; icons, diagrams, signatures, routes. **Built as** a solid masked by a stroked path with keyframed `trim` — `mask: { path: "M…", stroke: 14, cap: "round", trim: { end: [0→1] } }` ([format.md](../format.md), *Strokes and draw-on*). The path takes an SVG `d` string, arcs included, so a logo's own outline can be pasted in. Earn it: a line that draws itself says *this was made, follow it* — right for a route, a signature, a diagram being explained, a value filling a ring. Wrong as decoration on a static layout, where it only delays the read.
+- **Dash offset**: dashes travel along a path; flow, data transfer, marching ants. **Built as** a short `trim` window (`start`/`end` a fraction apart) with an animated `trim.offset`, which wraps on a closed path.
+- **Offset path (grow and shrink)**: inflate or deflate a shape; pulsing rings, outlines. **Built as** an animated mask `expansion`, or a stroked ring whose `stroke` width is the outline weight.
 - **Corner radius animation**: square to pill; softness and state change.
 - **Polygon morph**: triangle to square to circle; geometric brands.
-- **Repeater (radial array)**: copies around a center; mandalas, loaders, sunbursts.
-- **Grid array**: copies in rows and columns with staggered animation; patterns, halftone builds.
-- **Instancing with variation**: copies vary in scale, rotation, or color by index; richer than uniform copies.
+- **Repeater (radial array)**: copies around a center; mandalas, loaders, sunbursts. **Built as** `repeat: { count, step: { rotation }, stagger }` on one layer with an `anchor` at the centre — the copies orbit that anchor ([format.md](../format.md), *Repeat*).
+- **Grid array**: copies in rows and columns with staggered animation; patterns, halftone builds. **Built as** nested `repeat` — a row of `count` stepped on `position` x, wrapped in a sub-comp that repeats stepped on y — so a dot field is two numbers, not a generated PNG.
+- **Instancing with variation**: copies vary in scale, rotation, or color by index; richer than uniform copies. **Built as** `repeat.step` on `scale` or `opacity` (colour is not steppable — two repeats, or an overlay, do a two-tone array).
 - **Blob (metaball)**: shapes merge when near; organic, liquid.
 - **Wiggle path**: noise on vertices; hand-drawn feel.
 - **Line boil**: the outline is redrawn every 2-3 frames; hand-made warmth.
@@ -41,7 +41,7 @@
 ## 2. Masks and mattes
 - **Track matte (alpha or luma)**: one layer defines another's visibility; footage in type, gradients in shapes.
 - **Inverted matte**: hide inside the shape; cut-outs and peek-throughs.
-- **Animated mask path**: the reveal edge moves with intent (a drawn stroke, a growing circle).
+- **Animated mask path**: the reveal edge moves with intent (a drawn stroke, a growing circle). Mask shapes morph natively when both ends share a structure, and a `trim` bakes the edge from the path itself.
 - **Feathered mask**: soft edges; light, fog, vignettes.
 - **Mask as window**: a scene seen through a shape; depth and curiosity.
 - **Shape in shape**: nested masks for layered reveals.

@@ -33,6 +33,22 @@ cubic-bezier `[x1,y1,x2,y2]` for a custom curve:
 - `inOutCubic`/`inOutSine` — reserve for slow drifts and camera, NOT entrances.
 **Tell to avoid:** the same soft ease on every move.
 
+Two forms exist for what a bezier cannot draw, and both are chosen by what the motion has to
+say ([format.md](format.md), *Custom easing*):
+- `{ "points": [[0,0],[0.18,0.62],[0.45,0.66],[1,1]] }` — a move that **hesitates**: it travels,
+  pauses mid-flight, then completes. It reads as *placed* rather than thrown, which is what a
+  considered product film does with a hero element. One per piece at most; a second one reads as
+  a stutter.
+- `"spring(180, 12)"` — stiffness and damping, a real decaying settle. Reach for it when the
+  material is springy (a chip, a toggle, a toy, a UI affordance) and never for a rigid, premium
+  object, which should stop clean. Higher damping settles sooner; `spring(90, 6)` takes **1.88 s**
+  to settle, so it needs a segment that long or the CLI warns that it snaps.
+
+**Name the curves the piece uses, once.** A scene-level `eases` map (`"eases": { "brandIn":
+[0.2,0.9,0.1,1] }`) then referenced as `"ease": "brandIn"` is how one entrance curve stays one
+entrance curve across 40 layers and across every piece for that client — the motion half of a
+brand's tokens ([brand.md](brand.md)).
+
 ### 2. Overshoot + settle — one tool, not a signature
 A value goes **past** its target and settles back. It is *one* technique, chosen by material
 (the table below: rigid = 0 %, paper 3–5 %, rubber 15–25 %) — not a quality signal. Premium,
@@ -202,4 +218,4 @@ If two or more are true, it will read as HTML animation, not motion design — f
 - [ ] The same single entrance style repeats with no variation in tempo
 - [ ] A frame sits fully static with nothing alive in it and no reason to be still
 - [ ] A move with no nameable job; more than one dominant motion idea in a shot; more than two transition families in the piece
-- [ ] These were judged on a poster frame only — easing, rhythm, settles and sound are checked on the rendered MP4 ([review.md](review.md))
+- [ ] These were judged on a poster frame only — easing, rhythm, settles and sound are checked on the rendered MP4, and the motion itself on a **filmstrip** of consecutive frames, cropped to the moving element when it is small ([review.md](review.md), *Motion is judged on a filmstrip*)

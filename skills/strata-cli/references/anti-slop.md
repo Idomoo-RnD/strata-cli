@@ -129,6 +129,13 @@ generated → what to do instead.
   card. The universal feature-card template.
 - **Identical card grids** — same-sized cards, icon + heading + text, repeated. Vary size or
   treatment so the hierarchy is visible.
+- **Arrays and draw-ons because they are one line to author.** `repeat` makes 24 ticks free and
+  `trim` makes any line write itself, which is exactly why both turn up carrying nothing: a tick
+  ring around a logo that measures nothing, a dial with no value on it, a stroke that draws on
+  under a static layout and only delays the read. A tick scale is a **scale** — something must be
+  read against it. A line that draws itself says *this was made, follow it*: right for a route, a
+  signature, a diagram being explained, a value filling a ring; wrong as trim on a card. Test:
+  name what the array measures, or what the drawing hand is pointing at. No answer, no array.
 
 ### Colour when no brand exists
 

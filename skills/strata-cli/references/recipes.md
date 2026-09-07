@@ -39,6 +39,10 @@
   - [Fly-through warp (scale-from-depth)](#fly-through-warp-scale-from-depth)
   - [Bounce drop + squash](#bounce-drop--squash)
 - [4. Masks](#4-masks)
+  - [Underline that writes itself](#underline-that-writes-itself)
+  - [Progress ring that fills to a value](#progress-ring-that-fills-to-a-value)
+  - [Radial tick scale, one object](#radial-tick-scale-one-object)
+  - [Logo draw-on from the logo's own outline](#logo-draw-on-from-the-logos-own-outline)
   - [Feathered iris reveal](#feathered-iris-reveal)
   - [Shape morph (blob ↔ star)](#shape-morph-blob--star)
   - [Moving spotlight](#moving-spotlight)
@@ -406,6 +410,53 @@ Anchor at the ball's **bottom** so the squash flattens onto the floor at contact
 
 ## 4. Masks
 
+### Underline that writes itself
+A solid masked by a stroked path, `trim` keyframed — no asset, and the colour stays live so a
+brand swap or a `--data` pass still reaches it ([format.md](format.md), *Strokes and draw-on*).
+```json
+{ "type": "text", "name": "word", "text": "live", "font": "./Inter.ttf", "size": 150,
+  "color": "#E8ECF2", "box": [380,470,400,180], "align": "center middle" },
+{ "type": "solid", "name": "underline", "color": "#F4B23F", "box": [0,0,1080,1080],
+  "mask": { "path": "M420 640 L660 640", "stroke": 8, "cap": "round",
+            "trim": { "end": [ {"t":2.6,"v":0,"ease":"out"}, {"t":3.1,"v":1} ] } } }
+```
+
+### Progress ring that fills to a value
+The ring is one arc drawn to a fraction: the **track** is the full ring, the **value** is the same
+path trimmed to it. ⚠ `trim` is baked at compile time, so a value that differs **per viewer** is not
+reachable by `render --data` (which swaps text and media by layer name, nothing else) — that case is
+still the image-swap rule ([personalization.md](personalization.md)) or one compiled scene per row.
+Use this for a fixed value, a value known at author time, or a batch where each row gets its own
+scene.
+```json
+{ "type": "solid", "name": "ring_track", "color": "#232C38", "box": [0,0,1080,1080],
+  "mask": { "path": "M540 240 A300 300 0 1 1 539.9 240 Z", "stroke": 10 } },
+{ "type": "solid", "name": "ring_value", "color": "#4FB6C4", "box": [0,0,1080,1080],
+  "mask": { "path": "M540 240 A300 300 0 1 1 539.9 240 Z", "stroke": 10, "cap": "round",
+            "trim": { "end": [ {"t":0.3,"v":0,"ease":"outCubic"}, {"t":1.9,"v":0.72} ] } } },
+{ "type": "text", "name": "pct", "text": "72%", "font": "./Inter.ttf", "size": 120,
+  "color": "#E8ECF2", "box": [340,470,400,160], "align": "center middle" }
+```
+A closed path drawn all the way round is welded as a ring (no seam); `0.72` stops it at 72 %.
+
+### Radial tick scale, one object
+```json
+{ "type": "solid", "name": "tick", "color": "#39424F", "box": [538,168,4,18], "anchor": [540,540],
+  "repeat": { "count": 24, "step": { "rotation": 15 }, "stagger": 0.03 },
+  "animate": { "scale": [ {"t":0.15,"v":[0,0],"ease":"out"}, {"t":0.45,"v":[1,1]} ] } }
+```
+24 layers named `tick_01…tick_24`, each 15° further round and 30 ms later. Only build the scale if
+something is measured against it ([anti-slop.md](anti-slop.md)).
+
+### Logo draw-on from the logo's own outline
+Paste the `d` of the logo's path (arcs included) and trim it; strokes draw in path order.
+```json
+{ "type": "solid", "name": "logo_draw", "color": "#ffffff", "box": [0,0,1920,1080],
+  "mask": { "path": "M760 540 C760 420 860 340 960 340 C1060 340 1160 420 1160 540",
+            "stroke": 12, "cap": "round",
+            "trim": { "end": [ {"t":0,"v":0,"ease":"inOutSine"}, {"t":1.4,"v":1} ] } } }
+```
+
 ### Feathered iris reveal
 ```json
 { "type": "image", "src": "./image.jpg", "box": [0,0,1280,720], "fit": "fill",
@@ -728,18 +779,33 @@ Writes `{ effect: {...} }` — paste it straight into a layer's `effects`:
 
 ### Point mode — output and use
 Writes `{ animate: { position: [...] } }` as **offsets from the tracked start point**, so
-the follower's **`box` sets where the label sits** and the animation carries it:
+the follower's **`box` sets where the label sits** and the animation carries it.
+
+**Put the callout in a sub-comp and give the COMP LAYER the keyframes — once.** A callout is
+never one layer (panel, leader line, title, value), and a sub-comp is how several layers move as
+one ([format.md](format.md), *Sub-compositions*): the comp layer is the handle, so one animation
+carries all of it. Surface mode already works this way; point mode is the same shape.
 ```json
-{ "type":"solid","name":"cal_bg","color":"#0b1020","box":[790,360,330,86],"opacity":0.72,
-  "animate": { "position": <paste keyframes> } },
-{ "type":"text","name":"cal_title","text":"FLIGHT AY318","font":"./bold.ttf","size":38,
-  "color":"#4cc9f0","box":[810,368,300,42],"align":"left middle",
-  "animate": { "position": <same keyframes> } }
+"comps": { "callout": { "width":330, "height":86, "duration":6, "layers":[
+   { "type":"solid","name":"cal_bg","color":"#0b1020","box":[0,0,330,86],"opacity":0.72 },
+   { "type":"solid","name":"cal_rule","color":"#4cc9f0","box":[0,0,4,86] },
+   { "type":"text","name":"cal_title","text":"FLIGHT AY318","font":"./bold.ttf","size":38,
+     "color":"#4cc9f0","box":[18,10,300,42],"align":"left middle" },
+   { "type":"text","name":"cal_value","text":"31,000 ft","font":"./bold.ttf","size":26,
+     "color":"#8a97a8","box":[18,50,300,30],"align":"left middle" } ] } },
+"layers": [
+  { "type":"video","name":"plate","src":"./shot.mp4","box":[0,0,1280,720],"fit":"fill" },
+  { "type":"comp","comp":"callout","name":"callout_group","box":[790,360,330,86],
+    "animate": { "position": <paste keyframes> } } ]
 ```
-Give **every** part of the callout (leader line, panel, each text layer) the *same*
-keyframes so the group moves as one. `--size` is the template radius, `--search` the
-per-frame search radius (keep it just above the subject's speed — cost grows fast).
-The CLI prints a **weakest-match** score; below ~0.4 the track slipped.
+*Measured by render:* four parts in one comp with a single `position` animation travelled 440 px
+right and 180 px up with every part in register. The reason to care is revision cost — a re-track,
+a retime or a nudge replaces **one** animation instead of four, and nothing can be left behind.
+❌ Pasting the same keyframes onto each part is the anti-pattern ([traps.md](traps.md)).
+
+`--size` is the template radius, `--search` the per-frame search radius (keep it just above the
+subject's speed — cost grows fast). The CLI prints a **weakest-match** score; below ~0.4 the
+track slipped.
 
 ### ⚠️ Generate the footage TO FIT the effect
 If the effect is chosen first and I'm generating the clip, I design the image **and** the

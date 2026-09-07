@@ -25,6 +25,7 @@ A sting is one shot, so the range is inside it: a fast reveal, a long hold, near
 - a hold that is a frozen frame: SKILL.md, *Place the piece on the range*
 - a glow, sweep or particle burst added because stings have them: [anti-slop.md](../anti-slop.md), *The test*
 - a logo overlaid as `.mp4` instead of alpha video: [traps.md](../traps.md), *The traps, in full*
+- a mark drawing itself baked to `.jet` when it is a stroked mask: [format.md](../format.md), *Strokes and draw-on*
 
 ## Done when
 - `strata review`: no run of frames below the frame-difference floor in the end hold

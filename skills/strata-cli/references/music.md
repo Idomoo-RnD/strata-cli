@@ -203,7 +203,10 @@ layers*, not delivered loudness — the LUFS target above is what the finished f
 ear *and* by probe — `ffprobe` the rendered MP4's audio stream exists, and listen to the join.
 
 ⚠ **`volume` cannot be keyframed.** The audio layer's `animations` accept only `transform`
-(schema), so a fade in/out or a swell is done **in ffmpeg before import**
+(schema), so a fade in/out or a swell is done **in ffmpeg before import**. (What is usually
+wanted when someone asks for this is the *picture* reacting to the track, and that does work:
+an `animate` channel can be driven by the audio envelope — [format.md](format.md),
+*Audio-driven channels*.)
 (`afade=t=out:st=9.5:d=0.5`, video-editing.md). The same goes for **trimming into** a track:
 there is no audio `offset_frame` — to start the music at 0:12, cut it with ffmpeg first.
 

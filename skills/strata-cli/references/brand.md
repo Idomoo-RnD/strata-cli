@@ -248,8 +248,13 @@ components:
 
 motion:
   # THE video-specific section. what makes every video feel like the same brand.
-  # entrance: { ease: outExpo, duration: 0.45, from: "position [0,60] + opacity 0" }
-  # exit:     { ease: [0.7,0,0.84,0], duration: 0.3 }
+  # Name the curves here and they become a scene's `eases` map verbatim, so every piece
+  # for this brand accelerates identically instead of each scene copying numbers:
+  #   "eases": { "brandIn": [0.2,0.9,0.1,1], "brandOut": [0.7,0,0.84,0] }
+  # then "ease": "brandIn" on every entrance ([format.md](format.md), Custom easing).
+  # A curve may also be { points: [[x,y],…] } for a hesitation, or "spring(180, 12)".
+  # entrance: { ease: brandIn, curve: [0.2,0.9,0.1,1], duration: 0.45, from: "position [0,60] + opacity 0" }
+  # exit:     { ease: brandOut, curve: [0.7,0,0.84,0], duration: 0.3 }
   # stagger:  0.15            # between sibling elements
   # text:     "per-word rise, shape square"
   # transition: "scale-through, 0.4s"   # the ONE house transition

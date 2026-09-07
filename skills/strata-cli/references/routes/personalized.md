@@ -20,7 +20,7 @@ Toward the *film, quiet* row around the personal reveal: the viewer's own number
 - [traps.md](../traps.md): the personalised-visual and layer-name entries, before the first compile.
 
 ## Watch for
-- a ring or gauge drawn from shapes that must change per viewer: [traps.md](../traps.md), *The traps, in full*
+- a ring or gauge drawn from shapes that must change per viewer: [traps.md](../traps.md), *The traps, in full* — a stroked-mask ring carries a value fixed at compile time, not a per-viewer one: [format.md](../format.md), *Strokes and draw-on*
 - two layers sharing a name in different comps: [personalization.md](../personalization.md), *The keys are LAYER NAMES*
 - a Hebrew or Arabic value in a template proved only against Latin: [personalization.md](../personalization.md), *Right-to-left values*
 

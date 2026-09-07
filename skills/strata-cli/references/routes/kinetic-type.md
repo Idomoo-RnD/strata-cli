@@ -22,7 +22,7 @@ Read time sets the floor, so it sits between the rows: holds long enough to read
 ## Watch for
 - a per-character reveal whose whole word shows before the first letter animates: [traps.md](../traps.md), *The traps, in full*
 - where text sits vertically inside its box: [format.md](../format.md), *Text*
-- an underline, strike or highlight the engine does not draw: [video-styles.md](../video-styles.md), *Engine gotchas these styles hit*
+- an underline, strike or highlight the engine does not draw: [video-styles.md](../video-styles.md), *Engine gotchas these styles hit* — a rule that writes itself is a stroked mask: [format.md](../format.md), *Strokes and draw-on*
 
 ## Done when
 - `strata glyphs` passes on every text layer for its actual copy
