@@ -591,7 +591,9 @@ do not move the camera differently.
 ```
 
 Then repeat the invariants in the Static Description. **One change per call** — a list of
-edits is a re-generation wearing a disguise, so write the prompt you want instead. Global
+edits is a re-generation wearing a disguise, so write the prompt you want instead. (A **still**
+is edited the same way, and `strata edit image <img|url> "<what changes>"` writes the freeze list
+for you — [assets.md](assets.md).) Global
 changes (grade, season, weather, material, time of day) land far more reliably than local ones
 ("remove the cup from the table" re-generates the whole shot and the rest drifts with it).
 
