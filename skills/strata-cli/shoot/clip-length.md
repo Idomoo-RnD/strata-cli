@@ -11,7 +11,7 @@ next clip's first frame.
 
 ```bash
 strata generate video "<shot 1>" --duration 12 --last-frame-out lf.png -o clip1.mp4
-strata upload lf.png                      # -> https://t.idomoo.com/<uuid>.png
+strata upload lf.png --allow-public-upload # only after informed consent for this non-sensitive frame
 strata generate video "<shot 2>" --first-frame <that url> --duration 12 -o clip2.mp4
 printf "file '%s'\nfile '%s'\n" clip1.mp4 clip2.mp4 > c.txt
 ffmpeg -f concat -safe 0 -i c.txt -c copy -y joined.mp4

@@ -36,7 +36,7 @@ local input needs `strata upload` first (the CLI says so rather than publishing 
   - [⚠ Public and permanent — which is why it is for temp use only](shoot/upload.md#-public-and-permanent--which-is-why-it-is-for-temp-use-only)
   - [The extension must match the bytes](shoot/upload.md#the-extension-must-match-the-bytes)
 - [Generate in WAVES, not in sequence — parallel is the default](shoot/waves.md#generate-in-waves-not-in-sequence--parallel-is-the-default)
-- [Every image becomes a video — no still photos](shoot/waves.md#every-image-becomes-a-video--no-still-photos)
+- [Choose still, layer animation or footage](shoot/waves.md#choose-still-layer-animation-or-footage)
 - [Alpha overlays — `.jet`, and how to get anything into it](shoot/alpha.md#alpha-overlays--jet-and-how-to-get-anything-into-it)
   - [Same-source occlusion — text behind a subject with NO alpha at all](shoot/alpha.md#same-source-occlusion--text-behind-a-subject-with-no-alpha-at-all)
   - [Getting to `.jet` — pick the row that matches the source](shoot/alpha.md#getting-to-jet--pick-the-row-that-matches-the-source)
@@ -45,4 +45,6 @@ local input needs `strata upload` first (the CLI says so rather than publishing 
   - [⚠️ Key the VIDEO, not a still — the motion belongs in the clip](shoot/alpha.md#️-key-the-video-not-a-still--the-motion-belongs-in-the-clip)
   - [Text BEHIND the subject — the SAME clip, used twice](shoot/alpha.md#text-behind-the-subject--the-same-clip-used-twice)
 
-The standing constraint applies to every command here: upload ONLY assets we created that have no URL, and only as a generation input. Nothing private, ever.
+The standing publication policy is [upload.md](shoot/upload.md): only non-sensitive necessary
+inputs, with informed consent before public hosting. Never customer-personalized/private material.
+`--allow-public-upload` acknowledges a specific permitted publication; it is not a privacy waiver.

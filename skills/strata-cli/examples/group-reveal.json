@@ -1,0 +1,12 @@
+{
+  "width":1280,"height":720,"fps":25,"duration":4,
+  "comps":{"module":{"width":520,"height":200,"duration":4,"layers":[
+    {"type":"solid","name":"module_panel","color":"#f2eee3","box":[0,0,520,200]},
+    {"type":"solid","name":"module_marker","color":"#176345","box":[40,60,80,80]},
+    {"type":"solid","name":"module_rule","color":"#176345","box":[160,90,280,20]}
+  ]}},
+  "layers":[
+    {"type":"solid","name":"group_ground","color":"#15251f","box":[0,0,1280,720]},
+    {"type":"comp","name":"group_instance","comp":"module","box":[380,260,520,200],"duration":4,"animate":{"position":[{"t":0,"v":[0,100],"ease":"outCubic"},{"t":0.8,"v":[0,0]}]}}
+  ]
+}

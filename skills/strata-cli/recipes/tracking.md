@@ -4,6 +4,10 @@ Putting type ON a surface in footage, and making an element follow a moving subj
 
 Part of the recipe library — the index, and every other part, is in [recipes.md](../recipes.md).
 
+These are **construction fragments** requiring real source footage, a scene wrapper and selected
+tracking outputs. Inspect tracking across the actual shot; compilation alone does not prove a lock.
+For complete source examples of grouping/camera, see [runnable fixtures](../examples/runnable-scenes.md).
+
 ## 8. Tracking — put text ON a surface, or make an element FOLLOW a subject
 
 `strata track` analyses footage and writes keyframes. Two modes, one command:

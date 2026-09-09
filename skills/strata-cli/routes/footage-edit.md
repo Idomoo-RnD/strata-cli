@@ -11,7 +11,7 @@
 - A flat retime, or a ramp for a deliberate beat (`strata retime`).
 
 ## Where it usually sits on the range
-Wherever the source sits: an edit inherits its footage's shot lengths and energy; a recut for a new platform re-declares them from the destination's grammar. The brief decides; declare the four numbers from a measurement (review.md §7).
+Wherever the source sits: an edit inherits its footage's shot lengths and energy; a recut for a new platform re-declares them from the destination's grammar. A mechanical edit needs source, operation and delivery spec, not invented aesthetic targets. Read only the editing packet; use `--mode edit` if classification is ambiguous.
 
 ## Read, in this order
 - [video-editing.md](../shoot/video-editing.md): *The three rules that prevent most damage*, then the section for the ask; *Recipes for common asks*; *Output rules*.

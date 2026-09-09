@@ -4,6 +4,10 @@ Getting from one shot to the next, and the plain moves — pushes, drifts, settl
 
 Part of the recipe library — the index, and every other part, is in [recipes.md](../recipes.md).
 
+These are **layer fragments**, not standalone scenes: provide a wrapper, durations, distinct
+names and assets. [Runnable fixtures](../examples/runnable-scenes.md) have offline tests and
+explicit proof levels. Select transitions for continuity/meaning, not because a dissolve is banned.
+
 ## 2. Transitions
 
 ### Scale-through (A blasts past, B scales in)

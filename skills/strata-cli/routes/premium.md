@@ -6,12 +6,14 @@
 
 ## Settle these before the storyboard (into BRIEF.md; unattended → decide and record in decisions.md)
 - The thesis: one sentence, one image that carries it.
-- The six traits as positions (energy, weight, precision, warmth, density, playfulness), converted to the four numbers.
+- The six traits as creative positions, with semantic acceptance and honest diagnostic confidence.
 - Three directions that differ in kind, and which one the user chose.
 - What stays still, and the forbidden moves.
 
 ## Where it usually sits on the range
-Premium is not slow: the *film, quiet* and *film, action* rows are both premium; what marks it is a declared extreme held with discipline and a hero shot moving through its hold. The brief decides; declare the four numbers from a measurement (review.md §7).
+Premium can be quiet, kinetic, flat or spatial. It means subject-specific decisions executed with
+control, not a declared numerical extreme. Use [design-contract.md](../make/design-contract.md):
+locked/live holds with a purpose; diagnostics measured, estimated or uncalibrated with source.
 
 ## Read, in this order
 - [director.md](../direct/director.md): the whole protocol, thesis to hand-off.
@@ -23,9 +25,9 @@ Premium is not slow: the *film, quiet* and *film, action* rows are both premium;
 ## Watch for
 - a bible with adjectives where the traits should be positions: [director.md](../direct/director.md), *1. Thesis*
 - three directions that are one direction in three palettes: [director.md](../direct/director.md), *3. Three directions — genuinely different*
-- a hero hold with nothing moving through it: SKILL.md, *Place the piece on the range*
+- a hold with no communication purpose, or a live hold missing its promised movement: [design-contract.md](../make/design-contract.md)
 
 ## Done when
-- every `strata review` category passes at the Premium column; the storyboard names which rows aim at Exceptional
+- the approved creative bar is met in every applicable review category, with no unresolved blockers
 - the styleframes and the rendered frames match at the hook, the hero moment and the end card
-- the declared extreme is measured, not the middle: `shortest`, `longest`, energy and LUFS beside their targets
+- diagnostic comparisons carry appropriate source/confidence, and the final regression gate passes regardless of render count

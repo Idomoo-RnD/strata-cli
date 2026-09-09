@@ -11,7 +11,7 @@
 - Whether the reference's *edit* is wanted too (a clip → `--ref-video`).
 
 ## Where it usually sits on the range
-Where the reference measures: `strata deconstruct` on the clip gives shot lengths, energy, stillness and loudness directly. The brief decides; declare the four numbers from a measurement (review.md §7).
+Where the reference measures: `strata deconstruct` on the clip gives shot lengths, energy, stillness and loudness directly. Transfer only the relationships the direction promises; numeric comparison needs matching scope and confidence. See [design-contract.md](../make/design-contract.md).
 
 ## Read, in this order
 - [reference-styles.md](../craft/reference-styles.md): the named row; the closing paragraph for a name not in the table.

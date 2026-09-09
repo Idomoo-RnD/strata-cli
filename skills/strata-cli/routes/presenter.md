@@ -11,7 +11,7 @@
 - Whether the presenter moves through a scene or holds a pose.
 
 ## Where it usually sits on the range
-Speech sets the cut: sentences are the long shots, reactions and inserts the short; between the *film, quiet* and *showreel, 10 s* rows. The brief decides; declare the four numbers from a measurement (review.md §7).
+Speech sets the cut: sentences are the long shots, reactions and inserts the short; between the *film, quiet* and *showreel, 10 s* rows. Dialogue intelligibility and continuity govern timing. Label diagnostics honestly, and read [upload policy](../shoot/upload.md) before hosting user material; [design-contract.md](../make/design-contract.md).
 
 ## Read, in this order
 - [avatar.md](../shoot/avatar.md): *When avatar, and when `generate video` instead*, the route decision.

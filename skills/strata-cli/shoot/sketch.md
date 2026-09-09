@@ -8,14 +8,15 @@ Part of the reference/dialogue/shot-control guide — the index, and every other
 
 When a shot is complex enough that words fail — *"crane down past the sign as she crosses left
 to right, cut to a low tracking shot following the car"* — build the blocking as a grey-box
-animatic, render it to MP4, upload it, and feed it in as `--ref-video` with the "IGNORE the
-look" instruction above.
+animatic, render it to MP4, and feed an approved hosted copy as `--ref-video` with the "IGNORE the
+look" instruction above. Read [upload policy](upload.md) first: only non-sensitive material with
+informed consent can be published. Concept/customer details can make an animatic confidential.
 
 This is the CLI's own tool. **Do not rewrite a Three.js scene by hand.**
 
 ```bash
 strata sketch plan.json -o plan.mp4        # also: --html plan.html  --frames dir/
-strata upload plan.mp4                     # -> URL
+strata upload plan.mp4 --allow-public-upload  # only after informed consent for this non-sensitive input
 strata generate video "<the real content>" --ref-video <that url> --duration 12 -o out.mp4
 ```
 

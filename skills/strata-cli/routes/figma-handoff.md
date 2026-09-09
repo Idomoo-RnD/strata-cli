@@ -11,7 +11,7 @@
 - What moves, ordered by hierarchy; whether the design's tokens become `.brand/brand.md`.
 
 ## Where it usually sits on the range
-A faithful import is a slideshow; the range comes from the kind the piece is, not from the file. Product-UI pieces lean toward the *film, quiet* row so the interface can be read. The brief decides; declare the four numbers from a measurement (review.md §7).
+A faithful import supplies layout, not timing. Preserve its hierarchy; choose motion and reading time for the intended viewing context. A locked frame can be deliberate. Record diagnostic confidence under [design-contract.md](../make/design-contract.md), not invented numbers.
 
 ## Read, in this order
 - [figma.md](../brand/figma.md): the twelve steps in order, then the *Import checklist*; *11. Verify against the source* is the accuracy loop.

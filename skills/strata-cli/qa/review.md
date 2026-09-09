@@ -1,345 +1,209 @@
 # Review — the critic pass on the rendered video
 
-**When:** after every render, first or revision. A poster proves composition; it cannot show
-easing, rhythm, cuts, settles, sound or legibility in motion — the things a viewer actually
-judges. The review is done on the **MP4**, with evidence, and it decides whether the piece ships.
-
-The rule that matters most: **compiling, validating, a clean snapshot, or the presence of
-advanced features (3D, camera, `.jet`, occlusion, tracking) is never a reason to approve.** Only
-the watched video is.
+Review every final candidate, first or revision. A poster proves one frame, not easing, rhythm,
+reading time, continuity or sound. Compiling, validating or using 3D/alpha/tracking is never by
+itself approval. Judge the approved direction under [design-contract.md](../make/design-contract.md).
 
 ## Contents
 
 - [1. Run the tool](#1-run-the-tool)
-- [2. Watch it four ways](#2-watch-it-four-ways) — incl. [motion is judged on a filmstrip](#motion-is-judged-on-a-filmstrip-never-on-single-frames)
+- [2. Watch it four ways](#2-watch-it-four-ways)
 - [3. The nine categories — pass or must-fix](#3-the-nine-categories--pass-or-must-fix)
 - [4. Evidence rules](#4-evidence-rules)
 - [5. Reading the report](#5-reading-the-report)
-- [6. One review, one fix pass](#6-one-review-one-fix-pass--that-is-the-whole-budget)
+- [6. Budget and final regression gate](#6-budget-and-final-regression-gate)
 - [7. Comparing against the declared position](#7-comparing-against-the-declared-position)
 
 ## 1. Run the tool
 
 ```bash
 strata review out.mp4 --scene scene.json -o review/
-strata review out.mp4 --scene scene.json --reference ref.mp4 -o review/    # with a deconstructed reference
+strata review out.mp4 --scene scene.json --reference ref.mp4 -o review/
 ```
 
-It writes, into `review/`:
+Requires ffmpeg. Without `--scene`, intended keyframe settles cannot be checked.
 
-| File | What it is |
+| Output | Use |
 |---|---|
-| `report.md` | the findings with timecodes — cuts, freezes, hard stops, loudness, silence, motion energy per shot, settle checks against the scene's keyframes |
-| `contact.png` | a contact sheet of the whole piece (one tile per second, or fewer for long pieces) |
-| `contact_phone.png` | the same at phone-tile size — if a caption is unreadable here, it is unreadable on a phone |
-| `cut_NN.png` | seven frames around every detected cut (−3 … +3), so the join is judged frame by frame |
-| `settle_NN.png` | frames around every keyframe end the scene declares, to see whether the element lands or stops dead |
-| `review.json` | everything the report says, as data (for the eval harness) |
-
-The tool needs `ffmpeg`. Without `--scene` it finds cuts, freezes and hard stops but cannot check
-settles against intended keyframes.
+| report.md / review.json | timecoded cuts, freezes, hard stops, loudness, motion and settle diagnostics |
+| contact.png | overall shot/layout sequence |
+| contact_phone.png | small-tile hierarchy screen, not an exact phone simulator |
+| cut_NN.png | seven consecutive frames around a detected cut |
+| settle_NN.png | frames around intended keyframe ends |
 
 ## 2. Watch it four ways
 
-The tool finds what a machine can find; the critic still watches. Four viewings, in this order:
-
-1. **1× with sound.** Does the piece land as a whole? Do cuts sit on the audio? Is the mix at the
-   target it declared, and does it carry the arc? An agent cannot literally listen — measure
-   instead and say so: `strata beats` onsets against the cut times, the
-   report's integrated LUFS / true peak / silences, and per-band levels
-   (`ffmpeg -af highpass=f=120,volumedetect`) to prove the mix is not all sub-bass. Never claim a
-   viewing that did not happen.
-2. **Muted.** Does the message survive without sound — legible copy, clear focal order, the CTA
-   obvious? Most feeds start muted.
-3. **Phone size** (`contact_phone.png`, or the MP4 at ~360 px wide). Do captions read, does the
-   hero dominate, is anything lost in the chrome bands?
-4. **Frame-stepped around every cut and settle** (`cut_NN.png`, `settle_NN.png`). Does the join
-   carry a shape or vector across, or jump? Does the element ease to rest, stop dead or bounce?
-   Is motion blur on the fast frames?
+1. **At normal speed with sound:** whole-piece rhythm, emotional arc, voice/bed/SFX hierarchy.
+   If the agent cannot listen or play video, say so. Onset alignment, LUFS/true peak/silence and
+   frequency-band checks support but do not replace a listening judgment. Ask for human review
+   where that judgment is material; never invent a viewing.
+2. **Muted:** message, hierarchy, captions, CTA and reading time. Do not require the whole message
+   in three seconds if the approved format deliberately reveals it later.
+3. **At destination/phone size:** legibility, safe areas and platform chrome. Contact-phone tiles
+   are about 185 px wide, smaller than a 390–430 px phone; inspect at true size before rejecting.
+4. **Frame-step around cuts and settles:** continuity, path/velocity, settling, clipping and blur.
 
 ### Motion is judged on a FILMSTRIP, never on single frames
 
-A poster frame proves a layout; it says nothing about motion. A strip of consecutive frames does,
-because **spacing on the strip IS velocity**: even gaps are linear, bunched gaps are an ease,
-identical frames are a freeze, and a smeared frame is motion blur doing its job. `review` writes
-strips for cuts and settles; anything else — a draw-on, a drift, a spring, a parallax, an
-audio-driven bar, a hold that must stay alive — needs one made on the spot. Three shapes, and the
-third is the one that gets skipped:
+Spacing between consecutive frames reveals velocity, anticipation and settle; one poster does
+not. Use cut/settle strips and make additional ones for long holds, springs, parallax and draw-ons.
+Crop small elements before scaling so fringes, shimmer and seams remain visible.
 
 ```bash
-# a WINDOW at full frame rate: every frame of 0.8 s from t=1.2, one row
+# Example: 0.8 s at 25 fps; substitute the actual scene fps and corresponding tile count.
 ffmpeg -v error -y -ss 1.2 -t 0.8 -i out.mp4 -vf "fps=25,scale=200:-2,tile=20x1:padding=2:margin=2" -frames:v 1 strip.png
-
-# a LONGER window, every 3rd frame — a whole move on one row without 75 tiles
-ffmpeg -v error -y -ss 0.5 -t 3 -i out.mp4 -vf "select='not(mod(n\,3))',scale=200:-2,tile=25x1:padding=2:margin=2" -frames:v 1 strip.png
-
-# a CROPPED ZOOM on the element that moves — crop first, then scale up, nearest-neighbour
+# Example: a pixel-level crop around a small moving element.
 ffmpeg -v error -y -ss 1.2 -t 0.6 -i out.mp4 -vf "crop=260:260:410:230,fps=25,scale=160:160:flags=neighbor,tile=15x1:padding=2:margin=2" -frames:v 1 zoom.png
 ```
 
-**Crop when the moving thing is small.** A 1080-wide frame in a 200 px tile is a 5.4× reduction: a
-14 px stroke is under 3 px there, and a lilac cast, a DCT fringe or a 1 px jitter is invisible.
-Crop to the element and scale up with `flags=neighbor` so you see pixels rather than a guess —
-that is how the mask-versus-`.jet` edge difference and a ring's seam notch were both found, and
-both were invisible at contact-sheet size.
-
-**Pick the window from the data, not by eye.** `review.json` carries `perSec` (motion energy per
-second), `perSecMax` (the busiest cell's, which is what catches one small layer moving),
-`shots`, `freezes` and `cuts` — strip the second with the highest `perSecMax` to check the
-piece's busiest moment, and the longest run of low `perSec` to check a hold is alive rather than
-frozen. Name the timecode next to every strip in the findings, so a claim is checkable:
-`ffmpeg -ss <t>` and the tile index give it exactly.
+Choose windows from `perSec`, `perSecMax`, shots/cuts and the storyboard: the busiest interval,
+longest hold and last shot deserve explicit inspection. Label the source time and tile indices.
+Compare first/middle/last frames for a slow light shift, but inspect consecutive frames to judge
+its motion quality. Identical pixels can be an intentional locked hold; classify them before judging.
 
 ## 3. The nine categories — pass or must-fix
 
-Every category gets **pass** or **must-fix** — not a score out of ten; an 8 is not a decision. A
-must-fix carries a timecode, a frame reference and the rule it breaks. The ladder below calibrates
-the word "pass" and is not averaged: a category passes only at the middle column, and the right
-column is what the piece is aiming at. Twelve rows, nine categories: **Editing** is calibrated on
-four rows (story, temporal composition, editing/transitions, camera/space), **Art direction** on
-*brief/brand/reference fit*, and every other category on the row of its own name — a category
-passes only when each of its rows sits in the middle column.
+No average score hides a blocking defect. Categories use **pass / must-fix / not applicable /
+needs evidence**. Calibrate the intended bar in the approved brief; premium is not a mandatory
+photographic treatment. A functional result below the approved creative bar needs revision too.
 
-| | Functional (not a pass) | Premium (the pass line) | Exceptional |
-|---|---|---|---|
-| Brief / brand / reference fit | present, but could belong to another brief | decisions clearly arise from *this* subject, brand and viewing context | the treatment feels inevitable for this brief and still surprises |
-| Story / information release | the sequence is understandable | every beat changes what the viewer knows, feels or expects | information and emotion are released with memorable control |
-| Focal hierarchy | the main thing is findable | eye order is deliberate at rest **and through the motion** | attention is choreographed effortlessly through complex change |
-| Temporal composition | timing works locally | the piece sits where it said it would on the range, with real variation around it | the whole piece has dramatic shape without feeling mechanical |
-| Weight & easing | motion is smooth | curves, inertia, path and settle express material and intent | motion has a distinctive physical character, no compromises visible |
-| Typography | copy is legible | scale, breaks, animation unit and read time form one system | meaning, voice and letterform behaviour reinforce each other |
-| Editing / transitions | cuts connect shots | every cut has a job and keeps or deliberately breaks continuity | the joins add meaning and are inseparable from sound and motion |
-| Camera / space | framing is usable | shot size, depth and camera behaviour are motivated and varied | spatial design creates real orientation, tension or reveal |
-| Compositing / finish | no obvious artifacts, but every surface one flat value | light has a direction, type sits at a depth in the frame, the grade changes between beats | surfaces survive close inspection and still serve the story |
-| Sound / picture | audio present and roughly in sync | at its declared target, with a quiet beat and a loud one; hits, silence, VO and bed shape the cut | sound and image are one system; removing either weakens the idea |
-| Originality / restraint | familiar devices dominate | one earned signature; no defaults, no spare decoration | a recognisable motion identity without mannerism |
-| Brand fidelity / delivery | it plays | atoms exact; safe areas, fps, codec, first/last frames correct | holds up across sizes, languages and data extremes |
-
-| Category | Passes when | Typical must-fix |
+| Category | Pass means | Typical blocker |
 |---|---|---|
-| **Art direction** | the frames match the styleframes / the brand; one signature; nothing decorative survived | a scrim, rule, glow or gradient nobody chose (anti-slop tell at 00:04.2) |
-| **Hierarchy** | first read is the focal element in every shot; the still list holds | two elements fight at 00:07.0; the wordmark drifts during the hero shot |
-| **Weight & easing** | entrances settle on the bible's curves; exits faster than entrances; no dead stops, no unearned overshoot | element stops dead on `inOutSine` at 00:03.6; every entrance overshoots |
-| **Typography** | read time respected (0.5 s + 0.3 s/word); captions in chunks; no tofu; safe areas | line leaves at 00:11.8 before it can be read; caption in the bottom 15 % |
-| **Editing** | `shortest` and `longest` inside the declared range, the longest shot the one the storyboard said would carry the idea, **and the motion the storyboard named for that hold visible in its frames**; cuts on the audio; shot size and camera change at every cut; motion ideas per shot and transition families as declared | declared a 0.3 s flash and a 3 s hold, measured 0.32–2.16 s at regularity 0.37 — one speed; the 4.5 s hold is frozen at 0.88 stillness against the reference's 0.16, the end card 4.12 s of static wordmark; three transition families where two were declared; a cut 0.2 s off the onset at 00:09.9 |
-| **Compositing** | overlays sit *in* the image; mattes clean; no sticker slides; grade coherent; **type carries the plate's light** — a contact shadow in the key's direction, one light direction per frame, the fill following the surface, grain and focus falloff matched | a `.jet` edge halo at 00:05; a cut-out translated over a plate; the wordmark's colour band runs level across all six letters, so the fill is a rectangle behind a mask, not light on a surface ([craft.md](../craft.md)) |
-| **Sound** | integrated LUFS within ~1 dB of the storyboard's target; the loud and quiet beats as far apart as it promised; three layers balanced; SFX peak on the cut; no clipping | delivered at −16.9 LUFS against a −23 broadcast target; loudest and quietest beat 2 dB apart, so nothing lands |
-| **Originality** | it could not have been produced for any similar brief | the default palette, the numbered markers, the hero-metric layout |
-| **Brand fidelity** | atoms exact (hex, fonts, mark, clear space); motion language matches the brand doc | wrong red at 00:02; the mark redrawn; a font substituted |
+| Art direction | decisions arise from this subject, approved brand/styleframes and viewing context | generic treatment contradicts the approved direction |
+| Hierarchy | eye order is deliberate at rest and during movement; restraint is preserved | competing reads hide the message |
+| Weight & easing | timing, path, inertia and settle express the chosen material | accidental stop, unintended bounce or distracting motion |
+| Typography | exact copy, glyphs, hierarchy, breaks, animation unit and reading time work together | unreadable/hidden text, missing glyph, wrong claim |
+| Editing | beats release information purposefully; cuts/holds carry the intended rhythm | missing beat, broken continuity, exhausted footage |
+| Compositing | chosen flat/illustrative/spatial treatment is coherent; edges and layering are intentional | halo, misregistration, wrong mask, illegible contrast |
+| Sound | approved destination spec; voice intelligible; sound-picture relationship intentional | missing/doubled voice, broken sync, clipping or wrong spec |
+| Originality | signature belongs to this brief; unnecessary decoration removed | default treatment defeats the approved concept |
+| Brand fidelity / delivery | atoms, claims, aspect/fps/codec, safe areas and data variants correct | wrong logo, legal copy, output spec or personalized value |
+
+The exceptional target is a memorable, coherent piece in which information, physical character,
+typography and rhythm reinforce each other.
+
+| Level | Calibration, relative to the approved brief |
+|---|---|
+| Functional | plays and can be understood, but may still miss the requested creative bar |
+| Premium | subject-specific direction, deliberate focal/timing hierarchy, coherent type and material, clean evidence-backed delivery |
+| Exceptional | the design feels both surprising and inevitable for this subject; sound, motion and information reinforce one memorable idea |
+
+It need not have shadows, gradients, changing grades,
+a moving camera, a noisy soundtrack or an extreme energy metric. A designed dissolve may pass;
+so may a locked end card. The intended direction—not a universal feature checklist—sets the bar.
 
 ## 4. Evidence rules
 
-**Every must-fix is written in one shape:**
+Every blocking finding uses this chain:
 
 ```text
 [priority] timecode — evidence → viewer effect → likely cause → smallest useful fix → trade-off
 ```
 
-*Example:* `[1] 00:00.0–00:03.1 — bands are flat colour, no material (contact.png tiles 1–3) →
-the piece claims "nothing is flat" over its flattest frame → the texture was generated but only
-used on the wordmark → mask a slice of the rock into each band → +12 masks, ~1 s of compile.`
+Cite the frame/strip and tile when visual evidence matters. “More cinematic” or “add polish” is
+not actionable: name what the viewer loses and what property/moment causes it. Separate:
 
-The chain matters: **viewer effect** stops a note being a style opinion, **likely cause** names the
-build pass that owns it, **smallest useful fix** stops a revision becoming a redesign, the
-**trade-off** lets it be refused knowingly.
+- **Must fix:** breaks approved meaning, creative acceptance, hierarchy, fidelity, continuity,
+  legibility, sync, privacy, truthful data or delivery.
+- **Should improve:** visible nonblocking weakness; record whether accepted and why.
+- **Experiments:** alternatives, not assumed improvements.
+- **Keep:** decisions a revision must not quietly destroy.
 
-Group the notes as **Must fix** (breaks meaning, hierarchy, fidelity, continuity, legibility, sync
-or finish) · **Should improve** (visible weakness below the intended bar) · **Experiments**
-(alternatives worth testing, not assumed better) · **Keep** — the decisions a revision must not
-quietly destroy, which is what makes the second render comparable to the first.
-
-- A finding cites a **timecode** (`mm:ss.f`) and, where a frame matters, the **frame file**
-  (`cut_03.png`, tile 4). "The motion feels off", "make it more dynamic", "make it cinematic" and
-  "add polish" are not findings — name the property, the moment and the intended viewer effect.
-- A finding names the **rule** it breaks — the bible field, the anti-slop pattern, the
-  motion-design tell, the brand atom.
-- Findings are listed **must-fix first**, then observations. Observations do not block.
-- The report is written for the user to read: no scene keys, no internal jargon, the fix in one
-  line next to the finding.
+Never downgrade a blocker to fit the render budget. A revised creative requirement needs explicit
+approval (or an in-scope unattended decision documented as such), not silent relabeling. Findings
+for the user should be readable; keep scene-key details in the implementation notes.
 
 ## 5. Reading the report
 
-- **Cuts and shot lengths** — count and `shots.lengths` against the storyboard's shot list (a
-  missing cut is a shot that did not happen; an extra one is a montage verb that leaked into a
-  generated clip), then `shortest`, `longest` and `rhythmRegularity` (1 = metronomic) against the
-  declared range, never against a constant — 47.5:1 at regularity 0.03 and 3.1:1 at 0.65 are both
-  world-class ten seconds (SKILL.md, *Place the piece on the range*).
-- **Freezes** — runs where nothing changes for longer than 0.6 s that are not the end hold or a
-  declared held shot. Inside a generated clip that is a hover; inside an authored scene it is a
-  layer that stopped before the shot ended.
-- **Hard stops** — motion energy that collapses within one frame. Some are cuts (fine); the rest
-  stopped dead — check each against the bible's overshoot policy.
-- **Settles** (with `--scene`) — for every keyframe end the scene declares, the energy in the six
-  frames before and after. Settled: after ≪ before. Stopped dead: before is high and after is
-  zero on a soft curve. Bouncing: after stays high past the keyframe.
-- **Motion energy per shot** — a number per shot. Judge the *mean* against the declared energy and
-  the *profile* against the declared arc. Uniformly high is correct for a piece that declared
-  energy 11 and wrong for one that declared 1; uniformly low is a slideshow unless stillness was
-  the declared point. Flat at the right mean is still flat.
-- **Loudness** — integrated LUFS against the storyboard's target and loudness range against the
-  promised loud/quiet gap ([music.md](../shoot/music.md), *Decide the mix*). **Silence** longer than 1 s is a
-  must-fix only where the storyboard did not plan it — a planned one is the dynamic range doing its
-  job, and it is named in the notes.
-- **True peak** — the encoder pins a hot mix against a ceiling near **−0.5 dBFS** and leaves a
-  quieter one quieter ([music.md](../shoot/music.md), *Decide the mix*), so "peak above −1 dBFS" on a mix
-  already at the ceiling is not fixable from inside the scene: clear it with an ffmpeg gain pass on
-  the delivered MP4, or lower the layer levels and re-render.
-- **Reference comparison** (§7) when a reference was given.
+- **Cuts/shot lengths:** compare to storyboard boundaries, not a constant ratio. The tool can
+  miss motion transitions and count flashes as cuts. Verify strips before editing a correct join.
+- **Freezes:** detector candidates, not automatic failures. Distinguish an intentional locked
+  hold, a live hold missing its motion, source exhaustion and an unintended animation stop.
+  Classification requires the approved plan plus frames; do not invent intent after a failure.
+- **Hard stops:** a cut or deliberate snap may be correct; an accidental discontinuity is not.
+- **Settles:** the tool measures surrounding energy, not which layer produced it. A later element
+  can look like an overrun. Inspect the element and curve before changing it.
+- **Energy/profile:** helps find windows for inspection. Whole-frame means do not measure quality,
+  weight or viewer attention. Local activity can matter more than the mean.
+- **Loudness/true peak/silence:** compare to the destination and approved mix, not a universal LUFS
+  value. Planned silence is allowed. [music.md](../shoot/music.md) documents the measured encoder
+  ceiling and preparation/postprocessing options; remeasure the delivered MP4 after any post pass.
 
 ### Type legibility — measured, with two blind spots
 
-With `--scene`, the report carries a **Text legibility** table. For every top-level text layer it
-finds the declared ink colour inside that layer's box on the rendered frame, measures the median ink
-and the median background behind it, and reports the **WCAG contrast ratio** — the worst of three
-frames across the layer's span, because type over moving footage is only as legible as its worst
-moment. The bar is **4.5:1 for type under 4 % of frame height and 3.0:1 above it**. *Measured* on a
-delivered ad: five layers passed at 7.5–17.8:1 while a bronze CTA at 36 px on warm plaster came back
-**2.32:1** — the one thing in that piece a viewer would have struggled with, and before this the
-only category in §3 with no number behind it. Type illegible is a must-fix, and a CTA or a payoff
-line is the worst place to spend contrast.
+With `--scene`, top-level text boxes are sampled at three times for a contrast estimate using
+expected ink color and background medians. Tool thresholds are 4.5:1 below 4 % of frame height and
+3.0:1 above it; these are screening heuristics, not accessibility certification. A CTA must remain
+readable through its actual span, not just at sampled instants.
 
-Two blind spots, both stated in the report rather than hidden. A **stroke, shadow or scrim** behind
-the type raises real legibility and lands in the background median, so a thin verdict on type that
-has one is a look and not a finding — open `contact_phone.png` and judge it. And **text inside a
-sub-comp is not measured**, because its box is in the comp's own coordinates and cropping the frame
-there would sample the wrong pixels. A `no ink found` verdict is a finding in its own right: the
-declared colour is not in that box at all, so the copy is hidden, overlapped, or re-coloured by
-something above it — check the copy is on screen before treating any contrast number as real.
+- Strokes/shadows/scrims can distort the median-based estimate; inspect actual text before deciding.
+- Sub-comp text is not measured at its composed screen coordinates by this check. Manually inspect
+  it and report the missing automated coverage. `no ink found` needs inspection for hidden,
+  recolored, transformed or absent copy—it is not a reliable contrast pass.
 
 ### Known false positives — check the frames before believing the metric
 
-The report carries two kinds of motion number, from tiny greyscale frames (64×36). `energy` and
-`stillness` are **whole-frame means** — comparable with the reference tokens and the declared
-range. `energyMax` and `stillnessLocal` are the **busiest of nine cells** in a 3×3 grid over the
-same frame, and freezes are decided on the cells: a shot is frozen only when *no* cell moves, and
-every freeze names its busiest cell. The consequences, each measured on a real render:
+The report's `energy`/`stillness` use whole-frame means at 64×36 greyscale. `energyMax` and
+`stillnessLocal` use the busiest of nine cells; freeze detection uses these cells.
 
-- **A small-area move is invisible to the whole-frame mean, not to the cells.** A 0.68 s grind
-  that moved ~10 % of the frame reads as near-frozen on `energy` and alive on `energyMax`; a
-  knockout fill moving 22 grey levels in one cell is a `stillnessLocal` of 0 under a `stillness`
-  near 1. Read the pair together: a hold whose one moving element sits in a cell clears on the
-  local number, and a whole-frame freeze verdict on it is wrong. A real freeze is identical pixels
-  in every cell, not low mean energy.
-- **A large-area low-amplitude move can still read as still on both numbers** — the more
-  dangerous failure, because holds are sent toward exactly this kind of motion. *Measured:* a light
-  shaft crossing the whole frame came back **93 % still** on the mean, and a wash spread across
-  several cells can keep every cell under the local threshold too. On a hold whose life is light,
-  grade or drifting texture, step its first, middle and last frames. Low stillness proves life
-  there; high stillness does not prove death.
-- **A whole-frame stillness DECLARATION borrowed from a film reference does not transfer to
-  generated 720p.** The reference tokens were measured on 1080p photochemical film, where grain
-  keeps nearly every pixel changing frame to frame; a graded generated clip under a deliberate deep
-  falloff has a large share of every frame near-black and mathematically static while the shot
-  visibly moves. *Measured* on a delivered ad: **stillness 0.82 whole-frame against a declared
-  0.50**, with `stillnessLocal` **0.20** and **zero freezes** — the declaration was wrong, not the
-  render, and reconciling it cost more reasoning than the fix pass did. For this material declare
-  stillness ≈ 0.80 with local ≈ 0.20, and settle the question on the freeze count plus
-  `stillnessLocal`, never on the whole-frame number alone. **The report now diagnoses this itself**
-  — when whole-frame stillness is high, local is low and there are no freezes, it says so under
-  *The two stillness numbers disagree*, with both figures. If that heading is present the numbers
-  need no reconciling; if it is absent, a high stillness reading is real.
-- **Flashes are shots, marked `flash` in the table (under 0.3 s), and dark-to-dark cuts are
-  detected** on a contrast-normalised difference. The price: **a bright transient inside a shot —
-  a lightning strike, a hard flash-to-white — is counted as a cut**, because at this scale it is the
-  same signal as an authored flash frame and no rule separates them without losing real cuts.
-  When the cut count runs one over the shot list, check the `cut_NN.png` frames for a flash that
-  is the same shot on both sides; never lengthen a correct flash to make the list agree.
-- **A cut confined to part of the frame is found on the cells** (a dark plate cutting under a
-  static title: whole-frame change 13, one cell 117), so the count no longer merges those. What
-  it still cannot find is **a whip-pan or any motion transition** — the change ramps over a dozen
-  frames instead of stepping, so there is no discontinuity to detect. A shot boundary made by
-  motion is counted from the storyboard, not from the tool, and `longest` is read with that in mind.
-- **A settle can be reported as "bounce or overrun" when the energy is the NEXT element.** The
-  check reads energy after the keyframe, and cannot tell whose energy it is. `outExpo` and
-  `outCubic` cannot overshoot at all, so a bounce verdict on one of those is always something else
-  arriving — confirm with `settle_NN.png` before changing a curve that is correct.
-- **A camera that is meant to keep moving past a keyframe** is not an overrun. Say so in the notes
-  rather than "fixing" it.
-- **A deliberate hold is listed as a freeze.** The tool cannot tell a planned breath before a slam,
-  a locked end card, or the covered beat of a hidden swap from a clip that ran out. Classify each
-  freeze in the notes — *planned, this long, alive by…* — and fix the ones the storyboard did not
-  plan; an unplanned freeze is still a must-fix. **And "planned" excuses the length, not the
-  deadness:** frames that really are identical for seconds are a freeze whatever the storyboard
-  called it, and go back as a must-fix on Editing.
-- **`contact_phone.png` is stricter than a phone.** Its tiles are ~185 px wide; a phone is
-  390–430 px. Copy that fails the tile may still pass on the device — check at true width before
-  calling type a must-fix, and never the other way round (passing the tile is a real pass).
+- **Small-area motion:** a move across ~10 % of a frame can be near-still globally and active
+  locally. Read the pair and crop the element; do not add global motion to satisfy a mean.
+- **Low-amplitude motion:** a broad light wash can be below both thresholds despite visible travel.
+  High stillness alone does not prove nothing moved. Inspect slow change across the shot.
+- **Film vs generated/graphic sources:** grain and near-black regions change statistics. A previous
+  generated ad measured **0.82** whole-frame stillness, **0.20** local and **zero freezes** despite a
+  declared 0.50. That declaration was not transferable, not evidence to brighten/noise the image.
+  If the report's disagreement diagnostic is absent, that still does not prove a defect.
+- **Flash detection:** lightning or a white flash within one shot can count as a cut. Verify the
+  same shot on both sides before changing the edit. The detector is not a flash-safety analyzer.
+- **Motion transitions:** a whip or continuous handoff may not create a detectable discontinuity;
+  count that boundary from the authored shot list plus visual evidence.
+- **Settle attribution:** `outExpo`/`outCubic` cannot overshoot, but another arriving layer can
+  raise energy after their endpoint. A moving camera continuing past a keyframe is not necessarily
+  an overrun either.
+- **Intentional stillness:** a locked legal card or deliberate breath can produce a freeze report
+  and still pass. Source exhaustion cannot. The hold plan specifies which was intended.
+- **Phone tiles:** passing a tiny tile is reassuring, failing one is a cue to inspect at the real
+  viewing width—not proof that the delivered text fails.
 
-## 6. One review, one fix pass — that is the whole budget
+## 6. Budget and final regression gate
 
-**Render #1 → one review → ONE consolidated fix pass → render #2 → ship.** That is the loop, and
-it does not have a third turn. *Measured:* an unattended run that used render-and-review as its
-debugger spent **six full renders and 44 of its 83 minutes** in that loop, on faults a snapshot, a
-probe or a declared number would each have caught for free.
+Aim for a candidate → consolidated review → focused revision, not endless cosmetic exploration.
+Default spend allowance is up to two full renders. A previous unattended run spent **44 of 83
+minutes on six renders**; that motivates better preflight, not automatic shipment of render two.
 
-**The second review VERIFIES the first review's list. It does not hunt.** Re-run `strata review`,
-check the named must-fixes are gone, confirm the four numbers still match, and ship. Opening a
-fresh nine-category pass on render #2 is how one review becomes five: every render of a piece this
-dense will surface something new, so a rule that says "ship when nothing is left" never terminates.
-Ship when **the list you already wrote is fixed**.
+**A first candidate that passes can ship. Every revision gets a regression gate.** Verify all old
+must-fixes and inspect critical copy/claims/brand, typography, audio, source coverage, transitions,
+first/last frames and data edges. New defects are not ignored because they were absent from the
+first list. Preserve the keep list and the approved direction; do not reopen unrelated taste
+experiments on each revision.
 
-- Every must-fix goes back to the **pass it belongs to** (blocking / primary / secondary /
-  finishing — [director.md](../direct/director.md) §7), never a patch on top. Fix *every* must-fix the first
-  review named — all classes at once, each in the pass that owns it — then render the second.
-  Versioned filename on the revision (`_v2`); the report names the version reviewed.
-- **The must-fix bar is narrow, and everything else is recorded rather than re-rendered.** A
-  must-fix is: wrong or missing copy · text illegible muted or outside the safe area · a freeze,
-  a frozen hold or a clip that ran out · a cut that contradicts the shot list · loudness or true
-  peak outside the declared spec · a brand atom broken · a personalization key that will not swap.
-  Anything else — a hold that could breathe more, a curve that could be steeper, a palette that
-  could be braver — is a **note**: write it in `decisions.md` as accepted with its reason, and
-  hand it to the user with the file. Notes are not lost; they are just not worth a render.
-- **Never re-generate a clip for a note.** A clip costs 3–9 minutes, so regeneration is only for a
-  shot that is *wrong, missing or illegal* — never for taste. A note about a clip is covered in
-  the edit (trim, reframe, grade, cover with another shot) or handed over as a note.
-- **A finding a free check could have caught is a process failure, not a revision.** Before
-  render #1: `validate` clean, `preview --grid` at every key beat (it draws masks and transforms
-  now, so a draw-on and an array are visible), a `snapshot` at the first, middle and last frame of
-  every declared hold, `strata glyphs` on the real copy, the ease warnings read, and for the
-  riskiest hold one **probe** render of that shot alone (`duration` ≤ 5 s). Those are free or
-  cheap; a full render spent to learn what they would have said is the loop starting.
-- **If review #2 still names a must-fix**, that is a finding about the plan, not a licence for
-  a third full render (`_v3`): write what and why in `decisions.md`, and deliver unless it is genuinely
-  delivery-blocking (wrong copy, unreadable type, broken audio, a freeze). When it is blocking, the
-  next spend is a **probe render of that one shot**, not another full piece. Two identical
-  must-fixes on consecutive renders mean the approach is wrong, not the value.
+If any blocker remains after the budget is used, stop cloud spending and isolate the likely cause
+with local evidence. Propose a scoped probe and subsequent revision budget; ask for approval. Until
+resolved, deliver only a clearly marked incomplete preview/report, not a false final. Repeated
+identical failures mean the construction needs rethinking, not another guessed value.
+
+Generation, snapshots and short probes are separate ledger entries and still cost time/resources.
+Use a probe only when it answers a real risk. No required number of snapshots per shot; no new
+full render for a cosmetic note that is explicitly accepted. A final postprocessed MP4 also gets
+fresh delivery checks, since postprocessing can introduce regressions.
 
 ## 7. Comparing against the declared position
 
-**What the two motion numbers are.** `energy` is the mean absolute frame-to-frame change in
-grey levels, measured on a 64×36 downscale of the whole frame, cut frames excluded; `stillness`
-is the share of those frames whose change is under 1. The scale, from the references and the
-tool's own thresholds: **0 frozen · under 1 counts as still · ≈1.5 a gentle drift** (the showreel
-measures 1.49, the quiet film 1.06) **· ≈5 busy · ≈11 action** (the film's action reel 11.43).
-`energyMax` and `stillnessLocal` are the same two on the busiest of nine cells. Declare energy and
-stillness on this scale, from `strata deconstruct` on a reference or a probe render — never by
-interpolating a table by feel: *measured*, a piece declared 1.9 / 0.34 that way and rendered at
-0.51 / 0.92 first time.
+`energy` is mean absolute greyscale change at a 64×36 downscale, cut frames excluded. `stillness`
+is the share of sampled frames below change 1; the local versions use the busiest grid cell.
+These are diagnostic units, not calibrated ratings of “premium.” Historical examples (quiet film
+energy 1.06, action 11.43) demonstrate variation, not target values for unrelated material.
 
-**Every piece gets this comparison, reference or not.** The storyboard's four numbers are the
-target; the report's tokens are the measurement. Open the review with a two-column table —
-declared beside measured — for duration, cut count, `shortest` / `longest` / `rhythmRegularity`,
-energy mean and profile, loudness and range, silence ratio. The gap is the finding: twice the
-intended shot length, a third of the intended energy, stillness where none was declared, a mix
-2 dB off target — each a must-fix on **Editing** or **Sound**, fixed in the cut and the mix. Declaring an extreme and measuring the middle is the failure this
-section exists to catch, and the likeliest one — the middle is what the defaults produce.
+Start a review with a table: **criterion | approved intent/spec | observed evidence | confidence |
+disposition**. Include duration, shot boundaries/range, hero hold purpose, typography and mix. Add
+energy/stillness/profile only when useful; mark uncalibrated expectations explicitly. A mismatch
+in a proxy is a question to investigate, not a blocker without a viewer effect. Do not retroactively
+change an actual delivery specification to make the output pass.
 
-**The cut has its own middle**, so name the longest entry in `shots.lengths` and say what that shot
-carries, and the shortest and say what it is. If the longest is where the storyboard said the idea
-lands, the range is real; if it is a connective shot that ran long, the finding is *one speed*, not
-*spread too narrow*, and the fix is to hold the shot that deserves holding rather than stretch and
-clip until the ratio clears. A narrow range on a piece that declared one is not a defect.
-
-**Then check the hold is alive** — a right range and a dead hero shot are two separate failures and
-a piece can pass one and fail the other. Read stillness and energy *inside* the longest shot, look
-for the motion the storyboard named there, and **count its frames whose frame-to-frame difference
-falls below 0.5**: a reference long take has none, a dead hold runs 133 of 138 on a hero shot or
-95 of 98 on an end card (SKILL.md, *Place the piece on the range*). Read the profile by thirds — a
-collapse like 4.16 / 6.90 / 0.71 is a piece that stops trying at the end — and **check the last shot
-explicitly**, because the end card is a hold and is where this is missed. The fix is motion inside
-the shot, never a shorter shot.
-
-With `--reference ref.mp4` (or a `ref_tokens.json` from `strata deconstruct`) the reference's
-tokens join as a third column, plus its palette. A reference is a technique source, not a thing to
-match everywhere — a flat energy or loudness profile where the reference peaks is a finding only
-where the direction promised its rhythm.
+When there is a reference, preserve the relationships the direction promised: focal contrast,
+relative timing, restraint, material response, information and sound hierarchy. Grain, resolution
+and grade differences limit numeric comparison. Inspect the longest shot and end frame specifically:
+a locked hold should read and feel intentional; a live hold should show its promised action. The
+fix may be a clearer composition, timing adjustment, replacement footage or motion—not automatically
+a bigger push or more light. [Case studies](../craft/case-studies.md) provide scoped examples.

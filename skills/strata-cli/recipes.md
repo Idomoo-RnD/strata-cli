@@ -2,6 +2,11 @@
 
 51 recipes in the **compact scene format**. Each snippet is one or a few layers: paste into a scene's `layers`, swap the font/box/colours, tune the timing. Times are **seconds**; coordinates assume a **1280×720** comp — for the 1920×1080 grid in layouts.md multiply every box, size and distance by **1.5**. The craft theory (shots, easing, 3D/camera, rhythm) lives in [craft.md](craft.md).
 
+**Fragments vs runnable fixtures:** the snippets below are patterns, not standalone programs.
+They may need a scene wrapper, unique names, durations and media. [Runnable scenes](examples/runnable-scenes.md)
+ship as complete JSON fixtures with setup instructions and offline regression checks; cloud proof
+levels are stated separately. [Visual lessons](craft/case-studies.md) explain why a change helps.
+
 **Conventions used below**
 - `"./font.ttf"` — any real `.ttf`/`.otf`. `"./image.jpg"` — your media.
 - A few FX want tiny helper PNGs, generated once: **`noise.png`** (grayscale value-noise, for luma dissolves), **`flare.png`** / **`leak.png`** (bright shapes on black, used with `"blend":"add"`). Optional.

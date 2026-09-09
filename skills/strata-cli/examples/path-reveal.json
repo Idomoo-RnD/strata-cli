@@ -1,0 +1,7 @@
+{
+  "width":1280,"height":720,"fps":25,"duration":4,
+  "layers":[
+    {"type":"solid","name":"path_ground","color":"#15251f","box":[0,0,1280,720]},
+    {"type":"solid","name":"journey","color":"#f2eee3","box":[0,0,1280,720],"mask":{"path":"M180 510 C400 140 800 640 1100 240","stroke":16,"cap":"round","trim":{"end":[{"t":0.4,"v":0,"ease":"outCubic"},{"t":2.4,"v":1}]}}}
+  ]
+}

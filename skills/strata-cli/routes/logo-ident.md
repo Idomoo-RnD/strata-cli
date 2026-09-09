@@ -11,7 +11,7 @@
 - The sound: a hit, a sound logo, or silence.
 
 ## Where it usually sits on the range
-A sting is one shot, so the range is inside it: a fast reveal, a long hold, nearer the *film, quiet* row in energy than its brevity suggests. The brief decides; declare the four numbers from a measurement (review.md §7).
+A sting is one shot, so the range is inside it: a fast reveal, a long hold, nearer the *film, quiet* row in energy than its brevity suggests. The logo's material/brand and intended hold determine timing; a locked flat end frame can pass. [Design contract](../make/design-contract.md) governs diagnostics and acceptance.
 
 ## Read, in this order
 - [blueprints.md](../make/blueprints.md): *Logo reveal / sting*; *Devices worth stealing*.

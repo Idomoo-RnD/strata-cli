@@ -11,7 +11,7 @@
 - Which person, product or set recurs, and its continuity ranking.
 
 ## Where it usually sits on the range
-Wherever the material puts it: a storyboard carries its own timecodes; a script or deck wants read time and leans toward the *film, quiet* row. The brief decides; declare the four numbers from a measurement (review.md §7).
+Wherever the material puts it: a storyboard carries its own timecodes; a script or deck wants read time and leans toward the *film, quiet* row. Preserve supplied approved decisions. Label inferred/uncalibrated diagnostics rather than inventing measurements; [design-contract.md](../make/design-contract.md).
 
 ## Read, in this order
 - [intake.md](../make/intake.md): effect map, shot table, mode per scene.

@@ -11,7 +11,7 @@
 - One entrance, one exit, one emphasis for the piece.
 
 ## Where it usually sits on the range
-Read time sets the floor, so it sits between the rows: holds long enough to read twice, transits as fast as a word can land. The brief decides; declare the four numbers from a measurement (review.md §7).
+Read time sets the floor, so it sits between the rows: holds long enough to read twice, transits as fast as a word can land. Prove actual readability and meaning; timing diagnostics may remain uncalibrated. [Design contract](../make/design-contract.md), [runnable examples](../examples/runnable-scenes.md).
 
 ## Read, in this order
 - [motion/03-typography.md](../craft/motion/03-typography.md): entrances and exits; *3. Craft rules for kinetic typography*; *4. Numbers in type*; *5. Multilingual and RTL*.

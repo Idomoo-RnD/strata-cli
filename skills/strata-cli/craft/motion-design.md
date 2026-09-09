@@ -1,9 +1,13 @@
 # Motion design — make it read as broadcast/After-Effects, not web animation
 
-VASCO is an After-Effects-class engine: cubic-bezier easing, per-character animators,
-3D layers + a real camera, masks, track mattes, blend modes, motion blur. The *default*
-temptation is "web animation" — everything fades and slides in together on ease-in-out.
-That is the amateur tell. This file is the motion language that separates the two.
+VASCO supports cubic-bezier easing, per-character animators, 3D layers and camera, masks,
+track mattes, blend modes and motion blur. It is not a promise of full After Effects parity;
+[capabilities](../engine/capabilities.md) states native support and approximations. These techniques
+help turn intent into movement, not distinguish a supposedly inferior rendering medium.
+
+**Craft defaults, not bans:** use [design-contract.md](../make/design-contract.md) to decide.
+A dissolve, linear movement, synchronous arrival, locked hold or flat composition can be correct.
+The table values are starting points; approved material/brand/intent can earn another choice.
 
 **Read this by default** whenever the user hasn't dictated the motion. Pair it with
 `video-layouts.md` (where things sit) — this is how they move. For a **name**, more options than the
@@ -30,7 +34,7 @@ cubic-bezier `[x1,y1,x2,y2]` for a custom curve:
 - `outExpo` / `outQuart` — fast, premium snap that glides to rest (default for confident UI/text).
 - `outCubic` — clean settle.
 - `[0.16,1,0.3,1]` — "snap and settle" bezier; `[0.7,0,0.84,0]` — hard accel-out for exits.
-- `inOutCubic`/`inOutSine` — reserve for slow drifts and camera, NOT entrances.
+- `inOutCubic`/`inOutSine` — useful for drifts/camera and a deliberately gentle entrance; avoid applying them to everything by reflex.
 **Tell to avoid:** the same soft ease on every move.
 
 Two forms exist for what a bezier cannot draw, and both are chosen by what the motion has to
@@ -69,7 +73,8 @@ Secondary elements lag the primary by a few frames; a group cascades. This is wh
 frame feel *composed* rather than switched-on.
 - Between layers: stagger `start` (title 0.0s, subtitle 0.15s, CTA 0.3s).
 - Within text: **per-word / per-character animators** (`based_on: words|characters`, `shape: ramp_up|smooth`) so a line rises word by word — use `percentage` range units so any length cascades.
-**Tell to avoid:** a whole text block fading in as one flat object.
+**Tell to avoid:** unchosen simultaneous movement that hides hierarchy; a deliberately unified
+text block can enter as one object.
 
 ### 4. Anticipation — a tiny wind-up before the move
 A 2–3 frame counter-move before the main action, at **10–20% of the main action's magnitude**: a card dips down 6px before rising, a title
@@ -79,10 +84,11 @@ nudges left before flying right. Small, but it signals intent and weight.
 When a card moves, its **shadow, label and icon lag a few frames** behind and settle after —
 **1–4 frames** behind the parent, at **30–50% of the primary's amplitude**, on a softer curve.
 Author each as its own layer.
-**Tell to avoid:** every element of a component locked rigidly together.
+**Tell to avoid:** unintended rigidity when the material should flex; a rigid grouped component
+should remain locked together unless the direction calls for independent parts.
 
 ### 6. Motion blur — the film vs. stutter difference
-On by default for visual layers (`motion_blur`), and it is exactly what HTML animation lacks.
+On by default for visual layers (`motion_blur`); inspect its effect on fast movement.
 **Keep it on** for any fast move (whip pans, snappy entrances, quick position changes) — it
 is the difference between "filmed" and "stepped". Only disable for a deliberate hard-cut look.
 
@@ -103,10 +109,10 @@ Opacity crossfades between scenes are the biggest slideshow tell. Instead:
 - **Shape/morph** — a `solid` or mask grows to cover, then reveals the next scene.
 **Tell to avoid:** every scene change is a dissolve.
 
-### 9. Depth & camera — impossible in flat HTML
-`is_3d:true` on layers + a `camera` (push-in, orbit, parallax). A slow camera push under a
-settling title reads premium and cannot be faked in a 2D web timeline. Give layers different
-**z**, move the camera, and near/far drift apart. (See [craft.md](../craft.md), *3D & camera*.)
+### 9. Depth & camera — when space carries the idea
+`is_3d:true` on layers plus a `camera` enables push-in, orbit and parallax. Give layers different
+z coordinates and move the camera to reveal their relationship. This is useful when depth serves
+the subject, not a mandatory upgrade over a flat frame. See [camera](../engine/comps-camera.md).
 
 ### 10. A consistent motion language — a "motion brand"
 Every entrance in a piece shares the **same curve and timing family**; exits share another.

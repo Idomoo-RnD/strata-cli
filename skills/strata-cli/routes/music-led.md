@@ -11,7 +11,7 @@
 - A drop, stop or silence, and what the picture does there.
 
 ## Where it usually sits on the range
-The track's map is the range: verse holds, chorus flashes. Cut rate leans toward the *showreel, 10 s* row while energy inside shots follows the arc. The brief decides; declare the four numbers from a measurement (review.md §7).
+The track's map is the range: verse holds, chorus flashes. Cut rate leans toward the *showreel, 10 s* row while energy inside shots follows the arc. Use actual onset evidence and the chosen emotional arc, not a formula for every cut. Diagnostics need source/confidence; [design-contract.md](../make/design-contract.md).
 
 ## Read, in this order
 - [music.md](../shoot/music.md): *Decide the mix before you generate the bed*; *The prompt formula*.

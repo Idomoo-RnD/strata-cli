@@ -19,14 +19,14 @@
 - **Shutter and motion blur**: 180° shutter (1/50 s at 25 fps) as the natural baseline; shorter for crisp, longer for dreamy.
 - **Aspect ratios**: 16:9 (web, TV), 9:16 (stories, reels), 1:1 and 4:5 (feeds), 21:9 (cinematic), 4:3 (retro); design 9:16 and 16:9 layouts separately rather than cropping.
 - **Safe areas**: title-safe ~90% and action-safe ~95% for broadcast; social overlays eat the bottom 20-25% and top 10-15% of vertical frames. **For a VASCO canvas use the actual grid, margin and bottom safe line in [layouts.md](../../layouts.md)** rather than these percentages.
-- **Resolution and scaling**: author at 1080p or 4K; vectors scale, textures don't; test at phone size.
+- **Resolution and scaling**: Strata comps are limited to 1920 px per axis. Source, comp and delivery resolution differ; do not promise 4K authoring or high-bit-depth output from general industry advice. See [capabilities](../../engine/capabilities.md).
 - **Color space**: sRGB or Rec.709 for delivery; dither gradients to avoid 8-bit banding.
-- **Codec and bit depth**: H.264 or H.265 for delivery, ProRes or PNG sequences for masters; 10-bit for gradient-heavy work.
+- **Codec and bit depth**: confirm the actual renderer/destination contract. ProRes, PNG masters, H.265 and 10-bit are external/unverified workflows here, not implied native output options.
 - **First frame and last frame**: the first frame is the thumbnail, the last frame is the end card; both must stand alone.
 - **Loop seams**: the last frame leads into the first; match position, velocity, and audio.
 - **Hold times**: end cards 2-3 s; logos 1.5 s minimum at rest; disclaimers long enough to read twice.
-- **Audio delivery**: stereo, 48 kHz, -14 LUFS (stream) or -23 LUFS (broadcast), true peak under -1 dB.
-- **Variable-length templates**: every timing is relative to beats, not absolute, so longer VO or longer names stretch gracefully.
+- **Audio delivery**: use the actual destination's loudness/peak/channel/rate requirements. Common streaming/broadcast values are examples, not universal mandates; a silent piece is N/A. Recheck after encoding.
+- **Variable-length templates**: changing copy or voice does not automatically retime an authored scene. Prove edge rows; re-author timing or use a separately verified variable-duration workflow when needed.
 
 ## 2. Web and HTML-native motion
 

@@ -51,28 +51,14 @@ generated → what to do instead.
 
 ### The tempo (the pattern that costs the most)
 
-- **The middle of the range.** Shots around 2.5 s, moderate motion, some stillness, a mix that
-  lands near −17 LUFS — on every brief, whatever the brief was (the measurements are in SKILL.md,
-  *Place the piece on the range*). The most reliable tell there is, because it is what every unset
-  default adds up to, and it survives a frame that passes every other check on this page. The fix
-  is not "be more extreme" — it is to declare the position before the shot list and hit it. The
-  middle is a legitimate answer, once.
-- **Every piece a mix.** A little stillness *and* a little energy in everything, because both are
-  "good craft". A quiet film measured stillness 0.57, an action reel 0.00; neither hedged.
-- **One speed inside the piece.** Every shot the length of every other — the middle of the range one
-  level down, and what a declared *mean* produces when treated as a value to hit everywhere. *When
-  every shot gets the same time, none of them is the point: four hero layers, no hero.* The tell is
-  a narrow spread — 0.32–2.16 s, 6.8:1, regularity 0.37 — where ten seconds of reference showreel
-  runs 0.08–3.80 s, 47.5:1 and 0.03. Not fixed by bolting on a long shot and a short one: hold the
-  shot carrying the idea, cut the transits before the eye settles.
-- **The frozen payoff — the tell the range fix creates.** The one shot the piece is about, given the
-  length it deserves and then nothing to do: a locked frame, or one gradient decaying to a dead
-  frame at the cut. Measured: stillness 0.88 on our hold against 0.16 on the reference film's long
-  takes and 0.53 on a locked logotype that at least kept its fill scrolling. **The end card is where
-  it happens most:** 4 s of static wordmark with the product absent measures 95 of 98 frames below
-  0.5 frame-to-frame difference, where the reference showreel's longest hold has none. Every
-  declared hold names what moves through it; a hold that names nothing is dead air with a long
-  duration on it.
+Use [design-contract.md](../make/design-contract.md) to judge rhythm against intent. The tell is
+not a particular average or stillness value; it is unrelated briefs receiving the same treatment.
+Let beat duration follow information and emotion. A wide shot-length range is not inherently
+better than a narrow one; a one-shot ident need not acquire extra cuts to pass a metric.
+
+For a payoff/end card, distinguish a purposeful locked hold from an intended live hold that stopped
+or a clip that ran out. Both locked and live holds can be strong. Never add camera drift or noise
+merely to change the diagnostic. Name what the hold gives the viewer, then inspect whether it does.
 
 ### Text backing
 
@@ -112,11 +98,9 @@ generated → what to do instead.
   generated look. **At most one atmospheric effect per piece**, and it is the signature —
   unless the piece declared a maximal position and says so in the bible, in which case the
   stack is the look and every element in it is named.
-- **The flat frame** — every authored surface a single fill with a hard edge, type at 100 %
-  white over whatever is behind it, one grade across the whole piece. This is the default
-  with no name, and it is what the last three pieces from this skill did. Light has a
-  direction, type has a depth in the frame, the look changes between beats
-  ([craft.md](../craft.md), *Depth, light & atmosphere*).
+- **Unchosen surface treatment** — a flat frame where the direction promised physical depth, or
+  obligatory gradients/shadows where it promised flat graphics. Judge coherence with the treatment,
+  not the presence of lighting effects ([light-depth.md](light-depth.md)).
 
 ### Structure as decoration
 
@@ -186,16 +170,16 @@ buzzwords — I check by eye.
 - [ ] There is a rule under a title that separates nothing
 - [ ] A card or lower-third has a side colour bar the brand did not ask for
 - [ ] More than one atmospheric effect (glow / flare / grain / vignette) is on the frame
-- [ ] Every authored surface is one flat value — no falloff, no gradient, no shadow where planes meet
-- [ ] Type is the same colour and opacity on every plate, and nothing ever passes in front of it
+- [ ] Surface treatment contradicts the approved flat/illustrative/spatial direction
+- [ ] Type has insufficient contrast or inconsistent integration for its intended role
 - [ ] A label, number or icon sits above a heading without carrying information
 - [ ] The palette is cream+terracotta or black+one-neon with no brand behind it
 - [ ] A decorative element would survive unchanged in a different brief
 - [ ] Nothing was removed after the first snapshot
-- [ ] The four numbers were never declared — or were declared and the render missed them
-- [ ] Every shot is about as long as every other, or the longest is one nothing asked to be held
-- [ ] The held shot (the end card included) has nothing moving, or stops changing before the cut
-- [ ] The wordmark has no contact shadow, or its fill band runs level across every letter
+- [ ] Diagnostics have invented precision or no source/confidence label
+- [ ] Shot timing is repetitive without an information or rhythmic reason
+- [ ] A live hold lacks its promised motion, a locked hold has no purpose, or a clip ran out
+- [ ] Spatial lighting contradicts the plate; do not apply this test to intentionally flat marks
 
 ---
 

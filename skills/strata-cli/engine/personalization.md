@@ -1,11 +1,22 @@
 # Personalization & data-driven batch — one template, many videos
 
-> **Charts personalise as ANIMATION now, not images.** `strata chart bars` emits bars as
-> named solid layers whose heights grow from the data — so `render --data` swaps the
-> per-viewer VALUES and every viewer's bar grows to their number. The swapped-image chart
-> is the fallback only for chart types the tool does not emit. (`chart donut`'s sweep is
-> baked at compile time — its value TEXT personalises, the sweep does not; use bars for
-> per-viewer data.)
+> **Author-time geometry is not render-time substitution.** `strata chart` emits animated
+> geometry from the data supplied to that command. `render --data` swaps text/media/audio
+> content, not solid boxes, scale targets or donut sweeps. See the decision table below.
+
+## Chart strategy — choose before authoring
+
+| What changes per viewer? | Construction | Proof |
+|---|---|---|
+| Text only; geometry intentionally unchanged | One template, substitute value/label text | Confirm the unchanged geometry does not imply a different value |
+| Bar heights, line points or donut sweep | Emit a new scene per row with `strata chart`, then compile/render each | Geometry and labels agree for two different rows |
+| A chart carried as replaceable media | Generate an exact chart image per row with deterministic plotting/code, then substitute that image | Labels, axes, units and geometry agree with source data |
+
+Do not ask image synthesis to calculate exact data charts. Use real numeric inputs and a fixed
+scale where comparisons require it. `chart bars --data row.json` is **author time**;
+`render --data rows.json` is **render time**. They are not interchangeable. See rule **DATA-001**
+in [evidence-index.md](../qa/evidence-index.md) for the offline emitter/substitution probe.
+The API placeholder contract must still be proved on the real template before a paid batch.
 
 Idomoo's superpower: a single IDM is a **template** whose layers are **placeholders** replaced per-viewer at generate time, keyed by **layer name**. The animation, layout, effects, and timing stay exactly as authored; only the *content* (a text value or a media asset) swaps. This is how you render thousands of personalized variants from one scene — something pure motion-graphics tools can't do.
 
@@ -22,7 +33,10 @@ that warning** — and confirm the real keys with `strata render … --emit-time
 - **Text** — assume values longer *and* shorter than your sample. **Text auto-fits its box** (the compiler defaults `shrink:true`), so a long value scales down to fit rather than overflowing — verified: a long name in a fixed box shrinks while a short one stays large. Still give generous box width and set a `min_size` if you don't want it shrinking below a floor; opt out with `"shrink": false`. Choose alignment deliberately (left-aligned grows right; centred grows both ways). Never split one personal value across hand-positioned layers. Put a realistic **long** sample in the scene so the layout is proven against the hard case.
 - **Media** — assume any aspect ratio arrives. `fit:"fill"` for full-bleed slots (crops to cover) or `fit:"fit"` over a designed backdrop (letterboxes). Anchor at the box centre so Ken-Burns works on any replacement.
 - **Animations are content-agnostic** — per-character text animators adapt to any string; prefer `percentage` range units over `index` so 6- and 14-character names both cascade.
-- **Graphs, progress wheels/rings, gauges — any data visual `strata chart` does not emit — must be real IMAGE files.** (`chart bars` is the exception: its bars are named layers whose heights grow from `--data` — see the note at the top; `chart donut`'s sweep is baked, only its value text personalises.) Idomoo replaces media **by layer name**, so such a data visual has to be an `image` layer whose file **actually exists** (generate it with `strata generate image`, or use the supplied asset) — a ring or bar drawn from native solids/masks **by hand** has nothing to swap, so every viewer would see the same numbers. Author it at the canonical/full state, give it a unique meaningful name (`donut_savings`, `progress_ring`), and animate only the **reveal** (mask wipe, scale, opacity) so the replacement image still animates. Native-shape data-viz recipes are for **static** data only. Don't leave a `src` path that doesn't exist — it fails the compile.
+- **Data visuals:** choose one strategy from the chart table above. A changing chart image must
+  actually exist, preserve the intended axes/scale, and have a meaningful replacement name.
+  Animate presentation of the final data; don't use a reveal that implies another value. Native
+  geometry works for changing data only when regenerated into a corresponding scene per row.
 
 ## Right-to-left values (Hebrew, Arabic) in an LTR-built template
 
@@ -62,13 +76,16 @@ example, or drive `/scenes/generate` directly. Note it needs one real render (th
 ## The batch flow — `strata render --data` (VERIFIED)
 1. Build and approve **one** scene; confirm it renders (`strata render … --library <id>`).
 2. Prepare a **data set** — a JSON array (`--data` reads JSON, not CSV; convert a CSV first),
-   one object per viewer, keys = **layer names**, values = the text, or a **public URL** for media:
+   one object per viewer, keys = **layer names**, values = text or an approved renderer-reachable media URL:
    ```json
-   [ { "first_name": "Dana",  "monthly_amount": "$48",  "hero_photo": "https://s3.us-east-1.amazonaws.com/assets-temp.idomoo.ai/images/dana.png" },
-     { "first_name": "Marco", "monthly_amount": "$112", "hero_photo": "https://t.idomoo.com/7c1e….jpg" } ]
+   [ { "first_name": "Dana",  "monthly_amount": "$48",  "hero_photo": "https://approved-media.example/viewers/dana.jpg" },
+     { "first_name": "Marco", "monthly_amount": "$112", "hero_photo": "https://approved-media.example/viewers/marco.jpg" } ]
    ```
-   (A media URL comes from `generate image`'s printed `url:`, or `strata upload` for the
-   viewer's own photo — a local path will not work, the cloud renderer cannot read it.)
+   (These example URLs illustrate the shape only; replace them with approved, working URLs.
+   Use approved renderer-reachable media hosting. A local path will not work for a render-time
+   replacement. **Never use the public upload store for customer photos or personalized data.**
+   Confirm access/expiry behavior on the real renderer before promising a private or signed-URL
+   route; do not publish sensitive media to make an integration convenient.)
 3. Render them: **`strata render scene.json --library <id> --data rows.json -o out.mp4`**.
    The template is uploaded and exported **once**, then one `/scenes/generate` runs per row;
    the jobs poll concurrently and land as `out_1.mp4`, `out_2.mp4`, … (`--json` lists each
@@ -77,10 +94,10 @@ example, or drive `/scenes/generate` directly. Note it needs one real render (th
    *Verified:* two rows → two videos, each showing its own greeting and amount.
 4. **Keys are layer names and must match exactly** — an unknown key fails the render before
    anything is spent (`--data keys that match no placeholder layer: amout`). Text values
-   replace the text; **media values must be public URLs** (a `generate` URL, or `strata
-   upload` for the user's own file — never a local path). Per-viewer **audio** (a TTS that
-   says the name) is not covered: generate that narration per row first and pass its URL as
-   the audio layer's value.
+   replace the text; media values must be renderer-reachable URLs under the approved hosting
+   policy, never local paths or newly published customer files. Per-viewer audio requires narration
+   generated per row first and an approved URL passed as the audio layer's value; the CLI does
+   not synthesize it automatically. Follow [upload.md](../shoot/upload.md) before any hosting.
 
 ## Notes
 - Keep all variants in **one library** (don't mint a new library per render).

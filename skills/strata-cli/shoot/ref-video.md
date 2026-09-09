@@ -32,7 +32,9 @@ different structure. Only the subject and the location change; the shot flow is
 
 The first two cuts came back **frame-identical**, while subject and location changed completely.
 
-Upload the footage first if it has no URL (`strata upload clip.mp4`). *Measured:* a reference
+If no usable URL exists, follow [upload policy](upload.md): only non-sensitive material with
+informed consent may use `strata upload clip.mp4 --allow-public-upload`. Never customer/private
+footage. *Measured:* a reference
 video is exempt from the privacy pre-filter — photoreal people, including a face close-up,
 were accepted with no flag. (`--realistic-human` with only `--ref-video` is a hard error.)
 

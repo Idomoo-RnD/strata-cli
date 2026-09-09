@@ -12,4 +12,7 @@ file ([video-generation.md](video-generation.md), [music.md](shoot/music.md), [a
 - [I generate assets — I don't make the user supply everything](cli/generating-assets.md#i-generate-assets--i-dont-make-the-user-supply-everything)
 - [Every command, in one line each](cli/all-commands.md#every-command-in-one-line-each)
 
-Every command takes `--json` and `--help`; the help output is authoritative when this page and the binary disagree.
+Every command takes `--json` and `--help`; help is offline, side-effect-free and exits 0. The
+command index and help share metadata. Consult [capabilities](engine/capabilities.md) before
+promising native support. Direct upload and caption re-hosting need the publication consent gate
+in [upload.md](shoot/upload.md), not merely a usable URL.

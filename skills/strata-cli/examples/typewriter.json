@@ -1,0 +1,8 @@
+{
+  "width": 1280, "height": 720, "fps": 25, "duration": 4,
+  "layers": [
+    {"type":"solid","name":"paper","color":"#15251f","box":[0,0,1280,720]},
+    {"type":"text","name":"typed_title","text":"TYPE","font":"./font.ttf","size":120,"color":"#f2eee3","box":[180,240,920,180],"align":"left middle",
+      "animators":[{"opacity":0,"ranges":[{"based_on":"characters","shape":"square","end":1,"animate":{"start":[{"t":0,"v":0,"ease":"hold"},{"t":0.4,"v":0.25,"ease":"hold"},{"t":0.8,"v":0.5,"ease":"hold"},{"t":1.2,"v":0.75,"ease":"hold"},{"t":1.6,"v":1}]}}]}]}
+  ]
+}

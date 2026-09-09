@@ -74,7 +74,7 @@ A logo image that scales/fades in over a solid; hold then settle.
 "comps": { "logo_sting": { "width": 1280, "height": 720, "duration": 3, "layers": [
   { "type": "solid", "name": "ls_bg", "color": "#ffffff", "box": [0, 0, 1280, 720] },
   { "type": "image", "name": "ls_logo", "src": "./logo.png", "box": [440, 260, 400, 200], "fit": "fit", "anchor": [640, 360],
-    "animate": { "scale": [ {"t":0,"v":0.7,"ease":"outBack"},{"t":0.6,"v":1} ], "opacity": [ {"t":0,"v":0},{"t":0.3,"v":1} ] } }
+    "animate": { "scale": [ {"t":0,"v":0.7,"ease":"outCubic"},{"t":0.6,"v":1} ], "opacity": [ {"t":0,"v":0},{"t":0.3,"v":1} ] } }
 ] } }
 ```
 
@@ -111,6 +111,10 @@ lines — **never `"… top"`**: vertical `top` is ignored and the text drops to
 ```
 
 ## Using a block well
+
+The code blocks above are fragments, not complete scenes. Supply fonts/media and the main scene,
+and distinguish offline validation from actual rendered proof. [Runnable grouped scene](../examples/runnable-scenes.md#group-reveal)
+shows a complete wrapper. These blocks are neutral construction starting points, not approved brand designs.
 - Give the instance a deliberate **entrance** (rise+fade, scale-in) and **exit**; hold long enough to read ([craft.md](../craft.md), "Rhythm & continuity").
 - Reskin to brand: swap colours, fonts, and the accent. Keep ≤2 typefaces.
 - Stack blocks for layouts (a `device-frame` beside a `stat-card`); see [blueprints.md](../make/blueprints.md) for whole-video assemblies.

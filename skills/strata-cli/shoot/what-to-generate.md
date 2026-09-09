@@ -13,7 +13,7 @@ Part of the asset-generation reference — the index, and every other part, is i
 | `generate avatar` | 1280×720 @ 25 fps |
 
 The default comp is 1920×1080, so a generated plate used **full-bleed** is already upscaled
-**1.4–1.5×** before the mandatory push-in adds more. There is no upscaler in the CLI.
+**1.4–1.5×** before any chosen push-in adds more. There is no upscaler in the CLI.
 Author around it:
 
 - **Full-bleed generated footage → author the comp at 1280×720** (or 720×1280 / 1080×1080
@@ -29,14 +29,15 @@ Author around it:
 
 ## Drawn or generated? — a physical thing is an image, a shape is for simple geometry
 
-`generate image` is a strong model; use it for anything that has a surface in the real world.
-**Shapes (`solid`, masks, vector paths) are for simple geometry** — panels, bands, rules, grids,
-abstract marks, UI chrome, colour fields — and for nothing a viewer would recognise as an object.
+Choose generated imagery for photographed surfaces and objects when that is the intended look.
+**Shapes (`solid`, masks, vector paths) also suit precise icons, diagrams and flat illustrations**;
+do not generate an asset merely because it depicts an object. Reuse approved assets first. The
+table below is the default for a photographic/product treatment, not a ban on graphic design.
 
 | the element is… | build it as |
 |---|---|
 | a device (phone, laptop, watch), a product, a prop, a package, a vehicle, food, a plant, anything held or set down | **`generate image`**, keyed to alpha, placed as an `image` layer with layer-level motion (the route below) — never a stack of rounded solids |
-| an icon, an illustration, a badge, a sticker, a texture, a material, a photographic backdrop | **`generate image`** — icons and flat graphics may stay stills, the one exception to *every image becomes a video* |
+| an icon, an illustration, a badge, a sticker, a texture, a material, a photographic backdrop | **`generate image`** for photographic detail; precise vector/flat artwork may be authored directly |
 | the UI on a device's screen, a chart, a counter, the copy | **scene layers** (text, `strata chart`, blocks) inside the device's screen rectangle — that is what animates and personalises |
 | a panel, a band, a rule, a grid, a shape wipe, an abstract mark, a colour field | **shapes** |
 
@@ -83,4 +84,7 @@ image, in parallel with the clips), so the choice is never "shapes because gener
    bare `chromakey`, which has no choke at all. Use `jet` when the output is a `.jet`; for a still
    PNG, key with ffmpeg as above and erode if you see a fringe
    (`alphaextract,erosion,alphamerge`).
-3. Place it: `{ "type": "image", "src": "./assets/phone.png", "fit": "contain", … }` and give it life at the **layer level** — a ≈1 px/frame drift, parallax against the plate, a slow scale ([craft.md](../craft.md), *A held shot still moves*); its screen rectangle holds the UI layers. A `.jet` is needed only when the object itself must move as footage — then generate a clip on green and `strata jet --key` it (the table under *Alpha overlays*).
+3. Place it as an image with a supported fit mode (`fit:"fit"` for containment). Choose locked or
+   layer-level movement to fit the approved direction, rather than a mandatory drift. The screen
+   rectangle holds UI layers. A `.jet` is needed only when the object moves as transparent footage;
+   see the alpha decision in [assets.md](../assets.md).

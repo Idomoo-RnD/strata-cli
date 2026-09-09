@@ -258,7 +258,7 @@ motion:
   # stagger:  0.15            # between sibling elements
   # text:     "per-word rise, shape square"
   # transition: "scale-through, 0.4s"   # the ONE house transition
-  # camera:   "slow 3% push on hero shots; no orbits"
+  # camera:   "locked or motivated movement; specify projected pixel travel where needed"
   # logo:     "end plate, holds 1.5s minimum"
   # motion_blur: true
 ```
@@ -366,7 +366,7 @@ each scene references, plus what is MISSING and which treatment it blocks. -->
 <!-- One line each, mirroring the Craft Bar + hard rules: **Squint** hierarchy -
 **Silence** air - **Borders/shadows** coupling - **Color** cycling + limits -
 **Type** casing/tracking/floor + real font file - **Shape** corners + decoration minimum -
-**Motion** one entrance family, nothing static - **Fabrication** every numeral traces to
+**Motion** coherent curves and intentional locked/live holds - **Fabrication** every numeral traces to
 the script. -->
 
 ## Known Gaps

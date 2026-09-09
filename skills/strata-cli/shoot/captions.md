@@ -6,11 +6,12 @@ appear on a line, cutting to the beat of a VO, sizing a shot to the narration, o
 that a generated clip actually said what it was asked to say.
 
 ```bash
-strata captions <file|url> [-o cues.json] [--srt subs.srt] [--raw cc.txt] [--json]
+strata captions <file|url> [-o cues.json] [--srt subs.srt] [--raw cc.txt] [--json] [--allow-public-upload]
 ```
 
 ```
-$ strata captions ./talk.mp4 -o cues.json
+$ strata captions ./talk.mp4 --allow-public-upload -o cues.json
+# Only after informed consent for a non-sensitive clip; otherwise use an approved existing S3 URL.
   0.54s - 4.76s  Our platform turns every customer into an audience of one
 ✅ 1 cue(s), speech ends at 4.76s
 ```
@@ -74,8 +75,10 @@ The underlying API only accepts a real S3 URL, but the command absorbs that:
 | Any other URL (e.g. a `v.idomoo.com` render) | downloaded, then hosted |
 
 ⚠️ **Uploading publishes.** The store is public, permanent, unauthenticated and has no
-delete. The command says so when it uploads. **Never caption anything private or
-client-confidential**, and prefer passing a URL that already exists over re-uploading.
+delete. Before any re-hosting, the command requires `--allow-public-upload` after informed consent
+for that non-sensitive asset. Never publish private, personal, customer or client-confidential material;
+follow [upload policy](upload.md). Unattended mode does not supply consent. Prefer a compatible
+existing URL over re-uploading.
 A file with **no audio track at all** is rejected *before* any upload happens.
 
 ## Typical uses
@@ -90,7 +93,7 @@ strata captions "<that url>" -o cues.json
 `{curly braces}` in the prompt ([video-generation-advanced.md](../video-generation-advanced.md));
 this is how you verify it, rather than listening:
 ```bash
-strata captions ./clip.mp4          # compare the transcript to the line you asked for
+strata captions "<the generated clip's existing S3 URL>"  # compare transcript with intended line
 ```
 
 **Time a caption bar to the VO.** Each cue becomes a text layer's `start` and `duration`:

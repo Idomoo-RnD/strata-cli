@@ -1,0 +1,9 @@
+{
+  "width":1280,"height":720,"fps":25,"duration":4,
+  "layers":[
+    {"type":"solid","name":"camera_ground","color":"#15251f","box":[0,0,1280,720]},
+    {"type":"solid","name":"far_panel","color":"#176345","box":[260,180,300,360],"is_3d":true,"position":[0,0,220]},
+    {"type":"solid","name":"near_panel","color":"#f2eee3","box":[680,240,260,240],"is_3d":true,"position":[0,0,-80]},
+    {"type":"camera","name":"parallax_camera","fov":60,"position":[640,360,-623.538],"motion_blur":true,"animate":{"position":[{"t":0,"v":[600,360,-623.538],"ease":"inOutSine"},{"t":4,"v":[680,360,-623.538]}]}}
+  ]
+}

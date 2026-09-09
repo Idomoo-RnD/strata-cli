@@ -1,81 +1,67 @@
 # Steps 6–7 — render, review, and the Definition of Done
 
-Rendering into the right library, the one review and one fix pass that is the whole budget, and what "done" means.
-
-Part of the production workflow — the index, and every other part, is in [workflow.md](../workflow.md).
+Part of [workflow.md](../workflow.md). A budget is a spending boundary, not acceptance.
+The canonical review policy is [review.md](../qa/review.md); planning is in
+[design-contract.md](design-contract.md).
 
 ## 6. Render
 
-`strata render scene.json --library "<id>" -o out.mp4`.
+```bash
+strata render scene_v1.json --library <approved-id> -o scene_v1.mp4
+```
 
-- **Library — ask before the first render, never pick one.** Renders land in the user's Idomoo
-  workspace and stay there: run `strata library list`, offer reuse or create (`library create` is
-  get-or-create), persist the printed id, pass that same `--library <id>` every time. `render`
-  refuses to guess: [commands.md](../commands.md), *Libraries — ask, never pick*.
-- Renders take minutes — run them in the background and report the `video_url`/`poster_url`.
-- **Two full renders per piece: the first to review, the second to ship.** A render is not a way
-  to find out what the scene does; that is what the steps before it are for — `validate`, the
-  `--grid` preview at every key frame, a `snapshot` at the first, middle and last frame of every
-  declared hold, and, for the riskiest hold, one **probe** render of that shot alone
-  (`duration` cut to ≤ 5 s) measured with `strata review` before the full piece is spent. After
-  the first full render, `review` names every must-fix; **fix all of them in one revision pass**,
-  not one class per render, then render the second and ship it. The second review **verifies that
-  list** rather than starting a fresh hunt — a piece this dense will always surface something new,
-  so "ship when nothing is left" never terminates while "ship when the list is fixed" does. A third full render is not a
-  fix loop, it is a finding: the plan or the skill was wrong somewhere, so stop, write what and
-  why in `decisions.md`, and re-plan before spending it. *Measured:* an unattended run that
-  treated render-and-review as its debugger spent **six** full renders and 44 of its 83 minutes
-  in that loop, on faults every one of which a snapshot, a probe or a defined number would have
-  caught first.
-- Only if the user asks for the scene to be **tagged** (a reusable template / catalog entry, not a
-  one-off): add `--tags manifest.json` here and on `compile`, after reading
-  [tagging.md](../engine/tagging.md). The manifest rides inside the `.idm`, so the library copy is
-  self-describing. Both vocabularies are closed — tags are looked up, not invented.
+- Ask for the library before any cloud render or snapshot unless the user already chose one.
+  `--library`, project `.idm-library`, then recorded preference can supply that choice. Never
+  select an arbitrary library. Snapshots also upload a persistent library entry.
+- Preflight locally: preview key beats, validate, glyph coverage, source duration/fps, actual
+  asset paths. Use targeted snapshots/probes for things a wireframe cannot prove.
+- Keep a ledger for generations, snapshots, probes and full renders. Default allowance is **up
+  to two full renders**, not a required count or automatic approval of the second candidate.
+- Consolidate must-fixes, preserve the keep list and version the revision. Run long tasks in the
+  foreground or poll them in the same turn. A background process does not wake the agent.
+- If the user asks for catalog/template tagging, read [tagging.md](../engine/tagging.md) and pass
+  `--tags` to compile/render. One-off work does not need tags by default.
 
 ## 7. Review the rendered MP4
 
-A poster frame proves composition; it proves nothing about time.
-`strata snapshot scene.json --library <id>` (a fast poster-only frame, cheaper than a full MP4)
-is the check *before* the render; after the first render, review the MP4 itself, per
-[review.md](../qa/review.md). **Motion is judged on a filmstrip of consecutive frames, never on
-stills** — spacing on the strip is velocity, and anything smaller than a few per cent of the
-frame has to be cropped and scaled up to be seen at all ([review.md](../qa/review.md), *Motion is
-judged on a filmstrip*):
-
 ```bash
-strata review out.mp4 --scene scene.json [--reference ref.mp4] -o review/
+strata review scene_v1.mp4 --scene scene_v1.json -o review_v1/
 ```
 
-It detects cuts, writes a contact sheet, frames ±3 around every cut and settle, freezes, loudness,
-motion energy per shot, and a timecoded `report.md`. Open it, watch the MP4 the four ways
-[review.md](../qa/review.md) names, put the measured tokens beside the four declared numbers, and fix
-every must-fix, citing the timecode. Compiling, validating, or using advanced features (3D,
-camera, `.jet`, occlusion) is never itself a reason to approve.
+Read the report and actually open the relevant frames/strips. Evidence includes the hook, hero,
+end card, busiest motion, longest hold, cuts and settles. See [review.md](../qa/review.md) for
+phone-size, muted, motion-strip and audio checks and their blind spots.
 
-Debug with `--vasco` or `strata inspect out.idm`.
+A first render may ship if it passes. Every later candidate verifies previous fixes **and** gets
+a regression check for copy, claims, brand, legibility, audio, source exhaustion, continuity,
+data and delivery. A new blocker is still a blocker. If the allowance is exhausted, stop spending,
+explain the remaining issue, and request a scoped probe/revision budget or hand over an explicitly
+incomplete preview. Never call that preview final.
 
 ## Definition of Done
 
-- The message lands in the first 3 seconds, every shot earns its place, and every move has a job.
-- **The render's measured shot-length range (`shortest`, `longest`, `rhythmRegularity`), energy,
-  stillness and loudness match the four declared numbers**, or the report says which one moved and
-  why. A piece that drifted back to the middle is not done, and neither is one that hit its average
-  by cutting every shot at it.
-- Text legible muted and inside the safe area — by placement, panel or grade, not by a scrim
-  patched under it.
-- `validate` is clean, or each warning is justified in the report.
-- Every layer name unique across every comp — and no `⚠ renamed … duplicate layer name(s)` line
-  was accepted. The compiler renames duplicates (`label`→`label_2`), which changes the
-  personalization key, so the scene is fixed rather than the rename accepted.
-- Clips outlast their slots; nothing loops to fill time; motion blur on every moving layer and
-  `"motion_blur": true` on every animated camera; settles land; cuts sit on the audio.
-- `strata review` run on the final MP4 and every must-fix from **that one review** fixed in a
-  single pass. The second review verifies that list and ships; it does not open a new hunt, and
-  notes that are not must-fixes are recorded in `decisions.md` rather than re-rendered
-  ([review.md](../qa/review.md), *One review, one fix pass*).
-- The scene filename is versioned and the library id was the user's choice (`--library`, the
-  project's `.idm-library`, or the recorded `library` preference).
-- `BRIEF.md` exists with no blank left in it, names every kind the piece became, and the review's
-  four measured numbers are read against the four it declares. Answers the user gave that will
-  repeat (library, aspect, loudness, attended or not, brand, voice) were recorded with
-  `strata prefs set`; a piece that opens a series was saved with `strata recipe save`.
+- The approved message, claims and viewer promise are delivered; every beat and move has a job.
+  The intended creative bar is met, not merely a clean compile or a count of advanced features.
+- Copy, logo, fonts/colors and legally required material match the approved brief. Text is
+  readable at destination size and through motion; safe areas reflect the actual platform.
+- `validate` is clean or every warning has an explicit evidence-based disposition.
+- Layer names are unique across every comp. No ignored duplicate-rename warning changes the
+  personalization contract. Verify real placeholder keys before integration.
+- Every clip covers its slot and trim-in, with correct fps/audio/alpha. Intentional locked holds
+  may pass; source exhaustion and unintended animation stops do not. Live holds show the motion
+  promised in the plan. Review reports classify detector findings rather than blindly obey them.
+- The final MP4 meets approved duration, dimensions, aspect, fps, codec and audio requirements;
+  first/last frames and captions are checked. A silent brief need not acquire music or a LUFS target.
+- Review ran on the final candidate. Every blocking finding is resolved; accepted nonblocking
+  trade-offs are recorded with reasons. No budget rule overrides this gate.
+- Numeric diagnostics include provenance/confidence and comparison limits. Uncalibrated aesthetic
+  targets are not fabricated; valid references are compared for relevant relationships.
+- Personalized variants are proved on edge rows (long/short text, scripts, min/max/empty data).
+  Shape-changing charts use the strategy in [personalization.md](../engine/personalization.md).
+- BRIEF.md and decisions record approvals, permissions, actual inspected evidence, remaining
+  limitations and spend. Deliver versioned MP4, source scene/IDM as agreed, assets/contract and
+  review findings. Say explicitly if human listening or visual inspection remains outstanding.
+- The library was the user's choice; privacy policy was followed. Preferences record repeat
+  answers, not consent shortcuts. Save a reusable recipe when the project is a series.
+
+If any required proof remains unavailable, report **incomplete / needs review**, not “done.”

@@ -11,7 +11,7 @@
 - Loop back to the opening, or end on an action.
 
 ## Where it usually sits on the range
-Toward the *showreel, 10 s* row: short shots, a wide spread between a flash and the proof hold; that hold separates it from noise. The brief decides; declare the four numbers from a measurement (review.md §7).
+Toward the *showreel, 10 s* row: short shots, a wide spread between a flash and the proof hold; that hold separates it from noise. The hook and read time follow the actual message/platform. A wide ratio is not a goal; [design-contract.md](../make/design-contract.md) governs diagnostics and intentional holds.
 
 ## Read, in this order
 - [editing-director.md](../direct/editing-director.md): objective, audience state, viewing context.

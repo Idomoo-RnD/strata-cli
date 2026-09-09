@@ -4,6 +4,10 @@ Windows, wipes, draw-on strokes and travelling shapes, built from mask geometry.
 
 Part of the recipe library — the index, and every other part, is in [recipes.md](../recipes.md).
 
+Snippets are **layer fragments**; supply scene dimensions, duration, unique names and real assets.
+[Runnable path fixture](../examples/runnable-scenes.md#path-reveal) is a complete offline-tested scene.
+No untested fragment inherits the fixture's proof status.
+
 ## 4. Masks
 
 ### Underline that writes itself

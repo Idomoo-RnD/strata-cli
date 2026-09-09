@@ -6,16 +6,13 @@ Part of the recipe library — the index, and every other part, is in [recipes.m
 
 ## 7. Data viz
 
-Rule: **author at the full/canonical state and animate the reveal** — a mask wipe in the growth direction. The number/shape carries the data; the animation only presents it, so it survives the API swapping in a different value.
-
-> ⚠️ **Personalised charts must be IMAGE layers, not these shapes.** The recipes below draw
-> charts/rings from native solids + masks — perfect for **static** data. But Idomoo replaces
-> media **by layer name**, so anything that changes per viewer (a donut of *their* savings)
-> must be an `image` layer pointing at a **file that actually exists** — generate it with
-> `strata generate image` and give it a unique name. A native-shape ring has nothing to swap,
-> so every viewer sees the same numbers. Keep the reveal animation (mask wipe / scale /
-> opacity) — it still works on the replaced image.
-> See [personalization.md](../engine/personalization.md).
+The snippets below are **layer fragments**, not complete scenes. Supply wrapper, duration,
+unique names and real assets/fonts. [Runnable examples](../examples/runnable-scenes.md) show the
+complete pattern. Choose the [chart strategy](../engine/personalization.md#chart-strategy--choose-before-authoring)
+first: geometry is baked at emission; changing geometry needs per-row scenes or exact chart-image
+replacement. A label swap alone cannot change a shape. Use deterministic plotting for numeric
+images, never image synthesis to calculate values. Reveals must not imply data different from the
+final chart.
 
 ### Count-up number — NATIVE, and safe for personalization (VERIFIED by render)
 The text animator's **`character_offset`** shifts every selected digit by N, **wrapping
@@ -59,13 +56,12 @@ The bar solid is full width; a rect mask grows its width from 0 to full.
 *(560/700 = 80%. Stagger several bars with offset `start`; label each with a text layer.)*
 
 ### Progress ring (expanding wedge)
-A coloured disc revealed by a growing ellipse mask reads as a ring filling.
-```json
-{ "type": "solid", "name": "ring_fill", "color": "#ffd166", "box": [540,200,200,200],
-  "mask": { "shapes": [ {"ellipse":[640,300,100,100]}, {"ellipse":[640,300,70,70],"blend":"subtract"} ] },
-  "animate": { "rotation": [{"t":0,"v":-90,"ease":"outCubic"},{"t":1.2,"v":270}] } }
-```
-*(Pair with a centred `kpi_value` text; rotate a masked wedge for an exact percentage, or scale a wipe.)*
+
+Do not rotate a complete ring to depict a percentage: rotation does not change its filled amount.
+For an animated data arc, use `strata chart donut --value <percent> --box x,y,w,h`, or a stroked
+closed path with `trim.end` stopping at the required fraction ([masks](masks.md)). The arc amount
+is baked; if the value changes per viewer, follow the chart strategy above. The
+[path fixture](../examples/runnable-scenes.md#path-reveal) demonstrates the native trim construction.
 
 ### Stat bar / percentage fill
 A track solid + a fill solid whose width is masked open.
@@ -88,7 +84,7 @@ z** (bigger); camera at `−focal` so z=0 is true size. Sizes follow `scale = fo
 (format.md, Camera) — so the bg at z=+400 with the camera at −623 renders at 623/1023 = 0.61×
 and must be oversized by 1/0.61 ≈ 1.65× to fill the frame.
 ```json
-{ "type": "camera", "name": "cam", "fov": 60, "animate": { "position": [ {"t":0,"v":[640,360,-623],"ease":"inOutSine"}, {"t":4,"v":[700,360,-560]} ] } },
+{ "type": "camera", "name": "cam", "fov": 60, "motion_blur": true, "animate": { "position": [ {"t":0,"v":[640,360,-623],"ease":"inOutSine"}, {"t":4,"v":[700,360,-560]} ] } },
 { "type": "image", "name": "bg_far",  "src": "./bg.jpg",  "box": [-420,-240,2120,1200], "is_3d": true, "position": [0,0,400] },
 { "type": "image", "name": "mid_card", "src": "./card.png","box": [340,180,600,360], "is_3d": true, "position": [0,0,120] },
 { "type": "text",  "name": "fg_title", "text": "Depth", "font": "./font-bold.ttf", "size": 120, "color": "#fff", "box": [0,300,1280,160], "align": "center middle", "is_3d": true, "position": [0,0,0] }

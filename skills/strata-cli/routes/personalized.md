@@ -11,7 +11,7 @@
 - Whether values arrive in more than one script or direction.
 
 ## Where it usually sits on the range
-Toward the *film, quiet* row around the personal reveal: the viewer's own number is the hold, the cleanest frame, the longest entrance; connective beats run shorter. The brief decides; declare the four numbers from a measurement (review.md §7).
+Toward the *film, quiet* row around the personal reveal: the viewer's own number is the hold, the cleanest frame, the longest entrance; connective beats run shorter. Give the viewer time to understand their data. Use the [chart strategy](../engine/personalization.md#chart-strategy--choose-before-authoring) and [design contract](../make/design-contract.md), not an energy target.
 
 ## Read, in this order
 - [personalization.md](../engine/personalization.md): layer names as the contract, `--emit-timeline`, the `render --data` batch.

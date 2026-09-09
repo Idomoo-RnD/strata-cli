@@ -11,7 +11,7 @@
 - Whether a clip carries its own audio; the comp fps.
 
 ## Where it usually sits on the range
-The model's own pacing is slow, so generated footage pulls toward the *film, quiet* row; the range comes from the *edit*: more shots, not longer clips. The brief decides; declare the four numbers from a measurement (review.md §7).
+The model's own pacing is slow, so generated footage pulls toward the *film, quiet* row; the range comes from the *edit*: more shots, not longer clips. Inspect actual shot coverage and choose the window that serves the beat. Use [design-contract.md](../make/design-contract.md); metrics describe the result, not its quality.
 
 ## Read, in this order
 - [video-generation.md](../video-generation.md): *The one hard rule*; *Writing the prompt*; *Chaining*; the *Checklist*.

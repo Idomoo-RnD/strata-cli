@@ -33,9 +33,13 @@ Idomoo is a **personalized video platform**: every layer is a placeholder (VASCO
 
 ## Graphs & charts — dynamic images
 
-Graphs are **images, not drawn primitives**. The data-dynamism comes from swapping the image asset at generate time while the authored animation stays identical:
+Choose the strategy in [personalization.md](personalization.md#chart-strategy--choose-before-authoring).
+`strata chart` emits animated geometry for the current data; per-viewer geometry needs a new scene
+per row. A one-template media-replacement workflow instead uses exact chart images produced by
+deterministic plotting/code, not image synthesis.
 
-- Author the graph image at its **canonical/full state** — a bar chart at 100%, a progress ring fully closed, a line chart with the complete curve.
-- **Animate the reveal, not the data**: a mask wipe in the direction the graph grows (left→right rect morph for horizontal bars, bottom→top for columns, an expanding ellipse for rings), or a scale/opacity entrance. When the API replaces the asset with a 50%-filled variant of the same graph, the same wipe plays and the viewer simply sees a 50% graph.
-- Never try to encode the data in the animation (e.g. stopping a wipe at 62%) — the image carries the data; the animation only presents it.
-- Name the graph layer for replacement (e.g. `savings_graph`) and keep the layer box's aspect ratio equal to the graph image's, so every swapped variant lands pixel-identical.
+For an image-replacement chart, the image carries the final truthful data; scene animation presents
+it without implying a different value. Keep axes, units, labels and intended comparison scales
+consistent. Give the image layer a meaningful replacement name and compatible aspect ratio. Test
+two different rows and the actual extremes before a batch. Text substitution alone does not change
+solid geometry.

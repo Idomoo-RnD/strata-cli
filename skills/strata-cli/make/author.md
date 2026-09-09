@@ -6,8 +6,10 @@ Part of the production workflow — the index, and every other part, is in [work
 
 ## 3. Scene JSON
 
-Write the scene JSON to the approved storyboard (compact format — [format.md](../format.md) is the
-spec). A build order that keeps decoration from creeping in: blocking (boxes, cuts, holds, on
+Write production scene JSON to the approved storyboard. Permitted prototype/styleframe JSON may
+precede production sign-off under [design-contract.md](design-contract.md). Read the actual
+[scene](../engine/scene.md), [layer](../engine/layers.md), [animation](../engine/animation.md) and selected
+feature pages; [format.md](../format.md) is their index, not a substitute for their syntax. A build order that keeps decoration from creeping in: blocking (boxes, cuts, holds, on
 `preview --grid`) → primary motion (the one idea per shot) → secondary motion (stagger,
 follow-through, counters) → finishing (effects, grade, sound). Passes 1–3 are judged on previews
 and snapshots, finishing on the rendered MP4.
@@ -39,8 +41,8 @@ line, thirds/centre). Fix the composition against [layouts.md](../layouts.md)'s 
 each key shot (`--at`) until it reads right. This is where design gets fixed; renders are for
 confirming, not discovering.
 
-`strata preview` draws layer boxes, not masks, and only the comp given with `--comp` (the main comp
-by default) — a scene built from masks previews as blank rectangles; use `snapshot` to see the frame.
+`strata preview` shows layer boxes, transforms, repeated elements and mask outlines for the selected
+comp (`--comp`, main by default). It is not a photoreal compositor and does not prove 3D projection.
 Preview draws boxes, not glyphs, so it cannot show where text sits *inside* its box — and vertical
 text anchors to the box bottom (`align "… top"` is not honoured; verified). Compute vertical
 positions from `box_y + box_h`, and confirm real type placement with a cheap snapshot —

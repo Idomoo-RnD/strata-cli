@@ -2,6 +2,11 @@
 
 Compiled by `strata compile <scene.json>` into VASCO, schema-validated, then encoded to `.idm`.
 
+This is an index, not the authoring contract itself. Before authoring read scene/layers/animation
+below plus the pages for selected features. `strata route BRIEF.md --phase authoring --features text,camera`
+returns those leaf dependencies. [Capabilities](engine/capabilities.md) separates native features
+from approximations and unsupported promises.
+
 ## Contents
 
 - [Scene](engine/scene.md#scene)

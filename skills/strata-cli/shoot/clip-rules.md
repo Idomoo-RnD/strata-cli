@@ -59,7 +59,8 @@ interiors, landscapes and face-free images are unaffected either way.
 rejected. Most assets already have one — every `strata generate` command prints a hosted
 `url:`, and so does `strata render`. **Use that string; never re-upload a generated asset.**
 
-`strata upload <file>` is only for an input with no URL at all: the user's own footage, or
-something we rendered locally (a `strata sketch` animatic, an ffmpeg frame grab). *Measured:*
-`t.idomoo.com` URLs are accepted for both image and video references. Scene assets are never
-uploaded — see [assets.md](../assets.md).
+For a local input without a usable URL, read [upload policy](upload.md) before hosting. Only a
+non-sensitive approved input may be published using `strata upload <file> --allow-public-upload`;
+never customer-personalized/private footage. An unattended run cannot infer consent. Previously
+`t.idomoo.com` URLs were accepted for image/video references; availability does not prove permission.
+Scene assets stay local — see [assets.md](../assets.md).

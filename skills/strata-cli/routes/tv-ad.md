@@ -11,7 +11,7 @@
 - Where it plays (fixes the loudness target); whether cutdowns are included.
 
 ## Where it usually sits on the range
-A spot lives on contrast: toward the *film, action* row for transits and impacts, the hero shot borrowing the *film, quiet* row's hold. The brief decides; declare the four numbers from a measurement (review.md §7).
+A spot lives on contrast: toward the *film, action* row for transits and impacts, the hero shot borrowing the *film, quiet* row's hold. Those are possible creative postures, not metric targets. The approved message and destination govern timing/audio; diagnostics may remain uncalibrated. See [design-contract.md](../make/design-contract.md).
 
 ## Read, in this order
 - [editing-director.md](../direct/editing-director.md): the editorial contract.

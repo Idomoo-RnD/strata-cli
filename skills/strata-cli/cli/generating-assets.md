@@ -1,42 +1,48 @@
 # Generating assets rather than asking for them
 
-The posture: what the CLI can make itself, so the user is not asked to supply what a command can produce.
-
-Part of the CLI reference — the index, and every other part, is in [commands.md](../commands.md).
+Part of [commands.md](../commands.md). Offer the CLI's media tools, but choose the construction
+that serves the brief. Reuse approved files; do not replace exact brand assets, data plots or
+intentional flat illustrations with speculative AI imagery.
 
 ## I generate assets — I don't make the user supply everything
-The CLI creates media via the Idomoo AI API (needs auth; saves to `./strata_assets/`):
 
-| command | makes |
-|---|---|
-| `strata generate image "<prompt>" [--aspect 9:16] [--colors …] [--reference <img\|url> …]` | a still PNG (async) |
-| `strata edit image <img\|url> "<what changes>" [--reference <img\|url> …] [--raw] [-o out.png]` | **the same image with one thing changed** — an image that is 90 % right is edited, never re-rolled. The source goes in as `image 0` (local file or url, no upload) and the command supplies the hold-framing-lighting-grade wording, sends the source's own ratio, and measures the drift afterwards, warning when the model re-rendered instead of editing. Removals, additions, the copy on a screen or label, a material or colour, and lifting an object onto chroma green for keying. **Every change in ONE edit off the ORIGINAL** — editing an edit re-frames the shot ([assets.md](../assets.md)) |
-| `strata generate video "<prompt>" [--first-frame <url>] [--last-frame <url>] [--ref-image/--ref-video/--ref-audio <url>] [--duration 5] [--ratio 9:16] [--audio] [--last-frame-out <f>] [--realistic-human] [--best] [-o out.mp4]` | a **video clip** (async, 3–9 min). One command, five modes chosen by the inputs: text-to-video, image-to-video, keyframe interpolation, reference-driven, editing. ⚠ frames and references are **mutually exclusive**. **A clip shorter than its scene is never stretched** — I cover the gap with a companion clip of more shots, or extend off the last frame. `--ref-audio` lip-syncs a voice **or** choreographs the cut to a music track. Prompting is a craft — [video-generation.md](../video-generation.md) |
-| `strata generate fastvideo <image\|url> [--prompt "<motion>"] [--duration 5] [--ratio 9:16]` | the OLD quick image-to-video path. **Only when fast mode is explicitly asked for** — no text-to-video, keyframes, references or audio |
-| `strata sketch <plan.json> -o plan.mp4` | a grey-box 3D **animatic** to drive a complex camera plan, fed back as `--ref-video`: [video-generation-advanced.md](../video-generation-advanced.md) |
-| `strata path <file.svg> -o out.jet [--duration N] [--stroke N] [--color #hex] [--head N]` | a **stroke reveal** (draw-on) as an alpha `.jet` overlay, for a stroke that needs what a mask cannot carry — a soft edge, a gradient along it, texture, a travelling `--head` dot. **For a plain solid-colour line, the mask route is better and needs no command at all**: `mask: { path, stroke, cap, trim }` ([format.md](../format.md), *Strokes and draw-on*) — measured 1,368 KB against 4,620 KB on the same scene, a harder edge, live colour. Two limits of this command to know before choosing it: it has **no SVG arc support** (an `A` command measures as zero length and it exits with *the SVG paths have zero length* — convert arcs to cubics first), and it **rescales the artwork to the canvas** rather than honouring the viewBox (measured: a path authored 120→980 drew at 200→896), so it cannot be registered against other layers. Paths draw in SVG document order; the `.jet` fps MUST match the scene |
-| `strata retime <clip> --ramp "0:1.0, 2.0:0.25, 3.2:1.0" [-o out]` | a **keyframed speed ramp** — slow segments are motion-interpolated (no stutter), audio tempo-adjusted through the ramp. For a deliberate impact beat ONLY — never to make a clip fit a scene |
-| `strata grade <clip> --match <ref> \| --lut <f.cube> \| --look <name> [-o out]` | **colour-match / grade** — `--match` histogram-matches a companion clip to its reference so the cut reads as one shoot; `--lut` applies the brand's LUT; `--look` restrained named looks |
-| `strata chart bars\|donut\|line --box x,y,w,h ... [scene.json]` | **animated chart layers** as scene JSON — bars GROW from data (named layers, so `render --data` personalises heights), donuts sweep, lines draw on. [personalization.md](../engine/personalization.md) |
-| `strata generate avatar <image URL> --audio <url> [--aspect 9:16] [--motion "..."]` | a **talking presenter** from one still + audio (lip-synced). The image must NOT be a flat front-facing headshot — angle it, free the hands, light it: [avatar.md](../shoot/avatar.md). **Not my default for a presenter.** A presenter, host or testimonial is a **filmed** shot — `generate video --ref-image --ref-audio` (portrait + TTS) — unless the piece is **personalized** (then a stable avatar plate is what Idomoo swaps) or the user wants a fixed plate / a quick cut. I name the route and its trade-off in the storyboard: [avatar.md](../shoot/avatar.md) |
-| `strata generate narration "<text>" --voice <voice_id>` | TTS voiceover MP3 (`generate voices` lists ids) |
-| `strata generate music "<prompt>" [--duration 30]` | an instrumental track (**Stable Audio 3**, 44.1kHz stereo **WAV**). Prompt it properly — tags, arc, BPM: [music.md](../shoot/music.md) |
-| `strata upload <file>` | a **public URL** for a local file — **only** when a file has no URL yet and an endpoint accepts nothing else (`generate avatar`, `generate video`'s `--first-frame`/`--ref-*`; `strata captions` does its own). ⚠ TEMP handoff only, and public + permanent: [assets.md](../assets.md) |
+| Command | What it makes / when to choose it | Detail |
+|---|---|---|
+| `generate image` | photographed/illustrated stills; references accept local files or URLs | [images](../shoot/images.md) |
+| `edit image` | one scoped change to an existing image; preserve the original and inspect drift | [images](../shoot/images.md) |
+| `generate video` | subject/material/camera motion; frames and references are separate modes | [video generation](../video-generation.md) |
+| `generate fastvideo` | older fast image-animation route, only when explicitly chosen | [clips](../shoot/clips.md) |
+| `generate avatar` | talking presenter from still + voice; decide its trade-off | [avatar](../shoot/avatar.md) |
+| `generate narration` / `voices` | TTS voice and voice discovery | [sound](../shoot/sound.md) |
+| `generate music` | music or prompted SFX; prepare the mix for the destination | [music](../shoot/music.md) |
+| `sketch` | local grey-box camera animatic for a later reference-driven clip | [sketch](../shoot/sketch.md) |
+| `path` | SVG draw-on alpha overlay; scene mask trim is preferable for exact solid-color linework | [masks](../recipes/masks.md) |
+| `chart` | animated bars/donut/line from numeric input; geometry is baked when emitted | [personalization](../engine/personalization.md) |
+| `retime` | deliberate speed ramp, not a way to disguise missing source coverage | [video editing](../shoot/video-editing.md) |
+| `grade` | match, LUT or look on existing footage | command help; [video editing](../shoot/video-editing.md) |
+| `matte` / `jet` | remove/key backgrounds and encode alpha footage | [alpha](../shoot/alpha.md) |
+| `upload` | publish an approved non-sensitive URL-only input when no usable URL exists | [upload policy](../shoot/upload.md) |
 
-Chain: **image → animate into video → narration + music**, then point `src`/`audio` at the saved files. `generate image` accepts a **local file or a URL** for `--reference` (auto-encoded, no upload); `generate video` takes **URLs only** for `--first-frame`/`--ref-*`, and every `generate` command prints one. **CRITICAL — I upload only an asset I created myself that has no URL, and I use that URL only as a reference for `generate` (image/video). Nothing else.** Every `generate` command already prints a hosted `url:`, so I use that string and never re-upload a generated asset. `strata upload` is only for a **generation INPUT** (something fed to the AI API, which takes URLs) that has **no URL yet** — the user's own photo/footage, or something I rendered locally to use as a reference. It is a throwaway handoff, never asset storage. **Scene assets are never uploaded**: `src` values — images, MP4s, **`.jet` overlays**, fonts — stay local paths and are embedded in the `.idm` at encode time; so are deliverables and brand files.
+Run command help for flags. [all-commands.md](all-commands.md) lists runtime, input/output and
+side effects. Generation spends budget and sends inputs to an AI service; establish permission
+and prototype scope before a wave. Existing generated URLs should be reused, not re-uploaded.
+Scene assets stay local for embedding. **Customer photos and personalized data are not uploaded
+to the public permanent store.** Direct upload and caption re-hosting require informed consent
+for non-sensitive material and `--allow-public-upload`; that flag does not waive privacy policy.
 
-**Two rules that always apply when generating media — details in [assets.md](../assets.md):**
-- **An overlay's motion must live IN the footage — I key the VIDEO, never a still.** The pipeline for any subject that composites over the scene (a plane, a person, a mascot, a product) is: **generate the image → `generate video "<motion>" --first-frame <its url>` → matte/key THAT VIDEO per frame → `.jet`**. The subject then flies/walks/turns inside the clip and the layer itself stays put (box = full frame, no `position` animation). **I do this even when the user never says "key it"** — it is what makes the overlay look filmed instead of pasted. ❌ **The failure to avoid:** matte a *still*, or matte a clip whose subject barely moves, then fake the motion by translating the cut-out across the screen with a couple of `position` keyframes — it reads exactly like a sticker sliding over the picture, because that is what it is. ⚠️ Image-to-video models often **hover the subject instead of moving it**, so after generating I check that it actually travelled (compare the subject's position in the first and last frames, or `strata track --point`); if it barely moved, **re-prompt the clip with the displacement stated explicitly** — I do not compensate by sliding the layer.
-- **EVERY image in the scene gets animated — no still photos.** Any generated or supplied image that appears as a visual (background, hero shot, product, scenery, person) becomes a clip before it goes in the scene. **The rule is "no stills" — it does not prescribe HOW**, and I pick the mode per asset:
-  - **`generate video "<motion>" --first-frame <its url>`** when the **composition is the point** — a laid-out hero shot, an approved frame, anything that must match the layout I sketched. Frame 0 *is* that image, so the framing is guaranteed. (Every `generate image` prints the url.)
-  - **`generate video "<the shot>" --ref-image <its url>`** when the **subject is the point and framing is free** — a character across several shots, a product, a world. It composes new angles instead of pushing into one still, which is why a series of clips of the same person looks far better this way. Costs one shot of budget (≤4 per 12s) and does **not** lock the opening frame.
-  - **Straight text-to-video** when no image exists yet and nothing downstream needs that exact still — I do not manufacture a PNG just to animate it.
-  - **`generate fastvideo <image>`** ONLY when fast mode was explicitly asked for — it is a different, older endpoint, not a quality tier of `generate video` (which also has its own `--fast` model flag; the two are not the same thing).
-  ⚠ A clip destined for a `.jet` overlay must be **ONE continuous shot, no cuts** — [video-generation.md](../video-generation.md). **The only exception is a genuine icon/logo/UI element** — small flat graphics that would look wrong moving. I do **not** ask first and I do **not** fall back to the still: a static photo in a motion-design piece reads as a slideshow, which is the failure this skill exists to prevent. **And if I generated a video for an asset, the scene must reference the VIDEO, never the leftover `.png`** — check every `src` before compiling. (For a **fixed** image, Ken-Burns on the still is the fallback only when image-to-video is unavailable; for a **personalized** slot it is the standard treatment — see "Images are never still" in [craft.md](../craft.md).)
-- **Reference images — keep the SAME person or the SAME art style across images (verified).** `generate image --reference <img|url>` (repeatable, local file or URL) passes reference images in the `images` array, and **I refer to them by index in the prompt**: the 1st `--reference` is **image 0**, the 2nd **image 1**. Two proven jobs:
-  - **Same character / subject:** *"the same person as image 0, sitting at a cafe with a laptop"* → her exact face, hair and freckles are preserved in a new pose and scene. This is how a recurring person, mascot, product or brand character stays on-model across every shot — pass that reference into **each** image.
-  - **Same art style:** *"in image 0's art style, draw a car"* → the reference's palette, linework and look transfer to a new subject.
-  I use references **whenever the user gives me an image** (a person, a character, a logo, a product, a style frame, a prior render) or needs consistency across shots. See assets.md for phrasing (style-vs-copy, combining several references).
+## Choose motion, not a universal media rule
 
+- **Photographed motion:** a person walking, talking or a product turning needs motion in the
+  footage. Key/matte that video if transparent compositing is needed, then inspect alignment.
+- **Graphic motion:** illustration, a cut-out collage, an icon or product still can be animated as
+  scene layers. A deliberate locked photograph is valid when the direction earns it.
+- **Reference-driven footage:** use an approved first frame when framing is fixed; references
+  when subject identity is fixed but angles may change. Preserve identity and check the result.
+- **Personalized media:** a replaceable image slot can keep its content-agnostic layer animation.
+  Changing chart geometry requires per-row emission or an exact replacement image, not a label swap.
 
----
+For generated footage, inspect clip length, audio and actual movement before assigning the slot.
+If the approved shot requires travel and the result hovers, re-prompt or change the plan explicitly;
+do not silently substitute sticker-like translation. Conversely, do not buy a clip for an asset
+whose correct treatment is still or vector-based. The [design contract](../make/design-contract.md)
+settles intent; the engine references settle syntax.

@@ -55,7 +55,7 @@
 - **Frame thinking**: design in frames, not seconds. At 25 fps one frame is 40 ms; 12 frames is about half a second.
 - **Duration scale**: micro 80-150 ms (toggles, hovers), small 150-300 ms (UI entrances), medium 300-500 ms (element entrances), large 500-800 ms (scene builds), hero 800-1500 ms (logo, payoff). Longer only with a reason. In a VASCO scene think in FRAMES at the comp fps, not ms - the tempo rule and what each frame count reads as are in [motion-design.md](../motion-design.md).
 - **Entrance slower than exit**: viewers need to meet an element, not watch it leave — measured on this engine, exits run 65-75% of their entrance ([motion-design.md](../motion-design.md)).
-- **Hold and moving hold**: a pause where an element rests; a dead hold can look frozen, so add 1-3% drift or breathing.
+- **Hold and moving hold**: intentional rest or deliberate ongoing motion. Name its purpose; do not add drift merely to avoid a detector. [Hold classification](../../make/design-contract.md#hold-classification).
 - **Settle**: the last 20-30% of a move, decelerating into position; rushing the settle is the most visible quality loss.
 - **Anticipation ratio**: anticipation is short relative to the action, roughly 1:3.
 - **Stagger interval**: shorter reads as one object, longer as separate events. 30-80 ms is the general-industry figure for UI siblings; **for a VASCO scene use the layer and per-character stagger in [motion-design.md](../motion-design.md), which is larger (a beat between title/subtitle/CTA) and caps total stagger** - that file's numbers win here.

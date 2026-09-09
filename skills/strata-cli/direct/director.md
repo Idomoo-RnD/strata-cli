@@ -1,8 +1,8 @@
 # Director — the creative-direction pass for premium work
 
 **When:** the brief says AAA, premium, cinematic, broadcast, launch film, hero animation — or the
-client's work is judged against agency motion design. **Before any scene JSON**, alongside the
-storyboard (SKILL.md step 2). Ordinary pieces need only the storyboard's *Style* line, the four
+client's work is judged against agency motion design. **Before full production JSON**, alongside the
+storyboard; permitted prototype/styleframe JSON is part of this pass. Ordinary pieces need only the storyboard's *Style* line, the four
 numbers and the motion notes.
 
 The pass exists because quality is not activity. The failure it prevents is the over-directed
@@ -48,13 +48,11 @@ Write them as a line — *energy 3, weight 8, precision 9, warmth 4, density 2, 
 check every later decision against it. A move that contradicts the traits is off-direction even
 when it looks good on its own.
 
-**Energy and density are not adjectives; they are the four numbers** (SKILL.md, *Place the piece on
-the range*). Convert them before the bible: energy 1–2 is the quiet film — ~6 s mean shot, energy
-~1, stillness ~0.57, −28 LUFS; energy 9–10 is the action reel — ~2.5 s mean, energy ~11, stillness
-0, −14 LUFS; the cut-driven showreel runs 1.0 s shots at energy 1.5 and stillness 0.46, which is
-why cut rate and motion energy are **separate** numbers. Interpolate for the middle, and only after
-deciding the piece belongs there. Each of those shot lengths is a mean over a piece that swung hard
-inside it — convert to a range.
+**Energy and density are creative positions, not conversions to pixel statistics.** Record the
+four diagnostic lanes with source and confidence using [design-contract.md](../make/design-contract.md).
+A reference/probe can calibrate them; otherwise write uncalibrated. Do not interpolate energy,
+stillness or loudness from unrelated film rows. Shot length follows information and intent, and
+loudness follows destination requirements. Cut rate and in-shot movement are separate decisions.
 
 ## 2. Reference analysis
 
@@ -64,10 +62,9 @@ If the user supplied or named references, turn them into **measurable tokens bef
 strata deconstruct reference.mp4 -o ref_tokens.json     # shot lengths, cut rhythm, motion energy per shot, palette, onsets, loudness
 ```
 
-**When there is no reference, gather before choosing.** Collect a fixed number per axis — say six
-each for palette, light, texture and type — *then* pick. A fixed count forces the search past the
-first idea, which is the one every brief produces; picking as you go stops at whatever arrived
-first. Name what each one contributes, and the ones you reject are as useful as the ones you keep.
+**When there is no reference, gather selectively before choosing.** Compare useful examples for
+palette, light, texture and type, proportionate to the task and budget. Explain what each contributes
+and reject superficial copying. A fixed quota of references is not a quality gate.
 
 Read the tokens, then add what the tool cannot measure — easing character, stagger feel, camera
 behaviour, type rhythm, transition families, texture, sound grammar. For a named reference with no
@@ -142,18 +139,16 @@ For each: the thesis restated in that posture, the signature device, the transit
 sound motif, the expectedness score, and **what it refuses to do**. The user picks; a direction
 the user did not see cannot be signed off.
 
-**Each direction carries its own four numbers, and the set must span** — at least 3× between the
-slowest and fastest mean shot, or 5× between the lowest and highest energy (the measured spread
-across world-class work is 6× and 10×). Three directions at one tempo in three palettes are one
-direction, and the pass has not done its job. At least one is built on real stillness. Each shot
-length is a range, and the directions differ in *what they hold*: the product in one, the face in
-another, nothing in a third.
+**Each direction states its rhythm, focal strategy and hold policy.** They should differ in a
+meaningful idea, not just palette. No arbitrary ratio between their energies or shot lengths is
+required. At least consider a restrained option when the subject allows it. Locked and live holds
+both earn their duration by what they communicate; diagnostic numbers may remain uncalibrated.
 
 ## 4. Key styleframes
 
 Three frames, composed as final frames, for the chosen direction (or all three when the user
 wants to compare): **the hook** (first 1–2 s), **the hero moment** (the shot the thesis names),
-**the end card**. Build them as real scenes — `strata preview --grid` for the boxes, `strata
+**the end card**. Within the approved prototype scope, build them as real scenes — `strata preview --grid` for the boxes, `strata
 snapshot` for the actual type and plates — not as prose. Each frame answers: focal point, second
 read, what is deliberately empty, the one accent, the type scale. Anti-slop runs on each
 ([anti-slop.md](../craft/anti-slop.md)): remove one thing before showing it.
@@ -184,12 +179,12 @@ One page, written before the scene, pasted into the storyboard, obeyed by every 
 | Field | What it fixes | Example |
 |---|---|---|
 | **Focal order** | where the eye goes, per shot, in order | hero → headline → CTA |
-| **The four numbers** | the position on the range, declared and later measured — shot length as a range, each end with its job | 0.6 s (door-close cutaways) → 7.0 s (the hold on the maker's hands) · energy 1.1 · stillness 0.57 · −28 LUFS |
+| **The four diagnostic lanes** | shot range/jobs, energy, stillness and loudness with provenance/confidence; semantic criteria come first | 0.6 s transit → 7 s maker's hands; live hold; energy/stillness uncalibrated; audio target from destination |
 | **Timing scale** | the piece's tempo family, in frames at the scene fps | snap 6 f · settle 12 f · phrase 36 f · hold 48 f |
 | **Easing family** | one entrance ease, one exit ease, one drift ease — and the overshoot policy | `outExpo` in · `[0.7,0,0.84,0]` out · `inOutSine` drift · overshoot 0 % (rigid) |
 | **Material logic** | what the things are made of, and what that does to inertia, deformation and settle | stone: heavy, no overshoot, long settle, dust on impact |
 | **Type behaviour** | how words arrive, how long they hold, how they leave; captions vs kinetic | per-word rise 26 px, hold 0.5 s + 0.3 s/word, exit 65 % of entrance |
-| **Camera rule** | locked, one push per shot, or one continuous move — and never what | locked; one 3 % push on the hero shot only |
+| **Camera rule** | locked, one push per shot, or one continuous move — and never what | locked end card; hero push sized by projected pixel travel and composition |
 | **Transition palette** | the families in play, named — count scales with the declared energy | hard cut; mask-rect wipe from the outer edge |
 | **Sound motif** | the one SFX family, the bed's arc, the hit that lands the mark | oven-door thud on the wordmark; flour whoosh on wipes |
 | **Signature device** | the single bold idea the boldness is spent on | fire footage inside the word RYE |
@@ -221,7 +216,7 @@ the pass it belongs to, not to a patch on top.
 
 - [ ] Thesis in one sentence, tied to the viewer promise
 - [ ] References deconstructed to tokens (or reference-styles.md used) — recorded in the bible
-- [ ] Three to five directions of different *kind*, each with its four numbers and an expectedness score; the set spans the range; at least one scores 4–5; one recommended
+- [ ] Distinct directions appropriate to the job, each with intent, rhythm, hold policy and diagnostic confidence; one recommended
 - [ ] Three styleframes built as scenes and shown (hook, hero, end card)
 - [ ] Motion hierarchy per shot, with an explicit still list
 - [ ] The motion bible pasted into the storyboard — the fields the piece needs filled, the rest struck
@@ -231,5 +226,5 @@ the pass it belongs to, not to a patch on top.
       Prove it at blocking, not after the finishing pass
 - [ ] **Acceptance criteria written for the critic** — what the render must demonstrate for this
       direction to have worked ("the wordmark lands without overshoot", "the bed is audible on a
-      phone"), plus the four numbers. The review scores against these, not against taste
-- [ ] Sign-off on the direction and the frames before scene JSON
+      phone"), with diagnostics only where calibrated. The review judges evidence against the approved direction
+- [ ] Concept approval before prototypes; explicit prototype/snapshot budget; style/timing sign-off before full production JSON and asset waves

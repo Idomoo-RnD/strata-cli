@@ -11,7 +11,7 @@
 - The rhythm shape; played straight, or as a wink.
 
 ## Where it usually sits on the range
-The matrix's *rhythm shape* column is the answer: thriller tightens toward the *film, action* row after long holds; drama and documentary sit near *film, quiet*; comedy is tension and release. The brief decides; declare the four numbers from a measurement (review.md §7).
+The matrix's *rhythm shape* column is the answer: thriller tightens toward the *film, action* row after long holds; drama and documentary sit near *film, quiet*; comedy is tension and release. Treat these as genre postures, not universal numbers. Use [design-contract.md](../make/design-contract.md) for intent and diagnostic confidence.
 
 ## Read, in this order
 - [editorial/narrative-genres.md](../direct/editorial/narrative-genres.md): the *Genre control matrix*, then the genre's section; *Hybrid selection examples*.

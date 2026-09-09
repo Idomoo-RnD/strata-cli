@@ -4,6 +4,11 @@ Light, grain, glitch, glow and the smaller patterns that do not belong to any on
 
 Part of the recipe library — the index, and every other part, is in [recipes.md](../recipes.md).
 
+These are **effect/layer fragments**, not standalone or universally render-verified scenes.
+Supply the wrapper, assets, durations and unique names. Check [capabilities](../engine/capabilities.md)
+for approximations (including depth-of-field); [runnable fixtures](../examples/runnable-scenes.md)
+state their separate offline/cloud proof levels.
+
 ## 5. Special FX
 
 ### Neon glow pulse + flicker

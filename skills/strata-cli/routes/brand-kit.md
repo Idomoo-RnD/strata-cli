@@ -11,7 +11,7 @@
 - What the brand fixes beyond atoms: motion language, pacing, layout.
 
 ## Where it usually sits on the range
-Where the brand's motion language puts it, if the document defines one; otherwise where the kind puts it. The brief decides; declare the four numbers from a measurement (review.md §7).
+Where the brand's motion language puts it, if the document defines one; otherwise where the kind puts it. Treat this as a creative posture, not a numeric target. Use [design-contract.md](../make/design-contract.md): intent first, diagnostics with provenance or uncalibrated.
 
 ## Read, in this order
 - [brand.md](../brand/brand.md): *§A* to build the document; *§B* to author every video from it; *§C* the template; *Rules*.

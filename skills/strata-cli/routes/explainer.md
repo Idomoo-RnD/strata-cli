@@ -11,7 +11,7 @@
 - What counts as evidence, and what is illustrative and must be labelled.
 
 ## Where it usually sits on the range
-Toward the *film, quiet* row: fewer, longer shots because the viewer is processing, with a compression or two where a montage earns its place. The brief decides; declare the four numbers from a measurement (review.md §7).
+Toward the *film, quiet* row: fewer, longer shots because the viewer is processing, with a compression or two where a montage earns its place. These are starting postures, not mandatory metrics. Use [design-contract.md](../make/design-contract.md): information and reading time first, diagnostics measured or uncalibrated.
 
 ## Read, in this order
 - [editing-director.md](../direct/editing-director.md): *Make decisions in this order*; a paper edit before decoration.

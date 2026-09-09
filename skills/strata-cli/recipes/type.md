@@ -4,13 +4,17 @@ Reveals, per-character animation, counters, masks on text, and the patterns that
 
 Part of the recipe library — the index, and every other part, is in [recipes.md](../recipes.md).
 
+**Blocks below are layer fragments unless stated otherwise.** They need a scene wrapper, duration,
+unique names and actual font/assets. [Runnable scenes](../examples/runnable-scenes.md) are complete
+fixtures checked offline. Renderer-sensitive reveal proofs are explicitly pending, not newly verified.
+
 ## 1. Text
 
 ### Tracking-in (letters spread → converge)
 ```json
 { "type": "text", "text": "DESIGN", "font": "./font.ttf", "size": 130,
   "box": [0,250,1280,180], "align": "center middle", "anchor": [640,340],
-  "effects": [{ "type": "glow", "color": "#a855f7", "size": 18, "opacity": 0.9 }],
+  "color": "#f2eee3",
   "animators": [{ "tracking": 50, "tracking_type": "before_and_after",
     "ranges": [{ "shape": "square", "animate": { "amount": [{"t":0,"v":1,"ease":"outExpo"},{"t":1.0,"v":0}] } }] }],
   "animate": { "opacity": [{"t":0,"v":0},{"t":0.4,"v":1,"ease":"outCubic"}] } }
@@ -35,19 +39,25 @@ Per-span `color`/`size`/`tracking` plus a word-by-word rise-and-fade. **Spans mu
 *(Fake underline: a thin `solid` bar under the box — only when the brief asks ([anti-slop.md](../craft/anti-slop.md)). Fake highlight: a `solid` behind the text layer.)*
 
 ### Typewriter with a caret that follows the text
-Per-character hard-edged reveal (`shape:"square"`, `start` stepped one notch per char), plus a caret solid whose `x` is stepped to the **cumulative glyph advances** (`x += size × advance/1000`; Arial 'm'≈833, 'i'≈222, space≈278). Use a monospace font for exact tracking.
+
+A typewriter needs one selection step per character, not just two endpoints. This fragment reveals
+`TYPE` at 0.4 s intervals; `square` and pinned `end:1` keep unreleased characters selected/hidden.
+The complete [typewriter fixture](../examples/runnable-scenes.md#typewriter) is schema/baker-tested.
+
 ```json
-{ "type": "text", "name": "tw", "text": "idomoo makes video.", "font": "./font.ttf", "size": 72,
-  "box": [360,314,920,76], "align": "left middle",
-  "animators": [{ "opacity": 0, "ranges": [{ "based_on": "characters", "shape": "square",
-    "animate": { "start": [{"t":0,"v":0,"ease":"hold"},{"t":2.4,"v":1,"ease":"hold"}], "end": [{"t":0,"v":1}] } }] }] }
+{ "type":"text", "name":"typed_title", "text":"TYPE", "font":"./font.ttf", "size":120,
+  "box":[180,240,920,180], "align":"left middle",
+  "animators":[{ "opacity":0, "ranges":[{ "based_on":"characters", "shape":"square", "end":1,
+    "animate":{ "start":[
+      {"t":0,"v":0,"ease":"hold"}, {"t":0.4,"v":0.25,"ease":"hold"},
+      {"t":0.8,"v":0.5,"ease":"hold"}, {"t":1.2,"v":0.75,"ease":"hold"}, {"t":1.6,"v":1}
+    ] } }] }] }
 ```
-```json
-{ "type": "solid", "name": "caret", "color": "#e8ecf8", "box": [0,314,6,76],
-  "animate": { "position": [{"t":0,"v":[360,0],"ease":"hold"},{"t":2.4,"v":[1040,0],"ease":"hold"}],
-               "opacity":  [{"t":0,"v":1,"ease":"hold"},{"t":0.4,"v":0},{"t":0.8,"v":1},{"t":1.2,"v":0},{"t":1.6,"v":1}] } }
-```
-*(Step `start` and the caret `position` at the same per-char times — one keyframe per character.)*
+
+For other copy, generate `start = k / characterCount` at each typing time. A caret is an optional
+separate solid stepped at those same times using **actual font glyph advances**, or an explicitly
+monospaced layout with known cell width. Do not copy approximate Arial widths for an arbitrary font.
+The fixture deliberately omits a guessed caret; prove real glyph placement with a rendered frame.
 
 ### Line-by-line stagger
 Use `shape: "square"` and an explicit `end: 1` (see the ⚠️ under "Per-word bounce-in").
@@ -100,11 +110,15 @@ but never recombines to white:
 ```
 
 ### Per-letter 3D flip-in
+
+Corrected to use the established square/pinned selection pattern. The [complete fixture](../examples/runnable-scenes.md#flip-reveal)
+passes offline compilation and initial selection checks; actual 3D glyph appearance still needs
+first/middle/last cloud proof. Do not call this correction newly render-verified.
 ```json
 { "type": "text", "text": "ROTATE", "font": "./font.ttf", "size": 140, "box": [0,250,1280,190],
   "align": "center middle", "anchor": [640,345], "motion_blur": true,
   "animators": [{ "opacity": 0, "rotation": [0,90,0],
-    "ranges": [{ "based_on": "characters", "shape": "smooth",
+    "ranges": [{ "based_on": "characters", "shape": "square", "end": 1,
       "animate": { "start": [{"t":0,"v":0,"ease":"outCubic"},{"t":1.6,"v":1}] } }] }] }
 ```
 

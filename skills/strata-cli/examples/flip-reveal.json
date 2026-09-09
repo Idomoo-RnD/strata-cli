@@ -1,0 +1,8 @@
+{
+  "width":1280,"height":720,"fps":25,"duration":4,
+  "layers":[
+    {"type":"solid","name":"flip_ground","color":"#15251f","box":[0,0,1280,720]},
+    {"type":"text","name":"flip_title","text":"ROTATE","font":"./font.ttf","size":120,"color":"#f2eee3","box":[140,240,1000,180],"align":"center middle","anchor":[640,330],"motion_blur":true,
+      "animators":[{"opacity":0,"rotation":[0,90,0],"ranges":[{"based_on":"characters","shape":"square","end":1,"animate":{"start":[{"t":0,"v":0,"ease":"outCubic"},{"t":1.6,"v":1}]}}]}]}
+  ]
+}
