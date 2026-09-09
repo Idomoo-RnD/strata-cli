@@ -85,7 +85,10 @@ Renders take minutes — background them. Every command takes `--json` and `--he
 ## What to read for this brief
 
 `strata route BRIEF.md` (or `strata route "<brief>"`) prints this list; it is here too, so it holds
-without the command. Paths are relative to `references/`. **Routing matches the brief's reconstruction line, not the user's
+without the command. **Paths are relative to this skill's root** — `traps.md` and `format.md` sit
+beside `SKILL.md`; everything else is in a topic directory and the table gives its full path
+(`craft/anti-slop.md`, `shoot/clip-rules.md`). Open a path exactly as the table gives it — there is
+no wrapper folder to prefix, and prefixing one finds nothing. **Routing matches the brief's reconstruction line, not the user's
 words** — matching is by keyword, so that line names the **kind**, the **length** and the **bar**,
 the words a user rarely says (*measured:* seven of ten requests name no kind).
 
