@@ -38,7 +38,10 @@ Energy and stillness depend on image area, grain, contrast, grade and sampling. 
 is not a numerical target for clean vector graphics. Inspect local motion and actual frames;
 never add texture merely to make a metric pass. [review.md](../qa/review.md#7-comparing-against-the-declared-position)
 defines the metrics and their role. Runtime, destination audio spec and legally required copy
-are delivery constraints, not proxies. A silent piece has no LUFS target to hit.
+are delivery constraints, not proxies. A silent piece has no LUFS target to hit. Loudness includes
+its **shape**: where the bed ducks under speech, where it swells or drops for the concept, and how the
+piece ends — declared here, so that [review](../qa/review.md)'s end-level line has something to be
+judged against rather than a universal rule ([music.md](../shoot/music.md), *The volume shape is a decision*).
 
 ## Hold classification
 

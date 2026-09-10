@@ -28,7 +28,7 @@ sections below are the craft; this is the contract to plan on.
 | **The level a take arrives at is not fixed — measure it.** *Measured:* takes at **0.0 dBFS with no headroom**, and another at **≈−3 dBFS true peak / −24.9 LUFS**. VASCO sums audio layers with no bus limiter; the encoder pins a hot mix near −0.5 dBFS and leaves a quieter one quieter | read the returned file (`ffmpeg -i bed.wav -af ebur128 -f null -`), then `loudnorm` it to its place under the VO **before import**; layer `volume` is balance, not a route to a level (*Decide the mix*) |
 | **BPM is not honoured** — 90 BPM requested came back at ~129; 78 came back at 136 | state a BPM anyway (vague tempo is worse), then read the real onsets with `strata beats` and cut to those |
 | **Arc:** intros and hard stops are honoured; a **mid-track breakdown never** (two attempts, two tracks). A timeline was honoured once; two later second-by-second timelines came back **loudest at t = 0, decaying monotonically** (one to −75 dB) | write the timeline — free, sometimes honoured — and never plan the edit on it; rebuild the arc in ffmpeg (sections, levels, cross-fades) and re-run `strata beats` on the cut track |
-| **The last ~20 % of a bed decays toward silence** — an exact-fit request ends before the picture does | generate ~20 % longer than the video, trim to length, `afade` the tail |
+| **A generated bed decays from its FIRST second, not its last** — the *Arc* row above is the same fact seen whole: loudest at t = 0, falling monotonically. Padding the length does not fix it, it moves the cliff: *measured* on a delivered ad, an 18 s take for a 15 s piece still came back at −49 dB by 16 s | **flatten first, then shape** — `dynaudnorm` (or a gain curve read off the take with ebur128) to remove the envelope it arrived with, *then* impose the arc the storyboard declared. Trim to length after, `afade` only the tail you designed |
 | **A "sustained" SFX is not sustained** — it decays about 24 dB over 3.4 s | a drone or riser that must hold is a `TrackType: Music` bed cut to length, or a 1–2 s take loop-crossfaded in ffmpeg |
 | **SFX at 1–2 s come back with the right envelope and exact length** — the whoosh peaks at ~60 % and tails, the hit is front-loaded and decays; 2.000 s and 1.000 s for `--duration 2` / `1` | `TrackType: SFX`, describe the shape (rise, hit, tail), say `no music` (*sound design pass*) |
 | **No seamless loop** — the end never meets the start | generate the full length, or a palindrome/crossfade loop in ffmpeg ([video-editing.md](video-editing.md)) |
@@ -218,4 +218,25 @@ there is no audio `offset_frame` — to start the music at 0:12, cut it with ffm
 - **Describe the arc as a timeline** ("starts…, swells over…, hits at…") — then check the returned track, and build the arc in ffmpeg when it came back flat or front-loaded.
 - Never use this for voice — that's `generate narration`.
 - Keep the `.wav`, or convert deliberately; don't mislabel it.
-- Generate long, cut short, fade the tail.
+- Flatten the take before shaping it; a generated bed brings its own decay, and that decay is never the design.
+
+## The volume shape is a decision
+
+Volume *change* is not a defect — it is one of the strongest tools in the piece, and it belongs on the
+storyboard like a shot does:
+
+- **Under speech, the bed ducks.** That is `ducking: true` on the bed layer, and it is correct.
+- **The ending is chosen, by name:** a fade over N seconds, a hard stop on the last cut, the bed holding
+  at its level under the end card, a resolve on the final beat. Whichever it is, it is written down.
+- **A swell, a drop, a hole** where the concept asks for one — a beat of silence before the payoff, the bed
+  falling away under a whispered line — are all right, and all declared.
+
+What is never right is **the shape the take arrived with**. A generated bed decays on its own from its
+first second; if nothing flattens it, the end card — the one hold with nothing but the bed under it — is
+where that decay is heard. *Measured* on two delivered 15 s ads: the last second sat at **−24.2** and
+**−23.0 LUFS** against bodies around −14 to −16, a drop of 6–10 LU, while integrated loudness, true peak
+and range all passed. Neither storyboard had chosen it.
+
+`strata review` now prints the momentary loudness per second and the last two seconds against the body,
+and flags a drop over 3 LU. That line is a question, not a verdict: if the storyboard declared the ending,
+it passes; if it did not, the bed was not flattened.
