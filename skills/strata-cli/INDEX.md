@@ -90,6 +90,8 @@ them apart; grepping this index finds it 14 of 14.
 
 ## Chapters — `motion/` is the animation textbook, `editorial/` the editing one
 
+| [techniques.md](techniques.md) | 150 film techniques as prompts — camera angles and moves, lighting setups, composition, editing, story devices, promptable FX, genre looks; one page each with a template, when to use it, how to direct a generator toward it, the mistakes that break it | Dutch angle · Rembrandt lighting · match cut · noir · giallo · how do I prompt a low angle · which light for unease · a director's look · name this shot · what is a rack focus |
+
 | File | Owns | Answers |
 |---|---|---|
 | [motion/01-foundations.md](craft/motion/01-foundations.md) | principles, timing and spacing, easing families, weight | why does this feel wrong · timing · easing families · physics · squash and stretch · rhythm |

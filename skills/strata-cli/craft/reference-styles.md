@@ -1,5 +1,7 @@
 # Reference-film styles — "make it feel like X", translated
 
+For a *genre* look rather than one film — noir, giallo, Southern Gothic, acid western and 17 more — [techniques.md](../techniques.md) under *Genres & Styles* has a prompt template per look, plus the camera and lighting vocabulary that serves it.
+
 Briefs arrive naming films, directors, studios and campaigns. This file maps the common
 names to a **measurable motion signature** — what to actually type into a scene or a
 prompt — and to the nearest built entry in [video-styles.md](video-styles.md), which has

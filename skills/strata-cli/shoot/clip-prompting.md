@@ -9,6 +9,10 @@ Part of the video-generation reference — the index, and every other part, is i
 A prompt is a **shot list with an identity lock**, not a sentence. All of these sections,
 in this order:
 
+The **vocabulary** for the shots themselves — a named angle, move, light, composition or look, each with a
+prompt that produces it — is [techniques.md](../techniques.md): pick one technique per axis and paste its
+template into the shot line. This page is the structure around it.
+
 ### 1. `Style & Mood:` — one line
 Genre, tone and lighting together: *"naturalistic documentary portrait, cinematic, warm
 morning chiaroscuro — hard low sun raking through old glass against a deep unlit interior."*

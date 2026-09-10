@@ -78,18 +78,18 @@ are required at intake/direction; their topic lists are lookups, not a read-all 
 | Kind | Landing page | Topic lookups |
 |---|---|---|
 | supplied material (storyboard, script, PDF, URL, sheets, footage, voice) | `routes/supplied-material.md` | `make/intake.md`, `make/production-bible.md`, `video-generation.md`, `video-generation-advanced.md` |
-| a TV / broadcast ad, promo, launch, sale, hero film | `routes/tv-ad.md` | `direct/editing-director.md`, `direct/editorial/short-form-performance.md`, `direct/editorial/editing-grammar.md`, `make/blueprints.md`, `craft/video-styles.md`, `shoot/video-prompts.md`, `assets.md`, `craft/motion/04-transitions.md`, `craft/motion/07-narrative-sound-emotion.md`, `shoot/music.md` |
-| social / vertical / UGC / trailer-style | `routes/social.md` | `direct/editing-director.md`, `direct/editorial/short-form-performance.md`, `make/blueprints.md`, `craft/video-styles.md`, `craft/motion/04-transitions.md`, `shoot/music.md` |
+| a TV / broadcast ad, promo, launch, sale, hero film | `routes/tv-ad.md` | `techniques.md`, `direct/editing-director.md`, `direct/editorial/short-form-performance.md`, `direct/editorial/editing-grammar.md`, `make/blueprints.md`, `craft/video-styles.md`, `shoot/video-prompts.md`, `assets.md`, `craft/motion/04-transitions.md`, `craft/motion/07-narrative-sound-emotion.md`, `shoot/music.md` |
+| social / vertical / UGC / trailer-style | `routes/social.md` | `techniques.md`, `direct/editing-director.md`, `direct/editorial/short-form-performance.md`, `make/blueprints.md`, `craft/video-styles.md`, `craft/motion/04-transitions.md`, `shoot/music.md` |
 | an explainer, tutorial, testimonial, internal comms, recap, sports | `routes/explainer.md` | `direct/editing-director.md`, `direct/editorial/nonfiction-formats.md`, `direct/editorial/editing-grammar.md`, `make/blueprints.md`, `craft/motion/07-narrative-sound-emotion.md` |
 | personalized / data-driven / a chart or a stat | `routes/personalized.md` | `engine/personalization.md`, `craft/motion/06-ui-data-brand.md`, `direct/editorial/nonfiction-formats.md` |
 | a presenter, spokesperson, talking head, dialogue | `routes/presenter.md` | `shoot/avatar.md`, `video-generation-advanced.md`, `make/production-bible.md`, `shoot/captions.md` |
-| a logo sting, brand ident, product hero | `routes/logo-ident.md` | `make/blueprints.md`, `craft/video-styles.md`, `assets.md`, `craft/motion/05-shape-effects-texture.md`, `craft/motion/06-ui-data-brand.md`, `recipes.md` |
+| a logo sting, brand ident, product hero | `routes/logo-ident.md` | `techniques.md`, `make/blueprints.md`, `craft/video-styles.md`, `assets.md`, `craft/motion/05-shape-effects-texture.md`, `craft/motion/06-ui-data-brand.md`, `recipes.md` |
 | kinetic type / typographic / captions-heavy | `routes/kinetic-type.md` | `craft/motion/03-typography.md`, `recipes.md`, `layouts.md` |
 | music-led / beat-synced / audio-reactive | `routes/music-led.md` | `craft/generative-fx.md`, `shoot/music.md`, `craft/motion/07-narrative-sound-emotion.md`, `craft/motion/04-transitions.md` |
-| a genre feel (thriller, comedy, trailer, documentary) | `routes/genre.md` | `direct/editorial/narrative-genres.md`, `craft/reference-styles.md`, `craft/motion/08-styles-index.md` |
-| "make it feel like X" (a film, director, campaign) | `routes/feel-like.md` | `craft/reference-styles.md`, `craft/motion/08-styles-index.md` |
-| premium / AAA / cinematic / broadcast quality (in addition to the kind above) | `routes/premium.md` | `direct/director.md`, `craft/motion/01-foundations.md`, `craft/motion/02-choreography-space-camera.md`, `craft/motion/03-typography.md`, `craft/motion/09-production-qa.md` |
-| any generated video clip | `routes/generated-clips.md` | `video-generation.md`, `shoot/video-prompts.md` |
+| a genre feel (thriller, comedy, trailer, documentary) | `routes/genre.md` | `techniques.md`, `direct/editorial/narrative-genres.md`, `craft/reference-styles.md`, `craft/motion/08-styles-index.md` |
+| "make it feel like X" (a film, director, campaign) | `routes/feel-like.md` | `techniques.md`, `craft/reference-styles.md`, `craft/motion/08-styles-index.md` |
+| premium / AAA / cinematic / broadcast quality (in addition to the kind above) | `routes/premium.md` | `techniques.md`, `direct/director.md`, `craft/motion/01-foundations.md`, `craft/motion/02-choreography-space-camera.md`, `craft/motion/03-typography.md`, `craft/motion/09-production-qa.md` |
+| any generated video clip | `routes/generated-clips.md` | `techniques.md`, `video-generation.md`, `shoot/video-prompts.md` |
 | an edit of supplied footage (cut, join, reframe, retime) | `routes/footage-edit.md` | `shoot/video-editing.md`, `direct/editorial/workflow-and-qa.md` |
 | brand material supplied, "on brand", a series | `routes/brand-kit.md` | `brand/brand.md` |
 | Figma | `routes/figma-handoff.md` | `brand/figma.md` |
@@ -202,5 +202,5 @@ Read [traps.md](traps.md) before compiling any scene; feature pages carry syntax
 
 [Workflow](workflow.md) · [Craft](craft.md) · [Layouts](layouts.md) · [Assets](assets.md) ·
 [Video generation](video-generation.md) · [Advanced generation](video-generation-advanced.md) ·
-[Recipes](recipes.md) · [Motion atlas](craft/motion-atlas.md) · [Visual lessons](craft/case-studies.md) ·
+[Recipes](recipes.md) · [Techniques](techniques.md) · [Motion atlas](craft/motion-atlas.md) · [Visual lessons](craft/case-studies.md) ·
 [Full topic index](INDEX.md). These are reference libraries, not an instruction to load every page.

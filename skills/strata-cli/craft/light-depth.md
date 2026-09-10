@@ -6,6 +6,8 @@ choice earns it; it does not require every frame or wordmark to simulate a physi
 
 ### Depth, light & atmosphere
 
+The named lighting setups — three-point, Rembrandt, chiaroscuro, practicals, golden hour and 25 more, each with a prompt that produces it — are in [techniques.md](../techniques.md) under *Lighting*; this page is about what the light is *for*.
+
 **Flat graphic work:** hierarchy comes from scale, space, color, typography and movement. A mark
 may remain exact flat color with no contact shadow, textured fill, perspective or occlusion.
 Overlay titles over footage can deliberately remain graphic rather than pretending to be in-world.
