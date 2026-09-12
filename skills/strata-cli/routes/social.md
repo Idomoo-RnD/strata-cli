@@ -17,6 +17,7 @@ Toward the *showreel, 10 s* row: short shots, a wide spread between a flash and 
 - [editing-director.md](../direct/editing-director.md): objective, audience state, viewing context.
 - [editorial/short-form-performance.md](../direct/editorial/short-form-performance.md): *Vertical short-form*; *Trailer and teaser*.
 - [blueprints.md](../make/blueprints.md): *Social promo*; *Multi-aspect delivery* if landscape ships too.
+- [motion/03-typography.md](../craft/motion/03-typography.md) and [layouts-catalogue.md](../craft/layouts-catalogue.md): the typographic idea and the named layout the design contract declares.
 - [video-styles.md](../craft/video-styles.md): the kind's construction; a brand document wins over it.
 - [motion/04-transitions.md](../craft/motion/04-transitions.md): cuts that carry information versus pattern interrupts.
 - [music.md](../shoot/music.md): the streaming loudness target.

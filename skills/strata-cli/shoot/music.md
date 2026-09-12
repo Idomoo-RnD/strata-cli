@@ -150,6 +150,14 @@ useful sanity number — it just is not the gap ([review.md](../qa/review.md)).
 - **THEN hand it to `strata beats`.** Generate the track, run
   `strata beats track.wav -o beats.json`, and snap cuts and entrances to the returned onsets —
   never hand-time it ([generative-fx.md](../craft/generative-fx.md)).
+- **The bed has a pulse, and it comes first.** Generate it before the shot list is timed, with the
+  BPM stated and a percussive element named, so that `strata beats` has onsets to return before
+  the first cut is placed. A pulseless ambient bed voids the rule above without anyone deciding
+  to: on a 15 s ad the run's own log read *"the bed has no percussion by design, so there are no
+  onsets to cut to"*, and every cut was then hand-timed. Ambient is a legitimate choice — a
+  meditation piece, a whispered read — declared on the storyboard with its reason as the
+  **rhythmic spine** ([design-contract.md](../make/design-contract.md), *Three creative
+  commitments*), never the result of a prompt that forgot to ask for rhythm.
 - **Under a voiceover:** always `VocalType: Instrumental`, ask for a *"sparse mid-range, no
   busy melody"* so it doesn't fight speech, and reference it as
   `{ "type": "audio", "src": "./track.wav", "volume": -10, "ducking": true }`. Around −6 to
@@ -212,6 +220,7 @@ there is no audio `offset_frame` — to start the music at 0:12, cut it with ffm
 
 ## Rules
 - **A LUFS target and a loud/quiet gap on the storyboard before the first generation.**
+- **The bed is generated before the shot list is timed, with a pulse** — `strata beats` returns onsets before the first cut is placed; a pulseless bed is declared with its reason, never defaulted into.
 - `TrackType: Music, VocalType: Instrumental` on every underscore.
 - **State a BPM** explicitly (`"100 BPM"`). Vague tempo gives generic results.
 - **Name instruments and their character**, not just a genre word.

@@ -19,7 +19,7 @@ locked/live holds with a purpose; diagnostics measured, estimated or uncalibrate
 - [director.md](../direct/director.md): the whole protocol, thesis to hand-off.
 - [motion/01-foundations.md](../craft/motion/01-foundations.md): timing and spacing, easing families, weight.
 - [motion/02-choreography-space-camera.md](../craft/motion/02-choreography-space-camera.md): staging, depth, camera language.
-- [motion/03-typography.md](../craft/motion/03-typography.md): premium pieces are so often carried by one word ([kinetic-type.md](kinetic-type.md)).
+- [motion/03-typography.md](../craft/motion/03-typography.md): premium pieces are so often carried by one word ([kinetic-type.md](kinetic-type.md)); with [layouts-catalogue.md](../craft/layouts-catalogue.md), the source of two of the design contract's creative commitments.
 - [motion/09-production-qa.md](../craft/motion/09-production-qa.md): *4. QA checklist*, the craft gate.
 
 ## Watch for

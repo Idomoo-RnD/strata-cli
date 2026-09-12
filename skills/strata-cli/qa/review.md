@@ -73,10 +73,10 @@ photographic treatment. A functional result below the approved creative bar need
 | Hierarchy | eye order is deliberate at rest and during movement; restraint is preserved | competing reads hide the message |
 | Weight & easing | timing, path, inertia and settle express the chosen material | accidental stop, unintended bounce or distracting motion |
 | Typography | exact copy, glyphs, hierarchy, breaks, animation unit and reading time work together | unreadable/hidden text, missing glyph, wrong claim |
-| Editing | beats release information purposefully; cuts/holds carry the intended rhythm | missing beat, broken continuity, exhausted footage |
+| Editing | beats release information purposefully; cuts/holds land on the declared rhythmic spine | missing beat, broken continuity, exhausted footage, cuts timed to nothing |
 | Compositing | chosen flat/illustrative/spatial treatment is coherent; edges and layering are intentional | halo, misregistration, wrong mask, illegible contrast |
 | Sound | approved destination spec; voice intelligible; sound-picture relationship intentional | missing/doubled voice, broken sync, clipping or wrong spec |
-| Originality | signature belongs to this brief; unnecessary decoration removed | default treatment defeats the approved concept |
+| Originality | signature belongs to this brief; the three declared commitments (typographic idea, named layout, rhythmic spine) are visible in the render; unnecessary decoration removed | default treatment defeats the approved concept; a commitment declared and not delivered, or never declared — one text treatment on every layer, one layout family on every cut, cuts timed to nothing |
 | Brand fidelity / delivery | atoms, claims, aspect/fps/codec, safe areas and data variants correct | wrong logo, legal copy, output spec or personalized value |
 
 The exceptional target is a memorable, coherent piece in which information, physical character,
@@ -196,7 +196,11 @@ These are diagnostic units, not calibrated ratings of “premium.” Historical 
 energy 1.06, action 11.43) demonstrate variation, not target values for unrelated material.
 
 Start a review with a table: **criterion | approved intent/spec | observed evidence | confidence |
-disposition**. Include duration, shot boundaries/range, hero hold purpose, typography and mix. Add
+disposition**. Include duration, shot boundaries/range, hero hold purpose, typography and mix. Three
+of its rows are the creative commitments from the [design contract](../make/design-contract.md):
+the typographic idea, the named layout and the rhythmic spine, each *delivered / not delivered /
+not declared*, with the timecode where it is seen. A clean render that is the same frame on every
+cut fails here, not in a lane. Add
 energy/stillness/profile only when useful; mark uncalibrated expectations explicitly. A mismatch
 in a proxy is a question to investigate, not a blocker without a viewer effect. Do not retroactively
 change an actual delivery specification to make the output pass.

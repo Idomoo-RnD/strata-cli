@@ -74,6 +74,8 @@ Every task: `workflow.md`. Mechanical edits use only their editing packet.
 
 Direction additionally reads `make/design-contract.md`, `craft/anti-slop.md`, `craft/grid.md`, `craft/motion-design.md`. Matched route pages below
 are required at intake/direction; their topic lists are lookups, not a read-all assignment.
+For an ad, social, ident or premium piece, direction also reads `craft/motion/03-typography.md`, `craft/layouts-catalogue.md` —
+the source of the typographic idea and the named layout the design contract has to declare.
 
 | Kind | Landing page | Topic lookups |
 |---|---|---|

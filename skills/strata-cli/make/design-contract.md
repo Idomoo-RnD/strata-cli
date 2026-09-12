@@ -20,11 +20,32 @@ an unnecessary move can be the strongest revision.
 | Hierarchy | focal order per beat, negative space, type hierarchy at rest and in motion |
 | Motion | frame rate, timing in frames, named curves, material/overshoot policy, still elements |
 | Editorial | beat lengths and jobs, camera/transition rules, sound motif, reason for each cut |
+| Commitments | the typographic idea, the named layout, the rhythmic spine — *Three creative commitments* below |
 | Holds | locked or live, duration, communication job, expected evidence |
 | Implementation | technique → native/sugar/approximation/external route; exact recipe path |
 | Assets | path/URL, provenance, permission, duration/fps/dimensions/alpha, risk |
 | Acceptance | semantic success criteria, delivery constraints, diagnostics and confidence |
 | State | approvals received, prototypes permitted, spend so far, blocker and next gate |
+
+## Three creative commitments — declared at direction, checked at review
+
+A piece can pass every lane and still read as a default: the same text treatment on every line, one
+frame family on every cut, cuts timed to nothing. The gap is that nothing made the piece *declare*
+what would make it this brief's own. These three are one line each on the storyboard, written before
+any asset exists, and review judges the render against them — not against a universal rule.
+
+| Commitment | Declare | Delivered means |
+|---|---|---|
+| Typographic idea | one treatment that belongs to this subject: the animation unit (character / word / line), its entrance, and the one place scale or weight carries emphasis — chosen from [typography](../craft/motion/03-typography.md) | the treatment is visible in the render and differs from what any other brief would have received |
+| Layout | one named layout beyond *title-over-media* for the beats that carry information — chosen from [the 24 layouts](../craft/layouts-catalogue.md) | at least one beat uses it; the piece is not one frame family on every cut |
+| Rhythmic spine | what the cuts are timed to: the onsets `strata beats` returns from a bed with a pulse, a voice's phrases, or a hand-timed rhythm with its reason | cuts, entrances and hits land on the declared spine, and the review names the timecodes |
+
+The spine is first in time: the bed is generated **before** the shot list is timed, and `strata beats`
+has returned onsets before any cut is placed ([music.md](../shoot/music.md), *Video-specific craft*).
+An ambient bed with no onsets is a declared choice with its reason, never what the piece defaults
+to because the take came back that way. A brief that asks for restraint answers all three as well —
+the answer may be one quiet idea, but it is written down. Not declared is a must-fix at review,
+the same as declared and not delivered ([review.md](../qa/review.md), *Originality*).
 
 ## Four diagnostic lanes — not four fabricated measurements
 

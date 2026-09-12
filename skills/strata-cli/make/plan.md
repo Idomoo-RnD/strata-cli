@@ -41,6 +41,9 @@ Present a readable direction before buying its final assets. Include:
   Each beat earns its length; name shortest/longest jobs without targeting a ratio.
 - **Hold plan:** locked or live, duration and purpose. A legal hold may be motionless.
 - **Key layouts:** sketches from [layouts](../layouts.md), with alternatives only where useful.
+- **Creative commitments:** the typographic idea, the named layout beyond title-over-media, and the
+  rhythmic spine — one line each, from [design-contract](design-contract.md). The bed is generated
+  and `strata beats` has run before the beat plan is timed.
 - **Motion system:** named curves, frame timing, material logic, camera/transition policy,
   still elements and forbidden moves. Read [motion-design](../craft/motion-design.md).
 - **Acceptance:** semantic criteria plus delivery spec. The four diagnostic lanes carry provenance

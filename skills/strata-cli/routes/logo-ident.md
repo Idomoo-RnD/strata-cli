@@ -16,6 +16,7 @@ A sting is one shot, so the range is inside it: a fast reveal, a long hold, near
 ## Read, in this order
 - [blueprints.md](../make/blueprints.md): *Logo reveal / sting*; *Devices worth stealing*.
 - [video-styles.md](../craft/video-styles.md): **logo-ident** and **product-hero** construction.
+- [motion/03-typography.md](../craft/motion/03-typography.md) and [layouts-catalogue.md](../craft/layouts-catalogue.md): the typographic idea and the named layout the design contract declares.
 - [assets.md](../assets.md): *Drawn or generated?*; *Alpha overlays* for reaching `.jet`.
 - [motion/05-shape-effects-texture.md](../craft/motion/05-shape-effects-texture.md): *3. Optical effects*; *6. Materials and surfaces*.
 - [motion/06-ui-data-brand.md](../craft/motion/06-ui-data-brand.md): *3. Brand motion systems*.

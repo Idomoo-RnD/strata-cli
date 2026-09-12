@@ -142,6 +142,29 @@ place, the season, the medium — and name why.
   [motion-design.md](motion-design.md) covers the rest of motion slop — this file covers
   composition slop; run both.
 
+### Sameness
+
+The tell a clean render hides best: nothing is wrong with any frame, and every frame is the same
+frame. The agent's own review of a 30 s gym ad named it — *"text just labelled footage with
+rise-and-fade"*, cuts near the beats but no lift, impact or reveal choreographed to one. The
+[design contract](../make/design-contract.md)'s three creative commitments exist so this is caught
+at the storyboard, not after the render.
+
+- **One text treatment for the whole piece** — every line enters the same way, at the same
+  speed, as the same unit (always the whole line; never a word or a character), and nothing is
+  emphasised. One entrance, one exit and one emphasis is the rule
+  ([typography](motion/03-typography.md), *Craft rules*) — and the emphasis has to exist: the
+  hero word lands differently from the rest, on the beat it belongs to.
+- **Opacity is the only thing that animates** — nothing moves, scales, wipes or reveals; things
+  fade. A fade is a transition, not a treatment. The declared typographic idea names what else
+  moves, and the hero beat is where it moves.
+- **One layout family on every cut** — full-bleed clip, copy bottom-left, scrim: layout 5 of 24
+  ([layouts-catalogue.md](layouts-catalogue.md), *title-over-media*) on every beat. The beats
+  that carry information get a layout of their own, declared in the contract.
+- **Cuts timed to nothing** — hand-placed on round numbers, or "near" the beats. The spine is
+  declared before the shot list is timed ([music.md](../shoot/music.md), *Video-specific craft*):
+  onsets from `strata beats`, a voice's phrases, or a stated hand rhythm with its reason.
+
 ### Copy
 
 - **Marketing buzzwords** — streamline, empower, supercharge, world-class, seamless,
@@ -180,6 +203,9 @@ buzzwords — I check by eye.
 - [ ] Shot timing is repetitive without an information or rhythmic reason
 - [ ] A live hold lacks its promised motion, a locked hold has no purpose, or a clip ran out
 - [ ] Spatial lighting contradicts the plate; do not apply this test to intentionally flat marks
+- [ ] Every text layer has the same treatment, or opacity is the only thing that animates
+- [ ] Every cut is title-over-media, with no declared layout for the information beats
+- [ ] Cuts are hand-timed rather than placed on the declared rhythmic spine
 
 ---
 

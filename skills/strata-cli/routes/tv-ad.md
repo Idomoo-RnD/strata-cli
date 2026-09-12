@@ -18,6 +18,7 @@ A spot lives on contrast: toward the *film, action* row for transits and impacts
 - [editorial/short-form-performance.md](../direct/editorial/short-form-performance.md): *Commercial and branded film*.
 - [editorial/editing-grammar.md](../direct/editorial/editing-grammar.md): *Diagnose pacing precisely*.
 - [blueprints.md](../make/blueprints.md): beats and shot count.
+- [motion/03-typography.md](../craft/motion/03-typography.md) and [layouts-catalogue.md](../craft/layouts-catalogue.md): the typographic idea and the named layout the design contract declares.
 - [video-styles.md](../craft/video-styles.md): construction and tells.
 - [video-prompts.md](../shoot/video-prompts.md): the *Product hero* prompt.
 - [assets.md](../assets.md): *Drawn or generated?*
