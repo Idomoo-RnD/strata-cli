@@ -27,6 +27,7 @@ local input needs `strata upload` first (the CLI says so rather than publishing 
 - [`strata generate fastvideo <image> [flags]`  — the OLD image-to-video path](shoot/clips.md#strata-generate-fastvideo-image-flags---the-old-image-to-video-path)
 - [`strata generate narration "<text>" --voice <voice_id>`](shoot/sound.md#strata-generate-narration-text---voice-voice_id)
 - [`strata generate music "<prompt>" [--duration <sec>]`](shoot/sound.md#strata-generate-music-prompt---duration-sec)
+- [Sound effects — the same command with `TrackType: SFX`](shoot/sound.md#sound-effects--the-same-command-with-tracktype-sfx)
 - [`strata upload <file>` — ONLY for generation inputs with no URL](shoot/upload.md#strata-upload-file--only-for-generation-inputs-with-no-url)
   - [🔴 CRITICAL — the whole rule in one line](shoot/upload.md#-critical--the-whole-rule-in-one-line)
   - [🛑 The two-condition test](shoot/upload.md#-the-two-condition-test)

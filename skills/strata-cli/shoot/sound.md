@@ -1,6 +1,6 @@
-# Narration and music
+# Narration, music and sound effects
 
-Voice from text, and a music bed or an SFX hit from a prompt.
+Voice from text, a music bed, or a sound effect from a prompt — the three layers of a finished mix.
 
 Part of the asset-generation reference — the index, and every other part, is in [assets.md](../assets.md).
 
@@ -26,5 +26,13 @@ An instrumental track (default 30s). Reference as an `audio` layer at low `volum
 `ducking: true` so it sits under narration. What the model actually delivers — 0 dBFS, BPM
 not honoured, a decaying tail, no loop — is one table:
 [music.md](music.md#what-generate-music-actually-does--measured).
+
+## Sound effects — the same command with `TrackType: SFX`
+A whoosh, a hit or a riser is `generate music` at 1–2 s with `TrackType: SFX` in the prompt. It
+comes back at the exact length with the right envelope; a "sustained" effect does not sustain (it
+decays about 24 dB over 3.4 s), so anything that must hold is a bed cut to length. The two working
+prompts, the `audio` layer that spots each effect with `start`, how to place a whoosh by its own
+peak, and the voice / bed / SFX levels are in
+[music.md](music.md#the-sound-design-pass--sfx-levels-fades-measured).
 
 ---
