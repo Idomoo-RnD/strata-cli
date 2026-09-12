@@ -64,6 +64,7 @@ the detail; this table is what to plan on.
 - [Image-to-video — `--first-frame`](shoot/clip-frames.md#image-to-video----first-frame)
 - [Keyframe interpolation — `--first-frame` + `--last-frame`](shoot/clip-frames.md#keyframe-interpolation----first-frame----last-frame)
 - [Locking the camera — in the prompt, not the flag](shoot/clip-frames.md#locking-the-camera--in-the-prompt-not-the-flag)
+- [One clip first — how many generations](shoot/clip-length.md#one-clip-first--how-many-generations)
 - [Chaining — clips longer than 15 s](shoot/clip-length.md#chaining--clips-longer-than-15-s)
 - [⛔ A clip must be ≥ its scene slot — a short one freezes, and is NEVER stretched](shoot/clip-length.md#-a-clip-must-be--its-scene-slot--a-short-one-freezes-and-is-never-stretched)
 - [Two different things are called "fast" — don't confuse them](shoot/clip-modes.md#two-different-things-are-called-fast--dont-confuse-them)

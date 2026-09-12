@@ -103,7 +103,7 @@ the source of the typographic idea and the named layout the design contract has 
 - **camera:** `engine/comps-camera.md`
 - **masks:** `engine/effects-masks.md`, `recipes/masks.md`
 - **audio:** `shoot/music.md`, `shoot/sound.md`
-- **generation:** `shoot/clip-rules.md`, `shoot/clip-params.md`, `shoot/clip-length.md`, `shoot/upload.md`
+- **generation:** `shoot/clip-rules.md`, `shoot/clip-params.md`, `shoot/clip-length.md`, `shoot/clip-frames.md`, `shoot/upload.md`
 - **presenter:** `shoot/avatar.md`, `shoot/ref-audio.md`, `make/production-bible.md`, `shoot/upload.md`
 - **captions:** `shoot/captions.md`, `shoot/upload.md`
 - **data:** `engine/personalization.md`, `recipes/data-viz.md`

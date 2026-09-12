@@ -58,7 +58,9 @@ in-between was physically sensible: head turning first, then shoulders, mug lowe
 hand, free hand rising to the frame, curls settling.
 
 **Notes.** Keep it **short** — 5 s is plenty for one gesture; a long duration just invents
-filler between two fixed poses. The real-face rule applies to **both** images. Aspect still
+filler between two fixed poses. A continuous *action* is different: a transformation, a pour or a
+bloom takes the length the action needs, up to the 15 s ceiling, as **one clip** — never split in
+two, never padded past the action ([clip-length.md](clip-length.md), *One clip first*). The real-face rule applies to **both** images. Aspect still
 snaps. And this is the cleanest way to build a controlled sequence: author frames A, B, C as
 images and interpolate A→B, B→C — every clip boundary is then a frame you chose.
 

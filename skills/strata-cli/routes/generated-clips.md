@@ -5,6 +5,7 @@
 **It expects** a shot list with a job per clip, and slot lengths from the storyboard. **It delivers** clips as `video` layers or `.jet` overlays inside the kind's structure: **footage-only**, **brand-film**, **aerial-flyby** or **character-animation** in [video-styles.md](../craft/video-styles.md).
 
 ## Settle these before the storyboard (into BRIEF.md; unattended → decide and record in decisions.md)
+- How many clips: a continuous action under 15 s is one generation, keyframed when its ends matter; past 15 s, chain on the last frame; a second clip is a cut the storyboard wants ([clip-length.md](../shoot/clip-length.md), *One clip first*).
 - Per clip: frame-driven (exact pictures) or reference-driven (consistent cast).
 - What recurs across clips; then [production-bible.md](../make/production-bible.md) before the first one.
 - Each clip's slot length and the margin above it; which clips composite over other layers.

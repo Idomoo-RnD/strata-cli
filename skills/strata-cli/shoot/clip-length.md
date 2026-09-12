@@ -4,6 +4,24 @@ Getting past the per-clip ceiling, and the rule that a clip is never stretched t
 
 Part of the video-generation reference — the index, and every other part, is in [video-generation.md](../video-generation.md).
 
+## One clip first — how many generations
+
+The first question is not *how to continue* but *whether to*. A continuous action that fits under
+the 15 s ceiling is **one generation**: a transformation, a pour, a bloom, a reveal. Splitting it
+costs a seam and a second generation's drift — on a 15 s petal-to-bouquet piece the closing shot
+was generated separately and the bouquet changed between the two clips; one keyframed shot with the
+text added in the scene would have held it.
+
+| The action… | Generate |
+|---|---|
+| fits in 15 s | **one clip**. When its ends matter, author both as images and interpolate with `--first-frame` + `--last-frame` ([clip-frames.md](clip-frames.md)); the end frame is generated *from* the first with `--reference`, so the subject is the same object at both ends |
+| runs past 15 s | **chain**: `--last-frame-out` saves the last frame, it becomes the next clip's `--first-frame`, and the next prompt restates the identity lock and the ambient life — the recipe below, once per 15 s |
+| must hit authored beats | **keyframes**: frames A, B, C as images, interpolate A→B, B→C; every boundary is a frame you chose |
+
+They compose: keyframe the moments, chain to cover the ground between them. A second clip is a
+storyboard decision — a cut the piece wants, or ground past the ceiling — never the default way
+to make a clip longer.
+
 ## Chaining — clips longer than 15 s
 
 `--duration` caps at 15. To go longer: generate, save the last frame, upload it, make it the
