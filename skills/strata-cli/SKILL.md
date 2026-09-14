@@ -68,7 +68,7 @@ Every task: `workflow.md`. Mechanical edits use only their editing packet.
 | intake | `make/before-you-start.md` |
 | direction | `make/plan.md` |
 | feasibility | `make/design-contract.md`, `engine/capabilities.md`, `traps.md` |
-| authoring | `make/author.md`, `traps.md`, `engine/scene.md`, `engine/layers.md`, `engine/animation.md` |
+| authoring | `make/author.md`, `traps.md`, `engine/scene.md`, `engine/layers.md`, `engine/animation.md`, `engine/text.md` |
 | review | `qa/review.md`, `craft/motion/09-production-qa.md`, `direct/editorial/workflow-and-qa.md` |
 | delivery | `make/deliver.md`, `qa/review.md`, `craft/motion/09-production-qa.md`, `direct/editorial/workflow-and-qa.md` |
 

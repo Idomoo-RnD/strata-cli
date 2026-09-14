@@ -417,3 +417,109 @@ Proof: offline schema/coordinates; projected render proof pending. Source: [came
   ]
 }
 ```
+
+## marker-highlight
+
+Proof: rendered 2026-09-14 (1280×720 snapshot at 1.5 s): the solid block with the dark word on it reads as a marker; the schema's native highlight span on the same frame drew nothing. Source: [marker-highlight.json](marker-highlight.json).
+
+```json
+{
+  "width": 1280,
+  "height": 720,
+  "fps": 25,
+  "duration": 3,
+  "layers": [
+    {
+      "type": "solid",
+      "name": "bg",
+      "color": "#101828",
+      "box": [
+        0,
+        0,
+        1280,
+        720
+      ]
+    },
+    {
+      "type": "solid",
+      "name": "marker_this",
+      "color": "#FFD166",
+      "box": [
+        446,
+        456,
+        168,
+        76
+      ],
+      "anchor": [
+        446,
+        494
+      ],
+      "opacity": 0.95,
+      "animate": {
+        "scale": [
+          {
+            "t": 0.3,
+            "v": [
+              0,
+              1
+            ],
+            "ease": "outExpo"
+          },
+          {
+            "t": 0.9,
+            "v": [
+              1,
+              1
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "text",
+      "name": "word_before",
+      "text": "Highlight",
+      "font": "./font.ttf",
+      "size": 64,
+      "color": "#FFFFFF",
+      "box": [
+        120,
+        450,
+        320,
+        90
+      ],
+      "align": "left middle"
+    },
+    {
+      "type": "text",
+      "name": "word_marked",
+      "text": "THIS",
+      "font": "./font.ttf",
+      "size": 64,
+      "color": "#101828",
+      "box": [
+        446,
+        450,
+        168,
+        90
+      ],
+      "align": "center middle"
+    },
+    {
+      "type": "text",
+      "name": "word_after",
+      "text": "word with a solid",
+      "font": "./font.ttf",
+      "size": 64,
+      "color": "#FFFFFF",
+      "box": [
+        630,
+        450,
+        560,
+        90
+      ],
+      "align": "left middle"
+    }
+  ]
+}
+```

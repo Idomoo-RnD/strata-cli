@@ -272,5 +272,5 @@ Every one was found by rendering, and each one silently produces a broken video:
    cap applies to sub-comps, so a strip longer than that needs the track matte instead.
 5. **The `validate` overlap warning is a false positive for 3D and RGB-split scenes** —
    layers at different z, and deliberate chromatic-split copies, legitimately overlap in 2D.
-6. **`strikethrough` / `underline` / `highlight` do not render** — draw a `solid` bar when the brief asks for one (a rule under a lone title is a tell — [anti-slop.md](anti-slop.md)).
+6. **`strikethrough` / `underline` / `highlight` do not render** (measured — [text.md](../engine/text.md), *Rich spans*) — draw a `solid` bar when the brief asks for one (a rule under a lone title is a tell — [anti-slop.md](anti-slop.md)); a marker behind a word is the verified [recipe](../recipes/type.md#marker-highlight-sweep).
 7. **Emoji are image layers, never text** — `strata glyphs` catches this before a render.

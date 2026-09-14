@@ -139,6 +139,14 @@ first/middle/last cloud proof. Do not call this correction newly render-verified
 ```
 *(Place the dark text layer on top.)*
 
+**Rendered 2026-09-14** (1280×720 snapshot): the block with the dark word on it reads as a marker
+highlight; the schema's native `highlight` on a styled span, on the same frame, drew nothing
+([text.md](../engine/text.md), *Rich spans*). Two construction rules: put the **highlighted word in
+its own text layer** so the block's box is a box you chose, with the rest of the line in layers
+beside it — a block guessed under one word of a longer line lands where the layout maths says,
+not where the glyphs are; and give the block `1.2 × size` of height so descenders stay inside it.
+The complete scene is the [marker-highlight fixture](../examples/runnable-scenes.md#marker-highlight).
+
 
 ### Seamless loop — first frame equals last frame, invisibly
 
