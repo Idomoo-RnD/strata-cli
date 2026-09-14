@@ -38,6 +38,7 @@ reference-driven clip first, then chain off its last frame.
   - [`--ref-audio` with MUSIC — choreograph the clip to a track](shoot/ref-audio.md#--ref-audio-with-music--choreograph-the-clip-to-a-track)
   - [A series — same skeleton, swap the theme](shoot/ref-audio.md#a-series--same-skeleton-swap-the-theme)
 - [`strata sketch` — author the camera plan as a 3D animatic](shoot/sketch.md#strata-sketch--author-the-camera-plan-as-a-3d-animatic)
+- [`strata sketch` — the pen sketch, a reference and nothing else](shoot/pen-sketch.md#strata-sketch--the-pen-sketch-a-reference-and-nothing-else)
 - [Editing and extension — ⚠ LAST RESORT](shoot/extend.md#editing-and-extension---last-resort)
   - [🛑 Reach for these LAST](shoot/extend.md#-reach-for-these-last)
   - [Editing — change one thing, freeze everything else](shoot/extend.md#editing--change-one-thing-freeze-everything-else)

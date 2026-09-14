@@ -1,0 +1,30 @@
+{
+  "kind": "pen",
+  "width": 1280, "height": 720, "fps": 24, "duration": 5,
+  "seed": 7, "roughness": 1.4, "stroke": "#111", "strokeWidth": 3, "background": "#ffffff",
+  "camera": {
+    "center": [{ "t": 0, "v": [640, 360] }, { "t": 1.5, "v": [640, 360], "ease": "inOutSine" }, { "t": 5, "v": [880, 330] }],
+    "zoom":   [{ "t": 0, "v": 1 },          { "t": 1.5, "v": 1, "ease": "inOutSine" },          { "t": 5, "v": 1.9 }]
+  },
+  "elements": [
+    { "type": "rect", "name": "frame", "at": [40, 40], "size": [1200, 640], "strokeWidth": 2, "roughness": 0.8, "draw": { "from": 0, "to": 0.4 } },
+    { "type": "line", "name": "third_v1", "from": [440, 40], "to": [440, 680], "strokeWidth": 1, "roughness": 0.6, "opacity": 0.35 },
+    { "type": "line", "name": "third_v2", "from": [840, 40], "to": [840, 680], "strokeWidth": 1, "roughness": 0.6, "opacity": 0.35 },
+    { "type": "line", "name": "third_h1", "from": [40, 253], "to": [1240, 253], "strokeWidth": 1, "roughness": 0.6, "opacity": 0.35 },
+    { "type": "line", "name": "third_h2", "from": [40, 467], "to": [1240, 467], "strokeWidth": 1, "roughness": 0.6, "opacity": 0.35 },
+
+    { "type": "curve", "name": "horizon", "points": [[40, 430], [400, 420], [800, 435], [1240, 425]], "strokeWidth": 2.5, "draw": { "from": 0.3, "to": 0.8 } },
+    { "type": "polygon", "name": "building", "points": [[120, 430], [120, 180], [330, 150], [330, 430]], "fill": "hachure", "hachureGap": 14, "draw": { "from": 0.6, "to": 1.2 } },
+    { "type": "text", "name": "building_label", "at": [225, 120], "text": "BUILDING", "size": 20, "align": "center", "draw": { "from": 1.0, "to": 1.2 } },
+
+    { "type": "group", "name": "subject", "children": [
+      { "type": "circle", "name": "head", "at": [880, 300], "r": 22, "draw": { "from": 0.8, "to": 1.0 } },
+      { "type": "limb", "name": "body", "points": [[880, 322], [878, 400], [884, 470]], "widths": [16, 20, 14], "draw": { "from": 0.9, "to": 1.2 } },
+      { "type": "limb", "name": "arm", "points": [[880, 345], [930, 380], [980, 350]], "widths": [8, 7, 6], "draw": { "from": 1.0, "to": 1.3 } }
+    ] },
+    { "type": "text", "name": "subject_label", "at": [880, 510], "text": "WOMAN", "size": 20, "align": "center", "draw": { "from": 1.2, "to": 1.4 } },
+    { "type": "arrow", "name": "walk", "from": [640, 520], "to": [820, 520], "strokeWidth": 2.5, "draw": { "from": 1.3, "to": 1.6 } },
+    { "type": "text", "name": "walk_label", "at": [730, 550], "text": "WALKS IN", "size": 18, "align": "center", "draw": { "from": 1.5, "to": 1.7 } },
+    { "type": "text", "name": "camera_label", "at": [640, 660], "text": "PUSH IN ON HER", "size": 22, "align": "center", "draw": { "from": 1.4, "to": 1.6 } }
+  ]
+}

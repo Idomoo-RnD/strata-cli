@@ -4,6 +4,9 @@ How to name a reference so the model actually cites it, then carrying a characte
 
 Part of the reference/dialogue/shot-control guide — the index, and every other part, is in [video-generation-advanced.md](../video-generation-advanced.md).
 
+A pose, a composition or a concept that has no photo yet can be **drawn** and cited the same way:
+[pen-sketch.md](pen-sketch.md).
+
 ## 🔑 How to address a reference — get this wrong and it is never cited
 
 | Reference | Cite it as | Limit |

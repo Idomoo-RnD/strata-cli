@@ -1,0 +1,27 @@
+{
+  "kind": "pen",
+  "width": 720, "height": 1280, "fps": 24, "duration": 3,
+  "seed": 11, "roughness": 1.6, "bowing": 1.2, "stroke": "#111", "strokeWidth": 3.5, "background": "#ffffff",
+  "elements": [
+    { "type": "group", "name": "figure", "position": [-140, 136], "scale": 0.72, "pivot": [0, 0], "children": [
+      { "type": "limb", "name": "arm_l", "points": [[440, 360], [392, 255], [428, 140], [488, 78]], "widths": [24, 22, 19, 15], "draw": { "from": 0.6, "to": 1.2 } },
+      { "type": "limb", "name": "arm_r", "points": [[560, 360], [608, 255], [572, 140], [512, 78]], "widths": [24, 22, 19, 15], "draw": { "from": 0.6, "to": 1.2 } },
+      { "type": "ellipse", "name": "hands", "at": [500, 62], "size": [46, 74], "draw": { "from": 1.2, "to": 1.4 } },
+      { "type": "limb", "name": "leg_standing", "points": [[548, 655], [553, 900], [548, 1195]], "widths": [40, 27, 19], "draw": { "from": 1.4, "to": 2.0 } },
+      { "type": "limb", "name": "leg_bent", "points": [[452, 660], [318, 800], [505, 862]], "widths": [38, 26, 18], "draw": { "from": 1.4, "to": 2.0 } },
+      { "type": "ellipse", "name": "foot_raised", "at": [522, 872], "size": [40, 84], "seed": 12, "draw": { "from": 2.0, "to": 2.2 } },
+      { "type": "curve", "name": "foot_standing", "closed": true, "points": [[506, 1206], [596, 1200], [618, 1228], [592, 1240], [500, 1238]], "draw": { "from": 2.0, "to": 2.2 } },
+      { "type": "curve", "name": "torso", "closed": true, "points": [[428, 348], [437, 430], [453, 525], [428, 652], [500, 705], [572, 652], [547, 525], [563, 430], [572, 348], [500, 340]], "draw": { "from": 0.2, "to": 0.6 } },
+      { "type": "limb", "name": "neck", "points": [[500, 298], [500, 342]], "widths": [17, 19], "draw": { "from": 0.1, "to": 0.2 } },
+      { "type": "circle", "name": "head", "at": [500, 236], "r": 62, "draw": { "from": 0, "to": 0.3 } },
+      { "type": "curve", "name": "hair", "points": [[442, 212], [470, 170], [500, 160], [532, 168], [558, 210]], "strokeWidth": 3, "draw": { "from": 0.3, "to": 0.4 } },
+      { "type": "circle", "name": "bun", "at": [566, 172], "r": 22, "fill": "hachure", "hachureGap": 7, "seed": 5, "draw": { "from": 0.4, "to": 0.6 } },
+      { "type": "path", "name": "eye_l", "d": "M 470 238 q 12 -10 24 0", "strokeWidth": 2.5, "roughness": 0.8, "draw": { "from": 2.2, "to": 2.4 } },
+      { "type": "path", "name": "eye_r", "d": "M 507 238 q 12 -10 24 0", "strokeWidth": 2.5, "roughness": 0.8, "seed": 3, "draw": { "from": 2.2, "to": 2.4 } },
+      { "type": "path", "name": "mouth", "d": "M 488 275 q 12 8 24 0", "strokeWidth": 2.2, "roughness": 0.8, "seed": 4, "draw": { "from": 2.4, "to": 2.5 } }
+    ] },
+    { "type": "rect", "name": "mat", "at": [70, 1030], "size": [300, 18], "fill": "hachure", "hachureGap": 12, "seed": 9, "draw": { "from": 2.5, "to": 2.8 } },
+    { "type": "line", "name": "ground", "from": [0, 1056], "to": [720, 1056], "strokeWidth": 2.5, "roughness": 2, "draw": { "from": 2.5, "to": 2.9 } },
+    { "type": "text", "name": "label", "at": [360, 1140], "text": "TREE POSE", "size": 28, "align": "center", "draw": { "from": 2.8, "to": 3.0 } }
+  ]
+}
