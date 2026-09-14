@@ -31,6 +31,11 @@ Requires ffmpeg. Without `--scene`, intended keyframe settles cannot be checked.
 | cut_NN.png | seven consecutive frames around a detected cut |
 | settle_NN.png | frames around intended keyframe ends |
 
+The report header names the **candidate** — file, bytes, modified time, SHA-256, the scene's SHA-256
+and the strata version — and `review.json` carries the same `candidate` block. A review approves
+that file and no other: a newer render, or a re-encoded one, gets its own review, and a runner's exit
+code is not one.
+
 ## 2. Watch it four ways
 
 1. **At normal speed with sound:** whole-piece rhythm, emotional arc, voice/bed/SFX hierarchy.
@@ -42,6 +47,7 @@ Requires ffmpeg. Without `--scene`, intended keyframe settles cannot be checked.
 3. **At destination/phone size:** legibility, safe areas and platform chrome. Contact-phone tiles
    are about 185 px wide, smaller than a 390–430 px phone; inspect at true size before rejecting.
 4. **Frame-step around cuts and settles:** continuity, path/velocity, settling, clipping and blur.
+   Frame zero and the final frame are opened by name, never assumed from the contact sheet.
 
 ### Motion is judged on a FILMSTRIP, never on single frames
 
@@ -60,6 +66,23 @@ Choose windows from `perSec`, `perSecMax`, shots/cuts and the storyboard: the bu
 longest hold and last shot deserve explicit inspection. Label the source time and tile indices.
 Compare first/middle/last frames for a slow light shift, but inspect consecutive frames to judge
 its motion quality. Identical pixels can be an intentional locked hold; classify them before judging.
+
+### What to ask at every transition
+
+A settled frame proves nothing about the move between two layouts. At every cut, handover and
+settle, answer these from the strip — not from the easing name or the keyframe count, because a
+shared curve over different distances can still look disconnected:
+
+| Question | What to look for |
+|---|---|
+| What leads attention? | one clear leading action; followers subordinate |
+| Does the move connect the two layouts? | a persistent edge, window, shape, direction or focal relationship |
+| Does the speed feel intentional? | acceleration, travel, deceleration and settle that fit the material |
+| Do related elements stay together? | consistent relative geometry, masks and pivots |
+| Does text stay attached to its context? | no outgoing copy stranded after its surface has moved |
+| Is incoming copy staged? | a readable arrival order, no competing text |
+| Is the handover continuous? | no accidental empty frame, exposed corner, mask gap or jump |
+| Is the held state useful? | stable reading time, or a motivated continued movement |
 
 ## 3. The nine categories — pass or must-fix
 
@@ -92,22 +115,44 @@ It need not have shadows, gradients, changing grades,
 a moving camera, a noisy soundtrack or an extreme energy metric. A designed dissolve may pass;
 so may a locked end card. The intended direction—not a universal feature checklist—sets the bar.
 
+### The verdict
+
+One overall state per candidate, decided by the categories, never by an average:
+
+- **approved** — every category passes on every delivered output, and the candidate is named by hash.
+- **needs-revision** — a must-fix remains, or evidence the approval needs is missing.
+- **blocked** — a dependency, capability or authorisation prevents the work; say what unblocks it.
+- **incomplete** — the allowance is spent with a blocker open; delivered as a marked preview, never as final.
+
+The user-facing report states the candidate, the verdict and the scope of any approval, the strongest
+evidence, the remaining blockers with their locations and next step, and **what was actually
+inspected versus only reported** — a strip opened is inspected; a compile, a runner's exit code and
+the builder's own account are reported.
+
 ## 4. Evidence rules
 
 Every blocking finding uses this chain:
 
 ```text
-[priority] timecode — evidence → viewer effect → likely cause → smallest useful fix → trade-off
+[priority] timecode — expected → observed evidence → viewer effect → cause (verified, or labelled a hypothesis) → smallest useful fix → trade-off → recheck
 ```
 
 Cite the frame/strip and tile when visual evidence matters. “More cinematic” or “add polish” is
-not actionable: name what the viewer loses and what property/moment causes it. Separate:
+not actionable: name what the viewer loses and what property/moment causes it. **Expected** is the
+promise the brief, reference or contract made; **recheck** is the evidence that would prove the fix —
+the frame pair, strip or substitution to open next time. A cause that turns out to be a conflict
+inside the brief itself is reported as a conflict ([intake.md](../make/intake.md), *Audit the brief
+for conflicts*), not fixed by guessing another value. Separate:
 
 - **Must fix:** breaks approved meaning, creative acceptance, hierarchy, fidelity, continuity,
   legibility, sync, privacy, truthful data or delivery.
 - **Should improve:** visible nonblocking weakness; record whether accepted and why.
 - **Experiments:** alternatives, not assumed improvements.
 - **Keep:** decisions a revision must not quietly destroy.
+
+**Order of repair:** missing elements, composition and typography first; broken motion and
+compositing next; finish last. A revision is not spent on a decorative alternative while a fidelity
+defect remains.
 
 Never downgrade a blocker to fit the render budget. A revised creative requirement needs explicit
 approval (or an in-scope unattended decision documented as such), not silent relabeling. Findings
@@ -174,8 +219,9 @@ minutes on six renders**; that motivates better preflight, not automatic shipmen
 
 **A first candidate that passes can ship. Every revision gets a regression gate.** Verify all old
 must-fixes and inspect critical copy/claims/brand, typography, audio, source coverage, transitions,
-first/last frames and data edges. New defects are not ignored because they were absent from the
-first list. Preserve the keep list and the approved direction; do not reopen unrelated taste
+first/last frames, data edges and every delivered aspect ratio on its own render — a square or tall
+version is not approved from the landscape master. New defects are not ignored because they were
+absent from the first list. Preserve the keep list and the approved direction; do not reopen unrelated taste
 experiments on each revision.
 
 If any blocker remains after the budget is used, stop cloud spending and isolate the likely cause
@@ -204,6 +250,19 @@ cut fails here, not in a lane. Add
 energy/stillness/profile only when useful; mark uncalibrated expectations explicitly. A mismatch
 in a proxy is a question to investigate, not a blocker without a viewer effect. Do not retroactively
 change an actual delivery specification to make the output pass.
+
+With a supplied design reference — a styleframe, a key-frame grid, a poster — compare one settled
+frame from **every** shot beside its source cell at the same display size, labelled with shot and
+timecode, and measure the relationships normalised by frame width and height: panel edges, media
+windows, margins, type scale and line count, logo scale. Starting tolerances are the brief's, not
+universal, and a visible mismatch can fail inside them. The element inventory from
+[intake.md](../make/intake.md), *Inventory a design reference*, names what to compare, and its three
+load-bearing features are compared first.
+
+```bash
+# a labelled pair: the held frame at 3.2 s beside the source cell, both at height 360
+ffmpeg -v error -y -ss 3.2 -i out.mp4 -i ref_cell_03.png -filter_complex "[0:v]scale=-2:360[a];[1:v]scale=-2:360[b];[a][b]hstack" -frames:v 1 pair_03.png
+```
 
 When there is a reference, preserve the relationships the direction promised: focal contrast,
 relative timing, restraint, material response, information and sound hierarchy. Grain, resolution

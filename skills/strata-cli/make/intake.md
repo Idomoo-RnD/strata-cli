@@ -17,6 +17,7 @@ leaves an axis free, the skill's craft applies as usual.
 
 - [0. Open everything, and say what it changes](#0-open-everything-and-say-what-it-changes)
 - [1. Recognise what was handed over](#1-recognise-what-was-handed-over)
+- [1½. Audit the brief for conflicts](#1½-audit-the-brief-for-conflicts)
 - [2. The shot table — the one artefact intake produces](#2-the-shot-table--the-one-artefact-intake-produces)
 - [3. Route every scene to a mode](#3-route-every-scene-to-a-mode)
 - [4. Build the production bible, then execute in storyboard order](#4-build-the-production-bible-then-execute-in-storyboard-order)
@@ -50,6 +51,7 @@ the answer and I generated a different one.
 | **URL** | a content page, a product page, a brand site, a reference video, a shared doc | fetch it and read it as the document it is: product page → the product's real name, claims, look and price for the copy and the hero shots; brand site → the atoms; a reference video → the motion signature ([reference-styles.md](../craft/reference-styles.md)) and, if the user wants its *edit*, `--ref-video`; a doc link → its content as a script or brief |
 | **Product photos / logos** | the hero object and the mark | the product sheet in the bible — real marks need `--realistic-human`; a photo becomes a `.jet` if it must sit over layers ([assets.md](../assets.md)) |
 | **A voice sample** | the voice the brand uses | it is the `--ref-audio` / avatar audio, never re-voiced with a TTS |
+| **A styleframe / design reference** (a key frame, a grid of frames, a poster, a template to match) | the look, decided element by element | the element inventory below; the three load-bearing features; what must match, what may change, what must stay dynamic |
 
 Then the **effect map** — one line per input, before any plan:
 
@@ -65,6 +67,56 @@ three claims; hero photo for the product sheet*.
 A storyboard **image** is read with vision, frame by frame, left to right, top to bottom.
 I transcribe rather than summarise: captions verbatim, timecodes exact, dialogue in quotes,
 the notes block whole. If a frame is ambiguous I say so in the table rather than guessing.
+
+### Inventory a design reference
+
+A styleframe, key-frame grid or poster is read cell by cell — gutters, dividers and storyboard
+labels excluded — at the highest resolution supplied. Enlarging a small cell helps inspection but
+recovers no detail, and a reference crop is evidence, never production artwork. Every element gets a
+row:
+
+| Element | Record |
+|---|---|
+| Headline | bounds, type scale, weight, line count, alignment, reading priority |
+| Subhead / body | its own bounds, font treatment, leading, tone, relation to the headline |
+| Other text | eyebrow, badge, label, caption, CTA, fine print — each separately |
+| Media | window bounds, mask shape, corners, crop logic, overlap |
+| Graphics | panels, borders, rules, badges, icons, pills, colour fields |
+| Identity | logo box, aspect, scale, position, relation to the content around it |
+| Palette | surface, ink, subtext, accent and derived roles |
+| Finish | opacity, edge softness, shadow, texture and depth actually visible |
+
+Each entry carries a stable id, its shot, its role and bounds normalised to frame width and height;
+text entries add the font file and weight, cap height, leading, tracking and the copy limits they
+support. Then write three lists — **must match** (layout, type, colour roles, details, finish),
+**may change** (sample wording, replacement photography, adaptations the task permits), **must stay
+dynamic** (every authored text role, media slot and designed palette element) — and name the
+**three features whose loss would make the output stop resembling the source**. They are what the
+review compares first ([review.md](../qa/review.md), *Comparing against the declared position*).
+A headline and its supporting paragraph are two elements even on one panel; badge text is content,
+not decoration; writing inside a photograph belongs to the image, lettering inside a logo to the logo.
+
+## 1½. Audit the brief for conflicts
+
+Before a render is diagnosed, check whether the task itself forces the damage. Some combinations
+cannot be honoured together:
+
+| The task asks for both… | …so the render will show |
+|---|---|
+| a large text panel matched, and most of the frame given to media | the panel narrowed and the typography changed |
+| every copy role kept, and only two text slots | subtext, labels or captions gone, or sharing one value |
+| a multicolour design kept, and a smaller palette | accents and secondary text tones collapsed |
+| a multi-window composition matched, and a cap on image slots | windows removed, or filled with unrelated duplicates |
+| the source's logo scale, and one universal logo width | identity dominating, or too small |
+| a photographic finish, from flat placeholder bitmaps | a look that cannot be judged at all |
+| the design kept, and the same pivot, rotation or pulse everywhere | motion detached from the source's geometry |
+| review once, fix once, then ship regardless | known defects inside a nominally successful delivery |
+
+Resolve priorities from the user's words. Record what remains; never waive a requirement silently or
+call a forced compromise a faithful match. Without authority to change the brief, state the conflict
+and its visible consequence and let the user decide (unattended: decide within scope and record it in
+`decisions.md`). A conflict found here is a decision, not a finding against the render — and the
+review reports it as one ([review.md](../qa/review.md), *Evidence rules*).
 
 ## 2. The shot table — the one artefact intake produces
 

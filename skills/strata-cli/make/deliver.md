@@ -52,8 +52,9 @@ incomplete preview. Never call that preview final.
   promised in the plan. Review reports classify detector findings rather than blindly obey them.
 - The final MP4 meets approved duration, dimensions, aspect, fps, codec and audio requirements;
   first/last frames and captions are checked. A silent brief need not acquire music or a LUFS target.
-- Review ran on the final candidate. Every blocking finding is resolved; accepted nonblocking
-  trade-offs are recorded with reasons. No budget rule overrides this gate.
+- Review ran on the final candidate, named by its hash in the report, and closed with one verdict
+  from [review.md](../qa/review.md), *The verdict*. Every blocking finding is resolved; accepted
+  nonblocking trade-offs are recorded with reasons. No budget rule overrides this gate.
 - Numeric diagnostics include provenance/confidence and comparison limits. Uncalibrated aesthetic
   targets are not fabricated; valid references are compared for relevant relationships.
 - Personalized variants are proved on edge rows (long/short text, scripts, min/max/empty data).
