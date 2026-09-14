@@ -18,7 +18,7 @@ of a storyboard artist — as a **PNG still**, and hands the drawing to generati
 | a concept drawing the model should follow | `--ref-image` |
 | a camera move, blocking over time, cut timing | **not this tool** — the grey-box animatic, [sketch.md](sketch.md), as `--ref-video` |
 
-A camera direction can still be *written on* the still (`CAMERA: PUSH IN ON HER`, an arrow for an
+A camera direction can still be *written on* the still (`CAMERA - PUSH IN ON HER`, an arrow for an
 entrance) the way a storyboard frame carries it; the move itself is the animatic's job.
 
 rough.js ships inside the binary. Nothing is fetched. The sketch is deterministic for a seed, so a
@@ -56,7 +56,7 @@ pointer to the animatic — the pen sketch has no timeline by design.
 | `path` | `d` | any SVG path — an eye, a mouth, a logo outline |
 | `limb` | `points`, `widths` | an outlined arm, leg, stem: a centreline with per-point half-widths |
 | `arrow` | `from`, `to` (or `points`), `head` | movement, a camera direction, "goes here" |
-| `text` | `at`, `text`, `size`, `align` | a hand-lettered label: BUILDING, WOMAN, PUSH IN |
+| `text` | `at`, `text`, `size`, `align` | a hand-lettered label: BUILDING, WOMAN, PUSH IN — capitals, digits and `- _ . /`; any other character draws as `#` |
 | `group` | `children`, plus any transform | a whole figure placed, scaled or rotated as one |
 
 Every element takes `name`, `position`, `scale`, `rotation`, `pivot`, `opacity`, `stroke`,

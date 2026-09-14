@@ -21,6 +21,6 @@
     { "type": "text", "name": "subject_label", "at": [880, 510], "text": "WOMAN", "size": 20, "align": "center" },
     { "type": "arrow", "name": "walk", "from": [640, 520], "to": [820, 520], "strokeWidth": 2.5 },
     { "type": "text", "name": "walk_label", "at": [730, 550], "text": "WALKS IN", "size": 18, "align": "center" },
-    { "type": "text", "name": "camera_label", "at": [640, 660], "text": "CAMERA: PUSH IN ON HER", "size": 22, "align": "center" }
+    { "type": "text", "name": "camera_label", "at": [640, 660], "text": "CAMERA - PUSH IN ON HER", "size": 22, "align": "center" }
   ]
 }
