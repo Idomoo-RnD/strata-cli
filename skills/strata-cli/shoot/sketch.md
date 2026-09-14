@@ -1,8 +1,8 @@
 # `strata sketch` — the 3D animatic
 
 Authoring a camera plan as a grey-box animatic and feeding it back in as a shot reference. The same
-command has a second mode — a rough.js **pen sketch** for a pose, a composition, a concept or a
-drawn camera move, as a PNG still or an MP4 — in [pen-sketch.md](pen-sketch.md).
+command has a second mode — a rough.js **pen sketch**, a PNG still for a pose, a composition or a
+concept — in [pen-sketch.md](pen-sketch.md). The animatic is the only one of the two that moves.
 
 Part of the reference/dialogue/shot-control guide — the index, and every other part, is in [video-generation-advanced.md](../video-generation-advanced.md).
 

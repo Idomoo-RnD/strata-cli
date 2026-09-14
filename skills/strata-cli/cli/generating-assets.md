@@ -15,7 +15,7 @@ intentional flat illustrations with speculative AI imagery.
 | `generate avatar` | talking presenter from still + voice; decide its trade-off | [avatar](../shoot/avatar.md) |
 | `generate narration` / `voices` | TTS voice and voice discovery | [sound](../shoot/sound.md) |
 | `generate music` | music or prompted SFX; prepare the mix for the destination | [music](../shoot/music.md) |
-| `sketch` | local grey-box camera animatic, or a rough.js pen sketch (pose, composition, concept, camera move) as PNG or MP4 — references for a later generation, never layers | [sketch](../shoot/sketch.md), [pen-sketch](../shoot/pen-sketch.md) |
+| `sketch` | local grey-box camera animatic (moves), or a rough.js pen sketch (pose, composition, concept) as a PNG still — references for a later generation, never layers | [sketch](../shoot/sketch.md), [pen-sketch](../shoot/pen-sketch.md) |
 | `path` | SVG draw-on alpha overlay; scene mask trim is preferable for exact solid-color linework | [masks](../recipes/masks.md) |
 | `chart` | animated bars/donut/line from numeric input; geometry is baked when emitted | [personalization](../engine/personalization.md) |
 | `retime` | deliberate speed ramp, not a way to disguise missing source coverage | [video editing](../shoot/video-editing.md) |

@@ -4,9 +4,8 @@ Driving the camera plan and the cut timing of a generated clip from a video you 
 
 Part of the reference/dialogue/shot-control guide — the index, and every other part, is in [video-generation-advanced.md](../video-generation-advanced.md).
 
-Two ways to author the reference video yourself: the grey-box animatic ([sketch.md](sketch.md))
-for a photographic camera plan, and the drawn one ([pen-sketch.md](pen-sketch.md)) for blocking, a
-gesture or a camera move the model must see.
+To author the reference video yourself, build the grey-box animatic ([sketch.md](sketch.md)). A
+drawn pen sketch ([pen-sketch.md](pen-sketch.md)) is a still and goes to `--ref-image`, never here.
 
 ## `--ref-video` — control the SHOTS
 

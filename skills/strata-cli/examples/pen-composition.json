@@ -1,0 +1,26 @@
+{
+  "kind": "pen",
+  "width": 1280, "height": 720,
+  "seed": 7, "roughness": 1.4, "stroke": "#111", "strokeWidth": 3, "background": "#ffffff",
+  "elements": [
+    { "type": "rect", "name": "frame", "at": [40, 40], "size": [1200, 640], "strokeWidth": 2, "roughness": 0.8 },
+    { "type": "line", "name": "third_v1", "from": [440, 40], "to": [440, 680], "strokeWidth": 1, "roughness": 0.6, "opacity": 0.35 },
+    { "type": "line", "name": "third_v2", "from": [840, 40], "to": [840, 680], "strokeWidth": 1, "roughness": 0.6, "opacity": 0.35 },
+    { "type": "line", "name": "third_h1", "from": [40, 253], "to": [1240, 253], "strokeWidth": 1, "roughness": 0.6, "opacity": 0.35 },
+    { "type": "line", "name": "third_h2", "from": [40, 467], "to": [1240, 467], "strokeWidth": 1, "roughness": 0.6, "opacity": 0.35 },
+
+    { "type": "curve", "name": "horizon", "points": [[40, 430], [400, 420], [800, 435], [1240, 425]], "strokeWidth": 2.5 },
+    { "type": "polygon", "name": "building", "points": [[120, 430], [120, 180], [330, 150], [330, 430]], "fill": "hachure", "hachureGap": 14 },
+    { "type": "text", "name": "building_label", "at": [225, 120], "text": "BUILDING", "size": 20, "align": "center" },
+
+    { "type": "group", "name": "subject", "children": [
+      { "type": "circle", "name": "head", "at": [880, 300], "r": 22 },
+      { "type": "limb", "name": "body", "points": [[880, 322], [878, 400], [884, 470]], "widths": [16, 20, 14] },
+      { "type": "limb", "name": "arm", "points": [[880, 345], [930, 380], [980, 350]], "widths": [8, 7, 6] }
+    ] },
+    { "type": "text", "name": "subject_label", "at": [880, 510], "text": "WOMAN", "size": 20, "align": "center" },
+    { "type": "arrow", "name": "walk", "from": [640, 520], "to": [820, 520], "strokeWidth": 2.5 },
+    { "type": "text", "name": "walk_label", "at": [730, 550], "text": "WALKS IN", "size": 18, "align": "center" },
+    { "type": "text", "name": "camera_label", "at": [640, 660], "text": "CAMERA: PUSH IN ON HER", "size": 22, "align": "center" }
+  ]
+}
