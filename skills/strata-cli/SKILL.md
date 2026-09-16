@@ -86,7 +86,7 @@ the source of the typographic idea and the named layout the design contract has 
 | an explainer, tutorial, testimonial, internal comms, recap, sports | `routes/explainer.md` | `direct/editing-director.md`, `direct/editorial/nonfiction-formats.md`, `direct/editorial/editing-grammar.md`, `make/blueprints.md`, `craft/motion/07-narrative-sound-emotion.md` |
 | personalized / data-driven / a chart or a stat | `routes/personalized.md` | `engine/personalization.md`, `craft/motion/06-ui-data-brand.md`, `direct/editorial/nonfiction-formats.md` |
 | a presenter, spokesperson, talking head, dialogue | `routes/presenter.md` | `shoot/avatar.md`, `video-generation-advanced.md`, `make/production-bible.md`, `shoot/captions.md` |
-| a logo sting, brand ident, product hero | `routes/logo-ident.md` | `techniques.md`, `make/blueprints.md`, `craft/video-styles.md`, `assets.md`, `craft/motion/05-shape-effects-texture.md`, `craft/motion/06-ui-data-brand.md`, `recipes.md` |
+| a logo sting, brand ident, product hero | `routes/logo-ident.md` | `techniques.md`, `make/blueprints.md`, `craft/video-styles.md`, `craft/logo-motion.md`, `assets.md`, `craft/motion/05-shape-effects-texture.md`, `craft/motion/06-ui-data-brand.md`, `recipes.md` |
 | kinetic type / typographic / captions-heavy | `routes/kinetic-type.md` | `craft/motion/03-typography.md`, `recipes.md`, `layouts.md` |
 | music-led / beat-synced / audio-reactive | `routes/music-led.md` | `craft/generative-fx.md`, `shoot/music.md`, `craft/motion/07-narrative-sound-emotion.md`, `craft/motion/04-transitions.md` |
 | a genre feel (thriller, comedy, trailer, documentary) | `routes/genre.md` | `techniques.md`, `direct/editorial/narrative-genres.md`, `craft/reference-styles.md`, `craft/motion/08-styles-index.md` |
