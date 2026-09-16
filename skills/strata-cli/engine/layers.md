@@ -86,8 +86,11 @@ Position/scale/rotation compose to the VASCO 4×4 `transform` as `T(position)·R
 { "type": "audio", "src": "./music.mp3", "volume": -6, "ducking": true, "start": 0, "duration": 10 }
 ```
 
-`volume` in dB (0 = unity); `ducking` → `sidechain_compression` (auto-lower under voice); `start` places
-the clip in time — that is how SFX are spotted (music.md, *sound design pass*).
+`volume` in dB (0 = unity); `ducking` → `sidechain_compression`, which the render **ignores** —
+*measured* 2026-09-16, two paired renders (bed −10 dB and 0 dB, two narration lines), decoded audio
+byte-identical with the flag on and off; duck the bed in its stem ([music.md](../shoot/music.md),
+*Prove the mix once*); `start` places the clip in time — that is how SFX are spotted (music.md, *sound
+design pass*).
 
 - ⚠ **`volume` is NOT animatable** — the schema allows only `transform` under an audio layer's
   `animations`, so `animate: { volume: … }` fails validation. Fades and swells are done in

@@ -67,6 +67,33 @@ longest hold and last shot deserve explicit inspection. Label the source time an
 Compare first/middle/last frames for a slow light shift, but inspect consecutive frames to judge
 its motion quality. Identical pixels can be an intentional locked hold; classify them before judging.
 
+### The audio pass — on the delivered MP4, never on the stems
+
+The engine sums the audio layers with no bus limiter, so the mix exists only after the render.
+Three checks, one pass, so audio is judged once and the stems are fixed once:
+
+1. **The narration arrived, whole and in place.** `strata review --scene` finds every audio layer
+   named vo / voice / narration / speech / dialog / line, reads each stem's speech spans, shifts
+   them by the layer's `start`, and reports every span as **heard** or **NOT HEARD** on the render
+   with its level. A span not heard is a layer missing, muted, mis-timed or dropped by the
+   `-map` trap. A pre-mixed track has no such layers: pass the stems with their offsets,
+   `--narration vo_1.mp3@1.0,vo_2.mp3@9.5`. Then the words: with consent for the public store,
+   `strata captions out.mp4` against the script.
+2. **The voice sits above the bed.** The same section prints the **voice-over-bed margin**: the
+   momentary loudness inside the speech spans minus the loudness in the gaps between them, in LU.
+   ⚠ under 6 LU is the bed on top of the voice. *Measured* on two paired renders of one bed and
+   two narration lines: bed at −10 dB, margin **17.5 LU**; bed at 0 dB (equal gain to the voice),
+   **8.4 LU**. A mix at the music page's levels lands near 10 LU and above. The number is a level
+   margin, not intelligibility: a loud voice can still be masked by a bed in its own band, so the
+   1× listen decides, and the number says where to listen.
+3. **The mix is deliverable.** Integrated loudness at the destination target, true peak under the
+   ceiling, the end shape as declared. Same section of the report.
+
+`ducking: true` on the bed does not change the render (measured, [traps.md](../traps.md)); a bed
+that must sit lower under speech is ducked in the stem before import. Every correction the pass
+asks for is made in the stems from the numbers, in one pass, then rendered once more — that render
+is the regression gate, not a second guess ([music.md](../shoot/music.md), *Prove the mix once*).
+
 ### What to ask at every transition
 
 A settled frame proves nothing about the move between two layouts. At every cut, handover and
@@ -98,7 +125,7 @@ photographic treatment. A functional result below the approved creative bar need
 | Typography | exact copy, glyphs, hierarchy, breaks, animation unit and reading time work together | unreadable/hidden text, missing glyph, wrong claim |
 | Editing | beats release information purposefully; cuts/holds land on the declared rhythmic spine | missing beat, broken continuity, exhausted footage, cuts timed to nothing |
 | Compositing | chosen flat/illustrative/spatial treatment is coherent; edges and layering are intentional | halo, misregistration, wrong mask, illegible contrast |
-| Sound | approved destination spec; voice intelligible; sound-picture relationship intentional | missing/doubled voice, broken sync, clipping or wrong spec |
+| Sound | approved destination spec; every narration span heard on the render; voice over bed at the declared margin; sound-picture relationship intentional | missing/doubled voice, a narration span NOT HEARD, bed on top of the voice (margin under 6 LU), broken sync, clipping or wrong spec |
 | Originality | signature belongs to this brief; the three declared commitments (typographic idea, named layout, rhythmic spine) are visible in the render; unnecessary decoration removed | default treatment defeats the approved concept; a commitment declared and not delivered, or never declared — one text treatment on every layer, one layout family on every cut, cuts timed to nothing |
 | Brand fidelity / delivery | atoms, claims, aspect/fps/codec, safe areas and data variants correct | wrong logo, legal copy, output spec or personalized value |
 
@@ -170,6 +197,11 @@ for the user should be readable; keep scene-key details in the implementation no
   can look like an overrun. Inspect the element and curve before changing it.
 - **Energy/profile:** helps find windows for inspection. Whole-frame means do not measure quality,
   weight or viewer attention. Local activity can matter more than the mean.
+- **Narration and bed:** the report's per-span levels come from the meter's 100 ms readings, not
+  whole seconds — a 0.57 s first word at a second boundary once read as "not heard" while an RMS
+  probe found it at −18.9 dB over a −33.9 dB bed, which is why the check moved to the samples. A
+  span still marked NOT HEARD is missing from the render. The margin needs a stretch of bed with
+  no speech to compare against; a voice that covers the whole piece gets no margin, only levels.
 - **Loudness/true peak/silence:** compare to the destination and approved mix, not a universal LUFS
   value. Planned silence is allowed. [music.md](../shoot/music.md) documents the measured encoder
   ceiling and preparation/postprocessing options; remeasure the delivered MP4 after any post pass.

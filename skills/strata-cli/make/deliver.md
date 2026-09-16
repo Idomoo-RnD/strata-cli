@@ -52,6 +52,8 @@ incomplete preview. Never call that preview final.
   promised in the plan. Review reports classify detector findings rather than blindly obey them.
 - The final MP4 meets approved duration, dimensions, aspect, fps, codec and audio requirements;
   first/last frames and captions are checked. A silent brief need not acquire music or a LUFS target.
+- With narration: the audio pass ran on the final MP4 — every narration span heard, the voice-over-bed
+  margin recorded against the declared one, and the stems fixed at most once ([review.md](../qa/review.md), *The audio pass*).
 - Review ran on the final candidate, named by its hash in the report, and closed with one verdict
   from [review.md](../qa/review.md), *The verdict*. Every blocking finding is resolved; accepted
   nonblocking trade-offs are recorded with reasons. No budget rule overrides this gate.

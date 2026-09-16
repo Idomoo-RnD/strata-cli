@@ -205,7 +205,8 @@ Vocabulary: **whoosh** on a move or transition · **hit / impact** on a logo lan
 **riser** into the climax, ending on the downbeat · **tick** on UI and counters · **shimmer** on a
 reveal. One family per piece, 4–8 uses.
 
-**Levels (dBFS, `volume`):** VO **0** · bed **−10 to −12** with `ducking: true` · SFX **−3 to
+**Levels (dBFS, `volume`):** VO **0** · bed **−10 to −12**, ducked under speech **in the stem**
+(below — `ducking: true` on the layer changes nothing) · SFX **−3 to
 −8** (a hit louder than a whoosh) · never more than two SFX overlapping. These are *balance between
 layers*, not delivered loudness — the LUFS target above is what the finished file measures. Check the result by
 ear *and* by probe — `ffprobe` the rendered MP4's audio stream exists, and listen to the join.
@@ -218,6 +219,39 @@ an `animate` channel can be driven by the audio envelope — [format.md](../form
 (`afade=t=out:st=9.5:d=0.5`, video-editing.md). The same goes for **trimming into** a track:
 there is no audio `offset_frame` — to start the music at 0:12, cut it with ffmpeg first.
 
+## Prove the mix once — on the render, then fix the stems once
+
+The first render is the measurement of the mix; nothing before it is. Run the review with the
+scene, read *Narration and bed*, and make every correction in the stems in **one pass** from the
+numbers — the voice level, the bed under speech, the fades — then render once more. That second
+render is the regression gate. Guessing a new level by ear and rendering again is the loop that
+spends the budget.
+
+```bash
+strata review out.mp4 --scene scene.json                   # narration layers found by name (vo_, voice, narration…)
+strata review out.mp4 --narration vo_1.mp3@1.0,vo_2.mp3@9.5   # a pre-mixed track: the stems with their offsets
+```
+
+The report lists every narration span as heard or NOT HEARD with its level, the **voice-over-bed
+margin** (⚠ under 6 LU: the bed is on top of the voice), and whether the stems sit at one level.
+*Measured* on one bed and two narration lines: bed at −10 dB gave **17.5 LU**, bed at 0 dB gave
+**8.4 LU**; the levels above land near 10 LU and higher.
+
+**Ducking is built in the stem, not on the layer.** Lay the narration stems on one timeline at their
+offsets, then key the bed off it — several lines, several offsets, one key:
+
+```bash
+ffmpeg -i vo_1.mp3 -i vo_2.mp3 -filter_complex \
+  "[0:a]adelay=1000|1000,apad=whole_dur=16[a];[1:a]adelay=9500|9500,apad=whole_dur=16[b];[a][b]amix=inputs=2:normalize=0[v]" \
+  -map "[v]" -ar 48000 -t 16 vo_timeline.wav
+ffmpeg -i bed.wav -i vo_timeline.wav -filter_complex \
+  "[0:a]volume=-10dB[bed];[bed][1:a]sidechaincompress=threshold=0.06:ratio=3:attack=15:release=400:makeup=1[d]" \
+  -map "[d]" -t 16 bed_ducked.wav
+```
+
+Import `bed_ducked.wav` at `volume: 0` (its level is already set) and the narration stems at
+their `start` times. Re-run the review on the render: the margin is the proof.
+
 ## Rules
 - **A LUFS target and a loud/quiet gap on the storyboard before the first generation.**
 - **The bed is generated before the shot list is timed, with a pulse** — `strata beats` returns onsets before the first cut is placed; a pulseless bed is declared with its reason, never defaulted into.
@@ -228,13 +262,18 @@ there is no audio `offset_frame` — to start the music at 0:12, cut it with ffm
 - Never use this for voice — that's `generate narration`.
 - Keep the `.wav`, or convert deliberately; don't mislabel it.
 - Flatten the take before shaping it; a generated bed brings its own decay, and that decay is never the design.
+- **The mix is proven on the render, fixed in the stems once, rendered once more** — `ducking: true` changes nothing, so the duck is in the bed stem.
 
 ## The volume shape is a decision
 
 Volume *change* is not a defect — it is one of the strongest tools in the piece, and it belongs on the
 storyboard like a shot does:
 
-- **Under speech, the bed ducks.** That is `ducking: true` on the bed layer, and it is correct.
+- **Under speech, the bed ducks — in the stem.** `ducking: true` on the bed layer reaches the engine
+  as `sidechain_compression: true` and produces **no change**: *measured* 2026-09-16 on two paired
+  renders (bed at −10 dB and at 0 dB, two narration lines at 1.0 s and 9.5 s), the decoded audio
+  was byte-identical with the flag on and off. Build the duck with the narration timeline as the
+  key (*Prove the mix once*, below), then import the ducked bed.
 - **The ending is chosen, by name:** a fade over N seconds, a hard stop on the last cut, the bed holding
   at its level under the end card, a resolve on the final beat. Whichever it is, it is written down.
 - **A swell, a drop, a hole** where the concept asks for one — a beat of silence before the payoff, the bed

@@ -63,6 +63,9 @@ are delivery constraints, not proxies. A silent piece has no LUFS target to hit.
 its **shape**: where the bed ducks under speech, where it swells or drops for the concept, and how the
 piece ends — declared here, so that [review](../qa/review.md)'s end-level line has something to be
 judged against rather than a universal rule ([music.md](../shoot/music.md), *The volume shape is a decision*).
+With narration it also declares the **voice-over-bed margin** the mix aims for (the music page's levels
+land near 10 LU and above); review measures it on the render and reports every narration span as heard
+or not ([review](../qa/review.md), *The audio pass*).
 
 ## Hold classification
 
