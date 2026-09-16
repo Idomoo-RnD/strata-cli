@@ -20,6 +20,7 @@ Where the reference measures: `strata deconstruct` on the clip gives shot length
 ## Watch for
 - the reference's surface copied instead of its technique: [reference-styles.md](../craft/reference-styles.md), the opening paragraph
 - a client's name treated as a style request: `strata route` matches a name only behind a style preposition
+- a request to reproduce the piece itself ("this video, but with our product"): that is a clone — [clone.md](clone.md), not a style
 - a brand's atoms replaced by the reference's: [video-styles.md](../craft/video-styles.md), *Read these two rules before using anything here*
 
 ## Done when

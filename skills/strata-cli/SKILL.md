@@ -80,6 +80,7 @@ the source of the typographic idea and the named layout the design contract has 
 | Kind | Landing page | Topic lookups |
 |---|---|---|
 | supplied material (storyboard, script, PDF, URL, sheets, footage, voice) | `routes/supplied-material.md` | `make/intake.md`, `make/production-bible.md`, `video-generation.md`, `video-generation-advanced.md` |
+| clone / remake a reference video (this video, but ours) | `routes/clone.md` | `make/clone-a-video.md`, `make/intake.md`, `make/production-bible.md`, `shoot/captions.md`, `shoot/ref-video.md`, `shoot/sketch.md` |
 | a TV / broadcast ad, promo, launch, sale, hero film | `routes/tv-ad.md` | `techniques.md`, `direct/editing-director.md`, `direct/editorial/short-form-performance.md`, `direct/editorial/editing-grammar.md`, `make/blueprints.md`, `craft/video-styles.md`, `shoot/video-prompts.md`, `assets.md`, `craft/motion/04-transitions.md`, `craft/motion/07-narrative-sound-emotion.md`, `shoot/music.md` |
 | social / vertical / UGC / trailer-style | `routes/social.md` | `techniques.md`, `direct/editing-director.md`, `direct/editorial/short-form-performance.md`, `make/blueprints.md`, `craft/video-styles.md`, `craft/motion/04-transitions.md`, `shoot/music.md` |
 | an explainer, tutorial, testimonial, internal comms, recap, sports | `routes/explainer.md` | `direct/editing-director.md`, `direct/editorial/nonfiction-formats.md`, `direct/editorial/editing-grammar.md`, `make/blueprints.md`, `craft/motion/07-narrative-sound-emotion.md` |

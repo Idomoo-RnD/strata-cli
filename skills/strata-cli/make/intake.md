@@ -52,6 +52,7 @@ the answer and I generated a different one.
 | **Product photos / logos** | the hero object and the mark | the product sheet in the bible — real marks need `--realistic-human`; a photo becomes a `.jet` if it must sit over layers ([assets.md](../assets.md)) |
 | **A voice sample** | the voice the brand uses | it is the `--ref-audio` / avatar audio, never re-voiced with a TTS |
 | **A styleframe / design reference** (a key frame, a grid of frames, a poster, a template to match) | the look, decided element by element | the element inventory below; the three load-bearing features; what must match, what may change, what must stay dynamic |
+| **A reference video to clone** ("this video, but ours") | the piece, to be read into a shot table and rebuilt with our cast, product and copy | [clone-a-video.md](clone-a-video.md): `deconstruct` and `captions` on it, then Analysis, Timeline and Treatment before any asset; keep its structure, never its assets or identity |
 
 Then the **effect map** — one line per input, before any plan:
 
