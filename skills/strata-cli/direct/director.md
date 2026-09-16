@@ -139,6 +139,15 @@ For each: the thesis restated in that posture, the signature device, the transit
 sound motif, the expectedness score, and **what it refuses to do**. The user picks; a direction
 the user did not see cannot be signed off.
 
+Three useful *levels* for the set, so the spread is deliberate rather than three flavours of the
+same posture: **Native** — a natural extension of what the brand and brief already do; **Evolved** —
+the same DNA with its layout, hierarchy and rhythm pushed; **Provocation** — one or two defining
+characteristics pushed far, secondary habits broken, still believable in the same creative universe.
+Each direction is presented with a four-line annotation: **concept** (a name), **thesis** (one or
+two sentences), **preserved** (the DNA it keeps), **pushed** (what it exaggerates), and **why it
+works** for this content. A direction that cannot be described in one sentence is styling, not a
+direction. Adapted from *anti-ui-slop* by Amin (Figma Community, Community Free Resource License).
+
 **Each direction states its rhythm, focal strategy and hold policy.** They should differ in a
 meaningful idea, not just palette. No arbitrary ratio between their energies or shot lengths is
 required. At least consider a restrained option when the subject allows it. Locked and live holds

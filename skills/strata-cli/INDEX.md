@@ -33,6 +33,7 @@ them apart; grepping this index finds it 14 of 14.
 | [editing-director.md](direct/editing-director.md) | the editorial contract and why this cut, here, now | why this cut · pacing · information release · viewer promise · dominant mode · montage · does the edit have a shape |
 | [blueprints.md](make/blueprints.md) | whole-video structures by type | what structure · beat sheet · shot count · how do I lay out 30 seconds · product launch · explainer · data story · logo reveal |
 | [video-styles.md](craft/video-styles.md) | 50 kinds of video with their shot grammar and tells — technique only, a brand overrides every style | make it like a TikTok · a sale ad · a luxury spot · what kind of video is this · which style · construction of a look |
+| [logo-motion.md](craft/logo-motion.md) | classify a mark into one of seven types, then the reveal that belongs to that type and the easing its character sets — never one technique for every logo | logo sting · logo reveal · animate the logo · ident · bring the logo to life |
 | [reference-styles.md](craft/reference-styles.md) | "make it feel like X" — ~25 films, directors and campaigns reduced to measurable signatures; a technique source, never a costume | feel like Apple · like Nike · in the style of a film or director · copy this campaign · what makes that look work |
 | [motion-atlas.md](craft/motion-atlas.md) | ~700 named motion concepts as vocabulary | what is this move called · name for this effect · give me options · a word for what I want (numbers here lose to motion-design.md) |
 

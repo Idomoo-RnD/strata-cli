@@ -222,6 +222,9 @@ If two or more are true, it will read as HTML animation, not motion design — f
 - [ ] Scene changes are opacity crossfades (→ designed transition)
 - [ ] The frame is flat — no camera move, no depth — *and the flatness was not a decision* (→ add a push/parallax, or own the flat frame)
 - [ ] The same single entrance style repeats with no variation in tempo
+- [ ] Every entrance uses the same offset (the 20–40 px slide-up on everything) — the templated look; distance follows the object's size and the scene
+- [ ] Every scene exits the same way (opacity to 0, scale to 0.95) — the sequence reads as slides; design each end around what follows it
+- [ ] A child moves in a way nobody keyed — a parent comp's transform is inherited; before keying a child, check what its parents do to position, scale, rotation and opacity (*ui-motion-choreography*, Sebastian Moreano Mesa, Figma Community)
 - [ ] A frame sits fully static with nothing alive in it and no reason to be still
 - [ ] A move with no nameable job; more than one dominant motion idea in a shot; more than two transition families in the piece
 - [ ] These were judged on a poster frame only — easing, rhythm, settles and sound are checked on the rendered MP4, and the motion itself on a **filmstrip** of consecutive frames, cropped to the moving element when it is small ([review.md](../qa/review.md), *Motion is judged on a filmstrip*)

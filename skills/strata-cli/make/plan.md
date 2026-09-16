@@ -38,7 +38,16 @@ Present a readable direction before buying its final assets. Include:
 - **Intent:** title, viewer promise, thesis, approved copy/claims and subject-specific signature.
 - **Style:** palette, type scale, material/flatness, lighting if spatial, reference-control map.
 - **Beat plan:** `Time | Information / focal order | Visual / motion | Voice | Sound`.
-  Each beat earns its length; name shortest/longest jobs without targeting a ratio.
+  Each beat earns its length; name shortest/longest jobs without targeting a ratio. A beat is a
+  change in attention, state or structure, not every small animation; for each one, name its
+  **purpose** (what the viewer understands), **what happens**, the **primary element**, any
+  **supporting motion**, and the **transition** that hands attention to the next beat. Where one
+  state can visibly become the next — a button into a panel, a warning into its resolution, a
+  card into its result — prefer that **structural transformation** to several unrelated fades,
+  and name what persists, what changes, what enters and what leaves. Name the **bridge** that
+  carries into the next scene (a shape, a status, the camera) rather than fading everything out.
+  Adapted from *scene-storyboarding* by Sebastian Moreano Mesa (Figma Community, Community Free
+  Resource License).
 - **Hold plan:** locked or live, duration and purpose. A legal hold may be motionless.
 - **Key layouts:** sketches from [layouts](../layouts.md), with alternatives only where useful.
 - **Creative commitments:** the typographic idea, the named layout beyond title-over-media, and the

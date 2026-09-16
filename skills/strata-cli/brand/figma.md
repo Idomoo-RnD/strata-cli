@@ -26,6 +26,7 @@ What to pull from Figma (via the Figma MCP — exact tool names vary by server):
 - [10. Reuse the design tokens](#10-reuse-the-design-tokens)
 - [11. Verify against the source — the loop that makes this accurate](#11-verify-against-the-source--the-loop-that-makes-this-accurate)
 - [12. A faithful import is still a slideshow — add motion](#12-a-faithful-import-is-still-a-slideshow--add-motion)
+- [13. Prepare the file — before it is imported](#13-prepare-the-file--before-it-is-imported)
 
 ## 1. Decide the canvas FIRST (before converting anything)
 Figma designs are usually web-sized (1440×1024, 375×812); video is 1920×1080 or 1080×1920.
@@ -168,9 +169,39 @@ Importing the frame gives you **the layout, not the video**. Author motion on to
 entrances (`position` delta + `opacity`, 300–500ms), reveals ordered by hierarchy, Ken-Burns
 on stills, masks for wipes, a held CTA. See [craft.md](../craft.md) and [recipes.md](../recipes.md).
 
+## 13. Prepare the file — before it is imported
+
+Most import pain is a file that was never structured for motion. Ask for, or make, these before
+step 1 — in Figma, where they are cheap. Adapted from *animation-asset-prep* by Sebastian Moreano
+Mesa (Figma Community, Community Free Resource License).
+
+- **One top-level frame per scene**, named for its job (`Scene02_PrimaryAction`), at the video
+  canvas. A locked duplicate prefixed `REF_` outside the scene keeps the approved static.
+- **Anything with its own timing is its own node.** Separate an element when it enters, moves,
+  scales, changes opacity or colour, morphs, or outlives its neighbours on its own — staggered
+  children stay separate nodes under one parent. Group only what moves as one unit; every group
+  becomes a comp here (*3½*), so a wrapper has to earn its transform.
+- **Assets sit in their final resolved state**: final position, size, full opacity, final text.
+  Entrance offsets and starting scales belong in `animate`, not in the artwork. The one exception
+  is a piece staged outside the frame for a cross-scene handoff, suffixed `_Stage`.
+- **Names carry structure**: numeric prefixes in tens so layers can be inserted (`10_MainCard`,
+  `31_OptionA`), and suffixes that say the role — `_Clip` (a reveal window: a comp with a canvas,
+  *3½*), `_Mask`, `_Static` (never keyed), `_Bridge` (continues into the next scene),
+  `_Wrapper` (shared transform parent), `_Pivot` (transform origin → `anchor`). Never encode
+  timing in a name.
+- **Text stays text; vectors stay vectors** unless a path will never animate on its own. Rasterise
+  only for a real performance reason, never logos, icons or type.
+- **Keep instances and auto layout** where the thing moves as one; detach only where internal
+  motion needs it, after the `REF_` copy exists.
+- **Simplify for playback**: fewer list rows, less metadata, no controls too small to read at
+  the delivery size; keep brand colour, type, proportion, radius, icon style.
+- **Name the transition** for each scene: what comes in from the previous one, the one primary
+  action, the resolved state the viewer should hold, and what bridges out.
+
 ---
 
 ### Import checklist
+- [ ] File prepared: one frame per scene, every independently timed element its own node, assets in their resolved state, roles in the names (*13*)
 - [ ] Canvas decided: scale-to-fit (same aspect) or re-composed (different aspect)
 - [ ] One uniform `S`; origin subtracted from every box
 - [ ] Groups mirrored as comps; children's boxes relative to their GROUP's origin

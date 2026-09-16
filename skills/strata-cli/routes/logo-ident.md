@@ -16,6 +16,7 @@ A sting is one shot, so the range is inside it: a fast reveal, a long hold, near
 ## Read, in this order
 - [blueprints.md](../make/blueprints.md): *Logo reveal / sting*; *Devices worth stealing*.
 - [video-styles.md](../craft/video-styles.md): **logo-ident** and **product-hero** construction.
+- [logo-motion.md](../craft/logo-motion.md): classify the mark, then the move that belongs to its type; the easing its character sets.
 - [motion/03-typography.md](../craft/motion/03-typography.md) and [layouts-catalogue.md](../craft/layouts-catalogue.md): the typographic idea and the named layout the design contract declares.
 - [assets.md](../assets.md): *Drawn or generated?*; *Alpha overlays* for reaching `.jet`.
 - [motion/05-shape-effects-texture.md](../craft/motion/05-shape-effects-texture.md): *3. Optical effects*; *6. Materials and surfaces*.
@@ -25,6 +26,7 @@ A sting is one shot, so the range is inside it: a fast reveal, a long hold, near
 ## Watch for
 - a hold that is a frozen frame: SKILL.md, *Place the piece on the range*
 - a glow, sweep or particle burst added because stings have them: [anti-slop.md](../craft/anti-slop.md), *The test*
+- one reveal technique for every mark — a drawn-on animal, a handwritten block wordmark: [logo-motion.md](../craft/logo-motion.md), *Never*
 - a logo overlaid as `.mp4` instead of alpha video: [traps.md](../traps.md), *The traps, in full*
 - a mark drawing itself baked to `.jet` when it is a stroked mask: [format.md](../format.md), *Strokes and draw-on*
 

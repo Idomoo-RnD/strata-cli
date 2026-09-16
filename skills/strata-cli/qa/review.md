@@ -181,6 +181,12 @@ for conflicts*), not fixed by guessing another value. Separate:
 compositing next; finish last. A revision is not spent on a decorative alternative while a fidelity
 defect remains.
 
+**How the report ends.** Lead with the few findings that matter rather than everything seen, and
+close with two to four **strengths** — the decisions a revision must not undo — and the **single
+highest-leverage change** to make first. A critique that ends on a list of faults sends the next
+render off in every direction at once. Adapted from *superfuture-design-review* by Joey Primiani
+(Figma Community, Community Free Resource License).
+
 Never downgrade a blocker to fit the render budget. A revised creative requirement needs explicit
 approval (or an in-scope unattended decision documented as such), not silent relabeling. Findings
 for the user should be readable; keep scene-key details in the implementation notes.

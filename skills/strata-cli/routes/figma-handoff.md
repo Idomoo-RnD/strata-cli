@@ -14,7 +14,7 @@
 A faithful import supplies layout, not timing. Preserve its hierarchy; choose motion and reading time for the intended viewing context. A locked frame can be deliberate. Record diagnostic confidence under [design-contract.md](../make/design-contract.md), not invented numbers.
 
 ## Read, in this order
-- [figma.md](../brand/figma.md): the twelve steps in order, then the *Import checklist*; *11. Verify against the source* is the accuracy loop.
+- [figma.md](../brand/figma.md): *13. Prepare the file* first, then the twelve steps in order and the *Import checklist*; *11. Verify against the source* is the accuracy loop.
 - [workflow.md](../workflow.md): check D, an imported frame is a layout, not a video.
 
 ## Watch for
