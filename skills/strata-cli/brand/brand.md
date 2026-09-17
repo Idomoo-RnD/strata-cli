@@ -47,6 +47,7 @@ not see in an asset or hear from the user.
 | **After Effects projects** (`.aep`/`.aepx`/Lottie JSON) | The **richest** source — see §A½: type ramp, palette, spacing AND the real motion curves |
 | **An edited video / raw footage** | Frames for palette + type; [video-editing.md](../shoot/video-editing.md) if it needs trimming first |
 | **Nothing but a logo** | Build the palette and type from the logo, then **flag every gap** instead of inventing |
+| **Nothing at all** | Design a **campaign identity** — a palette from the subject's world, a type pairing, a treatment — as the plan's style step describes ([plan.md](../make/plan.md), *2½. Style*), prove it with a moodboard ([moodboard.md](../shoot/moodboard.md)), and write it here marked *designed for this campaign, not supplied*; every piece in the series then uses it, and the flag stays until a real brand arrives |
 
 ## Step 1½ — After Effects files: the richest brand source
 An AE template is a brand's motion identity written down. Unlike a logo or a PDF it

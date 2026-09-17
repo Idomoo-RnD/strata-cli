@@ -22,6 +22,7 @@ local input needs `strata upload` first (the CLI says so rather than publishing 
 - [Drawn or generated? — a physical thing is an image, a shape is for simple geometry](shoot/what-to-generate.md#drawn-or-generated--a-physical-thing-is-an-image-a-shape-is-for-simple-geometry)
 - [`strata generate image "<prompt>" [flags]`](shoot/images.md#strata-generate-image-prompt-flags)
   - [Reference images — art style, characters, composition (the important part)](shoot/images.md#reference-images--art-style-characters-composition-the-important-part)
+- [Moodboard — one generated board that shows the whole campaign](shoot/moodboard.md#moodboard--one-generated-board-that-shows-the-whole-campaign)
 - [`strata edit image <img|url> "<what changes>"` — an image that is 90 % right is EDITED, not re-rolled](shoot/images.md#strata-edit-image-imgurl-what-changes--an-image-that-is-90--right-is-edited-not-re-rolled)
 - [`strata generate video "<prompt>" [flags]`](shoot/clips.md#strata-generate-video-prompt-flags)
 - [`strata generate fastvideo <image> [flags]`  — the OLD image-to-video path](shoot/clips.md#strata-generate-fastvideo-image-flags---the-old-image-to-video-path)

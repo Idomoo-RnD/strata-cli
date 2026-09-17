@@ -34,8 +34,9 @@ strata route BRIEF.md --phase review
 strata route BRIEF.md --phase delivery
 ```
 
-`brief init` writes the request, reconstruction, intent, acceptance, diagnostics with confidence,
-approvals and spend ledger. Fill what the current gate needs; uncalibrated/N/A is valid for a
+`brief init` writes the request, reconstruction, intent, acceptance, the campaign section (concept,
+visual style, the brand used or designed, the moodboard), diagnostics with confidence, approvals
+and spend ledger. Fill what the current gate needs; uncalibrated/N/A is valid for a
 metric. Amend the brief as direction changes rather than reconstructing it from the conversation.
 Routing reads the reconstruction, not every word in the brief; asset lists and exclusions should
 not accidentally become a new genre. Preserve actual negative constraints alongside that line.

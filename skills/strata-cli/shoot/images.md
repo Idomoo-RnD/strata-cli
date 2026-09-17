@@ -5,7 +5,8 @@ A still from a prompt, and changing one that is already 90 % right instead of ro
 Part of the asset-generation reference — the index, and every other part, is in [assets.md](../assets.md).
 
 ## `strata generate image "<prompt>" [flags]`
-A still PNG (async, ~10–20s).
+A still PNG (async, ~10–20s). For a campaign board — three keyframes and a study strip in one
+16:9 image — the prompt format is in [moodboard.md](moodboard.md).
 
 | flag | meaning |
 |---|---|

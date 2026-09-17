@@ -162,6 +162,10 @@ snapshot` for the actual type and plates — not as prose. Each frame answers: f
 read, what is deliberately empty, the one accent, the type scale. Anti-slop runs on each
 ([anti-slop.md](../craft/anti-slop.md)): remove one thing before showing it.
 
+Before the frames are built in the engine, the three of them can be **one generated board** —
+three finished keyframes and a study strip in a single image ([moodboard.md](../shoot/moodboard.md))
+— so the user compares the campaign, not a frame, and the visual style is decided once.
+
 These frames are the contract the motion is built toward; motion may not change the frames'
 hierarchy.
 

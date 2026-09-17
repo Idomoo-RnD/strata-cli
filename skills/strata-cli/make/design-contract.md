@@ -17,6 +17,7 @@ an unnecessary move can be the strongest revision.
 | Field | Record |
 |---|---|
 | Intent | viewer promise, thesis, signature, approved claims/copy |
+| Campaign | the concept line and its thesis; the visual style — type system, palette by name, treatment, texture, motion posture; the brand used, or the identity designed for this campaign; the approved moodboard ([moodboard.md](../shoot/moodboard.md)) |
 | Hierarchy | focal order per beat, negative space, type hierarchy at rest and in motion |
 | Motion | frame rate, timing in frames, named curves, material/overshoot policy, still elements |
 | Editorial | beat lengths and jobs, camera/transition rules, sound motif, reason for each cut |

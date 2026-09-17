@@ -74,6 +74,19 @@ It waits for a human Save; do not make an unattended job depend on it.
 
 ## 2½. Style
 
+**The campaign concept and its visual style are written here, and they are the AAA bar.** The
+concept is a line only this subject could carry and the thesis behind it; the visual style is a
+set of decisions — the type system, a palette named in order of dominance, the photographic or
+illustrative treatment, texture, the motion posture — each with its reason. With a brand, the
+atoms are the style ([brand.md](../brand/brand.md)); without one, the style is *designed* for the
+campaign: a palette derived from the subject's world ([anti-slop.md](../craft/anti-slop.md),
+*Colour when no brand exists*), a type pairing, a treatment — written to `.brand/brand.md` marked
+*designed for this campaign, not supplied*, so every piece in the series shares it. It is proved
+before any scene with a generated moodboard ([moodboard.md](../shoot/moodboard.md)): three
+keyframes and a study strip in one image, the user's choice recorded in BRIEF.md under *Campaign*.
+A direction that scores under 4 on the director's expectedness scale is not the campaign yet
+([director.md](../direct/director.md), *3. Three directions*).
+
 [video-styles.md](../craft/video-styles.md) offers technique vocabulary, not mandatory costumes.
 The approved brand controls atoms; the direction controls composition and motion. Three palettes
 on the same timing are not three concepts. Equally, three good concepts need not span an arbitrary

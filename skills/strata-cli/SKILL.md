@@ -81,7 +81,7 @@ the source of the typographic idea and the named layout the design contract has 
 |---|---|---|
 | supplied material (storyboard, script, PDF, URL, sheets, footage, voice) | `routes/supplied-material.md` | `make/intake.md`, `make/production-bible.md`, `video-generation.md`, `video-generation-advanced.md` |
 | clone / remake a reference video (this video, but ours) | `routes/clone.md` | `make/clone-a-video.md`, `make/intake.md`, `make/production-bible.md`, `shoot/captions.md`, `shoot/ref-video.md`, `shoot/sketch.md` |
-| a TV / broadcast ad, promo, launch, sale, hero film | `routes/tv-ad.md` | `techniques.md`, `direct/editing-director.md`, `direct/editorial/short-form-performance.md`, `direct/editorial/editing-grammar.md`, `make/blueprints.md`, `craft/video-styles.md`, `shoot/video-prompts.md`, `assets.md`, `craft/motion/04-transitions.md`, `craft/motion/07-narrative-sound-emotion.md`, `shoot/music.md` |
+| a TV / broadcast ad, promo, launch, sale, hero film | `routes/tv-ad.md` | `techniques.md`, `shoot/moodboard.md`, `direct/editing-director.md`, `direct/editorial/short-form-performance.md`, `direct/editorial/editing-grammar.md`, `make/blueprints.md`, `craft/video-styles.md`, `shoot/video-prompts.md`, `assets.md`, `craft/motion/04-transitions.md`, `craft/motion/07-narrative-sound-emotion.md`, `shoot/music.md` |
 | social / vertical / UGC / trailer-style | `routes/social.md` | `techniques.md`, `direct/editing-director.md`, `direct/editorial/short-form-performance.md`, `make/blueprints.md`, `craft/video-styles.md`, `craft/motion/04-transitions.md`, `shoot/music.md` |
 | an explainer, tutorial, testimonial, internal comms, recap, sports | `routes/explainer.md` | `direct/editing-director.md`, `direct/editorial/nonfiction-formats.md`, `direct/editorial/editing-grammar.md`, `make/blueprints.md`, `craft/motion/07-narrative-sound-emotion.md` |
 | personalized / data-driven / a chart or a stat | `routes/personalized.md` | `engine/personalization.md`, `craft/motion/06-ui-data-brand.md`, `direct/editorial/nonfiction-formats.md` |
@@ -91,10 +91,10 @@ the source of the typographic idea and the named layout the design contract has 
 | music-led / beat-synced / audio-reactive | `routes/music-led.md` | `craft/generative-fx.md`, `shoot/music.md`, `craft/motion/07-narrative-sound-emotion.md`, `craft/motion/04-transitions.md` |
 | a genre feel (thriller, comedy, trailer, documentary) | `routes/genre.md` | `techniques.md`, `direct/editorial/narrative-genres.md`, `craft/reference-styles.md`, `craft/motion/08-styles-index.md` |
 | "make it feel like X" (a film, director, campaign) | `routes/feel-like.md` | `techniques.md`, `craft/reference-styles.md`, `craft/motion/08-styles-index.md` |
-| premium / AAA / cinematic / broadcast quality (in addition to the kind above) | `routes/premium.md` | `techniques.md`, `direct/director.md`, `craft/motion/01-foundations.md`, `craft/motion/02-choreography-space-camera.md`, `craft/motion/03-typography.md`, `craft/motion/09-production-qa.md` |
+| premium / AAA / cinematic / broadcast quality (in addition to the kind above) | `routes/premium.md` | `techniques.md`, `direct/director.md`, `shoot/moodboard.md`, `craft/motion/01-foundations.md`, `craft/motion/02-choreography-space-camera.md`, `craft/motion/03-typography.md`, `craft/motion/09-production-qa.md` |
 | any generated video clip | `routes/generated-clips.md` | `techniques.md`, `video-generation.md`, `shoot/video-prompts.md`, `shoot/pen-sketch.md` |
 | an edit of supplied footage (cut, join, reframe, retime) | `routes/footage-edit.md` | `shoot/video-editing.md`, `direct/editorial/workflow-and-qa.md` |
-| brand material supplied, "on brand", a series | `routes/brand-kit.md` | `brand/brand.md` |
+| brand material supplied, "on brand", a series | `routes/brand-kit.md` | `brand/brand.md`, `shoot/moodboard.md` |
 | Figma | `routes/figma-handoff.md` | `brand/figma.md` |
 
 **Capability dependencies** — inferred from the brief or explicitly selected with
