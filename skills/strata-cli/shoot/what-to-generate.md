@@ -30,8 +30,8 @@ Author around it:
 ## Drawn or generated? — a physical thing is an image, a shape is for simple geometry
 
 Choose generated imagery for photographed surfaces and objects when that is the intended look.
-**Shapes (`solid`, masks, vector paths) also suit precise icons, diagrams and flat illustrations**;
-do not generate an asset merely because it depicts an object. Reuse approved assets first. The
+**Shapes (`solid`, masks, vector paths) also suit precise icons, diagrams and flat geometric
+illustration** — never a body; do not generate an asset merely because it depicts an object. Reuse approved assets first. The
 table below is the default for a photographic/product treatment, not a ban on graphic design.
 
 | the element is… | build it as |
@@ -40,6 +40,7 @@ table below is the default for a photographic/product treatment, not a ban on gr
 | an icon, an illustration, a badge, a sticker, a texture, a material, a photographic backdrop | **`generate image`** for photographic detail; precise vector/flat artwork may be authored directly |
 | the UI on a device's screen, a chart, a counter, the copy | **scene layers** (text, `strata chart`, blocks) inside the device's screen rectangle — that is what animates and personalises |
 | a panel, a band, a rule, a grid, a shape wipe, an abstract mark, a colour field | **shapes** |
+| **a character, a creature, a face, a hand, a figure, any scene with someone in it — cartoon, illustrated or photographic** | **generated, never built**: a sheet with `generate image` first, then clips with `generate video` referenced to the sheet ([production-bible.md](../make/production-bible.md)); over a layout, as a keyed `.jet` ([clips-for-alpha.md](clips-for-alpha.md)). Shapes are for geometry, not anatomy — a fox made of solids is a diagram of a fox ([cartoon.md](../routes/cartoon.md)) |
 
 A drawn phone is eleven rounded solids and reads as a diagram; a generated one has bezel, glass,
 reflection and weight, and the UI still sits on it as layers. The cost is one wave (~10–20 s per

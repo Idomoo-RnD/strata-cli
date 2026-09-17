@@ -143,7 +143,14 @@ Runs through `matte` / reframe / trim / ffmpeg — never `generate`.
   hairline rule drawing on, slow settle. Restraint reads as expensive.
 - **avatar-presenter** — lower third only around the speech; a stat card pops at the proof
   moment, not before. See [avatar.md](../shoot/avatar.md).
-- **character-animation** — model-sheet consistency; subtitle bar for dialogue.
+- **character-animation** — the cast is **generated, never built from shapes**: one sheet per
+  principal with `generate image` (front, three-quarter, the expression range), the style named in
+  words the prompts repeat verbatim; every clip is `generate video` with the sheet as `--ref-image`
+  and the identity block unchanged ([production-bible.md](../make/production-bible.md)); a
+  character that sits over a graphic layout is one continuous shot on a keyable ground and a
+  `.jet` ([clips-for-alpha.md](../shoot/clips-for-alpha.md)); a spoken line is generated into the
+  clip through `--ref-audio`, never a TTS laid over it; the engine does the type, the layout and
+  every non-body motion; subtitle bar for dialogue. Route: [cartoon.md](../routes/cartoon.md).
 - **sports-hype** — one word per shot, on the cut, ~1.5s each; a hot accent bar; nothing
   fades, everything cuts.
 - **aerial-flyby** — place + coordinates chrome and nothing else; the camera is the content.
