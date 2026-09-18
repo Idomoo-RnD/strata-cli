@@ -1,8 +1,10 @@
-# `strata sketch` — the 3D animatic
+# `strata sketch` — the 3D animatic, a reference for generating video
 
-Authoring a camera plan as a grey-box animatic and feeding it back in as a shot reference. The same
-command has a second mode — a rough.js **pen sketch**, a PNG still for a pose, a composition or a
-concept — in [pen-sketch.md](pen-sketch.md). The animatic is the only one of the two that moves.
+A grey-box camera plan, rendered to MP4 and handed to `generate video --ref-video` so the model
+copies its moves, its staging and its cuts. **It is a reference for making the video, never the
+video**: not a layer, not a deliverable, not a draft of the piece. The same command has a second
+mode — a rough.js **pen sketch**, a PNG still for a pose, a composition or a concept, handed to
+`--ref-image` — in [pen-sketch.md](pen-sketch.md). The animatic is the only one of the two that moves.
 
 Part of the reference/dialogue/shot-control guide — the index, and every other part, is in [video-generation-advanced.md](../video-generation-advanced.md).
 
@@ -11,7 +13,8 @@ Part of the reference/dialogue/shot-control guide — the index, and every other
 When a shot is complex enough that words fail — *"crane down past the sign as she crosses left
 to right, cut to a low tracking shot following the car"* — build the blocking as a grey-box
 animatic, render it to MP4, and feed an approved hosted copy as `--ref-video` with the "IGNORE the
-look" instruction above. Read [upload policy](upload.md) first: only non-sensitive material with
+look" instruction from [ref-video.md](ref-video.md), *Use 2 — block the shot yourself with a
+grey-box animatic*. Read [upload policy](upload.md) first: only non-sensitive material with
 informed consent can be published. Concept/customer details can make an animatic confidential.
 
 This is the CLI's own tool. **Do not rewrite a Three.js scene by hand.**
@@ -87,7 +90,30 @@ Two more worked plans — adapt, do not start from zero:
                "toPos": [-2.5, 1.8, -5.5], "toLookAt": [2.6, 1.0, -4.2] } ] }
 ```
 
+The doorway plan ships as [animatic-doorway.json](../examples/animatic-doorway.json) —
+`strata sketch animatic-doorway.json -o plan.mp4` runs as it is, and `--html` shows the blocking
+before the render.
+
 **The animatic is a camera plan, not a look.** Keep the prompt's `Style & Mood:` and identity
 lock complete — the reference contributes nothing but movement and timing.
+
+## What it must never be
+
+The animatic exists to be *referenced*, and only by `generate video`. It is never a layer in the
+scene, never the deliverable, never shown as a draft of the piece, and nothing of its look — grey
+blocks, the ground grid, the labels — is meant to reach the finished clip, which is why the prompt
+says IGNORE the look. When the brief asks for a 3D *look* in the piece — a product turning on a
+plinth, a camera flying through a set — that is content: generate it as a clip against a plate
+([ref-image.md](ref-image.md)) or build it with the engine's own camera
+([comps-camera.md](../engine/comps-camera.md)), and use the animatic only to tell the model how that
+camera moves.
+
+## Checklist
+
+- [ ] `shots` declared — a shot is a cut, and the cuts are what the model copies
+- [ ] Blocking checked in `--html` before the render; labels short and generic
+- [ ] Uploaded only after consent for a non-sensitive plan ([upload.md](upload.md))
+- [ ] Prompt carries the IGNORE-the-look block from [ref-video.md](ref-video.md) and the complete `Style & Mood:` and identity lock
+- [ ] Not in the scene: no animatic frame or clip is a layer — the deliverable holds only the generated clip
 
 ---

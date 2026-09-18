@@ -17,6 +17,14 @@ strata track shot.mp4 --comp 400x400          # SURFACE -> a corner_pin effect
 strata track shot.mp4 --point 640,355         # ELEMENT -> position keyframes
 ```
 
+The rest of the flags: `-o track.json` names the output (default: beside the clip as
+`<clip>.track.json`); `--smooth N` is the smoothing window in frames (default 13; point mode
+caps it at 3) — raise it for a jittery lock, lower it when the subject changes direction fast;
+`--min-area f` is the smallest quad surface mode accepts, as a fraction of the frame (default
+0.02) — *no flat quad found* means try 0.01, or the surface is too low-contrast; `--fps N`
+overrides the clip's rate for the keyframes, and is not the fix for a scene at another rate —
+match the scene fps to the clip (below).
+
 **⚠️ This command is the ONLY way to track — NEVER track by hand.** Do not eyeball a few
 frames and interpolate keyframes, and do not write a one-off tracker script: a hand-track
 drifts and jitters between the guessed points and the graphic reads pasted-on, every time. `strata track` measures **every** frame and smooths the path. If it reports a

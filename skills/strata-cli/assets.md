@@ -23,6 +23,8 @@ local input needs `strata upload` first (the CLI says so rather than publishing 
 - [`strata generate image "<prompt>" [flags]`](shoot/images.md#strata-generate-image-prompt-flags)
   - [Reference images — art style, characters, composition (the important part)](shoot/images.md#reference-images--art-style-characters-composition-the-important-part)
 - [Moodboard — one generated board that shows the whole campaign](shoot/moodboard.md#moodboard--one-generated-board-that-shows-the-whole-campaign)
+- [`strata sketch` — author the camera plan as a 3D animatic](shoot/sketch.md#strata-sketch--author-the-camera-plan-as-a-3d-animatic) — a reference for `generate video --ref-video`, never a layer
+  - [`strata sketch` — the pen sketch, a reference and nothing else](shoot/pen-sketch.md#strata-sketch--the-pen-sketch-a-reference-and-nothing-else) — a pose, a composition or a concept for `--ref-image`
 - [`strata edit image <img|url> "<what changes>"` — an image that is 90 % right is EDITED, not re-rolled](shoot/images.md#strata-edit-image-imgurl-what-changes--an-image-that-is-90--right-is-edited-not-re-rolled)
 - [`strata generate video "<prompt>" [flags]`](shoot/clips.md#strata-generate-video-prompt-flags)
 - [`strata generate fastvideo <image> [flags]`  — the OLD image-to-video path](shoot/clips.md#strata-generate-fastvideo-image-flags---the-old-image-to-video-path)

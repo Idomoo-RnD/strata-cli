@@ -48,6 +48,10 @@ Use `strata <command> --help` before guessing flags; help is offline and exits 0
 returns structured output; errors go to stderr. The [command index](cli/all-commands.md) lists
 inputs, outputs, runtime dependencies and side effects. An edit-only request goes directly to
 [video-editing.md](shoot/video-editing.md); no scene, storyboard ceremony or AI footage is required.
+A `strata sketch` output — the 3D animatic MP4 or the pen still — is a **reference for generating**
+video or images ([sketch.md](shoot/sketch.md), [pen-sketch.md](shoot/pen-sketch.md)), never a layer.
+To put type on a surface in footage or make an element follow a subject, `strata track` writes the
+keyframes ([tracking.md](recipes/tracking.md)).
 
 ## What to read for this brief
 
@@ -111,6 +115,7 @@ the source of the typographic idea and the named layout the design contract has 
 - **data:** `engine/personalization.md`, `recipes/data-viz.md`
 - **alpha:** `shoot/alpha.md`, `shoot/clips-for-alpha.md`
 - **tracking:** `recipes/tracking.md`, `engine/effects-masks.md`
+- **sketch:** `shoot/sketch.md`, `shoot/pen-sketch.md`, `shoot/ref-video.md`
 
 `--mode edit|design|generation|template` resolves ambiguous task classification.
 Re-route as the chosen techniques change. No kind matched? Choose a structure with
