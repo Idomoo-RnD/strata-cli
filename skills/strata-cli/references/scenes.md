@@ -311,7 +311,30 @@ There is no separate general shape-layer type. Use a `solid` masked to the shape
 
 Shape options include feather, inversion, opacity, expansion, and blend
 (`none`, `add`, `subtract`, `intersect`, `lighten`, `darken`, `difference`).
-Compatible shape structures can morph through `animate.shape`.
+A mask shape morphs through `animate.shape`. Each keyframe `v` is a shape object
+(`{"path":"M… Z"}`, `{"rect":[…]}`, `{"path":[[x,y],…]}`), never a bare SVG string:
+a bare string fails to compile with "shape.values is not iterable".
+
+To grow a shape from nothing, start from a single point on its edge,
+`{"path":"M740 0 Z"}`, and end on the full path. Keyframes whose commands match
+one for one (two rects, two point lists of equal length, two raw command lists
+of the same types) tween exactly as written. Keyframes that differ, such as any
+SVG path at two sizes, are resampled to a shared outline of 96 or more points so
+they tween. In 1.0.177 and earlier they held the first shape and then jumped: a
+corner grown over frames 18–40 stayed invisible until frame 40. After a render,
+check a frame in the middle of the grow, and require Strata 1.0.178 or later.
+
+```json
+"mask": {
+  "path": "M740 0 Z",
+  "animate": {"shape": [
+    {"f": 18, "v": {"path": "M740 0 Z"}, "ease": "outCubic"},
+    {"f": 40, "v": {"path": "M740 0 L788 0 C761.49 0 740 21.49 740 48 Z"}}
+  ]}
+}
+```
+
+Stroked lines draw on through `trim`, not `animate.shape`.
 
 A stroked mask makes exact line work. `stroke` is pixels; `cap` is `butt` or
 `round`; `trim.start`, `trim.end`, and `trim.offset` are fractions or keyframes.

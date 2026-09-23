@@ -43,7 +43,7 @@ references, not a reading sequence.
 | Validate, render, inspect, or deliver an output | [Delivery](references/delivery.md) |
 | Resolve an error or an unexpected result | [Troubleshooting](references/troubleshooting.md) |
 
-These guides describe the Strata 1.0.177 tool surface. Check the installed version
+These guides describe the Strata 1.0.178 tool surface. Check the installed version
 and `strata <command> --help` when flags matter. Help is offline. The examples
 are starting points for mechanics; adapt their appearance to the task.
 
