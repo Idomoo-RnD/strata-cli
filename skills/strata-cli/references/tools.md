@@ -42,6 +42,9 @@ Commands in the tables omit the `strata` prefix for readability.
 |---|---|---|---|
 | `init scene.json` | Start a compact scene | Defaults → scene JSON | Local file creation |
 | `add --list` / `add <block> scene.json` | Discover or insert reusable groups | Block → scene layers/comps | Local; insertion changes the scene and makes names unique |
+| `math <kind> scene.json …` | 3D objects (`box`, `card`, `cylinder`), `light`, `noise`, `scatter`, `follow` | Scene plus `--name` (objects) or `--layer` (motion), and the kind's flags → one short block | Local; written only if the scene still compiles; `math --list`, `math <kind> --help` lists every input |
+| `particles <preset> scene.json --name N …` | Sparks, embers, snow, rain, confetti, smoke, bubbles, stars, dust, comet, assemble | Scene, a name, and flags overriding the preset → one `particles` layer | Local; written only if the scene still compiles; `particles --list`, `particles <preset> --help` lists every input |
+| `physics <kind> scene.json …` | `world`, `body`, `hang`, `attach`, `kick`, `blast`, `wind`, `shatter`, `jelly` | Scene plus `--layer` (body kinds) or `--t` (events), and the kind's flags → the `physics` block or a layer's `body` | Local; re-simulated every compile; `physics --list`, `physics <kind> --help` lists every input |
 | `chart bars --data data.json --box x,y,w,h` | Build exact data graphics | Numeric data → animated layers | Local; line/donut have different inputs; geometry is created at author time |
 | `validate scene.json` | Check syntax and asset problems | Scene → errors and warnings | Local; passing is not visual proof |
 | `glyphs font.ttf "copy"` | Check a font against exact copy | Font/text → missing characters | Local; `glyphs scene.json` checks the scene |

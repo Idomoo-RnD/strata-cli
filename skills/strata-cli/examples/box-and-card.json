@@ -1,0 +1,164 @@
+{
+ "width": 1280,
+ "height": 720,
+ "fps": 25,
+ "duration": 6,
+ "light": {
+  "from": "upper-left",
+  "animate": {
+   "from": [
+    {
+     "t": 0.3,
+     "v": "upper-left",
+     "ease": "inOutSine"
+    },
+    {
+     "t": 5.5,
+     "v": "upper-right"
+    }
+   ]
+  }
+ },
+ "layers": [
+  {
+   "type": "solid",
+   "name": "ground",
+   "color": "#11141b",
+   "box": [
+    0,
+    0,
+    1280,
+    720
+   ]
+  },
+  {
+   "type": "shape3d",
+   "name": "coffee",
+   "shape": "box",
+   "size": [
+    190,
+    260,
+    110
+   ],
+   "position": [
+    420,
+    370,
+    0
+   ],
+   "color": "#1f3a2e",
+   "font": "./font.ttf",
+   "text_color": "#f2eee3",
+   "faces": {
+    "front": {
+     "text": "SLOW\nROASTED",
+     "size": 38
+    },
+    "back": {
+     "text": "Ethiopia\nYirgacheffe",
+     "size": 24,
+     "font": "./font.ttf"
+    },
+    "right": {
+     "text": "250 g",
+     "size": 26
+    },
+    "left": {
+     "text": "whole bean",
+     "size": 22
+    },
+    "top": {
+     "text": "STRATA",
+     "size": 26
+    }
+   },
+   "animate": {
+    "rotation": [
+     {
+      "t": 0,
+      "v": [
+       16,
+       -522,
+       0
+      ],
+      "ease": "outCubic"
+     },
+     {
+      "t": 4.2,
+      "v": [
+       16,
+       18,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "type": "shape3d",
+   "name": "ticket",
+   "shape": "card",
+   "size": [
+    300,
+    180
+   ],
+   "radius": 18,
+   "position": [
+    900,
+    370,
+    0
+   ],
+   "color": "#f2eee3",
+   "font": "./font.ttf",
+   "faces": {
+    "front": {
+     "text": "ADMIT ONE",
+     "size": 36
+    },
+    "back": {
+     "text": "Row F · Seat 12",
+     "size": 28,
+     "color": "#ff7a45",
+     "text_color": "#11141b"
+    }
+   },
+   "animate": {
+    "rotation": [
+     {
+      "t": 0.8,
+      "v": [
+       0,
+       0,
+       0
+      ],
+      "ease": "inOutCubic"
+     },
+     {
+      "t": 3.2,
+      "v": [
+       0,
+       180,
+       0
+      ]
+     },
+     {
+      "t": 3.6,
+      "v": [
+       0,
+       180,
+       0
+      ],
+      "ease": "inOutCubic"
+     },
+     {
+      "t": 5.6,
+      "v": [
+       -20,
+       360,
+       8
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}

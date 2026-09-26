@@ -1,0 +1,132 @@
+{
+ "width": 1280,
+ "height": 720,
+ "fps": 25,
+ "duration": 5,
+ "physics": {
+  "gravity": 1,
+  "floor": 600,
+  "walls": true
+ },
+ "layers": [
+  {
+   "type": "solid",
+   "name": "ground",
+   "color": "#11141b",
+   "box": [
+    0,
+    0,
+    1280,
+    720
+   ]
+  },
+  {
+   "type": "solid",
+   "name": "floor_line",
+   "color": "#2a3040",
+   "box": [
+    0,
+    600,
+    1280,
+    2
+   ]
+  },
+  {
+   "type": "solid",
+   "name": "card",
+   "color": "#ff7a45",
+   "box": [
+    530,
+    520,
+    220,
+    80
+   ],
+   "mask": {
+    "rect": [
+     530,
+     520,
+     220,
+     80
+    ],
+    "radius": 16
+   },
+   "body": {
+    "from": [
+     700,
+     -120,
+     -8
+    ],
+    "spin": 0,
+    "bounce": 0.4,
+    "aim": true,
+    "settle": true
+   }
+  },
+  {
+   "type": "text",
+   "name": "card_text",
+   "text": "STRATA",
+   "font": "./font.ttf",
+   "size": 44,
+   "color": "#11141b",
+   "box": [
+    530,
+    520,
+    220,
+    80
+   ],
+   "align": "center middle",
+   "body": {
+    "attach": "card"
+   }
+  },
+  {
+   "type": "text",
+   "name": "letter_D",
+   "text": "D",
+   "font": "./font.ttf",
+   "size": 140,
+   "color": "#ffd166",
+   "box": [
+    60,
+    300,
+    160,
+    160
+   ],
+   "align": "center middle",
+   "body": {
+    "from": [
+     150,
+     -100,
+     20
+    ],
+    "start": 0.3,
+    "bounce": 0.3
+   }
+  },
+  {
+   "type": "text",
+   "name": "letter_O",
+   "text": "O",
+   "font": "./font.ttf",
+   "size": 140,
+   "color": "#06d6a0",
+   "box": [
+    200,
+    300,
+    160,
+    160
+   ],
+   "align": "center middle",
+   "body": {
+    "from": [
+     280,
+     -260,
+     -30
+    ],
+    "start": 0.5,
+    "bounce": 0.3
+   }
+  }
+ ]
+}

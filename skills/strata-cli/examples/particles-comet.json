@@ -1,0 +1,111 @@
+{
+ "width": 1280,
+ "height": 720,
+ "fps": 25,
+ "duration": 5,
+ "layers": [
+  {
+   "type": "solid",
+   "name": "ground",
+   "color": "#0e1118",
+   "box": [
+    0,
+    0,
+    1280,
+    720
+   ]
+  },
+  {
+   "type": "text",
+   "name": "headline",
+   "text": "LAUNCH",
+   "font": "./font.ttf",
+   "size": 120,
+   "color": "#2a3040",
+   "box": [
+    0,
+    270,
+    1280,
+    180
+   ],
+   "align": "center middle"
+  },
+  {
+   "type": "solid",
+   "name": "head",
+   "color": "#fff4d6",
+   "box": [
+    630,
+    350,
+    20,
+    20
+   ],
+   "anchor": [
+    640,
+    360
+   ],
+   "mask": {
+    "ellipse": [
+     640,
+     360,
+     10,
+     10
+    ]
+   },
+   "animate": {
+    "position": {
+     "follow": {
+      "path": "M-40 560 C 300 80, 700 640, 1000 260 S 1240 120, 1340 180",
+      "start": 0.2,
+      "end": 4.6
+     }
+    }
+   }
+  },
+  {
+   "type": "particles",
+   "name": "tail",
+   "layer": "head",
+   "rate": 260,
+   "spread": 360,
+   "speed": [
+    20,
+    90
+   ],
+   "inherit": 0.15,
+   "life": [
+    0.5,
+    1.2
+   ],
+   "particle": {
+    "type": "spark",
+    "size": [
+     3,
+     6
+    ],
+    "color_over_life": [
+     "#ffffff",
+     "#ffd166",
+     "#ff7a45",
+     "#7a1c10"
+    ],
+    "size_over_life": [
+     1,
+     0.2
+    ],
+    "glow": 1.4,
+    "blend": "add",
+    "trail": {
+     "length": 0.15
+    }
+   },
+   "forces": {
+    "drag": 1.5,
+    "turbulence": {
+     "strength": 160,
+     "scale": 0.006
+    }
+   }
+  }
+ ]
+}

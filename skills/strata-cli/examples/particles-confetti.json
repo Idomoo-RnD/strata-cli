@@ -1,0 +1,105 @@
+{
+ "width": 1280,
+ "height": 720,
+ "fps": 25,
+ "duration": 5,
+ "layers": [
+  {
+   "type": "solid",
+   "name": "ground",
+   "color": "#11141b",
+   "box": [
+    0,
+    0,
+    1280,
+    720
+   ]
+  },
+  {
+   "type": "solid",
+   "name": "floor_line",
+   "color": "#2a3040",
+   "box": [
+    0,
+    640,
+    1280,
+    2
+   ]
+  },
+  {
+   "type": "text",
+   "name": "headline",
+   "text": "WINNER",
+   "font": "./font.ttf",
+   "size": 130,
+   "color": "#f2eee3",
+   "box": [
+    0,
+    240,
+    1280,
+    180
+   ],
+   "align": "center middle"
+  },
+  {
+   "type": "particles",
+   "name": "confetti",
+   "output": "layers",
+   "layer": "headline",
+   "burst": [
+    {
+     "t": 0.4,
+     "count": 180
+    }
+   ],
+   "radial": true,
+   "spread": 40,
+   "speed": [
+    250,
+    650
+   ],
+   "life": [
+    5,
+    5.5
+   ],
+   "particle": {
+    "type": "confetti",
+    "size": [
+     10,
+     16
+    ],
+    "color": [
+     "#ff7a45",
+     "#ffd166",
+     "#06d6a0",
+     "#4cc9f0",
+     "#f72585"
+    ],
+    "rotation": [
+     0,
+     360
+    ],
+    "spin": [
+     -400,
+     400
+    ],
+    "flutter": [
+     200,
+     700
+    ]
+   },
+   "forces": {
+    "gravity": 420,
+    "drag": 1.8
+   },
+   "collide": {
+    "floor": 640,
+    "layers": [
+     "headline"
+    ],
+    "bounce": 0.15,
+    "friction": 0.6
+   }
+  }
+ ]
+}

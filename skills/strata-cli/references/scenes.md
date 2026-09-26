@@ -59,7 +59,7 @@ tagging supplies that field when needed.
 
 | Layer key | Meaning |
 |---|---|
-| `type` | `solid`, `text`, `image`, `video`, `audio`, `comp`, or `camera`; `media` can infer an asset type |
+| `type` | `solid`, `text`, `image`, `video`, `audio`, `comp`, or `camera`; `media` can infer an asset type; `shape3d` expands to a box, card, or cylinder ([advanced](advanced.md#3d-objects-and-light)); `particles` is a particle emitter ([advanced](advanced.md#particles)) |
 | `name` | Unique across the entire scene, including sub-compositions |
 | `start`, `duration` | Seconds; default start is zero and default layer duration reaches the comp end |
 | `first_frame`, `num_of_frames` | Raw frame-based timing alternatives |
@@ -259,10 +259,20 @@ Scene-level `eases` can name a curve once:
 This fragment belongs at scene level. A key can then use `"ease":"brandEnter"`.
 Avoid accidental token cycles or shadowing.
 
-Layer channels include position, scale, rotation, anchor, opacity, color, and
-visibility. Effects, mask shapes, and animator ranges have their own channels.
+Layer channels include position, scale, rotation, anchor, opacity, color (not
+on solids; see below), and visibility. Effects, mask shapes, and animator ranges have their own channels.
 Booleans and strings hold rather than interpolate. Audio-driven channels are
 covered in [advanced.md](advanced.md#audio-driven-motion).
+
+An animated **solid** `color` compiles but does not render: the solid keeps its
+`color` value on every frame, and `validate` says so. Cross-fade two solids with
+`opacity`.
+
+`noise` (organic drift), `scatter` (seeded copies), and `follow` (a path with
+optional heading) replace hand-written keyframes for those motions; see
+[procedural motion](advanced.md#procedural-motion). A layer with a `body` takes
+its position and rotation from a [physics](advanced.md#physics) simulation
+instead of keyframes, and a `particles` layer emits [particles](advanced.md#particles).
 
 ## Groups and clipping
 
@@ -464,6 +474,14 @@ Copy an example into the project before adapting it. Text examples expect
 | [group-reveal.json](../examples/group-reveal.json) | Move a sub-comp instance |
 | [camera-parallax.json](../examples/camera-parallax.json) | Camera projection and depth |
 | [marker-highlight.json](../examples/marker-highlight.json) | Separate marker graphic and text |
+| [box-and-card.json](../examples/box-and-card.json) | `shape3d` box and two-sided card under a sweeping light |
+| [can-and-camera.json](../examples/can-and-camera.json) | Cylinders that stay correct under a moving camera |
+| [procedural-motion.json](../examples/procedural-motion.json) | `follow` with a trail, looping `noise`, seeded `scatter` |
+| [physics-drop.json](../examples/physics-drop.json) | Card aimed and settled with text attached; bare text letters collide as their glyphs |
+| [physics-break.json](../examples/physics-break.json) | Solid and text shatter on a hit; a blast throws the shards |
+| [physics-hang.json](../examples/physics-hang.json) | Tag on a cord, sign on a spring, a jelly with text riding it |
+| [particles-confetti.json](../examples/particles-confetti.json) | Confetti bursting from a headline's glyphs and landing on it, as layers |
+| [particles-comet.json](../examples/particles-comet.json) | A comet tail riding a path-following layer, as a cached video |
 | [timing-comparison.svg](../examples/timing-comparison.svg) | Visual lesson about frame spacing |
 
 These retain their existing proof scope: scene fixtures have offline compile

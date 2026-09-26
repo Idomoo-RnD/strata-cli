@@ -7,6 +7,10 @@ not a quality requirement. Use the section that answers the current problem.
 
 - [Native support and approximations](#native-support-and-approximations)
 - [Camera and parallax](#camera-and-parallax)
+- [3D objects and light](#3d-objects-and-light)
+- [Procedural motion](#procedural-motion)
+- [Physics](#physics)
+- [Particles](#particles)
 - [Tracking a surface or subject](#tracking-a-surface-or-subject)
 - [Audio-driven motion](#audio-driven-motion)
 - [Personalization and chart geometry](#personalization-and-chart-geometry)
@@ -30,6 +34,10 @@ Choose the simplest supported construction that meets those needs:
 | Highlight following words | Authored graphic behind text, with matching timing |
 | Surface replacement in footage | Tracked corner pin on a composition |
 | Depth between flat elements | 3D layers and camera |
+| A box, card, or can that turns in 3D | [`shape3d`](#3d-objects-and-light) with a scene `light` |
+| Drift, confetti, or a route to fly along | [`noise`, `scatter`, `follow`](#procedural-motion) |
+| Drop, bounce, hang, shatter, jelly, blast, wind | [`physics` and `body`](#physics) |
+| Sparks, snow, rain, smoke, confetti, a comet tail | [`particles`](#particles) |
 | RGB channel split | Separate copies with channel-selective `styles` effects |
 | Physical extrusion, realistic light, complex depth of field | Suitable rendered/generated media or a deliberate layered approximation |
 
@@ -70,6 +78,144 @@ It is an offline scene fixture; a wireframe preview does not prove camera
 projection. Check a permitted real snapshot when projection is uncertain and
 the rendered video when motion or edge coverage matters. Camera `motion_blur`
 must be set explicitly on the camera layer; visual layers enable it by default.
+
+## 3D objects and light
+
+`shape3d` builds a box, a two-sided card, or a cylinder from flat 3D planes.
+`strata math box|card|cylinder` writes it; `--help` lists the keys.
+
+```json
+{"type": "shape3d", "name": "coffee", "shape": "box", "size": [190, 260, 110],
+ "position": [640, 370, 0], "color": "#1f3a2e", "font": "./font.ttf", "text_color": "#f2eee3",
+ "faces": {"front": {"text": "SLOW\nROASTED"}, "right": {"text": "250 g"}},
+ "animate": {"rotation": [{"t": 0, "v": [16, -522, 0], "ease": "outCubic"}, {"t": 4.2, "v": [16, 18, 0]}]}}
+```
+
+A card takes `size` `[w, h]` and `radius`; a cylinder takes `radius`, `height`,
+`sides`, and `bands` (`[{"color", "frac"}]`, top to bottom). Each face takes
+`text`, `size`, `color`, `text_color`, `font`, or `image`; the object's own
+`color`, `font`, and `text_color` are the defaults.
+
+- A rotation pair that changes one axis keeps every turn (−522 to 18 is 540°);
+  several axes turn the shortest way.
+- Faces follow the comp's camera on every frame, so a moving camera works. A comp
+  without a camera gets the standard one, which also projects its other `is_3d`
+  layers.
+- Objects are convex, and two objects draw in layer order, not by depth;
+  `validate` names overlapping pairs.
+- Shading is on by default, lit from the upper left. A scene `light`
+  (`{"from": "upper-right", "animate": {"from": […]}}`) moves it; `"light": false`
+  renders faces flat.
+- Face text layers are named `<name>_<face>_text`, so `render --data` changes
+  them per viewer. *measured:* one data row set two turning faces' text.
+- A turning 32-sided banded can is about 250 layers; `validate` reports scenes
+  past 374, the largest rendered in testing.
+
+[box-and-card.json](../examples/box-and-card.json) and
+[can-and-camera.json](../examples/can-and-camera.json) are complete scenes.
+
+## Procedural motion
+
+Three blocks replace hand-written keyframes; `strata math noise|scatter|follow`
+writes them.
+
+`noise` drifts a channel around its resting value:
+`"position": {"noise": {"amp": [30, 24], "speed": 0.9, "loop": true, "seed": 7}}`.
+It works on position, rotation, scale, and opacity. Higher `speed` changes
+direction more often (0.3 slow, 1 lively); `loop` makes the last frame meet the
+first. Give layers that move together the same `seed`.
+
+`scatter` turns one layer into seeded copies; the box sets their size and shape,
+`area` where they start:
+`"scatter": {"count": 90, "seed": 42, "area": [20, -420, 1240, 400], "colors": […], "fall": {"speed": [95, 175], "sway": [20, 60], "spin": [-300, 300]}}`.
+Ranges are `[min, max]`. Without `fall` or `rise` the copies stay put. The same
+seed always gives the same layout.
+
+`follow` moves a layer along SVG path data or `[[x, y], …]`:
+`"position": {"follow": {"path": "M110 420 C330 20 520 520 720 240", "orient": true, "start": 0.5, "end": 5.2}}`.
+`orient` turns it with the curve (draw the artwork pointing right). A trail keeps
+pace with `"trim": {"end": {"progress": {"start": 0.5, "end": 5.2}}}`.
+[procedural-motion.json](../examples/procedural-motion.json) uses all three.
+
+## Physics
+
+A 2D physics simulation runs before compile and becomes ordinary keyframes; the
+same scene lands the same way every time. `strata physics <kind>` writes the
+blocks; `--help` lists each kind's keys.
+
+```json
+"physics": {"gravity": 1, "floor": 600, "walls": true,
+            "events": [{"t": 2.2, "kick": {"layer": "ball", "velocity": [1100, -40]}},
+                       {"t": 4.2, "blast": {"at": [820, 600], "strength": 900, "radius": 330}}]}
+```
+
+A layer takes part through `body`:
+`{"from": [230, -140, -6], "aim": true, "settle": true, "bounce": 0.35}`.
+Its authored place is where it belongs; `from` is where it starts. A solid
+collides as its mask, text as the ink of its glyphs, an image as the outline of
+its opaque pixels. *measured:* letters, a PNG, and a solid came to rest 0–2 px
+from the floor.
+
+- `aim` moves `from` until the body lands on its spot; `settle` eases the last
+  0.5 s onto it. `validate` reports a settle that slides; lower `spin` or
+  `bounce` when landings turn chaotic.
+- A scaled body scales about its `anchor`; give it one at its centre.
+- `hang`: `{"from": [x, y], "spring": 1.8, "cord": true}` hangs it from a pin,
+  rigid without `spring`.
+- `attach`: `"card"` carries text or an image rigidly on another body.
+- `shatter`: `{"pieces": 12, "on": "hit"}`, usually with `"static": true`, breaks
+  a solid, text, or image into shards when hit, or at a time.
+- `jelly`: `{"stiffness": 3}` makes a solid squash and wobble; attach its text.
+- Events: `kick` sets a body moving, `blast` pushes everything out from a point,
+  `wind` blows from `t` to `until`.
+
+Physics is 2D and bodies still draw in layer order. Multi-line text and CFF
+fonts collide as their text box. [physics-drop.json](../examples/physics-drop.json),
+[physics-break.json](../examples/physics-break.json), and
+[physics-hang.json](../examples/physics-hang.json) are complete scenes.
+
+## Particles
+
+A `particles` layer is a particle engine: emitters, particle looks, and forces,
+simulated before compile. `strata particles <preset>` writes one from a tuned
+preset (sparks, embers, snow, rain, confetti, smoke, bubbles, stars, dust, comet,
+assemble); `--help` lists every key.
+
+```json
+{"type": "particles", "name": "tail", "layer": "head", "rate": 260, "spread": 360,
+ "speed": [20, 90], "life": [0.5, 1.2],
+ "particle": {"type": "spark", "size": [3, 6], "color_over_life": ["#ffffff", "#ffd166", "#ff7a45"],
+              "glow": 1.4, "blend": "add", "trail": {"length": 0.15}},
+ "forces": {"drag": 1.5, "turbulence": {"strength": 160}}}
+```
+
+- **Where:** `at`, a `line` (`from`, `to`), `rect`, `circle` or `ring` with
+  `radius`, `path`, or `layer`. A `layer` emitter moves with that layer, whatever
+  animates it (keyframes, `follow`, `noise`, a physics body). Without a shape it
+  emits from the layer's own shape: a headline's glyphs, a PNG's opaque pixels, a
+  solid's mask; `edge` keeps the outline.
+- **When:** `rate` per second, `burst` (`[{"t": 0.3, "count": 160}]`),
+  `start` and `end`, and `prewarm` seconds so it opens already running.
+- **Motion:** `direction` (0 right, −90 up), `spread`, `radial`, `speed`,
+  `inherit`, `life`; `forces` `gravity`, `drag`, `wind`, `turbulence`, `vortex`,
+  and `attract` onto a point or a layer's shape; `collide` bounces off a `floor` or
+  named layers.
+- **Look:** `type` dot, square, streak, spark, star, ring, confetti, image, or
+  text; `size`, `color` (a palette picks per particle), `size_over_life`,
+  `opacity_over_life`, `color_over_life`, `softness`, `glow`, `blend`, `spin`,
+  `flutter`, `stretch`, `trail`, `motion_blur`.
+
+`output` "auto" makes up to 300 simple particles into real layers: sharp,
+editable, small. More than that, or trails, colour over life, or additive
+glow, become one transparent video generated at compile and cached. The video
+carries thousands of particles and every look, but it is baked, at most 720p,
+and heavy. It is cropped to where the particles go, and `resolution: 0.5`
+quarters its pixels for soft effects. *measured:* dust off a falling crate
+became a 100×280 crop at half resolution, 470 KB instead of 2.7 MB; dense rain
+across most of the frame was 11.4 MB. `validate` reports each particle layer's
+count, output, and video size. The same `seed` always gives the same particles.
+[particles-confetti.json](../examples/particles-confetti.json) and
+[particles-comet.json](../examples/particles-comet.json) are complete scenes.
 
 ## Tracking a surface or subject
 

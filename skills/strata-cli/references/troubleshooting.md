@@ -24,6 +24,9 @@ cause. A retry should have a reason to behave differently.
 | Digit effect corrupts punctuation | Check selected characters and separate symbols; see [text](scenes.md#text). |
 | Window moves with content | Replace the moving layer mask with a fixed comp/matte; see [masks](scenes.md#shapes-masks-and-mattes). |
 | Camera output is black or tiny | Check absolute position, depth, FOV, and `is_3d`; see [camera](advanced.md#camera-and-parallax). |
+| Animated solid colour never changes | An animated solid colour does not render; cross-fade two solids. See [animation](scenes.md#animation). |
+| An .idm with particles is very large | Its particles became a video; `validate` shows each size. Use `resolution: 0.5` for soft looks, fewer particles, or `output: "layers"` under 300. See [particles](advanced.md#particles). |
+| One 3D object or physics body shows through another | Objects draw in layer order; `validate` names overlapping pairs. See [3D objects](advanced.md#3d-objects-and-light). |
 | Intentional overlap is flagged | Inspect actual depth/blending before changing it; see [preflight](delivery.md#prepare-and-render). |
 | Corner pin disappears | Check receiving layer type and point order; see [tracking](advanced.md#tracking-a-surface-or-subject). |
 | Attached graphic drifts | Compare analyzed footage with final crop/fps/timing; correct mapping or failed sections. See [tracking](advanced.md#tracking-a-surface-or-subject). |

@@ -1,0 +1,136 @@
+{
+ "width": 1280,
+ "height": 720,
+ "fps": 25,
+ "duration": 6,
+ "light": {
+  "from": "upper-left"
+ },
+ "layers": [
+  {
+   "type": "solid",
+   "name": "ground",
+   "color": "#11141b",
+   "box": [
+    0,
+    0,
+    1280,
+    720
+   ]
+  },
+  {
+   "type": "shape3d",
+   "name": "can",
+   "shape": "cylinder",
+   "radius": 90,
+   "height": 260,
+   "sides": 32,
+   "position": [
+    480,
+    380,
+    0
+   ],
+   "bands": [
+    {
+     "color": "#c9ced6",
+     "frac": 0.12
+    },
+    {
+     "color": "#ff7a45",
+     "frac": 0.76
+    },
+    {
+     "color": "#c9ced6",
+     "frac": 0.12
+    }
+   ],
+   "animate": {
+    "rotation": [
+     {
+      "t": 0,
+      "v": [
+       14,
+       0,
+       0
+      ]
+     },
+     {
+      "t": 6,
+      "v": [
+       14,
+       -270,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "type": "shape3d",
+   "name": "tube",
+   "shape": "cylinder",
+   "radius": 46,
+   "height": 300,
+   "sides": 24,
+   "color": "#4cc9f0",
+   "position": [
+    860,
+    380,
+    0
+   ],
+   "animate": {
+    "rotation": [
+     {
+      "t": 0,
+      "v": [
+       0,
+       0,
+       70
+      ],
+      "ease": "inOutCubic"
+     },
+     {
+      "t": 5,
+      "v": [
+       30,
+       0,
+       110
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "type": "camera",
+   "name": "cam",
+   "fov": 60,
+   "position": [
+    560,
+    400,
+    -623.54
+   ],
+   "animate": {
+    "position": [
+     {
+      "t": 0,
+      "v": [
+       560,
+       400,
+       -623.54
+      ],
+      "ease": "inOutSine"
+     },
+     {
+      "t": 6,
+      "v": [
+       760,
+       300,
+       -520
+      ]
+     }
+    ]
+   },
+   "motion_blur": true
+  }
+ ]
+}

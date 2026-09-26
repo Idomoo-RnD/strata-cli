@@ -39,11 +39,11 @@ references, not a reading sequence.
 | Generate or edit assets, use references, add speech or music | [Media](references/media.md) |
 | Make an actor speak | [Talking actors and dialogue](references/media.md#talking-actors-and-dialogue) |
 | Remove a background or use transparent video | [Transparent video and JET](references/media.md#transparent-video-and-jet) |
-| Use cameras, tracking, reactive motion, personalization, tagging, or handoff | [Advanced features](references/advanced.md) |
+| Use cameras, 3D objects, drift and paths, physics, particles, tracking, reactive motion, personalization, tagging, or handoff | [Advanced features](references/advanced.md) |
 | Validate, render, inspect, or deliver an output | [Delivery](references/delivery.md) |
 | Resolve an error or an unexpected result | [Troubleshooting](references/troubleshooting.md) |
 
-These guides describe the Strata 1.0.178 tool surface. Check the installed version
+These guides describe the Strata 1.0.181 tool surface. Check the installed version
 and `strata <command> --help` when flags matter. Help is offline. The examples
 are starting points for mechanics; adapt their appearance to the task.
 

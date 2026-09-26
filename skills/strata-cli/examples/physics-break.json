@@ -1,0 +1,131 @@
+{
+ "width": 1280,
+ "height": 720,
+ "fps": 25,
+ "duration": 6,
+ "physics": {
+  "gravity": 1,
+  "floor": 600,
+  "walls": true,
+  "events": [
+   {
+    "t": 0.6,
+    "kick": {
+     "layer": "ball",
+     "velocity": [
+      1300,
+      -80
+     ]
+    }
+   },
+   {
+    "t": 3.2,
+    "blast": {
+     "at": [
+      640,
+      600
+     ],
+     "strength": 1100,
+     "radius": 700
+    }
+   }
+  ]
+ },
+ "layers": [
+  {
+   "type": "solid",
+   "name": "ground",
+   "color": "#11141b",
+   "box": [
+    0,
+    0,
+    1280,
+    720
+   ]
+  },
+  {
+   "type": "solid",
+   "name": "floor_line",
+   "color": "#2a3040",
+   "box": [
+    0,
+    600,
+    1280,
+    2
+   ]
+  },
+  {
+   "type": "solid",
+   "name": "card",
+   "color": "#ff7a45",
+   "box": [
+    300,
+    380,
+    200,
+    220
+   ],
+   "mask": {
+    "rect": [
+     300,
+     380,
+     200,
+     220
+    ],
+    "radius": 20
+   },
+   "body": {
+    "static": true,
+    "shatter": {
+     "pieces": 14,
+     "on": "hit"
+    }
+   }
+  },
+  {
+   "type": "text",
+   "name": "word",
+   "text": "BREAK",
+   "font": "./font.ttf",
+   "size": 110,
+   "color": "#ffd166",
+   "box": [
+    520,
+    420,
+    400,
+    180
+   ],
+   "align": "center bottom",
+   "body": {
+    "static": true,
+    "shatter": {
+     "pieces": 12,
+     "on": "hit"
+    }
+   }
+  },
+  {
+   "type": "solid",
+   "name": "ball",
+   "color": "#f2eee3",
+   "box": [
+    60,
+    440,
+    70,
+    70
+   ],
+   "mask": {
+    "ellipse": [
+     95,
+     475,
+     35,
+     35
+    ]
+   },
+   "body": {
+    "static": true,
+    "density": 6,
+    "bounce": 0.2
+   }
+  }
+ ]
+}

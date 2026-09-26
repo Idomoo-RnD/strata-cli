@@ -1,0 +1,174 @@
+{
+ "width": 1280,
+ "height": 720,
+ "fps": 25,
+ "duration": 6,
+ "physics": {
+  "gravity": 1,
+  "floor": 600,
+  "events": [
+   {
+    "t": 0.4,
+    "kick": {
+     "layer": "tag",
+     "velocity": [
+      420,
+      0
+     ]
+    }
+   }
+  ]
+ },
+ "layers": [
+  {
+   "type": "solid",
+   "name": "ground",
+   "color": "#11141b",
+   "box": [
+    0,
+    0,
+    1280,
+    720
+   ]
+  },
+  {
+   "type": "solid",
+   "name": "tag",
+   "color": "#f2eee3",
+   "box": [
+    110,
+    300,
+    180,
+    110
+   ],
+   "mask": {
+    "rect": [
+     110,
+     300,
+     180,
+     110
+    ],
+    "radius": 16
+   },
+   "body": {
+    "hang": {
+     "from": [
+      200,
+      60
+     ],
+     "cord": true
+    }
+   }
+  },
+  {
+   "type": "text",
+   "name": "tag_price",
+   "text": "−30%",
+   "font": "./font.ttf",
+   "size": 46,
+   "color": "#11141b",
+   "box": [
+    110,
+    300,
+    180,
+    110
+   ],
+   "align": "center middle",
+   "body": {
+    "attach": "tag"
+   }
+  },
+  {
+   "type": "text",
+   "name": "sale",
+   "text": "SALE",
+   "font": "./font.ttf",
+   "size": 90,
+   "color": "#ff7a45",
+   "box": [
+    340,
+    300,
+    260,
+    120
+   ],
+   "align": "center middle",
+   "body": {
+    "from": [
+     470,
+     360,
+     25
+    ],
+    "hang": {
+     "from": [
+      470,
+      60
+     ],
+     "spring": 2.2,
+     "damping": 0.08,
+     "cord": {
+      "color": "#ff7a45",
+      "width": 2
+     }
+    }
+   }
+  },
+  {
+   "type": "solid",
+   "name": "floor_line",
+   "color": "#2a3040",
+   "box": [
+    0,
+    600,
+    1280,
+    2
+   ]
+  },
+  {
+   "type": "solid",
+   "name": "blob",
+   "color": "#06d6a0",
+   "box": [
+    900,
+    160,
+    240,
+    240
+   ],
+   "mask": {
+    "ellipse": [
+     1020,
+     280,
+     115,
+     115
+    ]
+   },
+   "body": {
+    "from": [
+     1020,
+     210
+    ],
+    "jelly": {
+     "stiffness": 3
+    },
+    "density": 3
+   }
+  },
+  {
+   "type": "text",
+   "name": "blob_text",
+   "text": "JELLY",
+   "font": "./font.ttf",
+   "size": 52,
+   "color": "#11141b",
+   "box": [
+    900,
+    240,
+    240,
+    80
+   ],
+   "align": "center middle",
+   "body": {
+    "attach": "blob"
+   }
+  }
+ ]
+}
