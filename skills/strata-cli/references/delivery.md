@@ -20,10 +20,17 @@ narrated film, and personalized template need different evidence.
 | `glyphs` | Font coverage for supplied text | Final text layout or readability |
 | `preview` | Local wireframe bounds and layout | Actual glyphs, media appearance, or camera projection |
 | `compile` | Creation of an IDM from the source | Final motion, audio, or cloud exporter success |
-| `snapshot` | A real cloud-rendered frame | Whole-video timing, continuity, or sound |
+| `snapshot` | Real cloud-rendered frames at chosen times | Whole-video timing, continuity, or sound |
 | `review` | Timecoded measurements and inspection images from a video | Automatic aesthetic approval |
 
 A snapshot uploads an entry to the chosen library and can spend cloud budget.
+It uploads once per version: an unchanged scene reuses its upload without
+compiling, and it renders only the frames asked for, with no MP4. For several
+moments, pass them in one call, `--at 1,4,8,12`, never one snapshot per moment.
+When the motion matters too, render once and take the frames from the MP4
+locally: `strata snapshot scene_v1.mp4 --at 1,4,8` (ffmpeg, no cloud).
+*measured:* eight frames of a 15 s scene took 31 s for a new version; once
+uploaded, one snapshot took 3.5–9.2 s and a render plus local frames 6.5–9.2 s.
 Use a local check when it answers the question, and a permitted rendered check
 when the local tools cannot.
 

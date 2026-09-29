@@ -51,7 +51,7 @@ Commands in the tables omit the `strata` prefix for readability.
 | `preview scene.json --at 2 --grid` | Check layout, transforms, mask outlines | Scene → wireframe PNG | Local; not real glyph/compositing/3D projection proof |
 | `studio scene.json` | Let a person edit layout visually | Scene → saved guide JSON | Local browser server; interactive, so use when user participation helps |
 | `compile scene.json -o out.idm` | Make an Idomoo scene file | Compact JSON/assets → IDM | Local; embeds assets and records scene history; alias `build` |
-| `snapshot scene.json --library <id> --at 2` | Check a real rendered frame | Scene/IDM → image | Cloud; credentials, chosen library, persistent upload |
+| `snapshot scene.json --library <id> --at 1,4,8` | Check real rendered frames | Scene/IDM → one image per time; a rendered MP4 → its frames | Cloud for a scene: credentials, chosen library, persistent upload once per version, images only; an MP4 is local ffmpeg |
 | `render scene.json --library <id> -o out.mp4` | Produce the video | Scene/IDM → MP4 and URLs | Cloud; uploads, exports, renders, and spends budget |
 
 Use [scenes.md](scenes.md) for authoring and [delivery.md](delivery.md) for
