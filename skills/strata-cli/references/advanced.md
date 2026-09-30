@@ -75,8 +75,8 @@ Depth does not replace the layer list's compositing order.
 
 Use [the camera fixture](../examples/camera-parallax.json) for complete syntax.
 It is an offline scene fixture; a wireframe preview does not prove camera
-projection. Check a permitted real snapshot when projection is uncertain and
-the rendered video when motion or edge coverage matters. Camera `motion_blur`
+projection. Check frames of a permitted render when projection is uncertain,
+and watch the rendered video when motion or edge coverage matters. Camera `motion_blur`
 must be set explicitly on the camera layer; visual layers enable it by default.
 
 ## 3D objects and light

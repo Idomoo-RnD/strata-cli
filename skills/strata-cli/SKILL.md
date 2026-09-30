@@ -43,7 +43,7 @@ references, not a reading sequence.
 | Validate, render, inspect, or deliver an output | [Delivery](references/delivery.md) |
 | Resolve an error or an unexpected result | [Troubleshooting](references/troubleshooting.md) |
 
-These guides describe the Strata 1.0.182 tool surface. Check the installed version
+These guides describe the Strata 1.0.183 tool surface. Check the installed version
 and `strata <command> --help` when flags matter. Help is offline. The examples
 are starting points for mechanics; adapt their appearance to the task.
 
@@ -58,8 +58,8 @@ Use documented scene keys. Strata's compact scene format differs from raw VASCO.
 shortcut. Validate unfamiliar constructions before using them throughout a scene.
 Do not infer support from a familiar After Effects or browser property name.
 
-Use the user's selected library and existing authorization. Cloud generation,
-snapshots, and renders can spend budget. A snapshot is a real cloud operation.
+Use the user's selected library and existing authorization. Cloud generation
+and renders can spend budget. Real rendered frames come from the rendered MP4.
 The [media guide](references/media.md#files-urls-and-public-hosting) explains the
 separate public-hosting boundary. Ordinary scene assets can remain local.
 

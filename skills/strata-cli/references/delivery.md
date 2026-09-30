@@ -20,19 +20,18 @@ narrated film, and personalized template need different evidence.
 | `glyphs` | Font coverage for supplied text | Final text layout or readability |
 | `preview` | Local wireframe bounds and layout | Actual glyphs, media appearance, or camera projection |
 | `compile` | Creation of an IDM from the source | Final motion, audio, or cloud exporter success |
-| `snapshot` | Real cloud-rendered frames at chosen times | Whole-video timing, continuity, or sound |
 | `review` | Timecoded measurements and inspection images from a video | Automatic aesthetic approval |
 
-A snapshot uploads an entry to the chosen library and can spend cloud budget.
-It uploads once per version: an unchanged scene reuses its upload without
-compiling, and it renders only the frames asked for, with no MP4. For several
-moments, pass them in one call, `--at 1,4,8,12`, never one snapshot per moment.
-When the motion matters too, render once and take the frames from the MP4
-locally: `strata snapshot scene_v1.mp4 --at 1,4,8` (ffmpeg, no cloud).
-*measured:* eight frames of a 15 s scene took 31 s for a new version; once
-uploaded, one snapshot took 3.5–9.2 s and a render plus local frames 6.5–9.2 s.
-Use a local check when it answers the question, and a permitted rendered check
-when the local tools cannot.
+Real rendered frames come from the rendered video. Render once, then take the
+moments you need from the MP4 locally: `strata review` writes a contact sheet
+and frames around every cut, and one ffmpeg pass takes exact frames
+(`ffmpeg -i scene_v1.mp4 -vf "select='eq(n\,25)+eq(n\,100)'" -vsync 0 -q:v 2 f_%02d.jpg`;
+frame = seconds × fps). Every render also returns one poster JPG at
+`--poster-time`. A render uploads once per version: an unchanged scene reuses
+its upload without compiling. *measured:* a 15 s scene took 37.9 s to render as
+a new version; once uploaded, a render plus local frames took 6.5–9.2 s.
+Use a local check when it answers the question, and a permitted render when
+the local tools cannot.
 
 ## Prepare and render
 
@@ -59,7 +58,7 @@ overlap diagnostics can be misleading for intended 3D overlaps.
 Use the user's selected library, including an already established project
 setting or preference. If no destination is established, obtain that choice
 instead of selecting an arbitrary account library. Existing authorization
-persists. Keep generation, snapshots, and renders within the authorized budget;
+persists. Keep generation and renders within the authorized budget;
 there is no required number of iterations.
 
 Use distinct candidate filenames or other clear version tracking. Wait for the
