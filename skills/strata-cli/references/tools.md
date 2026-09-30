@@ -7,6 +7,7 @@ the environment. For a command's complete current flags, use its `--help`.
 
 - [Setup and command help](#setup-and-command-help)
 - [Scene tools](#scene-tools)
+- [Local preview](#local-preview)
 - [Media tools](#media-tools)
 - [Inspection and project tools](#inspection-and-project-tools)
 - [Account and installation tools](#account-and-installation-tools)
@@ -48,13 +49,33 @@ Commands in the tables omit the `strata` prefix for readability.
 | `chart bars --data data.json --box x,y,w,h` | Build exact data graphics | Numeric data → animated layers | Local; line/donut have different inputs; geometry is created at author time |
 | `validate scene.json` | Check syntax and asset problems | Scene → errors and warnings | Local; passing is not visual proof |
 | `glyphs font.ttf "copy"` | Check a font against exact copy | Font/text → missing characters | Local; `glyphs scene.json` checks the scene |
-| `preview scene.json --at 2 --grid` | Check layout, transforms, mask outlines | Scene → wireframe PNG | Local; not real glyph/compositing/3D projection proof |
+| `preview scene.json --at 0.5,2,4.5` | Iterate a look on real frames before rendering | Scene/IDM → PNG or contact sheet | Local, no upload, max 720p; close to the cloud, not the final proof ([Local preview](#local-preview)) |
 | `studio scene.json` | Let a person edit layout visually | Scene → saved guide JSON | Local browser server; interactive, so use when user participation helps |
 | `compile scene.json -o out.idm` | Make an Idomoo scene file | Compact JSON/assets → IDM | Local; embeds assets and records scene history; alias `build` |
 | `render scene.json --library <id> -o out.mp4` | Produce the video; its frames are the real rendered check | Scene/IDM → MP4, poster JPG, and URLs | Cloud; uploads once per version, renders, and spends budget |
 
 Use [scenes.md](scenes.md) for authoring and [delivery.md](delivery.md) for
 preflight and final checks.
+
+## Local preview
+
+`strata preview scene.json --at 2.4` draws a frame on this machine: text, media,
+JET, blend modes, masks, effects, 3D cameras and motion blur, with no upload and
+no budget. Several times (`--at 0.5,2,4.5`) tile into one contact sheet.
+`--wire` lays the layout boxes, mask outlines and safe lines over the pixels;
+`--grid` adds the 12 columns. It reads a scene JSON or an `.idm` (`--wire` needs
+the JSON). Frames are capped at 1280x720; `--comp name` draws one sub-comp.
+
+*measured:* against cloud renders, 378 frames at full size differed by a mean of
+2.2 and at most 4.9 on the 0–255 scale; 13 frames of 1080p scenes drawn at the
+720p cap, mean 3.7, max 5.6. A frame took a median 0.4 s (90th percentile 7 s,
+with heavy blur or long media).
+
+Its warnings name what the engine draws differently from the scene: the
+[styled-span](scenes.md#styled-spans) treatments that do not render, media and comp
+colour tint (ignored), and an [animated solid colour](scenes.md#animation) (held at
+its static colour). Use preview to iterate; confirm the final with `render` and `review`, which also cover motion,
+audio and the cloud exporter.
 
 ## Media tools
 

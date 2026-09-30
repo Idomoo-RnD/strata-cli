@@ -143,8 +143,8 @@ synthesize them.
 Choose horizontal alignment from `left`, `center`, and `right`. In the current
 renderer, vertical `top` behaves like bottom placement; `middle` centers the text.
 Place bottom-aligned text by `box_y + box_height`, or use a centered box with
-`middle`. Leave space for glyph extents and descenders. A wireframe preview does
-not show actual text placement.
+`middle`. Leave space for glyph extents and descenders. A local `preview` frame shows the
+actual placement; a `--wire` box does not.
 
 `shrink` fits text within its box; use `min_size` and adequate room to protect
 legibility. `breakline`, `ellipsis`, `leading`, and `tracking` help control layout.
@@ -492,7 +492,7 @@ output rather than treating a fixture as a finished design.
 ```bash
 strata validate scene.json
 strata compile scene.json --vasco -o scene.idm
-strata preview scene.json --at 1 --grid
+strata preview scene.json --at 1 --wire
 ```
 
 `--vasco` helps inspect translation into raw values. Unknown compact keys pass

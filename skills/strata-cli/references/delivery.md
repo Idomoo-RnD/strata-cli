@@ -18,11 +18,12 @@ narrated film, and personalized template need different evidence.
 |---|---|---|
 | `validate` | Structural diagnostics, assets, relevant warnings | A visually successful render |
 | `glyphs` | Font coverage for supplied text | Final text layout or readability |
-| `preview` | Local wireframe bounds and layout | Actual glyphs, media appearance, or camera projection |
+| `preview` | Real frames drawn locally: layout, type, media, blends, effects, 3D | Final motion, audio, or cloud exporter success (close to a render, not identical) |
 | `compile` | Creation of an IDM from the source | Final motion, audio, or cloud exporter success |
 | `review` | Timecoded measurements and inspection images from a video | Automatic aesthetic approval |
 
-Real rendered frames come from the rendered video. Render once, then take the
+Iterate a look with `preview` frames; the final proof comes from the rendered
+video. Render once, then take the
 moments you need from the MP4 locally: `strata review` writes a contact sheet
 and frames around every cut, and one ffmpeg pass takes exact frames
 (`ffmpeg -i scene_v1.mp4 -vf "select='eq(n\,25)+eq(n\,100)'" -vsync 0 -q:v 2 f_%02d.jpg`;
@@ -40,7 +41,7 @@ For scene work:
 ```bash
 strata validate scene_v1.json
 strata glyphs scene_v1.json
-strata preview scene_v1.json --at 2 --grid -o layout.png
+strata preview scene_v1.json --at 0.5,2,4.5 -o look.png
 strata compile scene_v1.json -o scene_v1.idm
 strata render scene_v1.json --library "<selected-id>" -o scene_v1.mp4
 ```

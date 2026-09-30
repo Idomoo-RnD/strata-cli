@@ -74,8 +74,8 @@ anchor target; moving an anchored layer in depth should preserve its intended X/
 Depth does not replace the layer list's compositing order.
 
 Use [the camera fixture](../examples/camera-parallax.json) for complete syntax.
-It is an offline scene fixture; a wireframe preview does not prove camera
-projection. Check frames of a permitted render when projection is uncertain,
+It is an offline scene fixture; `strata preview` draws the projected frames
+locally. Check frames of a permitted render when projection is uncertain,
 and watch the rendered video when motion or edge coverage matters. Camera `motion_blur`
 must be set explicitly on the camera layer; visual layers enable it by default.
 
