@@ -62,6 +62,9 @@ preflight and final checks.
 `strata preview scene.json --at 2.4` draws a frame on this machine: text, media,
 JET, blend modes, masks, effects, 3D cameras and motion blur, with no upload and
 no budget. Several times (`--at 0.5,2,4.5`) tile into one contact sheet.
+`--strip --from 1 --to 10 --every 1` lays up to 10 frames into one 1920x1080
+film strip to read the motion across a shot; `--strip` alone spans the whole
+scene in 10 frames.
 `--wire` lays the layout boxes, mask outlines and safe lines over the pixels;
 `--grid` adds the 12 columns. It reads a scene JSON or an `.idm` (`--wire` needs
 the JSON). Frames are capped at 1280x720; `--comp name` draws one sub-comp.
