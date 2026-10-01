@@ -11,6 +11,7 @@ not a quality requirement. Use the section that answers the current problem.
 - [Procedural motion](#procedural-motion)
 - [Physics](#physics)
 - [Particles](#particles)
+- [Shader effects](#shader-effects)
 - [Tracking a surface or subject](#tracking-a-surface-or-subject)
 - [Audio-driven motion](#audio-driven-motion)
 - [Personalization and chart geometry](#personalization-and-chart-geometry)
@@ -216,6 +217,43 @@ across most of the frame was 11.4 MB. `validate` reports each particle layer's
 count, output, and video size. The same `seed` always gives the same particles.
 [particles-confetti.json](../examples/particles-confetti.json) and
 [particles-comet.json](../examples/particles-comet.json) are complete scenes.
+
+## Shader effects
+
+A `shader` layer is an effect that reacts to other layers: light streaming from
+a moving layer, the wake it leaves on water, rings where it lands, an arc
+between two layers, liquid that merges them, fog it pushes through. It is baked
+to video when the scene compiles, and lands where it sits in the layer list.
+
+```json
+{"type": "shader", "name": "wake_fx", "preset": "wake", "inputs": {"source": "boat"}}
+```
+
+`strata shader --list` names the presets (neon, rays, burn, ripple, goo, haze,
+pulse, wake, lens, lightning, dotgrid, fog); `strata shader <preset> --help`
+lists each one's inputs, params and an example layer.
+
+- **Inputs** bind layers of the same comp by name. A preset reads each one as
+  `track` (where the layer is and has been, with its landings and bounces) or
+  as its pixels (`matte`, `color`). Some presets draw the layers they read
+  (burn, ripple, goo, lens, dotgrid), so those leave the scene.
+- **Personalized text:** text read as pixels is baked with the copy it had, so
+  `render --data` and `validate --data` refuse a row that changes it. Bind
+  personalized text only as `track`, or keep that copy fixed.
+- **Custom:** `"src": "./fx.frag"` takes Shadertoy-style GLSL (`mainImage`).
+  Each input is a sampler: `texture(name, uv)` reads its pixels, and
+  `strataCenter`, `strataTrail`, `strataImpact` and `strataBass` read the scene.
+  `fragCoord` is in comp pixels from the bottom-left. `strata shader check
+  fx.frag` names the line of any error; `--help` lists the supported GLSL.
+- **Cost:** compile, validate, render and preview bake missing shaders in
+  parallel and cache them in `.strata/shaders/`; an unchanged shader is reused.
+  Frames are at most 1280x720, cropped to the effect.
+
+*measured:* with 16 workers, a 4-second 720p clip at 25 fps baked in 7 to 88 s per preset
+(lightning the slowest) and 8.6 s for a custom spotlight shader; recompiling
+the unchanged scene took 2.7 s. Eight shader scenes rendered in the cloud
+differed from the local render by a mean of 1.5 to 3.8 on the 0–255 scale
+(worst frame 3.9).
 
 ## Tracking a surface or subject
 
