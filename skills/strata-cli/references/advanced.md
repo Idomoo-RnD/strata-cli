@@ -244,14 +244,16 @@ lists each one's inputs, params and an example layer.
   Each input is a sampler: `texture(name, uv)` reads its pixels, and
   `strataCenter`, `strataTrail`, `strataImpact` and `strataBass` read the scene.
   `fragCoord` is in comp pixels from the bottom-left. `strata shader check
-  fx.frag` names the line of any error; `--help` lists the supported GLSL.
+  fx.frag` names the line of any error; `strata shader --help` lists the
+  supported GLSL and every `strata*` function.
 - **Cost:** compile, validate, render and preview bake missing shaders in
   parallel and cache them in `.strata/shaders/`; an unchanged shader is reused.
   Frames are at most 1280x720, cropped to the effect.
 
-*measured:* with 16 workers, a 4-second 720p clip at 25 fps baked in 7 to 88 s per preset
-(lightning the slowest) and 8.6 s for a custom spotlight shader; recompiling
-the unchanged scene took 2.7 s. Eight shader scenes rendered in the cloud
+*measured:* with 16 workers, a 4-second 720p clip at 25 fps baked in 7 to 88 s
+per preset (lightning the slowest) and in 9 to 29 s for a custom spotlight
+shader over three runs, as machine load varied; recompiling the unchanged scene
+took 2.7 s. Eight shader scenes rendered in the cloud
 differed from the local render by a mean of 1.5 to 3.8 on the 0–255 scale
 (worst frame 3.9).
 
