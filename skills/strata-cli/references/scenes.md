@@ -176,21 +176,23 @@ behind a word.
 ### Character and word animation
 
 Animator properties affect the selected text units. For an ordered reveal, hide
-the selected part with `opacity: 0`, keep `end` at 1, and animate `start` from 0 to 1:
+the selected part with `opacity: 0` and sweep a soft `ramp_up` window across the
+text by animating `offset` linearly:
 
 ```json
 {
   "animators": [{
     "opacity": 0,
-    "position": [0, 30, 0],
+    "position": [0, 46, 0],
     "ranges": [{
-      "based_on": "words",
-      "shape": "square",
-      "end": 1,
+      "based_on": "characters",
+      "shape": "ramp_up",
+      "start": 0,
+      "end": 0.5,
       "animate": {
-        "start": [
-          {"t": 0, "v": 0, "ease": "outCubic"},
-          {"t": 1.5, "v": 1}
+        "offset": [
+          {"t": 0, "v": -0.5},
+          {"t": 1.6, "v": 1}
         ]
       }
     }]
@@ -198,13 +200,29 @@ the selected part with `opacity: 0`, keep `end` at 1, and animate `start` from 0
 }
 ```
 
+Each unit arrives over the window's width and its neighbours overlap; a wider
+window (`end`) gives each unit longer. Keep the sweep linear: an ease on
+`offset` or `start` hands the first units a sliver of the time, so they pop in
+and stop dead. Give each unit at least 8 frames; `validate` names any that get
+fewer. *measured:* revealing "LONG" with a 46 px slide, a `square` range whose
+`start` swept 0→1 with `outCubic` over 1.5 s gave L, O and N 3, 4 and 5 frames,
+one letter at a time; the window above gave every letter 12 frames, two moving
+at once, the same in the cloud and in `strata preview`.
+
+Leave `smoothness`, `ease_high`/`ease_low` and `units: "index"` off reveal
+ranges: preview does not draw them and the cloud differs. *measured:*
+`smoothness` 100 showed the whole word dim from the first frame, then snapped
+it into place; `ease_high`/`ease_low` 100 made letters jump 23 px in one frame;
+one animator per letter by index moved all four letters together.
+
 This fragment belongs inside a text layer. Units include `characters`,
 `characters_excluding_spaces`, `words`, and `lines`. A moving selection window
 is useful for a passing effect, but leaves text outside it visible. It is not
 equivalent to revealing a hidden string.
 
-Use `square` for a clean ordered reveal; tapered range shapes can partially
-select the first/last unit. For discrete typing, use intermediate keys with
+A `square` range swept by `start` (0→1, `end` 1) switches units one at a time
+with hard edges, which suits an opacity-only reveal of many units; tapered
+shapes (smooth, round, triangle) can partially select the first/last unit. For discrete typing, use intermediate keys with
 `hold`, as in [typewriter.json](../examples/typewriter.json).
 
 Other animator offsets include scale, rotation, tracking, skew, and color.
