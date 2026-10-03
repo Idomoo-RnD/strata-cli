@@ -65,6 +65,14 @@ no budget. Several times (`--at 0.5,2,4.5`) tile into one contact sheet.
 `--strip --from 1 --to 10 --every 1` lays up to 10 frames into one 1920x1080
 film strip to read the motion across a shot; `--strip` alone spans the whole
 scene in 10 frames.
+`--audio` adds the scene's own audio to the strip: each frame shares a numbered
+cell with the audio of its time slice (loudness with beat ticks, where each sound
+layer starts, a spectrogram), an overview names every sound on one time axis,
+and the output lists each sound with its start time. `--pages` splits it into
+pages a model sees at full size: an overview, then two frames per page. Use it
+to check sound against picture before a render. *measured:* on a 9-layer scene
+the preview mix matched the cloud render's audio, loudness envelope r 0.999 at
+zero lag and level within 0.03 dB.
 `--wire` lays the layout boxes, mask outlines and safe lines over the pixels;
 `--grid` adds the 12 columns. It reads a scene JSON or an `.idm` (`--wire` needs
 the JSON). Frames are capped at 1280x720; `--comp name` draws one sub-comp.
