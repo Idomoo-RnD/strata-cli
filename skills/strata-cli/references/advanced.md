@@ -39,8 +39,13 @@ Choose the simplest supported construction that meets those needs:
 | Drift, confetti, or a route to fly along | [`noise`, `scatter`, `follow`](#procedural-motion) |
 | Drop, bounce, hang, shatter, jelly, blast, wind | [`physics` and `body`](#physics) |
 | Sparks, snow, rain, smoke, confetti, a comet tail | [`particles`](#particles) |
+| Something no layer type draws, or motion keyframes cannot express | A [shader](#shader-effects): a preset if one fits, otherwise your own |
 | RGB channel split | Separate copies with channel-selective `styles` effects |
 | Physical extrusion, realistic light, complex depth of field | Suitable rendered/generated media or a deliberate layered approximation |
+
+Prefer a native construction, then a shader preset, then a shader of your own.
+A script that renders frames itself comes last: every change re-renders every
+frame, where a shader only re-bakes.
 
 Do not present duplicated flat layers as true geometry, or a blur overlay as a
 physical depth-of-field calculation. Use an approximation if it suits the result.
@@ -220,18 +225,39 @@ count, output, and video size. The same `seed` always gives the same particles.
 
 ## Shader effects
 
-A `shader` layer is an effect that reacts to other layers: light streaming from
-a moving layer, the wake it leaves on water, rings where it lands, an arc
-between two layers, liquid that merges them, fog it pushes through. It is baked
-to video when the scene compiles, and lands where it sits in the layer list.
+A `shader` layer draws what the layer types cannot: an element, a texture,
+light, liquid, or an effect that reacts to other layers. It is baked to video
+when the scene compiles, and lands where it sits in the layer list. Use a preset
+if one fits; if none does, write your own.
+
+`strata shader --list` names the presets (neon, rays, burn, ripple, goo, haze,
+pulse, wake, lens, lightning, dotgrid, fog); `strata shader <preset> --help`
+lists each one's inputs, params and an example layer.
 
 ```json
 {"type": "shader", "name": "wake_fx", "preset": "wake", "inputs": {"source": "boat"}}
 ```
 
-`strata shader --list` names the presets (neon, rays, burn, ripple, goo, haze,
-pulse, wake, lens, lightning, dotgrid, fog); `strata shader <preset> --help`
-lists each one's inputs, params and an example layer.
+Your own shader is GLSL in `code` (or a `.frag` file in `src`). This one draws a
+pulsing ring of light around a moving layer:
+
+```json
+{"type": "shader", "name": "halo", "inputs": {"orb": {"layers": ["orb"], "as": "track"}},
+ "params": {"tint": "#ffcf7a"},
+ "code": ["uniform vec3 tint = vec3(1.0);",
+          "void mainImage(out vec4 fragColor, in vec2 fragCoord) {",
+          "    float d = distance(fragCoord, strataCenter(orb));",
+          "    if (d > 220.0) { fragColor = vec4(0.0); return; }",
+          "    float r = 70.0 + 12.0 * sin(iTime * 5.0);",
+          "    float ring = 1.0 - smoothstep(1.5, 4.0, abs(d - r));",
+          "    float glow = exp(-d / 45.0);",
+          "    fragColor = vec4(tint, clamp(ring + glow * 0.7, 0.0, 1.0));",
+          "}"]}
+```
+
+`strata shader --help` has the language, the `strata*` functions that read the
+scene, and recipes to copy; `strata shader check fx.frag` names the line of any
+error.
 
 - **Inputs** bind layers of the same comp by name. A preset reads each one as
   `track` (where the layer is and has been, with its landings and bounces) or
@@ -240,22 +266,23 @@ lists each one's inputs, params and an example layer.
 - **Personalized text:** text read as pixels is baked with the copy it had, so
   `render --data` and `validate --data` refuse a row that changes it. Bind
   personalized text only as `track`, or keep that copy fixed.
-- **Custom:** `"src": "./fx.frag"` takes Shadertoy-style GLSL (`mainImage`).
-  Each input is a sampler: `texture(name, uv)` reads its pixels, and
-  `strataCenter`, `strataTrail`, `strataImpact` and `strataBass` read the scene.
-  `fragCoord` is in comp pixels from the bottom-left. `strata shader check
-  fx.frag` names the line of any error; `strata shader --help` lists the
-  supported GLSL and every `strata*` function.
+- **Your own:** each input is a sampler: `texture(name, uv)` reads its pixels,
+  and `strataCenter`, `strataTrail`, `strataImpact` and `strataBass` read the
+  scene. `fragCoord` is in comp pixels from the bottom-left.
 - **Cost:** compile, validate, render and preview bake missing shaders in
   parallel and cache them in `.strata/shaders/`; an unchanged shader is reused.
-  Frames are at most 1280x720, cropped to the effect.
+  Frames are at most 1280x720, cropped to the effect. Bake time grows with pixels
+  times the work per pixel: keep loops short, and return early where the shader
+  draws nothing.
 
 *measured:* with 16 workers, a 4-second 720p clip at 25 fps baked in 7 to 88 s
 per preset (lightning the slowest) and in 9 to 29 s for a custom spotlight
 shader over three runs, as machine load varied; recompiling the unchanged scene
 took 2.7 s. Eight shader scenes rendered in the cloud
 differed from the local render by a mean of 1.5 to 3.8 on the 0–255 scale
-(worst frame 3.9).
+(worst frame 3.9). The ring above baked a 4-second 720p clip in 25 s on 16
+workers and in 54 s on 2; its cloud render differed from preview by a mean of
+2.4.
 
 ## Tracking a surface or subject
 
