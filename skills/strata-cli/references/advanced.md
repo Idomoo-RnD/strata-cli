@@ -275,14 +275,13 @@ error.
   times the work per pixel: keep loops short, and return early where the shader
   draws nothing.
 
-*measured:* with 16 workers, a 4-second 720p clip at 25 fps baked in 7 to 88 s
-per preset (lightning the slowest) and in 9 to 29 s for a custom spotlight
-shader over three runs, as machine load varied; recompiling the unchanged scene
-took 2.7 s. Eight shader scenes rendered in the cloud
-differed from the local render by a mean of 1.5 to 3.8 on the 0–255 scale
-(worst frame 3.9). The ring above baked a 4-second 720p clip in 25 s on 16
-workers and in 54 s on 2; its cloud render differed from preview by a mean of
-2.4.
+*measured:* with the installed binary on an idle machine, a 4-second 720p clip
+at 25 fps baked in 2 to 9 s per preset on 16 workers and 6 to 46 s on 2
+(lightning the slowest), and in 4.5 s and 15 s for a custom spotlight shader;
+recompiling the unchanged scene took 0.3 s. Eight shader scenes rendered in the
+cloud differed from the local render by a mean of 1.5 to 3.8 on the 0–255
+scale (worst frame 3.9). The ring above baked in 2 s on 16 workers and 5 s on
+2; its cloud render differed from preview by a mean of 2.4.
 
 ## Tracking a surface or subject
 
