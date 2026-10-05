@@ -12,6 +12,7 @@ not a quality requirement. Use the section that answers the current problem.
 - [Physics](#physics)
 - [Particles](#particles)
 - [Shader effects](#shader-effects)
+- [fx layers](#fx-layers)
 - [Tracking a surface or subject](#tracking-a-surface-or-subject)
 - [Audio-driven motion](#audio-driven-motion)
 - [Personalization and chart geometry](#personalization-and-chart-geometry)
@@ -39,13 +40,15 @@ Choose the simplest supported construction that meets those needs:
 | Drift, confetti, or a route to fly along | [`noise`, `scatter`, `follow`](#procedural-motion) |
 | Drop, bounce, hang, shatter, jelly, blast, wind | [`physics` and `body`](#physics) |
 | Sparks, snow, rain, smoke, confetti, a comet tail | [`particles`](#particles) |
-| Something no layer type draws, or motion keyframes cannot express | A [shader](#shader-effects): a preset if one fits, otherwise your own |
+| An element no layer type draws: a rope, a cable, particles with their own rules, a growing line, a simulation | An [fx layer](#fx-layers): a sketch that reads the scene |
+| A look no layer type has: light, glow, warp, refraction, haze, liquid | A [shader](#shader-effects): a preset if one fits, otherwise your own |
 | RGB channel split | Separate copies with channel-selective `styles` effects |
 | Physical extrusion, realistic light, complex depth of field | Suitable rendered/generated media or a deliberate layered approximation |
 
-Prefer a native construction, then a shader preset, then a shader of your own.
-A script that renders frames itself comes last: every change re-renders every
-frame, where a shader only re-bakes.
+Prefer a native construction, then a preset (particles, shader), then your own
+fx layer (to draw something) or shader (to change a look). A script that renders
+frames itself comes last: every change re-renders every frame, where an fx layer
+or a shader only re-bakes what changed.
 
 Do not present duplicated flat layers as true geometry, or a blur overlay as a
 physical depth-of-field calculation. Use an approximation if it suits the result.
@@ -225,10 +228,11 @@ count, output, and video size. The same `seed` always gives the same particles.
 
 ## Shader effects
 
-A `shader` layer draws what the layer types cannot: an element, a texture,
-light, liquid, or an effect that reacts to other layers. It is baked to video
-when the scene compiles, and lands where it sits in the layer list. Use a preset
-if one fits; if none does, write your own.
+A `shader` layer changes how layers look, pixel by pixel: light, glow, a warp,
+refraction, haze, liquid, a texture, or an effect that reacts to other layers.
+It is baked to video when the scene compiles, and lands where it sits in the
+layer list. Use a preset if one fits; if none does, write your own. To draw a
+new element with memory between frames, use an [fx layer](#fx-layers).
 
 `strata shader --list` names the presets (neon, rays, burn, ripple, goo, haze,
 pulse, wake, lens, lightning, dotgrid, fog); `strata shader <preset> --help`
@@ -282,6 +286,53 @@ recompiling the unchanged scene took 0.3 s. Eight shader scenes rendered in the
 cloud differed from the local render by a mean of 1.5 to 3.8 on the 0–255
 scale (worst frame 3.9). The ring above baked in 2 s on 16 workers and 5 s on
 2; its cloud render differed from preview by a mean of 2.4.
+
+## fx layers
+
+An `fx_layer` draws an element the layer types cannot, with code: a rope, a
+cable or connector, particles with their own rules, a line that grows, a
+simulation. It holds a p5.js-style sketch: `setup()` runs once, `draw()` runs
+every frame, and variables keep their values between frames. `strata.layer()`
+reads where another layer is. The drawing lands where the layer sits in the list.
+
+This cable sags between two moving cards and swings when they move; it sits
+under the cards, so it leaves from behind them:
+
+```json
+{"type": "fx_layer", "name": "cable", "inputs": ["cardA", "cardB"],
+ "code": ["let sag = 0, v = 0;",
+          "function draw() {",
+          "  clear();",
+          "  const a = strata.layer('cardA'), b = strata.layer('cardB');",
+          "  v += (120 - sag) * 0.08 - v * 0.15 + (a.vy + b.vy) * 0.3;",
+          "  sag += v;",
+          "  noFill(); stroke('#c9d2e8'); strokeWeight(5);",
+          "  bezier(a.x, a.y, a.x + 80, a.y + sag, b.x - 80, b.y + sag, b.x, b.y);",
+          "}"]}
+```
+
+- **Output:** when every frame starts with `clear()` and draws the same shapes
+  in the same colours, each shape becomes a native solid with a mask path per
+  frame, crisp at any size. Anything else becomes a cached video of at most
+  1280x720: trails, a number of shapes that changes, colour that changes, or
+  more than 300 shapes. The compile note says which and why.
+- **Reading the scene:** `strata.layer(name)` gives a layer's centre, box and
+  velocity; `strata.inside(name, x, y)` how much of it covers a point, to
+  collide or avoid; `strata.points(name, step)` points inside it, to form a
+  word. Text read this way keeps its template copy: `--data` refuses a row
+  that changes it.
+- **Not in a sketch:** text, images and per-pixel work. Words and pictures stay
+  scene layers the sketch reads; a per-pixel look is a shader, which can read an
+  fx layer by its name.
+- **Help:** `strata fx --help` has the sketch API and recipes (rope, cable,
+  particles that form a word, trails); `strata fx check sketch.js` runs a sketch
+  and names the line of an error.
+
+*measured:* six sketches of 4-second 720p clips at 25 fps. A rope that drapes
+over a title, and two cables, stayed native and ran in about 1 to 2 s. A swarm
+of 1,400 particles, a plexus and ink trails baked to video in roughly 6 to
+15 s. Their cloud renders differed from preview by a mean of 1.3 to 2.8 on the
+0–255 scale; the cable above, 2.2.
 
 ## Tracking a surface or subject
 
