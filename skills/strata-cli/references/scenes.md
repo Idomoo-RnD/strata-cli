@@ -9,6 +9,7 @@ Adapt their content and timing to the request.
 - [Scene and layer model](#scene-and-layer-model)
 - [Coordinates and anchors](#coordinates-and-anchors)
 - [Text](#text)
+- [Animated fonts (IDF)](#animated-fonts-idf)
 - [Animation](#animation)
 - [Groups and clipping](#groups-and-clipping)
 - [Shapes, masks, and mattes](#shapes-masks-and-mattes)
@@ -238,6 +239,49 @@ Keep text in logical order. The engine handles bidirectional layout; pre-reversi
 a string corrupts it. The documented `rtl` flag does not fix layout problems in
 the tested renderer. Check font coverage, box alignment, wrapping, and mixed
 numbers/Latin text. Test actual replacement scripts in personalized scenes.
+
+## Animated fonts (IDF)
+
+An IDF font animates every letter: each one has an intro, a hold that keeps
+moving, and an exit, drawn as VASCO layers. Strata ships 30 of them in four
+categories; [the catalog](../fonts/CATALOG.md) says what each one does, its
+colour slots and its timing. Use one on a text layer by naming it as the font:
+
+```json
+{"type": "text", "name": "title", "text": "Summer Sale", "font": "idf:fun-throwup",
+ "size": 110, "box": [0, 40, 1280, 300], "align": "center middle", "fit": true,
+ "idf": {"colors": {"main": "#ff3d7f"}, "timing": {"intro": 0.9, "hold": 3, "exit": 0.6}}}
+```
+
+- **`size` is the x-height in pixels**, not an em size. `"fit": true` shrinks
+  the text to the box width; validate warns when a line overflows.
+- **Colours and timing are per text:** `idf.colors` sets the font's colour slots
+  (`strata idf info <name>` lists them), `idf.timing` the intro, hold, exit and
+  stagger in seconds. A layer with a `duration` and no hold stretches the hold
+  so the last letter leaves at the layer's end.
+- **The layer still moves like a layer.** It compiles to one comp with the
+  layer's name, so `start`, `opacity`, `animate`, mattes and effects inputs act
+  on the whole word.
+- **Never a placeholder.** The letters are laid out when the scene compiles, so
+  IDF text cannot be personalised: `--data` and `--tags` refuse it. Use IDF for
+  fixed copy (titles, calls to action, a brand word) and a regular font for
+  names, numbers or anything that changes per row.
+- **Keep it to display lines.** Every letter is a comp; a paragraph in an IDF
+  font is slow and heavy. `animators`, `styles`, `shrink`, `min_size` and
+  `color` do not apply — the font draws its own letters.
+- **Check the hold.** When letters × stagger outlasts the hold, the first letters
+  leave before the last arrive; validate warns. Look at
+  `strata idf preview <name> --text "…"` before choosing, and at a strip of the
+  scene before rendering.
+
+*measured:* eight pack fonts, two per category, writing "Hello Fonts 2026!"
+(15 letters) on a 1280x720 frame compiled to IDMs of 0.4 to 6.9 MB and rendered
+in the cloud in 17 to 34 s each. The cloud frames differed from preview by a
+mean of 2.0 to 3.6 on the 0–255 scale, and 5.5 for the neon tube font, whose
+glow preview draws a little differently.
+
+When no font in the pack fits the brief, make one:
+[Make your own IDF font](advanced.md#make-your-own-idf-font).
 
 ## Animation
 

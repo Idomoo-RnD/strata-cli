@@ -16,6 +16,7 @@ not a quality requirement. Use the section that answers the current problem.
 - [Tracking a surface or subject](#tracking-a-surface-or-subject)
 - [Audio-driven motion](#audio-driven-motion)
 - [Personalization and chart geometry](#personalization-and-chart-geometry)
+- [Make your own IDF font](#make-your-own-idf-font)
 - [Tagging reusable scenes](#tagging-reusable-scenes)
 - [Brand, design, and reference handoff](#brand-design-and-reference-handoff)
 - [Existing IDM files and raw VASCO](#existing-idm-files-and-raw-vasco)
@@ -418,6 +419,10 @@ Use actual meters for loudness. Onsets are not speech-word boundaries.
 unique, descriptive names and check the actual exported keys. An unknown key
 is an error, not an instruction to invent a slot.
 
+A text in an [animated font](scenes.md#animated-fonts-idf) is never a
+placeholder: its letters are laid out at compile time, and `--data` and `--tags`
+refuse it. Put personalised words in a regular font.
+
 An illustrative row:
 
 ```json
@@ -488,6 +493,37 @@ Digit rolling can finish on replacement text by ending `character_offset` at
 a multiple of ten. It is a digit effect, not an arithmetic count through all
 intermediate values. See [text animators](scenes.md#text) and the
 [path fixture](../examples/path-reveal.json) for related mechanisms.
+
+## Make your own IDF font
+
+Make an animated font only when no font in [the catalog](../fonts/CATALOG.md)
+fits the brief; a custom font takes much longer than choosing one.
+
+- **From artwork:** an alphabet drawn on a plain background becomes a font with
+  `strata idf trace alphabet.png --chars "abcdefg hijklmn" --anim pop -o brand.idf`.
+  `--chars` lists the characters in reading order, with rows split by spaces.
+  The tones are traced into vector shapes; `pop` bounces each letter in, and
+  `vine` grows the structure as strokes while `--parts` tones bud and sway.
+- **By hand or from a pack font:** `strata idf unpack idf:<name> -o font.json`,
+  edit the glyphs, then `strata idf pack font.json -o brand.idf`. The format is
+  in `strata idf --help`.
+- **Check it:** `strata idf check brand.idf`, then `strata idf preview` and a
+  cloud render of one word before using it in a piece.
+
+The bar a font has to meet: construction follows the letter's anatomy (stems,
+bowls, arms as parts); every in-between frame is a clean shape, never a blob;
+springs with real overshoot and anticipation before big moves; three to six
+layers with secondary motion (lagging outlines, an accent colour that leads);
+a hold that keeps moving; an exit designed as its own event; a final frame that
+is the exact glyph. Engine rules that cost renders when broken: short-lived
+parts live in `start`/`duration` windows, never behind opacity alone; `anchor`
+is in the parent comp's coordinates; overlapping shapes in one mask use
+`"blend": "add"`; trims and morphs are baked per frame, so keep them to the
+intro and exit.
+
+*measured:* a glyph whose twenty growth steps were whole-clip layers switched by
+opacity timed out in the cloud after more than 12 minutes; the same steps in
+their own windows rendered in 34 s.
 
 ## Tagging reusable scenes
 
