@@ -85,8 +85,9 @@ strata generate video "The person in [Image 1] follows the staging of <Video_1>"
 | Older image animation | `generate fastvideo <image-or-url> --prompt "motion"` | Separate, simpler one-image animation interface |
 
 For `generate video`, frame and reference inputs are **mutually exclusive**.
-`--ref-audio` needs at least one image or video reference. These combinations
-are checked by the CLI before the request. `fastvideo` is a separate interface;
+`--ref-audio` needs at least one image or video reference, and the clip needs
+sound to carry the voice, so the CLI turns `--audio` on for it. These
+combinations are checked by the CLI before the request. `fastvideo` is a separate interface;
 do not transfer the newer command's reference, endpoint-frame, or audio flags
 to it.
 
@@ -110,13 +111,17 @@ Current generation options:
 
 | Option | Behavior |
 |---|---|
-| `--duration` | 4–15 seconds; default 5 |
-| `--ratio` | `16:9`, `9:16`, `1:1`, `4:3`, `3:4`, `21:9`, `adaptive` |
+| `--duration` | 4–15 whole seconds; default 5, or the length of a `--ref-video` |
+| `--ratio` | `16:9`, `9:16`, `1:1`, `4:3`, `3:4`, `21:9`, `adaptive`; with a first or last frame the clip takes the image's shape |
 | `--audio` | Requests sound in the generated clip, including directed dialogue |
 | `--seed` | Holds the random seed; it does not guarantee identity or identical output |
-| `--best` | Selects the standard model instead of the default fast model |
+| `--best` | Seedance 2.5 instead of the default fast model; retried once on Seedance 2.0 if 2.5 fails, and the output names the model that made the clip |
 | `--last-frame-out file` | Saves the returned final frame for a possible continuation |
 | `--realistic-human` | Supported only with first/last frames or image references |
+
+Fifteen seconds is the longest clip. For a longer shot, save the last frame
+with `--last-frame-out`, host it, and start the next clip from it with
+`--first-frame`, saying what continues.
 
 Resolution is currently capped at 720p. `adaptive` chooses a supported ratio;
 it does not preserve every unusual source shape. Set the target ratio explicitly
@@ -139,6 +144,27 @@ Allow enough time for the actual action or speech. For a longer result, choose
 cuts or continuations according to the piece. A last frame can establish visual
 continuity, but cannot describe an unfinished movement by itself; explain what
 continues. Save useful local files while signed URLs remain available.
+
+### Put a person into a reference video
+
+To make the person in an image perform a reference video (an actor swap),
+pass both and ask for a **new clip** of that person doing the video's actions:
+
+```bash
+strata generate video "The woman in [Image 1] stands behind the bakery counter and performs exactly the same actions as the person in <Video_1>: she smiles, picks up a loaf and shows it to the camera. Same camera framing, background, light and timing." --ref-image "<person-url>" --ref-video "<performance-url>" --best --ratio 16:9 -o swap.mp4
+```
+
+Leave `--duration` out so the clip takes the reference video's length; the
+reference must be 15 s or shorter. Name the actions in the prompt. Do not write
+"replace the man in the video": Seedance treats that as a video edit, which the
+Idomoo API cannot run, and the CLI says so and shows this form.
+
+*measured:* with a 5-second reference video of a man and a portrait of a woman,
+two new-clip prompts on Seedance 2.5 gave her performing his actions frame for
+frame, with the same framing, timing, background and light; the "replace the
+man" prompt was refused as a video edit. On the same prompt and seed, 2.5 made
+the push-in the prompt asked for where 2.0 stayed on a wide static shot.
+Clips took 3 to 11 minutes each.
 
 Check generated details at useful resolution: hands, product features, text,
 unwanted marks, continuity, and missing actions. Choose a targeted edit, crop,
