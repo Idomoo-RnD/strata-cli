@@ -208,7 +208,33 @@ strata beats bed.wav --fps 25 --bands 12 -o bed.beats.json
 ```
 
 Choose voice IDs from `generate voices`. Measure the actual narration and check
-pronunciation before locking speech-dependent timing. Music generation is for
+pronunciation before locking speech-dependent timing.
+
+Narration is multilingual: write the script in the language it should be spoken
+in. It uses the `eleven_v4` model by default and retries once on `eleven_v3` if v4
+fails (`--model eleven_v3` picks it directly); the command prints which model
+made the file. Both models act out **audio tags**: short directions in square
+brackets inside the script, which shape delivery and are not spoken.
+
+```bash
+strata generate narration "[excited] We did it! [laughs] I can't believe it. [whispers] Keep it a secret for now." --voice "<voice-id>" -o line.mp3
+```
+
+- **Emotion and tone:** `[excited]`, `[happy]`, `[sad]`, `[angry]`, `[curious]`,
+  `[sarcastic]`, `[warm]`, `[serious]`, `[nervous]`, `[calm]`.
+- **Delivery:** `[whispers]`, `[shouts]`, `[softly]`, `[slowly]`, `[quickly]`, `[pause]`.
+- **Human sounds:** `[laughs]`, `[chuckles]`, `[sighs]`, `[gasps]`, `[clears throat]`, `[exhales]`.
+
+Put a tag right before the words it colours, and use it where the script means
+it: one or two per sentence reads as acting, a tag on every phrase reads as a
+caricature. Punctuation still carries rhythm (ellipses for hesitation, a dash
+for a break). Tags are written in English whatever the script's language.
+
+*measured:* one tagged line ("[excited] We did it! [laughs] … [whispers] …
+[sighs] …") on the same voice, transcribed afterwards: on `eleven_v4` (9.1 s)
+and `eleven_v3` (10.3 s) the transcript held only the words, with no tag spoken.
+Tagged Spanish and Hebrew lines on both models transcribed word for word, with
+the tag not spoken. Music generation is for
 music and effects; use narration for controlled speech. The current music output
 is WAV data even if given another extension. Keep `.wav` or transcode it.
 
