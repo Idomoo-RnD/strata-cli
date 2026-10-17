@@ -21,6 +21,7 @@ narrated film, and personalized template need different evidence.
 | `review --fast` | One timecoded contact sheet, loudness, true peak and how the sound ends, in seconds | Cuts, motion and settles — never a delivery review |
 | `glyphs` | Font coverage for supplied text | Final text layout or readability |
 | `preview` | Real frames drawn locally: layout, type, media, blends, effects, 3D | Final motion, audio, or cloud exporter success (close to a render, not identical) |
+| [`view`](view.md) | The scene playing in a browser, stills exported at chosen times, notes from the user | Sound, or cloud exporter success (local frames, like `preview`) |
 | `compile` | Creation of an IDM from the source | Final motion, audio, or cloud exporter success |
 | `review` | Timecoded measurements and inspection images from a video | Automatic aesthetic approval |
 
