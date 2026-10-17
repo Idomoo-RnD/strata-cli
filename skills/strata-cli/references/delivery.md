@@ -16,11 +16,22 @@ narrated film, and personalized template need different evidence.
 
 | Check | What it establishes | What it does not establish |
 |---|---|---|
-| `validate` | Structural diagnostics, assets, relevant warnings | A visually successful render |
+| `validate` | Structural diagnostics, assets, relevant warnings — including where each text line's glyphs land (frame edge, title-safe), its size on screen, moves done in a snap, a placeholder left in, a word spelt two ways | A visually successful render |
+| `validate --contrast` | Each text line against what is drawn behind it, on local frames; reports illegible lines only | Legibility on the cloud render; a thin but readable line |
+| `review --fast` | One timecoded contact sheet, loudness, true peak and how the sound ends, in seconds | Cuts, motion and settles — never a delivery review |
 | `glyphs` | Font coverage for supplied text | Final text layout or readability |
 | `preview` | Real frames drawn locally: layout, type, media, blends, effects, 3D | Final motion, audio, or cloud exporter success (close to a render, not identical) |
 | `compile` | Creation of an IDM from the source | Final motion, audio, or cloud exporter success |
 | `review` | Timecoded measurements and inspection images from a video | Automatic aesthetic approval |
+
+The text and motion checks run on every `validate` and `compile` in
+milliseconds; run `validate --contrast` once copy and backgrounds are placed. A
+warning names a time: look at that moment with `preview --at` before changing
+anything. *measured:* on 22 agent scenes with one defect planted per copy,
+glyphs off the frame 21/21 (the box-only check found 12/21), type under 1.6% of
+frame height 20/22, a placeholder 22/22, a word spelt two ways 7/7, a snap
+11/17, low contrast 19/21 — and no default warning on the 22 clean scenes;
+on their delivered renders `--contrast` flagged 17 lines, about 13 visibly weak.
 
 Iterate a look with `preview` frames; the final proof comes from the rendered
 video. Render once, then take the
@@ -134,7 +145,10 @@ strata review final.mp4 --narration "speech_1.wav@1.0,speech_2.wav@9.5" -o audio
 Inspect narration presence at the right time, sentence endings, pauses, and
 voice-over-bed diagnostics. The reported margin is a level comparison, not
 proof of intelligibility. Check clipping/peaks and any specified delivery
-loudness target. A silent brief does not need a music track or loudness target.
+loudness target. `review` and `review --fast` warn on a true peak above
+−1 dBFS and on sound still at full level on the last frame — a cut, not an
+ending, unless the storyboard declared a hard stop. *measured:* of 22 delivered
+agent renders, 4 peaked above −1 dBFS and 1 ended at full level. A silent brief does not need a music track or loudness target.
 
 For a talking actor, verify lip sync against the returned performance audio.
 For captions, verify wording and timing against the final edit. Automatic

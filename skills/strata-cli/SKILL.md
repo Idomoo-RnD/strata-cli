@@ -64,7 +64,9 @@ Do not infer support from a familiar After Effects or browser property name.
 Use the user's selected library and existing authorization. Cloud generation
 and renders can spend budget. Iterate a look with `strata preview scene.json
 --at 0.5,2,4.5`: it draws real frames locally, with no upload and no budget
-([accuracy and limits](references/tools.md#local-preview)). A render and
+([accuracy and limits](references/tools.md#local-preview)). Before a render, run
+`strata validate scene.json --contrast` and act on what it names
+([what it checks](references/delivery.md#choose-the-check)). A render and
 `strata review` confirm the final.
 The [media guide](references/media.md#files-urls-and-public-hosting) explains the
 separate public-hosting boundary. Ordinary scene assets can remain local.
