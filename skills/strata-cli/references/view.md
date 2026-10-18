@@ -19,6 +19,7 @@ together with the user. Every input is in `strata view --help`.
 strata view scene_v1.json --port 4421 --export-dir checks --no-open --json
 ```
 
+It also opens an `.idm` as delivered, with no warnings, since an `.idm` carries no authored scene.
 Pick the port; `--port 0` takes any free one and the start line names it. Run
 it in the background: it serves until `strata view stop --port 4421`, or two
 hours with nothing using it. Saving the scene reloads the player; a broken save
