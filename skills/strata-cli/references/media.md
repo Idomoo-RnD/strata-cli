@@ -286,6 +286,26 @@ provided; there is no single music level suitable for every voice or piece.
 See [audio-driven motion](advanced.md#audio-driven-motion) if graphics should
 follow the sound.
 
+### Separate a voice from music
+
+```bash
+strata separate interview.mp4 -o stems
+```
+
+`separate` splits speech from everything else in an audio or video file:
+`stems/interview_voice.wav` and `stems/interview_background.wav` (the mix
+minus the voice), 44.1 kHz stereo. Use it to re-balance a supplied mix, put new
+music under an existing voice, caption or re-time a voice that has music
+under it, or reuse the music without the speech. `--keep voice` writes only the
+voice. The model runs on this machine, so nothing is uploaded; the first run
+downloads it once (67 MB). It warns when it finds almost no speech.
+*measured:* on 16 mixes of four narration takes over four music beds, the
+separated voice scored a median 20.6 dB SDR with the music 6 dB under the voice
+and 17.2 dB with it 6 dB over (the mix itself: 1.9 and −10.1 dB); on a cloud
+render, 16.2 dB against 8.3 for the render as delivered. When the music is much
+quieter than the voice, some voice stays in the background track. It took
+1.75–3.5 s per second of audio.
+
 ## Captions and speech timing
 
 ```bash
