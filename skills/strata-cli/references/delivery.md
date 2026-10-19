@@ -81,23 +81,20 @@ The scene filename supplies its cloud library name; the internal comp `name`
 does not. Automatic scene history and an embedded IDM metadata stamp provide
 additional version information through `versions` and `inspect`.
 
-When the user or an integration already uses an uploaded scene by its scene id,
-update that scene instead of uploading a new one:
-
-```bash
-strata replace scene_v2.json --scene 1234567 --dry-run
-strata replace scene_v2.json --scene 1234567
-```
-
-The id stays the same, so anything pointing at it gets the new version. Idomoo
-accepts a replacement only with every placeholder of the old scene (same layer
-names and kinds; new ones may be added), the same fps and the same aspect ratio.
-`replace` checks all three before sending and names what differs; `--dry-run`
-stops after the check. A later `render` of the same source reuses the replaced
-scene. *measured:* on the test library, a 2-second scene was replaced in 12 s,
-kept its id, listed the added placeholder, and a render then reused it and showed
-the new version; changes to fps, aspect ratio and a removed layer were refused
-before upload.
+`render` returns the scene's id (`scene_id`). Render the same file again after an
+edit and it keeps that id: the new version replaces the scene in place, then
+renders, so anything pointing at the id gets the new version. Idomoo accepts a
+replacement only with every placeholder of the old scene (same layer names and
+kinds; new ones may be added), the same fps and the same aspect ratio. An edit
+that breaks one becomes a new scene, and the output names the rule and the new
+id. `--scene <id>` puts the file into a given scene (and fails instead);
+`--new-scene` always makes a new one. `strata replace file --scene <id>` replaces
+without rendering (`--dry-run` only checks).
+*measured:* on the test library, a 2-second scene was replaced in 12 s and kept
+its id; an edited file rendered three times stayed one scene id (replaced, then
+reused unchanged), and an edit that removed a placeholder layer became a new
+scene with the reason printed. Changes to fps, aspect ratio and a removed layer
+were refused before upload.
 
 ## Review the final candidate
 
