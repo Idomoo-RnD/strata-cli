@@ -81,6 +81,24 @@ The scene filename supplies its cloud library name; the internal comp `name`
 does not. Automatic scene history and an embedded IDM metadata stamp provide
 additional version information through `versions` and `inspect`.
 
+When the user or an integration already uses an uploaded scene by its scene id,
+update that scene instead of uploading a new one:
+
+```bash
+strata replace scene_v2.json --scene 1234567 --dry-run
+strata replace scene_v2.json --scene 1234567
+```
+
+The id stays the same, so anything pointing at it gets the new version. Idomoo
+accepts a replacement only with every placeholder of the old scene (same layer
+names and kinds; new ones may be added), the same fps and the same aspect ratio.
+`replace` checks all three before sending and names what differs; `--dry-run`
+stops after the check. A later `render` of the same source reuses the replaced
+scene. *measured:* on the test library, a 2-second scene was replaced in 12 s,
+kept its id, listed the added placeholder, and a render then reused it and showed
+the new version; changes to fps, aspect ratio and a removed layer were refused
+before upload.
+
 ## Review the final candidate
 
 ```bash
