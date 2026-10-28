@@ -116,8 +116,19 @@ Current generation options:
 | `--audio` | Requests sound in the generated clip, including directed dialogue |
 | `--seed` | Holds the random seed; it does not guarantee identity or identical output |
 | `--best` | Seedance 2.5 instead of the default fast model; retried once on Seedance 2.0 if 2.5 fails, and the output names the model that made the clip |
+| `--model gemini-omni-1.1-flash-preview` | Gemini Omni instead of Seedance; see below |
 | `--last-frame-out file` | Saves the returned final frame for a possible continuation |
 | `--realistic-human` | Supported only with first/last frames or image references |
+
+Gemini Omni takes a prompt and optionally `--first-frame`, `--duration` 4–10
+(default 5) and `--ratio` `16:9` or `9:16`. Its clips always have sound, and
+photoreal people need no `--realistic-human`. It has no references, last frame,
+seed or video edit; the CLI refuses those flags, so use Seedance for them.
+`--last-frame-out` still works (the CLI cuts the clip's own last frame).
+*measured:* 7 clips came back in 34–50 s each at 1280x720 or 720x1280, 24 fps,
+with an audio track; a first-frame shoe and a photoreal portrait kept their
+look; a reference image sent anyway was ignored and the clip showed a
+different shoe.
 
 Fifteen seconds is the longest clip. For a longer shot, save the last frame
 with `--last-frame-out`, host it, and start the next clip from it with
