@@ -10,6 +10,7 @@
 #   STRATA_VERSION   tag to install, e.g. v1.0.0 (default: latest)
 #   STRATA_SKILL     claude | codex | both | skip | auto  (default: ask when on a TTY, else auto)
 #   STRATA_AUTH      skip  (default: offer `strata auth login` on a TTY when not yet authenticated)
+#   STRATA_ENGINE_INSTALL  skip  (default: install the native engine for matte/separate beside the binary)
 
 set -euo pipefail
 
@@ -73,6 +74,12 @@ log "Checksum OK."
 mkdir -p "$INSTALL_DIR"
 install -m 755 "$TMP/$ASSET" "$INSTALL_DIR/strata"
 log "Installed $INSTALL_DIR/strata ($("$INSTALL_DIR/strata" version))"
+
+# The native engine for matte/separate (onnxruntime-node, CPU), beside the binary in $INSTALL_DIR/ort. Without it
+# they run on the built-in WASM runtime, ~2x slower. STRATA_ENGINE_INSTALL=skip leaves it out.
+if [ "${STRATA_ENGINE_INSTALL:-}" != "skip" ]; then
+  "$INSTALL_DIR/strata" engine install || log "⚠ the native engine was not installed — matte/separate use the slower WASM runtime (retry: strata engine install)"
+fi
 
 # --- agent skill -------------------------------------------------------------
 # When piped through `curl | bash`, stdin is the script — prompt via /dev/tty.

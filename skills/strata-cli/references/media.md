@@ -315,7 +315,8 @@ separated voice scored a median 20.6 dB SDR with the music 6 dB under the voice
 and 17.2 dB with it 6 dB over (the mix itself: 1.9 and −10.1 dB); on a cloud
 render, 16.2 dB against 8.3 for the render as delivered. When the music is much
 quieter than the voice, some voice stays in the background track. It took
-1.75–3.5 s per second of audio.
+1.75–3.5 s per second of audio on the built-in runtime, and 1 s per second on
+the native engine.
 
 ## Captions and speech timing
 
@@ -347,7 +348,7 @@ the transparency needed for a cutout; use a PNG for a still or JET for motion.
 | Input | Method | Check |
 |---|---|---|
 | Person or suitable character | `matte` | Subject coverage, hair/hands, temporal stability |
-| Clearly separated screen color | `jet --method chroma --key R,G,B` | Spill, holes, edges, motion blur |
+| Clearly separated screen color | `jet --method chroma [--key R,G,B]` | Spill, holes, edges, motion blur |
 | Separable uniform background | `jet --method distance --key R,G,B` | Similar subject colors may also disappear |
 | PNG sequence with existing alpha | `jet <frames-dir>` | Alpha, dimensions, frame order, and frame rate |
 | Object against a complex background | Prepared alpha, manual masks, or same-source occlusion | RVM person matting is not a general object separator |
@@ -367,6 +368,17 @@ not reliably isolate products, logos, or landscapes. It refuses nearly empty
 results. Existing evidence found a product bottle at only 0.02% peak coverage,
 while tested people and characters had substantial coverage. If the subject
 class is wrong, change method rather than lowering the empty-alpha guard.
+
+`matte` and `separate` run on the native engine that the installer and
+`strata update` put beside the binary; `strata engine status` says whether it
+loads, and without it they fall back to a slower built-in runtime with the same
+output. `matte` encodes frames on other cores while the model runs. A
+green-screen clip keyed with `jet --method chroma` is faster still, and without
+`--key` it takes the backdrop colour from the first frame's border.
+*measured:* a 5 s 720p person clip took 66–74 s before and 30–31 s on 2 cores,
+36–39 s on 2 hyperthreads of one core (a 2-vCPU x86 container) and 24–25 s on 4,
+with every frame identical to before; `separate` on 16 s of audio went from
+42.7 s to 16 s.
 
 A uniform background is not automatically separable: a pale or reflective
 subject may share its colors. White/black keying can remove legitimate highlights

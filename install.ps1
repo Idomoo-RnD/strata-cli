@@ -6,7 +6,8 @@
 #
 # Options (env vars): STRATA_VERSION (tag, default latest), STRATA_INSTALL_DIR,
 #   STRATA_SKILL = claude | codex | both | skip | auto (default: ask when interactive),
-#   STRATA_AUTH = skip (default: offer `strata auth login` when interactive and not yet authenticated)
+#   STRATA_AUTH = skip (default: offer `strata auth login` when interactive and not yet authenticated),
+#   STRATA_ENGINE_INSTALL = skip (default: install the native engine for matte/separate beside the binary)
 
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
@@ -54,6 +55,13 @@ try {
     }
 
     Write-Host "Installed $exe ($(& $exe version))"
+
+    # The native engine for matte/separate (onnxruntime-node, CPU), beside the binary in $InstallDir\ort. Without it
+    # they run on the built-in WASM runtime, ~2x slower. STRATA_ENGINE_INSTALL=skip leaves it out.
+    if ($env:STRATA_ENGINE_INSTALL -ne 'skip') {
+        & $exe engine install
+        if ($LASTEXITCODE -ne 0) { Write-Warning 'The native engine was not installed - matte/separate use the slower WASM runtime (retry: strata engine install)' }
+    }
 
     $skillChoice = $env:STRATA_SKILL
     if (-not $skillChoice) {
