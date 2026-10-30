@@ -91,6 +91,7 @@ the JSON. Any layer of any type goes in exactly as written, with every key this
 page and [advanced.md](advanced.md) describe:
 
 ```bash
+strata init scene.json --font brand.ttf
 strata layer add scene.json --file title.json --before logo
 strata layer set scene.json title '{"color":"#ff7a45","animate":{"opacity":null}}'
 strata layer move scene.json title --top
@@ -100,6 +101,9 @@ strata layer get scene.json title
 strata comp add scene.json card --file card.json
 ```
 
+- **Start:** `strata init` writes a background and a title that compile as
+  written, in the `--font` you give or the first font file beside the scene;
+  with neither, a background only.
 - **Input:** a layer object or a list (the first item lowest), from `--file`, a
   `.json` path, stdin (`--file -`), or inline. Prefer a file; shells break
   inline JSON quoting.
@@ -111,14 +115,15 @@ strata comp add scene.json card --file card.json
 - **Names** are unique across the scene: `--replace` swaps the same-named layer
   in place, and `--rename` adds the new one as `name_2`.
 - **Safety:** each change is validated first. One that stops the scene compiling
-  is refused, with the reason, and nothing is written. The output lists only the
+  is refused, with the compile error naming each layer and key, and nothing is
+  written. The output lists only the
   warnings the change added, untouched lines of the file stay as they were, and
   `strata revert` undoes an edit.
 
 *measured:* 17 scenes, one per layer type (text, IDF text, solid, image, video,
 JET, media, audio, comp, camera, shape3d, particles, shader, fx_layer, physics,
 repeat, matte and effects), built only with these commands from `strata init`,
-plus 34 edge cases: 205 of 205 checks passed. An edit took 3–14 s, most of it
+plus 42 edge cases: 213 of 213 checks passed. An edit took 3–14 s, most of it
 the validation.
 
 ## Coordinates and anchors

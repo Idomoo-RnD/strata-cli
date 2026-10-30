@@ -1,4 +1,4 @@
-﻿﻿# Strata CLI installer (Windows) — downloads the standalone binary from GitHub
+# Strata CLI installer (Windows) - downloads the standalone binary from GitHub
 # releases, verifies its checksum, installs to %LOCALAPPDATA%\Programs\strata,
 # adds it to the user PATH, and installs the strata-cli agent skill.
 #
@@ -33,7 +33,7 @@ try {
         Invoke-WebRequest -Uri "$Base/$Asset" -OutFile (Join-Path $Tmp $Asset)
         Invoke-WebRequest -Uri "$Base/checksums.txt" -OutFile (Join-Path $Tmp 'checksums.txt')
     } catch {
-        Write-Error ("Download failed from $Base/$Asset — has a release been published yet? " +
+        Write-Error ("Download failed from $Base/$Asset - has a release been published yet? " +
             "Check https://github.com/$Repo/releases  ($($_.Exception.Message))")
     }
 
