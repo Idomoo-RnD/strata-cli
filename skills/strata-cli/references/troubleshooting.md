@@ -56,7 +56,8 @@ cause. A retry should have a reason to behave differently.
 
 | Symptom | Useful check and recovery |
 |---|---|
-| Library/auth failure | Check `auth status`, credentials, and selected destination without exposing secrets. See [tools](tools.md#setup-and-command-help). |
+| `strata` not found | Install it for this environment. See [If strata is not found](tools.md#if-strata-is-not-found). |
+| Library/auth failure | Check `auth status`, credentials, and selected destination without exposing secrets; `fetch failed` is a blocked network, not a bad key. See [If strata is not found](tools.md#if-strata-is-not-found). |
 | Exporter error 3000 | Inspect details, fonts/assets, and compiled structure; isolate the failure. The code alone is not a diagnosis. See [IDM files](advanced.md#existing-idm-files-and-raw-vasco). |
 | Extracted assets conflict | Check `assets.json`, IDs, and warnings; obtain missing originals. See [IDM files](advanced.md#existing-idm-files-and-raw-vasco). |
 | Replacement key fails | Match actual exported layer names and editable roles. See [personalization](advanced.md#personalization-and-chart-geometry). |

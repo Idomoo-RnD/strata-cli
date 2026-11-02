@@ -35,6 +35,7 @@ references, not a reading sequence.
 | Need | Reference |
 |---|---|
 | Choose a command, check setup, or understand local/cloud behavior | [Tools](references/tools.md) |
+| `strata` is not found here, the login is missing, or the network is blocked: install it yourself | [If strata is not found](references/tools.md#if-strata-is-not-found) |
 | Write or edit scene JSON, text, animation, shapes, masks, or groups | [Scenes](references/scenes.md) |
 | Animated display text — a headline or brand word whose letters animate in, hold and out (30 animated fonts, never for personalised text) | [Animated fonts (IDF)](references/scenes.md#animated-fonts-idf) · [the font catalog](fonts/CATALOG.md) |
 | Generate or edit assets, use references, add speech or music | [Media](references/media.md) |
@@ -48,7 +49,7 @@ references, not a reading sequence.
 | Validate, render, inspect, or deliver an output | [Delivery](references/delivery.md) |
 | Resolve an error or an unexpected result | [Troubleshooting](references/troubleshooting.md) |
 
-These guides describe the Strata 1.0.206 tool surface. Check the installed version
+These guides describe the Strata 1.0.207 tool surface. Check the installed version
 and `strata <command> --help` when flags matter. Help is offline. The examples
 are starting points for mechanics; adapt their appearance to the task.
 

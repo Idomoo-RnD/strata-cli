@@ -35,6 +35,74 @@ Relative output paths follow the command's working directory. Give an explicit
 output path when there could be ambiguity, and read the path returned by the
 command. Avoid replacing an input with an output accidentally.
 
+### If strata is not found
+
+This skill is only instructions, so loading it does not put the program here.
+Some agent environments, such as a Linux sandbox, are separate from the user's
+computer: a copy installed there, and its saved login, cannot be used from here.
+Fix this yourself, then continue with the request.
+
+1. Check, and note the system:
+
+   ```bash
+   command -v strata || ls ~/.local/bin/strata
+   uname -sm
+   ```
+
+2. Install it for this environment, and tell the user in one line that you are
+   doing so. The installer verifies the download's checksum.
+
+   ```bash
+   curl -fsSL https://raw.githubusercontent.com/Idomoo-RnD/strata-cli/main/install.sh -o /tmp/strata-install.sh
+   STRATA_SKILL=skip STRATA_AUTH=skip bash /tmp/strata-install.sh </dev/null
+   export PATH="$HOME/.local/bin:$PATH"
+   strata --version
+   ```
+
+   Trust `strata --version`, not the installer's exit code: on Alpine the installer
+   finishes normally but the binary cannot run (`required file not found`), because
+   the Linux builds need glibc. Use a glibc system there. If your shell does not
+   keep `PATH` between commands, repeat the export or call `~/.local/bin/strata`.
+   Check again in a new session.
+3. If a permission or safety check stops the install, do not look for a way around
+   it. Ask the user to approve it, naming what it installs and from where, then run
+   the same commands. Or ask them to put the build for this system
+   (`strata_linux_amd64` or `strata_linux_arm64`, from
+   [the releases page](https://github.com/Idomoo-RnD/strata-cli/releases/latest)) in
+   a folder you can read, and copy it out, because a shared folder can refuse to run
+   programs:
+
+   ```bash
+   mkdir -p ~/.local/bin && install -m 755 <folder>/strata_linux_amd64 ~/.local/bin/strata
+   strata engine install   # optional; without it matte and separate run slower
+   ```
+
+4. Log in only when the work needs the cloud. Scene editing, `validate`, `compile`
+   and `preview` need no login, so start on those while waiting. Run
+   `strata auth status`; if it exits 3 with "Not authenticated", ask the user to set
+   `IDOMOO_ACCOUNT_ID` and `IDOMOO_SECRET_KEY`. Without a terminal, `strata auth login`
+   needs `--account` and `--token`. Never print the secret key.
+5. Read a network failure as a network failure. `network error (EAI_AGAIN)`,
+   `fetch failed` and `Could not resolve host` mean the environment blocks the
+   address, even when the line reads "Credentials … were rejected: fetch failed":
+   do not ask for a new key. Keep working locally and ask the user to allow what the
+   work needs:
+
+   | Work | Addresses |
+   |---|---|
+   | Install, update | `raw.githubusercontent.com`, `github.com`, `release-assets.githubusercontent.com` |
+   | Login, render | `usa-api.idomoo.com` |
+   | Generate media | `api-ai.idomoo.com` |
+   | Public upload | `r5obbm6h71.execute-api.us-east-1.amazonaws.com`, `s3.amazonaws.com`, `t.idomoo.com` |
+   | First `matte` or `separate` (model download) | `github.com`, `release-assets.githubusercontent.com`; also `cdn.jsdelivr.net` without the native engine |
+
+*measured:* in clean Ubuntu 24.04 and 22.04 x86_64 containers, as a user with no
+terminal, these commands installed the binary and native engine (51 s on 24.04).
+With the network removed, `validate` and `preview` still ran, and `auth status` and
+`auth login` printed the failure quoted in step 5. A binary in a `noexec` folder
+failed with `Permission denied` (exit 126) and ran once copied. The arm64 build was
+not tried this way.
+
 ## Scene tools
 
 Commands in the tables omit the `strata` prefix for readability.
@@ -156,7 +224,8 @@ unpacked VASCO contains baked values. See
 | `help` | Print usage | Read-only |
 
 These commands are available when the task needs them; creating a video is not
-an instruction to change the user's installation. Keep project notes outside a
+an instruction to change the user's installation. Where `strata` is missing, see
+[If strata is not found](#if-strata-is-not-found). Keep project notes outside a
 managed installed skill directory.
 
 Render library choice can come from an explicit `--library`, project
