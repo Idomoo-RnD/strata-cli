@@ -27,7 +27,9 @@ preparation tools also need `ffmpeg` and `ffprobe` on PATH. Commands report a
 missing dependency; install only what the chosen operation needs.
 
 `--help` does not generate media, read credentials, or spend cloud budget.
-`--json` requests structured output. Errors go to stderr. The main error codes
+`--json` requests structured output. Errors go to stderr. With `--json`, `compile`
+and `validate` also list their warnings in the JSON's `warnings` array; read it,
+because `"ok": true` only means the scene compiled. The main error codes
 are 1 for invalid input/compile failure, 2 for a missing file, 3 for authentication,
 and 4 for a render timeout; inspect the actual message as well.
 
