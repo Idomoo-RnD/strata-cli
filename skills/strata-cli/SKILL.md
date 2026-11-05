@@ -46,6 +46,7 @@ references, not a reading sequence.
 | Draw an element no layer type can, with code (a rope, a cable or connector, particles with their own rules, a growing line, a simulation) | [fx layers](references/advanced.md#fx-layers) |
 | Change how layers look, per pixel (light, glow, warp, refraction, haze, liquid, a texture) | [Shader effects](references/advanced.md#shader-effects) |
 | Watch a scene play, export stills to check its output, or look at it with the user in a browser player | [View](references/view.md) |
+| Join several scenes into one storyboard with fixed values and parameters, then render it with different values | [Storyboards](references/storyboards.md) |
 | Validate, render, inspect, or deliver an output | [Delivery](references/delivery.md) |
 | Resolve an error or an unexpected result | [Troubleshooting](references/troubleshooting.md) |
 
