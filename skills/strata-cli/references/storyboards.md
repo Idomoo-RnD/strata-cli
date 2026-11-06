@@ -133,7 +133,8 @@ strata storyboard render timeline.storyboard.json --data values.json -o out.mp4
 ```
 
 Every value is a string. With the result file, a missing or unknown value stops before anything is sent; with
-a bare storyboard id the values are not checked. Output is 720p at most (`--height` up to 720).
+a bare storyboard id the values are not checked. Output is 1080p at most (`--height` up to 1080); it defaults to
+the storyboard's own height from the result file.
 
 A render costs **1 credit per started 30 seconds** (the API counts a credit as up to 30 s of video, so 40 s
 costs 2) and is never retried. *measured:* 8 s cost 1 credit and was ready 5 s after it was accepted, in 2
