@@ -37,6 +37,14 @@ Keep originals so a failed edit can be rebuilt without regenerating its source.
 The choice is about the requested result. A still does not need artificial camera
 movement, and an exact data graphic should not depend on image synthesis.
 
+**Session id.** When you were given a session id, pass it to every generation:
+`generate image|video|fastvideo|avatar|narration|music` and `edit image` take
+`--session-id <id>`, or set `STRATA_SESSION_ID` once for the whole run. Strata
+sends it as the `x-idomoo-session-id` header, so the calls are traced to that
+session. It is optional; without one the calls work the same. Every generation
+also sends `x-idomoo-source-app: lucas-pro`, which needs nothing from you. An id
+with spaces or line breaks is refused before anything is sent.
+
 ## Images and consistent references
 
 ```bash
