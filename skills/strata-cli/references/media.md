@@ -388,6 +388,12 @@ green-screen clip keyed with `jet --method chroma` is faster still, and without
 with every frame identical to before; `separate` on 16 s of audio went from
 42.7 s to 16 s.
 
+`jet` and `matte` print a progress line every 15 seconds. If no frame is read or
+encoded for 120 seconds they stop, write nothing, and exit with code 4, so a
+stuck run cannot hold an agent session open. To bound a run more tightly, pass
+`--timeout <seconds>`; it also exits 4 and writes nothing. Treat exit 4 as a
+failed encode, not a slow one, and report it with the command line.
+
 A uniform background is not automatically separable: a pale or reflective
 subject may share its colors. White/black keying can remove legitimate highlights
 or shadows. When generating an input for chroma extraction, request a background
